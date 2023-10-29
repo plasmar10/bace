@@ -33,6 +33,7 @@ function setup() {
 
     gameInterface();
 
+    
 
 }
 
@@ -41,9 +42,10 @@ function draw() {
     scoutShip();
 
 
-    GUI.x = camera.x - 1500
-    GUI.y = 1650 + camera.y
+    GUI.x = (camera.x - 1500) 
+    GUI.y = (camera.y + 2100)
     GUI.layer = 1000
+
 }
 
 
@@ -58,7 +60,7 @@ function ocean() {
 
 function gameInterface() {
 
-    GUI = new Sprite(0, 0, 1076, 100, 'n');
+    GUI = new Sprite(0, 0, 1076, 50, 'n');
     GUI.scale = 10
     GUI.color = color(100, 100, 100, 225);
 
