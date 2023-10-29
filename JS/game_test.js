@@ -1,5 +1,5 @@
 "use strict";
-let mothershiphome;
+let mothershiphome, rawResource;
 let oceanBackground;
 let player;
 let oceansprite;
@@ -118,5 +118,13 @@ if (scrollzoomleval > 2) {
 
 
 function resourceNodes(){
+
+
+    
+
+
+    rawResource = new Sprite(600, 700, 80, 120)
+    rawResource.color = '#997950'
+    
     
 }
