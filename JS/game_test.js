@@ -5,6 +5,7 @@ let player;
 let oceansprite;
 let scrollNumber = 0
 let scrollzoomleval = 1
+let ships, scoutshipsClass, scoutShip1;
 
 function preload() {
     oceanBackground = loadImage("./assets/ochan.png");
@@ -40,8 +41,8 @@ function tests() {
 }
 
 function ocean() {
-    oceanBackground.resize(width * 5, height * 5)
-    oceansprite = new Sprite(width / 2, height / 2, width * 5, height * 5, "n")
+oceanBackground.resize(width * 10, height * 10)
+    oceansprite = new Sprite(width/2, height/2 , width * 10, height * 10, "n")
     oceansprite.image = oceanBackground
     oceansprite.layer = 0
 }
@@ -138,6 +139,8 @@ function scoutShip() {
 
 }
 
-function makeships() {
-
+function makeships(){
+    ships = new Group();
+    scoutshipsClass = new ships.Group();
+    scoutShip1 = new scoutshipsClass.Sprite(1000, 700, 100)
 }
