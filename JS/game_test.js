@@ -15,14 +15,14 @@ function setup() {
     ocean();
     mothership();
     resourceNodes();
+    makeships() 
 
 }
 
 function draw() {
     tests();
     testingdraw()
-    scrollNumber = 0
-    camera.zoom = scrollzoomleval;
+    scoutShip()
 }
 
 function tests() {
@@ -63,6 +63,8 @@ function mothership() {
 
 
 function testingdraw() {
+    scrollNumber = 0
+    camera.zoom = scrollzoomleval;
     background(0);
     camera.on();
     player.draw();
@@ -126,5 +128,13 @@ function resourceNodes(){
     rawResource = new Sprite(600, 700, 80, 120, 's')
     rawResource.color = '#997950'
     
+    
+}
+
+function scoutShip(){
+    
+}
+
+function makeships(){
     
 }
