@@ -172,9 +172,13 @@ async function scoutShip() {
         await scoutShip1.rotateTo(mouse, 5);
         await scoutShip1.moveTo(movecowordsx, movecowordsy, 1);
     }
-    console.log(movecowordsy)
-    console.log(movecowordsx)
 
+    if (scoutShip1.collides(allSprites)) {
+        scoutShip1.rotationSpeed = 0;
+        scoutShip1.vel.x = 0;
+        scoutShip1.vel.y = 0;
+        console.log("scoutShip1 has stoped because it has colided with somthing")
+    }
 
 
 
@@ -197,7 +201,6 @@ async function scoutShip() {
 function makeships() {
     ships = new Group();
     scoutshipsClass = new ships.Group();
-    scoutShip1 = new scoutshipsClass.Sprite(1000, 700, 105, 54)
+    scoutShip1 = new scoutshipsClass.Sprite(1000, 700, 105, 54, "d");
     scoutShip1.img = scoutshipimg
-    console.log("test")
 }
