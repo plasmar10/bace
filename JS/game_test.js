@@ -3,7 +3,7 @@ let mothershiphome;
 let oceanBackground;
 let player;
 let oceansprite;
-let scrolnumber = 0;
+let scrollNumber = 0
 
 function preload() {
     oceanBackground = loadImage("./assets/ochan.png");
@@ -31,7 +31,8 @@ function tests() {
     textSize(20);
     textStyle(BOLD);
     text("X: " + mouseX + "   Y: " + mouseY, mouseX - 67, mouseY + 8);
-
+    
+    camera.zoom = 0.5 + scrollNumber / 300;
 
 }
 
@@ -44,7 +45,7 @@ function ocean() {
 
 
 function mothership() {
-mothershiphome = new Sprite(1000,700,1000)
+    mothershiphome = new Sprite(1000, 700, 1000)
 
     camera.x = 1000
     camera.y = 800;
@@ -52,14 +53,14 @@ mothershiphome = new Sprite(1000,700,1000)
     player = new Sprite();
     player.d = 80;
     player.color = 'magenta';
-    camera.zoom = 0.5;
+
 
 
 }
 
 
 function testingdraw() {
-background (0);
+    background(0);
     camera.on();
 
     for (let i = 0; i < 10; i++) {
@@ -81,24 +82,25 @@ background (0);
         camera.y = camera.y + 10
     }
 
-	camera.off();
-    if (kb.pressing('arrowUp')) { 
-        mothershiphome.y = mothershiphome.y-10
+    camera.off();
+    if (kb.pressing('arrowUp')) {
+        mothershiphome.y = mothershiphome.y - 10
     }
-    if (kb.pressing('arrowDown')) { 
-        mothershiphome.y = mothershiphome.y+10
-        }
-        if (kb.pressing('arrowLeft')) { 
-            mothershiphome.x = mothershiphome.x-10
-        }
-        if (kb.pressing('arrowRight')) { 
-            mothershiphome.x = mothershiphome.x+10
-            }
+    if (kb.pressing('arrowDown')) {
+        mothershiphome.y = mothershiphome.y + 10
+    }
+    if (kb.pressing('arrowLeft')) {
+        mothershiphome.x = mothershiphome.x - 10
+    }
+    if (kb.pressing('arrowRight')) {
+        mothershiphome.x = mothershiphome.x + 10
+    }
 
 }
 
 
-function mouseWheel(event) { 
-    scrolnumber += event.delta
-    console.log(scrolnumber)
+
+function mouseWheel(event) {
+    scrollNumber += event.delta
+    console.log(scrollNumber)
 } 
