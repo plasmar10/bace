@@ -96,3 +96,9 @@ background (0);
 
 
 }
+
+let scrolnumber = 0
+function mouseWheel(event) { 
+    scrolnumber += event.delta
+    console.log(scrolnumber)
+} 
