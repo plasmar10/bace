@@ -67,14 +67,16 @@ function testingdraw() {
 	}
 	//player.moveTowards(mouse, 0.01);
 	player.draw();
-    if (kb.presses('a')) { 
-        camera.x = camera.x+10
-    }
-    if (kb.presses('d')) { 
+    if (kb.pressing('a')) { 
         camera.x = camera.x-10
+    }
+    if (kb.pressing('d')) { 
+        camera.x = camera.x+10
         }
 
 	camera.off();
+
+    ellipse(width/2, height/2, 100, 100)
 }
 
 
