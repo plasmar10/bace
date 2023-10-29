@@ -64,12 +64,6 @@ function mothership() {
 function testingdraw() {
     background(0);
     camera.on();
-
-    for (let i = 0; i < 10; i++) {
-        fill(i * 20, 200, 200); // blue to gray
-        rect(-250 + i * 50, -250 + i * 100, 750, 50);
-    }
-    //player.moveTowards(mouse, 0.01);
     player.draw();
     if (kb.pressing('a')) {
         camera.x = camera.x - 10
