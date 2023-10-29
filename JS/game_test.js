@@ -1,5 +1,10 @@
 "use strict";
 
+let oceanBackground;
+
+function preload(){
+    oceanBackground = loadImage("./assets/Ocean.gif")
+}
 
 function setup() {
     createCanvas(1920, 1076);
@@ -13,6 +18,7 @@ function draw() {
 
 function tests() {
     background(120, 120, 120);
+    image(oceanBackground, 0, 0, width, height)
 
     let recWidth = 200;
     let recHeight = 100;
@@ -23,21 +29,15 @@ function tests() {
     textSize(20);
     textStyle(BOLD);
     text("X: " + mouseX + "   Y: " + mouseY, mouseX - 67, mouseY + 8);
-    console.log(mouseX, mouseY);
 
-
-
-    for (let i = 0; i < 9; i++) {
-        rect(100+i*50, 100+i*50, 100, 100)
-    }
 
 }
 
 function ocean() {
 
+image
 
 
 
 
-    
 }
