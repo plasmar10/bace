@@ -1,5 +1,5 @@
 "use strict";
-let mothershiphome, resourceWood, resourceZone;
+let mothershiphome, resourceScrapMetal, resourceZone;
 let oceanBackground;
 let player;
 let oceansprite;
@@ -7,6 +7,7 @@ let scrollNumber = 0
 let scrollzoomleval = 0.25
 let ships, scoutshipsClass, scoutShip1;
 let scoutshipimg;
+let resourceImage;
 
 
 let Resources = [];
@@ -15,6 +16,9 @@ let Resources = [];
 function preload() {
     oceanBackground = loadImage("./assets/ocean.jpg");
     scoutshipimg = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png");
+    resourceImage = loadImage("./assets/metalplate.png");
+
+
 }
 
 function setup() {
@@ -109,7 +113,7 @@ function testingdraw() {
 
 
 function mouseWheel(event) {
-    scrollNumber += event.delta
+    scrollNumber -= event.delta
     if (scrollzoomleval < 0.25) {
         scrollzoomleval = 0.25
     }
@@ -138,21 +142,23 @@ function resourceNodes() {
         let resourceX = random(-3460, 460);
         let resourceY = random(-1710, 710);
 
-        resourceWood = new Sprite(resourceX, resourceY, 80, 80, 's');
-        resourceWood.color = '#997950';
+        resourceScrapMetal = new Sprite(resourceX, resourceY, 40, 40, 's');
+        resourceScrapMetal.color = 'gray';
 
         for (let i = 0; i < Resources.length; i++) {
 
-            let d = dist(resourceWood.x, resourceWood.y, Resources[i].x, Resources[i].y)
+            let d = dist(resourceScrapMetal.x, resourceScrapMetal.y, Resources[i].x, Resources[i].y)
 
             if (d < 200) {
-                resourceWood.remove();
+                resourceScrapMetal.remove();
 
             }
 
         }
 
-        Resources.push(resourceWood)
+        resourceImage.resize(40,40)
+        resourceScrapMetal.img = resourceImage
+        Resources.push(resourceScrapMetal)
 
     }
 
