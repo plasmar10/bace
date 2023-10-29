@@ -199,21 +199,22 @@ async function scoutShip() {
     scoutShip1moveBackDirection = -scoutShip1.rotation
     distance = dist(scoutShip1.x, scoutShip1.y, movebackPoint.x, movebackPoint.y);
 
-    if (mouse.presses()) {
+    if (mouse.pressed()) {
         movecowordsx = mouse.x
         movecowordsy = mouse.y
-        await scoutShip1.rotateTo(mouse, 5);
-        await scoutShip1.moveTo(movecowordsx, movecowordsy, 1);
+        console.log("pressed")
         movebackPoint.x = scoutShip1.x;
         movebackPoint.y = scoutShip1.y;
-
+        await scoutShip1.rotateTo(mouse, 5);
+        await scoutShip1.moveTo(movecowordsx, movecowordsy, 1);
+   
     }
 
     if (scoutShip1.collides(allSprites)) {
         scoutShip1.rotationSpeed = 0;
         scoutShip1.vel.x = 0;
         scoutShip1.vel.y = 0;
-        console.log("scoutShip1 has stoped because it has colided with somthing")
+       console.log("scoutShip1 has stoped because it has colided with somthing")
         await delay(500);
         await scoutShip1.moveTo(movebackPoint, 1)
 
