@@ -6,6 +6,12 @@ function setup() {
 }
 
 function draw() {
+    tests()
+
+
+}
+
+function tests() {
     background(120, 120, 120);
 
     let recWidth = 200;
@@ -24,7 +30,5 @@ function draw() {
     for (let i = 0; i < 9; i++) {
         rect(100+i*50, 100+i*50, 100, 100)
     }
-
-
 
 }
