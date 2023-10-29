@@ -8,6 +8,10 @@ let scrollzoomleval = 0.25
 let ships, scoutshipsClass, scoutShip1;
 let scoutshipimg;
 
+
+let Resources = [];
+
+
 function preload() {
     oceanBackground = loadImage("./assets/ochan.png");
     scoutshipimg = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png");
@@ -26,6 +30,8 @@ function draw() {
     tests();
     testingdraw()
     scoutShip()
+
+
 }
 
 function tests() {
@@ -123,26 +129,37 @@ function mouseWheel(event) {
 
 
 function resourceNodes() {
-    let zoneSize = 1000;
 
     resourceZone = new Sprite(-1500, -500, 4000, 2500, 'n');
-    resourceZone.color = color(255, 255, 255,100);
+    resourceZone.color = color(255, 255, 255, 100);
 
     for (let i = 0; i < 50; i++) {
         let bruhTestX = random(-3460, 460);
         let bruhTestY = random(-1710, 710);
-        console.log(bruhTestX);
 
 
         rawResource = new Sprite(bruhTestX, bruhTestY, 80, 80, 's');
         rawResource.color = '#997950';
 
 
+        Resources.push(rawResource)
 
+        if (rawResource.overlapping(Resources[i])) {
 
+            console.log("AMONG US")
 
-        
+        }
+
     }
+
+    console.log(Resources);
+
+
+
+
+
+
+
 
 }
 
