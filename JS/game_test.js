@@ -7,7 +7,7 @@ function setup() {
 
 function draw() {
     tests()
-    ochan()
+    ocean()
 
 }
 
@@ -33,6 +33,11 @@ function tests() {
 
 }
 
-function ochan() {
+function ocean() {
 
+
+
+
+
+    
 }
