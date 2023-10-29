@@ -6,9 +6,11 @@ let oceansprite;
 let scrollNumber = 0
 let scrollzoomleval = 1
 let ships, scoutshipsClass, scoutShip1;
+let scoutshipimg;
 
 function preload() {
     oceanBackground = loadImage("./assets/ochan.png");
+    scoutshipimg = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png");
 }
 
 function setup() {
