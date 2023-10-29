@@ -85,7 +85,7 @@ function mothership() {
 
 function zoom() {
     scrollNumber = 0
-    camera.zoom = scrollzoomleval;
+camera.zoomTo(scrollzoomleval)
     background(0);
     camera.on();
 
