@@ -9,6 +9,7 @@ let ships, scoutshipsClass, scoutShip1;
 let scoutshipimg;
 let resourceImage;
 
+let GUI;
 
 let Resources = [];
 
@@ -19,7 +20,7 @@ function preload() {
     resourceImage = loadImage("./assets/metalplate.png");
     mothershipImage = loadImage("./assets/Mothership.gif");
 
-    
+
 }
 
 function setup() {
@@ -27,37 +28,46 @@ function setup() {
     ocean();
     mothership();
     resourceNodes();
-    makeships()
+    makeships();
+
+
+    gameInterface();
+
 
 }
 
 function draw() {
-    tests();
-    testingdraw()
-    scoutShip()
+    zoom();
+    scoutShip();
 
 
+    GUI.x = camera.x - 1500
+    GUI.y = 1650 + camera.y
+    GUI.layer = 1000
 }
 
-function tests() {
-    let recWidth = 200;
-    let recHeight = 100;
-
-    fill(255, 255, 255);
-    rect(mouseX - recWidth / 2, mouseY - recHeight / 2, recWidth, recHeight, 10);
-    fill(255, 0, 0);
-    textSize(20);
-    textStyle(BOLD);
-    text("X: " + mouseX + "   Y: " + mouseY, mouseX - 67, mouseY + 8);
-
-
-}
 
 function ocean() {
     oceanBackground.resize(width * 5, height * 5)
     oceansprite = new Sprite(width / 2, height / 2, width * 10, height * 10, "n")
     oceansprite.image = oceanBackground
-    oceansprite.layer = 0
+    oceansprite.layer = -10
+}
+
+
+
+function gameInterface() {
+
+    GUI = new Sprite(0, 0, 1076, 100, 'n');
+    GUI.scale = 10
+    GUI.color = color(100, 100, 100, 225);
+
+
+
+
+
+
+
 }
 
 
@@ -73,12 +83,12 @@ function mothership() {
 }
 
 
-function testingdraw() {
+function zoom() {
     scrollNumber = 0
     camera.zoom = scrollzoomleval;
     background(0);
     camera.on();
-    
+
     if (kb.pressing('a')) {
         camera.x = camera.x - 10
     }
@@ -93,6 +103,11 @@ function testingdraw() {
     }
 
     camera.off();
+
+
+
+
+
     // if (kb.pressing('arrowUp')) {
     //     mothershiphome.y = mothershiphome.y - 10
     // }
@@ -154,7 +169,7 @@ function resourceNodes() {
 
         }
 
-        resourceImage.resize(40,40)
+        resourceImage.resize(40, 40)
         resourceScrapMetal.img = resourceImage
         Resources.push(resourceScrapMetal)
 
@@ -191,7 +206,7 @@ async function scoutShip() {
         await scoutShip1.moveTo(movecowordsx, movecowordsy, 1);
         movebackPoint.x = scoutShip1.x;
         movebackPoint.y = scoutShip1.y;
-   
+
     }
 
     if (scoutShip1.collides(allSprites)) {
