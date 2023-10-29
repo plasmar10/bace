@@ -17,11 +17,11 @@ function draw(){
     
     background(120,120,120);
     fill(255,255,255);
-    rect (recCentWidth, recCenHeight, recWidth, recHeight, 10);
+    rect (mouseX, mouseY, recWidth, recHeight, 10);
     fill(255,0,0);
     textSize(20);
     textStyle (BOLD);
     text("MouseX + MouseY", textWidthcent, textHeightcent);
-  
+   console.log(mouseX, mouseY);
 
 }
