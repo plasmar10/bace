@@ -4,6 +4,7 @@ let oceanBackground;
 let player;
 let oceansprite;
 let scrollNumber = 0
+let scrollzoomleval = 0.5
 
 function preload() {
     oceanBackground = loadImage("./assets/ochan.png");
@@ -19,6 +20,8 @@ function setup() {
 function draw() {
     tests();
     testingdraw()
+    scrollNumber = 0
+    camera.zoom = scrollzoomleval;
 }
 
 function tests() {
@@ -31,8 +34,7 @@ function tests() {
     textSize(20);
     textStyle(BOLD);
     text("X: " + mouseX + "   Y: " + mouseY, mouseX - 67, mouseY + 8);
-    
-    camera.zoom = 0.5 + scrollNumber / 3000;
+
 
 }
 
@@ -96,12 +98,19 @@ function testingdraw() {
         mothershiphome.x = mothershiphome.x + 10
     }
 
-
 }
 
 
 
 function mouseWheel(event) {
     scrollNumber += event.delta
-    console.log(scrollNumber)
+    if (scrollzoomleval < 0.25) {
+        scrollzoomleval = 0.25
+    }
+    console.log(scrollzoomleval)
+    scrollzoomleval = scrollzoomleval + scrollNumber/1000
+    if (scrollzoomleval < 0.25) {
+        scrollzoomleval = 0.25
+    }
+
 } 
