@@ -8,7 +8,7 @@ function setup() {
 function draw() {
     tests()
     ocean()
-
+    mothership()
 }
 
 function tests() {
@@ -40,4 +40,10 @@ function ocean() {
 
 
     
+}
+
+
+
+function mothership() {
+
 }
