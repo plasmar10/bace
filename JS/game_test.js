@@ -95,7 +95,6 @@ background (0);
             mothershiphome.x = mothershiphome.x+10
             }
 
-
 }
 
 
