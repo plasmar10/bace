@@ -2,24 +2,22 @@
 let mothershiphome;
 let oceanBackground;
 
-function preload(){
-    oceanBackground = loadImage("./assets/Ocean.gif")
+function preload() {
+    oceanBackground = loadImage("./assets/Ocean.gif");
 }
 
 function setup() {
     createCanvas(1920, 1076);
-    mothership()
+    mothership();
 }
 
 function draw() {
-    tests()
-    ocean()
+    ocean();
+    tests();
+
 }
 
 function tests() {
-    background(120, 120, 120);
-    image(oceanBackground, 0, 0, width, height)
-
     let recWidth = 200;
     let recHeight = 100;
 
@@ -34,16 +32,15 @@ function tests() {
 }
 
 function ocean() {
-
-image
-
+    background(50, 200, 200);
+    image(oceanBackground, 0, 0, width, height);
 
 
 
 }
 
 
-
 function mothership() {
-mothershiphome = new Sprite(1000,700,100)
+    mothershiphome = new Sprite(1000, 700, 100);
+
 }
