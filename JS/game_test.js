@@ -57,7 +57,7 @@ function ocean() {
 
 
 function mothership() {
-    mothershiphome = new Sprite(1000, 700, 100)
+    mothershiphome = new Sprite(1000, 900, 100)
 
     camera.x = 1000
     camera.y = 800;
@@ -113,16 +113,16 @@ function mouseWheel(event) {
     if (scrollzoomleval < 0.25) {
         scrollzoomleval = 0.25
     }
-    if (scrollzoomleval > 2) {
-        scrollzoomleval = 2
+    if (scrollzoomleval > 2.5) {
+        scrollzoomleval = 2.5
     }
     console.log(scrollzoomleval)
     scrollzoomleval = scrollzoomleval + scrollNumber / 4000
     if (scrollzoomleval < 0.25) {
         scrollzoomleval = 0.25
     }
-    if (scrollzoomleval > 2) {
-        scrollzoomleval = 2
+    if (scrollzoomleval > 2.5) {
+        scrollzoomleval = 2.5
     }
 
 }
@@ -181,6 +181,12 @@ async function scoutShip() {
         await scoutShip1.moveTo(movecowordsx, movecowordsy, 1);
     }
 
+    if (scoutShip1.collides(allSprites)) {
+        scoutShip1.rotationSpeed = 0;
+        scoutShip1.vel.x = 0;
+        scoutShip1.vel.y = 0;
+        console.log("scoutShip1 has stoped because it has colided with somthing")
+    }
 
 
 
@@ -203,7 +209,6 @@ async function scoutShip() {
 function makeships() {
     ships = new Group();
     scoutshipsClass = new ships.Group();
-    scoutShip1 = new scoutshipsClass.Sprite(1000, 700, 105, 54)
+    scoutShip1 = new scoutshipsClass.Sprite(1000, 700, 105, 54, "d");
     scoutShip1.img = scoutshipimg
-    console.log("test")
 }
