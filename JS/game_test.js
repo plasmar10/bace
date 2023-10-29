@@ -7,7 +7,7 @@ function setup() {
 
 function draw() {
     tests()
-
+    ochan()
 
 }
 
@@ -30,5 +30,9 @@ function tests() {
     for (let i = 0; i < 9; i++) {
         rect(100+i*50, 100+i*50, 100, 100)
     }
+
+}
+
+function ochan() {
 
 }
