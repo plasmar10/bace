@@ -3,6 +3,7 @@ let mothershiphome;
 let oceanBackground;
 let player;
 let oceansprite;
+let scrolnumber = 0;
 
 function preload() {
     oceanBackground = loadImage("./assets/ochan.png");
@@ -97,7 +98,6 @@ background (0);
 
 }
 
-let scrolnumber = 0
 function mouseWheel(event) { 
     scrolnumber += event.delta
     console.log(scrolnumber)
