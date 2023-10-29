@@ -13,7 +13,7 @@ let Resources = [];
 
 
 function preload() {
-    oceanBackground = loadImage("./assets/ochan.png");
+    oceanBackground = loadImage("./assets/ocean.jpg");
     scoutshipimg = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png");
 }
 
@@ -169,8 +169,8 @@ async function scoutShip() {
     if (mouse.presses()) {
         movecowordsx = mouse.x
         movecowordsy = mouse.y
-        await scoutShip1.rotateTo(mouse)
-        await scoutShip1.moveTo(movecowordsx, movecowordsy, 8);
+        await scoutShip1.rotateTo(mouse, 5);
+        await scoutShip1.moveTo(movecowordsx, movecowordsy, 1);
     }
     console.log(movecowordsy)
     console.log(movecowordsx)
