@@ -41,11 +41,6 @@ function draw() {
     zoom();
     scoutShip();
 
-
-    GUI.x = (camera.x - 1500) 
-    GUI.y = (camera.y + 2100)
-    GUI.layer = 1000
-
 }
 
 
@@ -64,7 +59,7 @@ function gameInterface() {
     GUI.scale = 10
     GUI.color = color(100, 100, 100, 225);
 
-
+//https://p5play.org/learn/camera.html?page=3
 
 
 
