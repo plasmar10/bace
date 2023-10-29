@@ -1,11 +1,10 @@
 "use strict";
 
 let backgroundImage;
-let CanvasWidth = 1200;
-let CanvasHeight = 700;
+
 function setup() {
 
-    createCanvas(CanvasWidth, CanvasHeight);
+    createCanvas(1920, 1076);
 }
 
 function draw() {
