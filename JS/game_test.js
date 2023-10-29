@@ -120,10 +120,10 @@ if (scrollzoomleval > 2) {
 function resourceNodes(){
 
 
-    
 
 
-    rawResource = new Sprite(600, 700, 80, 120)
+
+    rawResource = new Sprite(600, 700, 80, 120, 's')
     rawResource.color = '#997950'
     
     
