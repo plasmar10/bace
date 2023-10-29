@@ -191,6 +191,9 @@ async function scoutShip() {
         movecowordsy = mouse.y
         await scoutShip1.rotateTo(mouse, 5);
         await scoutShip1.moveTo(movecowordsx, movecowordsy, 1);
+        movebackPoint.x = scoutShip1.x;
+        movebackPoint.y = scoutShip1.y;
+   
     }
 
     if (scoutShip1.collides(allSprites)) {
