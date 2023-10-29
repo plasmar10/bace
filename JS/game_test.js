@@ -126,7 +126,7 @@ function resourceNodes() {
     let zoneSize = 1000;
 
     resourceZone = new Sprite(-1500, -500, 4000, 2500, 'n');
-    resourceZone.color = color(255, 255, 255,100);
+    resourceZone.color = color(255, 255, 255, 100);
 
     for (let i = 0; i < 50; i++) {
         let bruhTestX = random(-3460, 460);
@@ -141,24 +141,34 @@ function resourceNodes() {
 
 
 
-        
+
     }
 
 }
 
 function scoutShip() {
-    if (kb.pressing('arrowUp')) {
-        scoutShip1.y = scoutShip1.y - 10
+    if (mouse.presses()) {
+        scoutShip1.moveTo(mouse, 8);
+        
     }
-    if (kb.pressing('arrowDown')) {
-        scoutShip1.y = scoutShip1.y + 10
-    }
-    if (kb.pressing('arrowLeft')) {
-        scoutShip1.x = scoutShip1.x - 10
-    }
-    if (kb.pressing('arrowRight')) {
-        scoutShip1.x = scoutShip1.x + 10
-    }
+
+
+
+
+
+
+    // if (kb.pressing('arrowUp')) {
+    //     scoutShip1.y = scoutShip1.y - 10
+    // }
+    // if (kb.pressing('arrowDown')) {
+    //     scoutShip1.y = scoutShip1.y + 10
+    // }
+    // if (kb.pressing('arrowLeft')) {
+    //     scoutShip1.x = scoutShip1.x - 10
+    // }
+    // if (kb.pressing('arrowRight')) {
+    //     scoutShip1.x = scoutShip1.x + 10
+    // }
 }
 
 function makeships() {
