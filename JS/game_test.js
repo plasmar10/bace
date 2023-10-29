@@ -5,6 +5,7 @@ let player;
 let oceansprite;
 let scrollNumber = 0
 let scrollzoomleval = 1
+let ships, scoutshipsClass, scoutShip1;
 
 function preload() {
     oceanBackground = loadImage("./assets/ochan.png");
@@ -136,5 +137,7 @@ function scoutShip(){
 }
 
 function makeships(){
-    
+    ships = new Group();
+    scoutshipsClass = new ships.Group();
+    scoutShip1 = new scoutshipsClass.Sprite(1000, 700, 100)
 }
