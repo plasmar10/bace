@@ -1,14 +1,14 @@
 "use strict";
-
+let mothershiphome
 
 function setup() {
     createCanvas(1920, 1076);
+    mothership()
 }
 
 function draw() {
     tests()
     ocean()
-    mothership()
 }
 
 function tests() {
@@ -45,5 +45,5 @@ function ocean() {
 
 
 function mothership() {
-
+mothershiphome = new Sprite(1000,700,100)
 }
