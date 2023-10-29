@@ -93,18 +93,6 @@ function testingdraw() {
     }
 
     camera.off();
-    // if (kb.pressing('arrowUp')) {
-    //     mothershiphome.y = mothershiphome.y - 10
-    // }
-    // if (kb.pressing('arrowDown')) {
-    //     mothershiphome.y = mothershiphome.y + 10
-    // }
-    // if (kb.pressing('arrowLeft')) {
-    //     mothershiphome.x = mothershiphome.x - 10
-    // }
-    // if (kb.pressing('arrowRight')) {
-    //     mothershiphome.x = mothershiphome.x + 10
-    // }
 
 }
 
