@@ -162,12 +162,18 @@ function resourceNodes() {
 
 
 }
-
+let movecowordsx
+let movecowordsy
 async function scoutShip() {
+
     if (mouse.presses()) {
+        movecowordsx = mouse.x
+        movecowordsy = mouse.y
         await scoutShip1.rotateTo(mouse)
-        await scoutShip1.moveTo(mouse, 8);
+        await scoutShip1.moveTo(movecowordsx, movecowordsy, 8);
     }
+    console.log(movecowordsy)
+    console.log(movecowordsx)
 
 
 
