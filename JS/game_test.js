@@ -56,7 +56,7 @@ player = new Sprite();
 
 
 function testingdraw() {
-
+background (0);
     camera.on();
 
 	for (let i = 0; i < 10; i++) {
