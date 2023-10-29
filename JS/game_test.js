@@ -1,11 +1,11 @@
 "use strict";
 let mothershiphome, resourceScrapMetal, resourceZone;
-let oceanBackground, mothershipImage, offScreenBackground;
+let oceanBackground, mothershipImage, scoutShipCannonImg;
 let player;
 let oceansprite;
 let scrollNumber = 0
 let scrollzoomleval = 0.25
-let ships, scoutshipsClass, scoutShip1;
+let ships, scoutshipsClass, scoutShip1, scoutShip1Cannon;
 let scoutshipimg;
 let resourceImage;
 
@@ -17,6 +17,7 @@ let Resources = [];
 function preload() {
     oceanBackground = loadImage("./assets/ocean.jpg");
     scoutshipimg = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png");
+    scoutShipCannonImg = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png")
     resourceImage = loadImage("./assets/metalplate.png");
     mothershipImage = loadImage("./assets/Mothership.gif");
 
@@ -41,6 +42,10 @@ function draw() {
     zoom();
     scoutShip();
 
+
+
+
+
 }
 
 
@@ -55,11 +60,16 @@ function ocean() {
 
 function gameInterface() {
 
+    /*
+
     GUI = new Sprite(0, 0, 1076, 50, 'n');
     GUI.scale = 10
     GUI.color = color(100, 100, 100, 225);
 
-//https://p5play.org/learn/camera.html?page=3
+    https://p5play.org/learn/camera.html?page=3
+
+    
+    */
 
 
 
@@ -69,7 +79,7 @@ function gameInterface() {
 
 
 function mothership() {
-    mothershiphome = new Sprite(1000, 900, 400, 400, 's')
+    mothershiphome = new Sprite(1000, 1000, 400, 400, 's')
     mothershiphome.color = 'black'
     mothershipImage.resize(400, 400)
     mothershiphome.img = mothershipImage
@@ -173,8 +183,14 @@ function makeships() {
     scoutshipsClass = new ships.Group();
     scoutShip1 = new scoutshipsClass.Sprite(1000, 700, 105, 54, "d");
     scoutShip1.img = scoutshipimg
+
+    scoutShip1Cannon = new scoutshipsClass.Sprite(1000, 700, 30, 20, "n");
+
+
     movebackPoint = new scoutshipsClass.Sprite(1000, 700, 10, "n");
 }
+
+
 
 let scoutShip1moveBackDirection
 let movecowordsx
@@ -212,6 +228,17 @@ async function scoutShip() {
     } else if (distance < 30) {
         movebackPoint.speed = 0;
     }
+
+
+    //Cannon//
+    scoutShip1Cannon.x = scoutShip1.x
+    scoutShip1Cannon.y = scoutShip1.y
+
+    console.log(scoutShip1.direction)
+
+    scoutShip1Cannon.direction = scoutShip1.direction
+
+    console.log(scoutShip1Cannon.direction)
 
 }
 
