@@ -14,6 +14,7 @@ function setup() {
     createCanvas(1920, 1076);
     ocean();
     mothership();
+    resourceNodes();
 
 }
 
@@ -114,3 +115,8 @@ function mouseWheel(event) {
     }
 
 } 
+
+
+function resourceNodes(){
+    
+}
