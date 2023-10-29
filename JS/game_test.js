@@ -108,10 +108,16 @@ function mouseWheel(event) {
     if (scrollzoomleval < 0.25) {
         scrollzoomleval = 0.25
     }
+if (scrollzoomleval > 2) {
+        scrollzoomleval = 2
+    }
     console.log(scrollzoomleval)
-    scrollzoomleval = scrollzoomleval + scrollNumber/1000
+    scrollzoomleval = scrollzoomleval + scrollNumber/4000
     if (scrollzoomleval < 0.25) {
         scrollzoomleval = 0.25
+    }
+    if (scrollzoomleval > 2) {
+        scrollzoomleval = 2
     }
 
 } 
