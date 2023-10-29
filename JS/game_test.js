@@ -163,10 +163,10 @@ function resourceNodes() {
 
 }
 
-function scoutShip() {
+async function scoutShip() {
     if (mouse.presses()) {
-        scoutShip1.moveTo(mouse, 8);
-        scoutShip1.rotateTo(mouse)
+        await scoutShip1.rotateTo(mouse)
+        await scoutShip1.moveTo(mouse, 8);
     }
 
 
