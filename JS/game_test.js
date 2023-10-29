@@ -178,44 +178,39 @@ function resourceNodes() {
 let scoutShip1moveBackDirection
 let movecowordsx
 let movecowordsy
+let movebackPoint
+let distance
 async function scoutShip() {
-    scoutShip1moveBackDirection = -scoutShip1.direction
+    scoutShip1moveBackDirection = -scoutShip1.rotation
+    distance = dist(scoutShip1.x, scoutShip1.y, movebackPoint.x, movebackPoint.y);
 
     if (mouse.presses()) {
         movecowordsx = mouse.x
         movecowordsy = mouse.y
         await scoutShip1.rotateTo(mouse, 5);
         await scoutShip1.moveTo(movecowordsx, movecowordsy, 1);
+        movebackPoint.x = scoutShip1.x;
+        movebackPoint.y = scoutShip1.y;
+   
     }
 
     if (scoutShip1.collides(allSprites)) {
         scoutShip1.rotationSpeed = 0;
         scoutShip1.vel.x = 0;
         scoutShip1.vel.y = 0;
-        await console.log("scoutShip1 has stoped because it has colided with somthing")
-        await delay(1000);
-        await scoutShip1.move(50, scoutShip1moveBackDirection, 1);
-
-        scoutShip1.rotationSpeed = 0;
+        console.log("scoutShip1 has stoped because it has colided with somthing")
+        await delay(500);
+        await scoutShip1.moveTo(movebackPoint, 1)
 
     }
-console.log(scoutShip1moveBackDirection)
 
+    if (distance > 80) {
+        movebackPoint.direction = movebackPoint.angleTo(scoutShip1);
+        movebackPoint.speed = 2;
+    } else if (distance < 30) {
+        movebackPoint.speed = 0;
+    }
 
-
-
-    // if (kb.pressing('arrowUp')) {
-    //     scoutShip1.y = scoutShip1.y - 10
-    // }
-    // if (kb.pressing('arrowDown')) {
-    //     scoutShip1.y = scoutShip1.y + 10
-    // }
-    // if (kb.pressing('arrowLeft')) {
-    //     scoutShip1.x = scoutShip1.x - 10
-    // }
-    // if (kb.pressing('arrowRight')) {
-    //     scoutShip1.x = scoutShip1.x + 10
-    // }
 }
 
 function makeships() {
@@ -223,4 +218,5 @@ function makeships() {
     scoutshipsClass = new ships.Group();
     scoutShip1 = new scoutshipsClass.Sprite(1000, 700, 105, 54, "d");
     scoutShip1.img = scoutshipimg
+    movebackPoint = new scoutshipsClass.Sprite(1000, 700, 10, "n");
 }
