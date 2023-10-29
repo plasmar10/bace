@@ -57,7 +57,7 @@ function ocean() {
 
 
 function mothership() {
-    mothershiphome = new Sprite(1000, 700, 100)
+    mothershiphome = new Sprite(1000, 900, 100)
 
     camera.x = 1000
     camera.y = 800;
@@ -113,16 +113,16 @@ function mouseWheel(event) {
     if (scrollzoomleval < 0.25) {
         scrollzoomleval = 0.25
     }
-    if (scrollzoomleval > 2) {
-        scrollzoomleval = 2
+    if (scrollzoomleval > 2.5) {
+        scrollzoomleval = 2.5
     }
     console.log(scrollzoomleval)
     scrollzoomleval = scrollzoomleval + scrollNumber / 4000
     if (scrollzoomleval < 0.25) {
         scrollzoomleval = 0.25
     }
-    if (scrollzoomleval > 2) {
-        scrollzoomleval = 2
+    if (scrollzoomleval > 2.5) {
+        scrollzoomleval = 2.5
     }
 
 }
