@@ -1,15 +1,11 @@
 "use strict";
 
-let backgroundImage;
 
 function setup() {
-
     createCanvas(1920, 1076);
 }
 
 function draw() {
-    backgroundImage = loadImage("../assets/image.png");
-
     background(120, 120, 120);
     image(backgroundImage, 0, 0, CanvasWidth, CanvasHeight);
 
@@ -22,6 +18,4 @@ function draw() {
     textSize(20);
     textStyle(BOLD);
     text("X: " + mouseX + "   Y: " + mouseY, mouseX-67, mouseY+8);
-    console.log(mouseX, mouseY);
-
 }
