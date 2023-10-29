@@ -10,8 +10,6 @@ function setup(){
 function draw(){
     let recWidth= 200;
     let recHeight= 100;
-    let recCentWidth= CanvasWidth/2-recWidth/2;
-    let recCenHeight= CanvasHeight/2-recHeight/2;
     let textWidthcent= CanvasWidth/2-64
     let textHeightcent= CanvasHeight/2+32
     
