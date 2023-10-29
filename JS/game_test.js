@@ -79,6 +79,8 @@ background (0);
             }
 
 	camera.off();
+
+    ellipse(width/2, height/2, 100, 100)
 }
 
 
