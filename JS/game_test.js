@@ -2,20 +2,20 @@
 let mothershiphome;
 let oceanBackground;
 let player
+let oceansprite
 
 function preload() {
-    oceanBackground = loadImage("./assets/Ocean.gif");
+    oceanBackground = loadImage("./assets/ochan.png");
 }
 
 function setup() {
     createCanvas(1920, 1076);
     mothership();
+    ocean();
 }
 
 function draw() {
-    ocean();
     tests();
-
     testingdraw()
 }
 
@@ -34,11 +34,9 @@ function tests() {
 }
 
 function ocean() {
-    background(50, 200, 200);
-    image(oceanBackground, 0, 0, width, height);
-
-
-
+    oceanBackground.resize(width*5, height*5)
+oceansprite = new Sprite(960, 538, width*5, height*5, "n")
+oceansprite.image = oceanBackground
 }
 
 
@@ -67,12 +65,18 @@ function testingdraw() {
 	}
 	//player.moveTowards(mouse, 0.01);
 	player.draw();
-    if (kb.presses('a')) { 
-        camera.x = camera.x+10
-    }
-    if (kb.presses('d')) { 
+    if (kb.pressing('a')) { 
         camera.x = camera.x-10
+    }
+    if (kb.pressing('d')) { 
+        camera.x = camera.x+10
         }
+        if (kb.pressing('w')) { 
+            camera.y = camera.y-10
+        }
+        if (kb.pressing('s')) { 
+            camera.y = camera.y+10
+            }
 
 	camera.off();
 }
