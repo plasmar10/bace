@@ -33,7 +33,7 @@ function setup() {
 
     gameInterface();
 
-    
+
 
 }
 
@@ -42,7 +42,7 @@ function draw() {
     scoutShip();
 
 
-    GUI.x = (camera.x - 1500) 
+    GUI.x = (camera.x - 1500)
     GUI.y = (camera.y + 2100)
     GUI.layer = 1000
 
@@ -87,7 +87,7 @@ function mothership() {
 
 function zoom() {
     scrollNumber = 0
-camera.zoomTo(scrollzoomleval)
+    camera.zoomTo(scrollzoomleval)
     background(0);
     camera.on();
 
@@ -173,7 +173,13 @@ function resourceNodes() {
 
 }
 
-
+function makeships() {
+    ships = new Group();
+    scoutshipsClass = new ships.Group();
+    scoutShip1 = new scoutshipsClass.Sprite(1000, 700, 105, 54, "d");
+    scoutShip1.img = scoutshipimg
+    movebackPoint = new scoutshipsClass.Sprite(1000, 700, 10, "n");
+}
 
 let scoutShip1moveBackDirection
 let movecowordsx
@@ -192,14 +198,14 @@ async function scoutShip() {
         movebackPoint.y = scoutShip1.y;
         await scoutShip1.rotateTo(mouse, 5);
         await scoutShip1.moveTo(movecowordsx, movecowordsy, 1);
-   
+
     }
 
     if (scoutShip1.collides(allSprites)) {
         scoutShip1.rotationSpeed = 0;
         scoutShip1.vel.x = 0;
         scoutShip1.vel.y = 0;
-       console.log("scoutShip1 has stoped because it has colided with somthing")
+        console.log("scoutShip1 has stoped because it has colided with somthing")
         await delay(500);
         await scoutShip1.moveTo(movebackPoint, 1)
 
@@ -214,10 +220,4 @@ async function scoutShip() {
 
 }
 
-function makeships() {
-    ships = new Group();
-    scoutshipsClass = new ships.Group();
-    scoutShip1 = new scoutshipsClass.Sprite(1000, 700, 105, 54, "d");
-    scoutShip1.img = scoutshipimg
-    movebackPoint = new scoutshipsClass.Sprite(1000, 700, 10, "n");
-}
+
