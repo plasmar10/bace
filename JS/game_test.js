@@ -126,7 +126,7 @@ function resourceNodes() {
     let zoneSize = 1000;
 
     resourceZone = new Sprite(-1500, -500, 4000, 2500, 'n');
-   
+    resourceZone.color = color(255, 255, 255,100);
 
     for (let i = 0; i < 50; i++) {
         let bruhTestX = random(-3460, 460);
