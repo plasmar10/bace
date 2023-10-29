@@ -126,10 +126,10 @@ function resourceNodes() {
     resourceZone.color = 'red'
 
 
-    let bruhTest = 
+    let bruhTest = random(-1500, 1000)
 
 
-    rawResource = new Sprite(600, 700, 80, 120, 's')
+    rawResource = new Sprite(bruhTest, 700, 80, 120, 's')
     rawResource.color = '#997950'
 
 
