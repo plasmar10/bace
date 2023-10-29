@@ -4,7 +4,7 @@ let oceanBackground;
 let player;
 let oceansprite;
 let scrollNumber = 0
-let scrollzoomleval = 1
+let scrollzoomleval = 0.25
 let ships, scoutshipsClass, scoutShip1;
 let scoutshipimg;
 
@@ -43,8 +43,8 @@ function tests() {
 }
 
 function ocean() {
-oceanBackground.resize(width * 10, height * 10)
-    oceansprite = new Sprite(width/2, height/2 , width * 10, height * 10, "n")
+    oceanBackground.resize(width * 5, height * 5)
+    oceansprite = new Sprite(width / 2, height / 2, width * 10, height * 10, "n")
     oceansprite.image = oceanBackground
     oceansprite.layer = 0
 }
@@ -123,17 +123,27 @@ function mouseWheel(event) {
 
 
 function resourceNodes() {
-    resourceZone = new Sprite(-1500, -500, 4000, 2500, 's')
-    resourceZone.shape = 'chain'
-    resourceZone.color = 'red'
+    let zoneSize = 1000;
+
+    resourceZone = new Sprite(-1500, -500, 4000, 2500, 's');
+    resourceZone.shape = 'chain';
+    resourceZone.color = 'red';
+
+    for (let i = 0; i < 50; i++) {
+        let bruhTestX = random(-3460, 460);
+        let bruhTestY = random(-1710, 710);
+        console.log(bruhTestX);
 
 
-    let bruhTest = random(-1500, 1000)
+        rawResource = new Sprite(bruhTestX, bruhTestY, 80, 80, 's');
+        rawResource.color = '#997950';
 
 
-    rawResource = new Sprite(bruhTest, 700, 80, 120, 's')
-    rawResource.color = '#997950'
 
+
+
+        
+    }
 
 }
 
@@ -152,7 +162,7 @@ function scoutShip() {
     }
 }
 
-function makeships(){
+function makeships() {
     ships = new Group();
     scoutshipsClass = new ships.Group();
     scoutShip1 = new scoutshipsClass.Sprite(1000, 700, 54, 105)
