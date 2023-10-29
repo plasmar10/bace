@@ -1,5 +1,5 @@
 "use strict";
-let mothershiphome, rawResource, resourceZone;
+let mothershiphome, resourceWood, resourceZone;
 let oceanBackground;
 let player;
 let oceansprite;
@@ -135,38 +135,28 @@ function resourceNodes() {
 
     for (let i = 0; i < 50; i++) {
 
-        let bruhTestX = random(-3460, 460);
-        let bruhTestY = random(-1710, 710);
+        let resourceX = random(-3460, 460);
+        let resourceY = random(-1710, 710);
 
-        rawResource = new Sprite(bruhTestX, bruhTestY, 80, 80, 's');
-        rawResource.color = '#997950';
+        resourceWood = new Sprite(resourceX, resourceY, 80, 80, 's');
+        resourceWood.color = '#997950';
 
-
-        // for Resources.length 
-        // 
         for (let i = 0; i < Resources.length; i++) {
 
-            let currentResource = 90
+            let d = dist(resourceWood.x, resourceWood.y, Resources[i].x, Resources[i].y)
 
+            if (d < 200) {
+                resourceWood.remove();
 
-
-
+            }
 
         }
 
-
-
-
-
-
-
-        Resources.push(rawResource)
-
-
+        Resources.push(resourceWood)
 
     }
 
-    console.log(Resources);
+
 
 
 
@@ -176,6 +166,10 @@ function resourceNodes() {
 
 
 }
+
+
+
+
 let movecowordsx
 let movecowordsy
 async function scoutShip() {
@@ -186,8 +180,6 @@ async function scoutShip() {
         await scoutShip1.rotateTo(mouse, 5);
         await scoutShip1.moveTo(movecowordsx, movecowordsy, 1);
     }
-    console.log(movecowordsy)
-    console.log(movecowordsx)
 
 
 
