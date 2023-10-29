@@ -131,7 +131,7 @@ function mouseWheel(event) {
 function resourceNodes() {
 
     resourceZone = new Sprite(-1500, -500, 4000, 2500, 'n');
-    resourceZone.color = color(255, 255, 255, 100);
+    resourceZone.color = color(255, 255, 255,  100);
 
     for (let i = 0; i < 50; i++) {
         let bruhTestX = random(-3460, 460);
@@ -164,24 +164,34 @@ function resourceNodes() {
 }
 
 function scoutShip() {
-    if (kb.pressing('arrowUp')) {
-        scoutShip1.y = scoutShip1.y - 10
+    if (mouse.presses()) {
+        scoutShip1.moveTo(mouse, 8);
+        scoutShip1.rotateTo(mouse)
     }
-    if (kb.pressing('arrowDown')) {
-        scoutShip1.y = scoutShip1.y + 10
-    }
-    if (kb.pressing('arrowLeft')) {
-        scoutShip1.x = scoutShip1.x - 10
-    }
-    if (kb.pressing('arrowRight')) {
-        scoutShip1.x = scoutShip1.x + 10
-    }
+
+
+
+
+
+
+    // if (kb.pressing('arrowUp')) {
+    //     scoutShip1.y = scoutShip1.y - 10
+    // }
+    // if (kb.pressing('arrowDown')) {
+    //     scoutShip1.y = scoutShip1.y + 10
+    // }
+    // if (kb.pressing('arrowLeft')) {
+    //     scoutShip1.x = scoutShip1.x - 10
+    // }
+    // if (kb.pressing('arrowRight')) {
+    //     scoutShip1.x = scoutShip1.x + 10
+    // }
 }
 
 function makeships() {
     ships = new Group();
     scoutshipsClass = new ships.Group();
-    scoutShip1 = new scoutshipsClass.Sprite(1000, 700, 54, 105)
+    scoutShip1 = new scoutshipsClass.Sprite(1000, 700, 105, 54)
     scoutShip1.img = scoutshipimg
     console.log("test")
 }
