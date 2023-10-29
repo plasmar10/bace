@@ -87,7 +87,7 @@ function mothership() {
 
 function zoom() {
     scrollNumber = 0
-    camera.zoom = scrollzoomleval;
+camera.zoomTo(scrollzoomleval)
     background(0);
     camera.on();
 
@@ -105,23 +105,6 @@ function zoom() {
     }
 
     camera.off();
-
-
-
-
-
-    // if (kb.pressing('arrowUp')) {
-    //     mothershiphome.y = mothershiphome.y - 10
-    // }
-    // if (kb.pressing('arrowDown')) {
-    //     mothershiphome.y = mothershiphome.y + 10
-    // }
-    // if (kb.pressing('arrowLeft')) {
-    //     mothershiphome.x = mothershiphome.x - 10
-    // }
-    // if (kb.pressing('arrowRight')) {
-    //     mothershiphome.x = mothershiphome.x + 10
-    // }
 
 }
 
