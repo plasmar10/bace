@@ -6,9 +6,11 @@ let oceansprite;
 let scrollNumber = 0
 let scrollzoomleval = 0.25
 let ships, scoutshipsClass, scoutShip1;
+let scoutshipimg;
 
 function preload() {
     oceanBackground = loadImage("./assets/ochan.png");
+    scoutshipimg = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png");
 }
 
 function setup() {
@@ -83,18 +85,18 @@ function testingdraw() {
     }
 
     camera.off();
-    if (kb.pressing('arrowUp')) {
-        mothershiphome.y = mothershiphome.y - 10
-    }
-    if (kb.pressing('arrowDown')) {
-        mothershiphome.y = mothershiphome.y + 10
-    }
-    if (kb.pressing('arrowLeft')) {
-        mothershiphome.x = mothershiphome.x - 10
-    }
-    if (kb.pressing('arrowRight')) {
-        mothershiphome.x = mothershiphome.x + 10
-    }
+    // if (kb.pressing('arrowUp')) {
+    //     mothershiphome.y = mothershiphome.y - 10
+    // }
+    // if (kb.pressing('arrowDown')) {
+    //     mothershiphome.y = mothershiphome.y + 10
+    // }
+    // if (kb.pressing('arrowLeft')) {
+    //     mothershiphome.x = mothershiphome.x - 10
+    // }
+    // if (kb.pressing('arrowRight')) {
+    //     mothershiphome.x = mothershiphome.x + 10
+    // }
 
 }
 
@@ -146,11 +148,23 @@ function resourceNodes() {
 }
 
 function scoutShip() {
-
+    if (kb.pressing('arrowUp')) {
+        scoutShip1.y = scoutShip1.y - 10
+    }
+    if (kb.pressing('arrowDown')) {
+        scoutShip1.y = scoutShip1.y + 10
+    }
+    if (kb.pressing('arrowLeft')) {
+        scoutShip1.x = scoutShip1.x - 10
+    }
+    if (kb.pressing('arrowRight')) {
+        scoutShip1.x = scoutShip1.x + 10
+    }
 }
 
 function makeships() {
     ships = new Group();
     scoutshipsClass = new ships.Group();
-    scoutShip1 = new scoutshipsClass.Sprite(1000, 700, 100)
+    scoutShip1 = new scoutshipsClass.Sprite(1000, 700, 54, 105)
+    console.log("test")
 }
