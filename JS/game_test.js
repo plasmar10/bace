@@ -80,10 +80,10 @@ background (0);
 
 	camera.off();
     if (kb.pressing('arrowUp')) { 
-        camera.x = camera.x-10
+        mothershiphome.y = mothershiphome.y-10
     }
     if (kb.pressing('arrowDown')) { 
-        camera.x = camera.x+10
+        mothershiphome.y = mothershiphome.y+10
         }
         if (kb.pressing('arrowLeft')) { 
             mothershiphome.x = mothershiphome.x-10
