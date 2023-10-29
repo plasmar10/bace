@@ -165,6 +165,8 @@ function resourceNodes() {
 
 
 
+    //add purchasable placeable mines
+
 
 
 
