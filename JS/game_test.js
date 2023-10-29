@@ -169,10 +169,11 @@ function resourceNodes() {
 
 
 
-
+let scoutShip1moveBackDirection
 let movecowordsx
 let movecowordsy
 async function scoutShip() {
+    scoutShip1moveBackDirection = -scoutShip1.direction
 
     if (mouse.presses()) {
         movecowordsx = mouse.x
@@ -185,9 +186,14 @@ async function scoutShip() {
         scoutShip1.rotationSpeed = 0;
         scoutShip1.vel.x = 0;
         scoutShip1.vel.y = 0;
-        console.log("scoutShip1 has stoped because it has colided with somthing")
-    }
+        await console.log("scoutShip1 has stoped because it has colided with somthing")
+        await delay(1000);
+        await scoutShip1.move(50, scoutShip1moveBackDirection, 1);
 
+        scoutShip1.rotationSpeed = 0;
+
+    }
+console.log(scoutShip1moveBackDirection)
 
 
 
