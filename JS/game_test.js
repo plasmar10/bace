@@ -21,6 +21,7 @@ function draw() {
     tests();
     testingdraw()
     scrollNumber = 0
+    camera.zoom = scrollzoomleval;
 }
 
 function tests() {
@@ -103,7 +104,13 @@ function testingdraw() {
 
 function mouseWheel(event) {
     scrollNumber += event.delta
-    console.log(scrollNumber/1000)
-    scrollzoomleval + scrollNumber/1000
-    camera.zoom = scrollzoomleval;
+    if (scrollzoomleval < 0.25) {
+        scrollzoomleval = 0.25
+    }
+    console.log(scrollzoomleval)
+    scrollzoomleval = scrollzoomleval + scrollNumber/1000
+    if (scrollzoomleval < 0.25) {
+        scrollzoomleval = 0.25
+    }
+
 } 
