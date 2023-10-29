@@ -7,7 +7,6 @@ function setup() {
 
 function draw() {
     background(120, 120, 120);
-    image(backgroundImage, 0, 0, CanvasWidth, CanvasHeight);
 
     let recWidth = 200;
     let recHeight = 100;
