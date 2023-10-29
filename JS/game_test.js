@@ -1,8 +1,8 @@
 "use strict";
 let mothershiphome;
 let oceanBackground;
-let player
-let oceansprite
+let player;
+let oceansprite;
 
 function preload() {
     oceanBackground = loadImage("./assets/ochan.png");
@@ -10,8 +10,9 @@ function preload() {
 
 function setup() {
     createCanvas(1920, 1076);
-    mothership();
     ocean();
+    mothership();
+
 }
 
 function draw() {
@@ -34,21 +35,22 @@ function tests() {
 }
 
 function ocean() {
-    oceanBackground.resize(width*5, height*5)
-oceansprite = new Sprite(960, 538, width*5, height*5, "n")
-oceansprite.image = oceanBackground
+    oceanBackground.resize(width * 5, height * 5)
+    oceansprite = new Sprite(960, 538, width * 5, height * 5, "n")
+    oceansprite.image = oceanBackground
+    oceansprite.layer = 0
 }
 
 
 function mothership() {
-mothershiphome = new Sprite(1000,700,100)
+    mothershiphome = new Sprite(1000, 700, 100)
 
-camera.x = 1000
-camera.y = 800;
+    camera.x = 1000
+    camera.y = 800;
 
-player = new Sprite();
-	player.d = 80;
-	player.color = 'magenta';
+    player = new Sprite();
+    player.d = 80;
+    player.color = 'magenta';
     camera.zoom = 0.5;
 
 
@@ -59,28 +61,28 @@ function testingdraw() {
 
     camera.on();
 
-	for (let i = 0; i < 10; i++) {
-		fill(i * 20, 200, 200); // blue to gray
-		rect(-250 + i * 50, -250 + i * 100, 750, 50);
-	}
-	//player.moveTowards(mouse, 0.01);
-	player.draw();
-    if (kb.pressing('a')) { 
-        camera.x = camera.x-10
+    for (let i = 0; i < 10; i++) {
+        fill(i * 20, 200, 200); // blue to gray
+        rect(-250 + i * 50, -250 + i * 100, 750, 50);
     }
-    if (kb.pressing('d')) { 
-        camera.x = camera.x+10
-        }
-        if (kb.pressing('w')) { 
-            camera.y = camera.y-10
-        }
-        if (kb.pressing('s')) { 
-            camera.y = camera.y+10
-            }
+    //player.moveTowards(mouse, 0.01);
+    player.draw();
+    if (kb.pressing('a')) {
+        camera.x = camera.x - 10
+    }
+    if (kb.pressing('d')) {
+        camera.x = camera.x + 10
+    }
+    if (kb.pressing('w')) {
+        camera.y = camera.y - 10
+    }
+    if (kb.pressing('s')) {
+        camera.y = camera.y + 10
+    }
 
-	camera.off();
+    camera.off();
 
-    ellipse(width/2, height/2, 100, 100)
+    ellipse(width / 2, height / 2, 100, 100)
 }
 
 
