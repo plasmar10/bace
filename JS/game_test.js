@@ -213,23 +213,6 @@ async function scoutShip() {
         movebackPoint.speed = 0;
     }
 
-
-
-
-
-
-    // if (kb.pressing('arrowUp')) {
-    //     scoutShip1.y = scoutShip1.y - 10
-    // }
-    // if (kb.pressing('arrowDown')) {
-    //     scoutShip1.y = scoutShip1.y + 10
-    // }
-    // if (kb.pressing('arrowLeft')) {
-    //     scoutShip1.x = scoutShip1.x - 10
-    // }
-    // if (kb.pressing('arrowRight')) {
-    //     scoutShip1.x = scoutShip1.x + 10
-    // }
 }
 
 function makeships() {
