@@ -41,8 +41,8 @@ function tests() {
 }
 
 function ocean() {
-    oceanBackground.resize(width * 5, height * 5)
-    oceansprite = new Sprite(width/2, height/2 , width * 5, height * 5, "n")
+oceanBackground.resize(width * 10, height * 10)
+    oceansprite = new Sprite(width/2, height/2 , width * 10, height * 10, "n")
     oceansprite.image = oceanBackground
     oceansprite.layer = 0
 }
