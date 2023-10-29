@@ -43,7 +43,7 @@ function ocean() {
 
 
 function mothership() {
-    mothershiphome = new Sprite(1000, 700, 100)
+mothershiphome = new Sprite(1000,700,1000)
 
     camera.x = 1000
     camera.y = 800;
@@ -58,7 +58,7 @@ function mothership() {
 
 
 function testingdraw() {
-
+background (0);
     camera.on();
 
     for (let i = 0; i < 10; i++) {
@@ -80,41 +80,19 @@ function testingdraw() {
         camera.y = camera.y + 10
     }
 
-    camera.off();
+	camera.off();
+    if (kb.pressing('arrowUp')) { 
+        camera.x = camera.x-10
+    }
+    if (kb.pressing('arrowDown')) { 
+        camera.x = camera.x+10
+        }
+        if (kb.pressing('arrowLeft')) { 
+            mothershiphome.x = mothershiphome.x-10
+        }
+        if (kb.pressing('arrowRight')) { 
+            mothershiphome.x = mothershiphome.x+10
+            }
 
-    ellipse(width / 2, height / 2, 100, 100)
+
 }
-
-
-// function setup() {
-// 	new Canvas(500, 240);
-// 	player = new Sprite();
-// 	player.d = 80;
-// 	player.color = 'magenta';
-
-
-// 	camera.zoom = 0.5;
-// }
-
-// function draw() {
-// 	background(0);
-
-// 	camera.on();
-
-// 	for (let i = 0; i < 10; i++) {
-// 		fill(i * 20, 200, 200); // blue to gray
-// 		rect(-250 + i * 50, -250 + i * 100, 750, 50);
-// 	}
-// 	player.moveTowards(mouse, 0.01);
-// 	player.draw();
-// 	camera.x = player.x;
-// 	camera.y = player.y;
-
-// 	camera.off();
-
-// 	ui.color = 'orange';
-// 	for (let i = 0; i < 9; i++) {
-// 		if (kb[i + 1]) ui[i].color = 'red';
-// 	}
-// 	ui.draw();
-// }
