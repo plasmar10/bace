@@ -4,7 +4,7 @@ let oceanBackground;
 let player;
 let oceansprite;
 let scrollNumber = 0
-let scrollzoomleval = 0.5
+let scrollzoomleval = 1
 
 function preload() {
     oceanBackground = loadImage("./assets/ochan.png");
@@ -47,7 +47,7 @@ function ocean() {
 
 
 function mothership() {
-    mothershiphome = new Sprite(1000, 700, 1000)
+    mothershiphome = new Sprite(1000, 700, 100)
 
     camera.x = 1000
     camera.y = 800;
