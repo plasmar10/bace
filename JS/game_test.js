@@ -1,6 +1,6 @@
 "use strict";
 let mothershiphome, resourceScrapMetal, resourceZone;
-let oceanBackground;
+let oceanBackground, mothershipImage, offScreenBackground;
 let player;
 let oceansprite;
 let scrollNumber = 0
@@ -17,8 +17,9 @@ function preload() {
     oceanBackground = loadImage("./assets/ocean.jpg");
     scoutshipimg = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png");
     resourceImage = loadImage("./assets/metalplate.png");
+    mothershipImage = loadImage("./assets/Mothership.gif");
 
-
+    
 }
 
 function setup() {
@@ -61,17 +62,14 @@ function ocean() {
 
 
 function mothership() {
-    mothershiphome = new Sprite(1000, 900, 100)
+    mothershiphome = new Sprite(1000, 900, 400, 400, 's')
+    mothershiphome.color = 'black'
+    mothershipImage.resize(400, 400)
+    mothershiphome.img = mothershipImage
+    mothershiphome.debug = true
 
     camera.x = 1000
     camera.y = 800;
-
-    player = new Sprite();
-    player.d = 80;
-    player.color = 'magenta';
-
-
-
 }
 
 
@@ -80,7 +78,7 @@ function testingdraw() {
     camera.zoom = scrollzoomleval;
     background(0);
     camera.on();
-    player.draw();
+    
     if (kb.pressing('a')) {
         camera.x = camera.x - 10
     }
