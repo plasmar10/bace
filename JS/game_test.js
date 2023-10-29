@@ -1,5 +1,5 @@
 "use strict";
-let mothershiphome, rawResource;
+let mothershiphome, rawResource, resourceZone;
 let oceanBackground;
 let player;
 let oceansprite;
@@ -15,7 +15,7 @@ function setup() {
     ocean();
     mothership();
     resourceNodes();
-    makeships() 
+    makeships()
 
 }
 
@@ -41,7 +41,7 @@ function tests() {
 
 function ocean() {
     oceanBackground.resize(width * 5, height * 5)
-    oceansprite = new Sprite(width/2, height/2 , width * 5, height * 5, "n")
+    oceansprite = new Sprite(width / 2, height / 2, width * 5, height * 5, "n")
     oceansprite.image = oceanBackground
     oceansprite.layer = 0
 }
@@ -104,11 +104,11 @@ function mouseWheel(event) {
     if (scrollzoomleval < 0.25) {
         scrollzoomleval = 0.25
     }
-if (scrollzoomleval > 2) {
+    if (scrollzoomleval > 2) {
         scrollzoomleval = 2
     }
     console.log(scrollzoomleval)
-    scrollzoomleval = scrollzoomleval + scrollNumber/4000
+    scrollzoomleval = scrollzoomleval + scrollNumber / 4000
     if (scrollzoomleval < 0.25) {
         scrollzoomleval = 0.25
     }
@@ -116,25 +116,28 @@ if (scrollzoomleval > 2) {
         scrollzoomleval = 2
     }
 
-} 
+}
 
 
-function resourceNodes(){
+function resourceNodes() {
+    resourceZone = new Sprite(-1500, -500, 4000, 2500, 's')
+    resourceZone.shape = 'chain'
+    resourceZone.color = 'red'
 
 
-
+    let bruhTest = 
 
 
     rawResource = new Sprite(600, 700, 80, 120, 's')
     rawResource.color = '#997950'
-    
-    
+
+
 }
 
-function scoutShip(){
-    
+function scoutShip() {
+
 }
 
-function makeships(){
-    
+function makeships() {
+
 }
