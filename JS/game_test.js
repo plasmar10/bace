@@ -32,13 +32,13 @@ function tests() {
     textStyle(BOLD);
     text("X: " + mouseX + "   Y: " + mouseY, mouseX - 67, mouseY + 8);
     
-    camera.zoom = 0.5 + scrollNumber / 300;
+    camera.zoom = 0.5 + scrollNumber / 3000;
 
 }
 
 function ocean() {
     oceanBackground.resize(width * 5, height * 5)
-    oceansprite = new Sprite(960, 538, width * 5, height * 5, "n")
+    oceansprite = new Sprite(width/2, height/2 , width * 5, height * 5, "n")
     oceansprite.image = oceanBackground
     oceansprite.layer = 0
 }
