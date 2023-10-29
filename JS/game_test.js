@@ -174,7 +174,7 @@ function scoutShip() {
 function makeships() {
     ships = new Group();
     scoutshipsClass = new ships.Group();
-    scoutShip1 = new scoutshipsClass.Sprite(1000, 700, 54, 105)
+    scoutShip1 = new scoutshipsClass.Sprite(1000, 700, 105, 54)
     scoutShip1.img = scoutshipimg
     console.log("test")
 }
