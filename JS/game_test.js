@@ -10,8 +10,8 @@ function preload() {
 
 function setup() {
     createCanvas(1920, 1076);
-    mothership();
     ocean();
+    mothership();
 }
 
 function draw() {
