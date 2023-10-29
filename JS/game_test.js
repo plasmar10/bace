@@ -1,5 +1,5 @@
 "use strict";
-
+let mothershiphome;
 let oceanBackground;
 
 function preload(){
@@ -8,12 +8,12 @@ function preload(){
 
 function setup() {
     createCanvas(1920, 1076);
+    mothership()
 }
 
 function draw() {
     tests()
     ocean()
-
 }
 
 function tests() {
@@ -40,4 +40,10 @@ image
 
 
 
+}
+
+
+
+function mothership() {
+mothershiphome = new Sprite(1000,700,100)
 }
