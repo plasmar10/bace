@@ -11,11 +11,14 @@ let resourceImage;
 let cannonImage;
 let GUI;
 let SeaMon;
+let SeaMonSha
 let shots, basicShot;
 let ui;
 
 let shotOnce = false;
 let enemyInRange = false;
+let MonsterEnemyDistance;
+let bulletTimer = 0;
 
 
 let Resources = [];
@@ -28,7 +31,7 @@ function preload() {
     resourceImage = loadImage("./assets/metalplate.png");
     mothershipImage = loadImage("./assets/Mothership.gif");
     cannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun.png");
-
+SeaMonSha= loadImage("./assets/enemy_sprites/reaper.gif")
 }
 
 function setup() {
@@ -47,6 +50,12 @@ function draw() {
 
     zoom();
     scoutShip();
+
+
+    monsterAni();
+
+
+
    GUIE();
 
 }
@@ -187,20 +196,56 @@ async function scoutShip() {
     scoutShip1Cannon.x = scoutShip1.x
     scoutShip1Cannon.y = scoutShip1.y
 
-    //console.log(scoutShip1.direction)
 
-    scoutShip1Cannon.direction = scoutShip1.direction
 
-    //console.log(scoutShip1Cannon.direction)
+    scoutShip1Cannon.rotation = scoutShip1Cannon.direction
 
-    let x = scoutShip1Cannon.x;
-    let y = scoutShip1Cannon.y;
-    let direction = scoutShip1Cannon.direction;
-    let selectedAmmo = basicShot;
 
-    //if (enemyInRange === True) {
-    ammo(x, y, direction, selectedAmmo);
-    //}
+
+
+
+    MonsterEnemyDistance = dist(scoutShip1.x, scoutShip1.y, SeaMon.x, SeaMon.y)
+
+    if (MonsterEnemyDistance < 1800) {
+        enemyInRange = true;
+    } else {
+        enemyInRange = false;
+    }
+
+
+    console.log(MonsterEnemyDistance)
+
+
+    console.log(enemyInRange)
+
+
+
+    if (enemyInRange === true) {
+        scoutShip1Cannon.rotateTowards(SeaMon, 0.5, 0);
+        await delay(400);
+        let x = scoutShip1Cannon.x;
+        let y = scoutShip1Cannon.y;
+        let direction = scoutShip1Cannon.direction;
+        let selectedAmmo = basicShot;
+
+        ammo(x, y, direction, selectedAmmo);
+        bulletTimer += 1;
+
+    } else if (enemyInRange === false) {
+        scoutShip1Cannon.direction = scoutShip1.direction
+        bulletTimer = 0
+        bulletTimer += 0
+    }
+
+
+    if (bulletTimer > 100) {
+        shotOnce = false;
+        bulletTimer = 0
+    }
+
+
+
+
 
 }
 
@@ -208,12 +253,18 @@ async function scoutShip() {
 function ammo(x, y, direction, selectedAmmo) {
 
     if (shotOnce === false && selectedAmmo === basicShot) {
-        basicShot = new Sprite(x, y, 20);
-
+        basicShot = new Sprite(x, y, 5);
         basicShot.direction = direction;
-        basicShot.speed = 1;
+        basicShot.speed = 0;
+        basicShot.life = 400;
+
+        basicShot.speed = 5;
         basicShot.collider = 'd';
+        basicShot.color = 'red';
         basicShot.overlaps(scoutShip1)
+        basicShot.overlaps(basicShot)
+
+
         shotOnce = true;
     }
 
@@ -228,8 +279,26 @@ function enemies() {
 
     SeaMon = new Sprite(-1500, 2000, 100, 100)
 
-
-
+    SeaMonSha.resize(500,500)
+    SeaMon.img = SeaMonSha
+    
+    }
+    
+    
+    function monsterAni() {
+        SeaMon.direction = SeaMon.rotation;//sync direction to rotation
+          SeaMon.speed = 5; 
+    
+    if(dist(scoutShip1.x,scoutShip1.y,SeaMon.x,SeaMon.y) < 1000){
+        SeaMon.rotation -= 0
+        SeaMon.rotateTowards(scoutShip1)
+        console.log("hi")
+    
+    }
+    else{
+     SeaMon.rotation -= 1; 
+    }
+    
 }
 
 function GUIE() {
