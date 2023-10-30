@@ -8,8 +8,11 @@ let scrollzoomleval = 0.25
 let ships, scoutshipsClass, scoutShip1, scoutShip1Cannon;
 let scoutshipimg;
 let resourceImage;
-
+let cannonimg;
 let GUI;
+let SeaMon;
+let shots
+
 
 let Resources = [];
 
@@ -20,7 +23,7 @@ function preload() {
     scoutShipCannonImg = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png")
     resourceImage = loadImage("./assets/metalplate.png");
     mothershipImage = loadImage("./assets/Mothership.gif");
-
+    cannonimg = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun.png");
 
 }
 
@@ -34,15 +37,17 @@ function setup() {
 
     gameInterface();
 
-
+    enemies();//may have to go in draw for animation and stuff
+    
 
 }
 
 function draw() {
+    
     zoom();
     scoutShip();
-
-
+  
+  
 
 
 
@@ -172,10 +177,6 @@ function resourceNodes() {
 
 
 
-
-
-
-
 }
 
 function makeships() {
@@ -185,7 +186,7 @@ function makeships() {
     scoutShip1.img = scoutshipimg
 
     scoutShip1Cannon = new scoutshipsClass.Sprite(1000, 700, 30, 20, "n");
-
+    scoutShip1Cannon.img = cannonimg
 
     movebackPoint = new scoutshipsClass.Sprite(1000, 700, 10, "n");
 }
@@ -239,7 +240,27 @@ async function scoutShip() {
     scoutShip1Cannon.direction = scoutShip1.direction
 
     console.log(scoutShip1Cannon.direction)
+ if(scoutShip1Cannon){
+
+ }
+}
+
+
+function ammo(){
+   
+let bullet = new Sprite (scoutShip1Cannon.x,scoutShip1Cannon.y);
+
+return bullet;
+
 
 }
 
 
+
+function enemies(){
+
+SeaMon = new Sprite(-1500,2000,100,100)
+
+
+
+}
