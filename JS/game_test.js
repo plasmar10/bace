@@ -19,8 +19,6 @@ let enemyInRange = false;
 
 let Resources = [];
 
-let shipColliders; // put any sprite that can collide with the ship into this group - resources, mothership, etc.
-
 
 function preload() {
     oceanBackground = loadImage("./assets/ocean.jpg");
@@ -33,7 +31,7 @@ function preload() {
 }
 
 function setup() {
-    shipColliders = new Group();
+    new Group();
     createCanvas(1920, 1076);
     ocean();
     mothership();
@@ -91,7 +89,7 @@ function gameInterface() {
 
 
 function mothership() {
-    mothershipBase = new shipColliders.Sprite(1000, 1000, 400, 400, 's')
+    mothershipBase = new Sprite(1000, 1000, 400, 400, 's')
     mothershipBase.color = 'black'
     mothershipImage.resize(400, 400)
     mothershipBase.img = mothershipImage
@@ -158,7 +156,7 @@ function resourceNodes() {
         let resourceX = random(-3460, 460);
         let resourceY = random(-1710, 710);
 
-        resourceScrapMetal = new shipColliders.Sprite(resourceX, resourceY, 40, 40, 's');
+        resourceScrapMetal = new Sprite(resourceX, resourceY, 40, 40, 's');
         resourceScrapMetal.color = 'gray';
 
         for (let i = 0; i < Resources.length; i++) {
@@ -210,7 +208,7 @@ let movePointDistance;
 
 async function scoutShip() {
 
-    
+
     scoutShip1MoveBackDirection = -scoutShip1.rotation
     movePointDistance = dist(scoutShip1.x, scoutShip1.y, moveBackPoint.x, moveBackPoint.y);
 
@@ -226,7 +224,7 @@ async function scoutShip() {
     }
 
 
-    if (scoutShip1.collides(shipColliders)) {
+    if (scoutShip1.collides(allSprites)) {
         scoutShip1.rotationSpeed = 0;
         scoutShip1.vel.x = 0;
         scoutShip1.vel.y = 0;
@@ -279,14 +277,14 @@ function ammo(x, y, direction, selectedAmmo) {
 
         basicShot.direction = direction;
         basicShot.speed = 1;
-        basicShot.overlaps(allSprites);
         basicShot.collider = 'd';
+        basicShot.overlaps(scoutShip1)
 
 
         shotOnce = true;
     }
 
-    if (basicShot.collides(shipColliders)) {
+    if (basicShot.collides(allSprites)) {
         basicShot.remove();
     }
 }
