@@ -11,10 +11,15 @@ let resourceImage;
 let cannonImage;
 let GUI;
 let SeaMon;
-let shots;
+let shots, basicShot;
+
+let shotOnce = false;
+let enemyInRange = false;
 
 
 let Resources = [];
+
+let shipColliders; // put any sprite that can collide with the ship into this group - resources, mothership, etc.
 
 
 function preload() {
@@ -28,6 +33,7 @@ function preload() {
 }
 
 function setup() {
+    shipColliders = new Group();
     createCanvas(1920, 1076);
     ocean();
     mothership();
@@ -38,6 +44,7 @@ function setup() {
     gameInterface();
 
     enemies();//may have to go in draw for animation and stuff
+
 
 
 }
@@ -84,11 +91,12 @@ function gameInterface() {
 
 
 function mothership() {
-    mothershipBase = new Sprite(1000, 1000, 400, 400, 's')
+    mothershipBase = new shipColliders.Sprite(1000, 1000, 400, 400, 's')
     mothershipBase.color = 'black'
     mothershipImage.resize(400, 400)
     mothershipBase.img = mothershipImage
     mothershipBase.debug = true
+
 
     camera.x = 1000
     camera.y = 800;
@@ -150,7 +158,7 @@ function resourceNodes() {
         let resourceX = random(-3460, 460);
         let resourceY = random(-1710, 710);
 
-        resourceScrapMetal = new Sprite(resourceX, resourceY, 40, 40, 's');
+        resourceScrapMetal = new shipColliders.Sprite(resourceX, resourceY, 40, 40, 's');
         resourceScrapMetal.color = 'gray';
 
         for (let i = 0; i < Resources.length; i++) {
@@ -168,6 +176,7 @@ function resourceNodes() {
         resourceScrapMetal.img = resourceImage
         Resources.push(resourceScrapMetal)
 
+
     }
 
 
@@ -182,10 +191,10 @@ function resourceNodes() {
 function makeships() {
     ships = new Group();
     scoutShipsClass = new ships.Group();
-    scoutShip1 = new scoutShipsClass.Sprite(1000, 700, 105, 54, "d");
+    scoutShip1 = new scoutShipsClass.Sprite(0, 700, 105, 54, "d");
     scoutShip1.img = scoutShipImage
 
-    scoutShip1Cannon = new scoutShipsClass.Sprite(1000, 700, 30, 20, "n");
+    scoutShip1Cannon = new scoutShipsClass.Sprite(0, 700, 30, 20, "n");
     scoutShip1Cannon.img = cannonImage
 
     moveBackPoint = new scoutShipsClass.Sprite(1000, 700, 10, "n");
@@ -197,11 +206,13 @@ let scoutShip1MoveBackDirection;
 let moveTowardsX;
 let moveTowardsY;
 let moveBackPoint;
-let distance;
+let movePointDistance;
 
 async function scoutShip() {
+
+    
     scoutShip1MoveBackDirection = -scoutShip1.rotation
-    distance = dist(scoutShip1.x, scoutShip1.y, moveBackPoint.x, moveBackPoint.y);
+    movePointDistance = dist(scoutShip1.x, scoutShip1.y, moveBackPoint.x, moveBackPoint.y);
 
     if (mouse.pressed()) {
         moveTowardsX = mouse.x
@@ -214,7 +225,8 @@ async function scoutShip() {
 
     }
 
-    if (scoutShip1.collides(allSprites)) {
+
+    if (scoutShip1.collides(shipColliders)) {
         scoutShip1.rotationSpeed = 0;
         scoutShip1.vel.x = 0;
         scoutShip1.vel.y = 0;
@@ -224,10 +236,10 @@ async function scoutShip() {
 
     }
 
-    if (distance > 80) {
+    if (movePointDistance > 80) {
         moveBackPoint.direction = moveBackPoint.angleTo(scoutShip1);
         moveBackPoint.speed = 2;
-    } else if (distance < 30) {
+    } else if (movePointDistance < 30) {
         moveBackPoint.speed = 0;
     }
 
@@ -236,25 +248,47 @@ async function scoutShip() {
     scoutShip1Cannon.x = scoutShip1.x
     scoutShip1Cannon.y = scoutShip1.y
 
-    console.log(scoutShip1.direction)
+    //console.log(scoutShip1.direction)
 
     scoutShip1Cannon.direction = scoutShip1.direction
 
-    console.log(scoutShip1Cannon.direction)
+    //console.log(scoutShip1Cannon.direction)
 
-    if (scoutShip1Cannon) {
+    let x = scoutShip1Cannon.x;
+    let y = scoutShip1Cannon.y;
+    let direction = scoutShip1Cannon.direction;
+    let selectedAmmo = basicShot;
 
-    }
+
+    //if (enemyInRange === True) {
+    ammo(x, y, direction, selectedAmmo);
+    //}
+
+
+
+
+
+
 }
 
 
-function ammo() {
+function ammo(x, y, direction, selectedAmmo) {
 
-    let bullet = new Sprite(scoutShip1Cannon.x, scoutShip1Cannon.y);
+    if (shotOnce === false && selectedAmmo === basicShot) {
+        basicShot = new Sprite(x, y, 20);
 
-    return bullet;
+        basicShot.direction = direction;
+        basicShot.speed = 1;
+        basicShot.overlaps(allSprites);
+        basicShot.collider = 'd';
 
 
+        shotOnce = true;
+    }
+
+    if (basicShot.collides(shipColliders)) {
+        basicShot.remove();
+    }
 }
 
 
