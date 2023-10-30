@@ -1,17 +1,17 @@
 "use strict";
-let mothershiphome, resourceScrapMetal, resourceZone;
-let oceanBackground, mothershipImage, scoutShipCannonImg;
+let mothershipBase, resourceScrapMetal, resourceZone;
+let oceanBackground, mothershipImage, scoutShipCannonImage;
 let player;
-let oceansprite;
+let oceanSprite;
 let scrollNumber = 0
-let scrollzoomleval = 0.25
-let ships, scoutshipsClass, scoutShip1, scoutShip1Cannon;
-let scoutshipimg;
+let scrollZoomLevel = 0.25
+let ships, scoutShipsClass, scoutShip1, scoutShip1Cannon;
+let scoutShipImage;
 let resourceImage;
-let cannonimg;
+let cannonImage;
 let GUI;
 let SeaMon;
-let shots
+let shots;
 
 
 let Resources = [];
@@ -19,11 +19,11 @@ let Resources = [];
 
 function preload() {
     oceanBackground = loadImage("./assets/ocean.jpg");
-    scoutshipimg = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png");
-    scoutShipCannonImg = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png")
+    scoutShipImage = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png");
+    scoutShipCannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png")
     resourceImage = loadImage("./assets/metalplate.png");
     mothershipImage = loadImage("./assets/Mothership.gif");
-    cannonimg = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun.png");
+    cannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun.png");
 
 }
 
@@ -38,16 +38,16 @@ function setup() {
     gameInterface();
 
     enemies();//may have to go in draw for animation and stuff
-    
+
 
 }
 
 function draw() {
-    
+
     zoom();
     scoutShip();
-  
-  
+
+
 
 
 
@@ -56,9 +56,9 @@ function draw() {
 
 function ocean() {
     oceanBackground.resize(width * 5, height * 5)
-    oceansprite = new Sprite(width / 2, height / 2, width * 10, height * 10, "n")
-    oceansprite.image = oceanBackground
-    oceansprite.layer = -10
+    oceanSprite = new Sprite(width / 2, height / 2, width * 10, height * 10, "n")
+    oceanSprite.image = oceanBackground
+    oceanSprite.layer = -10
 }
 
 
@@ -84,11 +84,11 @@ function gameInterface() {
 
 
 function mothership() {
-    mothershiphome = new Sprite(1000, 1000, 400, 400, 's')
-    mothershiphome.color = 'black'
+    mothershipBase = new Sprite(1000, 1000, 400, 400, 's')
+    mothershipBase.color = 'black'
     mothershipImage.resize(400, 400)
-    mothershiphome.img = mothershipImage
-    mothershiphome.debug = true
+    mothershipBase.img = mothershipImage
+    mothershipBase.debug = true
 
     camera.x = 1000
     camera.y = 800;
@@ -97,7 +97,7 @@ function mothership() {
 
 function zoom() {
     scrollNumber = 0
-    camera.zoomTo(scrollzoomleval)
+    camera.zoomTo(scrollZoomLevel)
     background(0);
     camera.on();
 
@@ -122,19 +122,19 @@ function zoom() {
 
 function mouseWheel(event) {
     scrollNumber -= event.delta
-    if (scrollzoomleval < 0.25) {
-        scrollzoomleval = 0.25
+    if (scrollZoomLevel < 0.25) {
+        scrollZoomLevel = 0.25
     }
-    if (scrollzoomleval > 2.5) {
-        scrollzoomleval = 2.5
+    if (scrollZoomLevel > 2.5) {
+        scrollZoomLevel = 2.5
     }
-    console.log(scrollzoomleval)
-    scrollzoomleval = scrollzoomleval + scrollNumber / 4000
-    if (scrollzoomleval < 0.25) {
-        scrollzoomleval = 0.25
+    console.log(scrollZoomLevel)
+    scrollZoomLevel = scrollZoomLevel + scrollNumber / 4000
+    if (scrollZoomLevel < 0.25) {
+        scrollZoomLevel = 0.25
     }
-    if (scrollzoomleval > 2.5) {
-        scrollzoomleval = 2.5
+    if (scrollZoomLevel > 2.5) {
+        scrollZoomLevel = 2.5
     }
 
 }
@@ -181,35 +181,36 @@ function resourceNodes() {
 
 function makeships() {
     ships = new Group();
-    scoutshipsClass = new ships.Group();
-    scoutShip1 = new scoutshipsClass.Sprite(1000, 700, 105, 54, "d");
-    scoutShip1.img = scoutshipimg
+    scoutShipsClass = new ships.Group();
+    scoutShip1 = new scoutShipsClass.Sprite(1000, 700, 105, 54, "d");
+    scoutShip1.img = scoutShipImage
 
-    scoutShip1Cannon = new scoutshipsClass.Sprite(1000, 700, 30, 20, "n");
-    scoutShip1Cannon.img = cannonimg
+    scoutShip1Cannon = new scoutShipsClass.Sprite(1000, 700, 30, 20, "n");
+    scoutShip1Cannon.img = cannonImage
 
-    movebackPoint = new scoutshipsClass.Sprite(1000, 700, 10, "n");
+    moveBackPoint = new scoutShipsClass.Sprite(1000, 700, 10, "n");
 }
 
 
 
-let scoutShip1moveBackDirection
-let movecowordsx
-let movecowordsy
-let movebackPoint
-let distance
+let scoutShip1MoveBackDirection;
+let moveTowardsX;
+let moveTowardsY;
+let moveBackPoint;
+let distance;
+
 async function scoutShip() {
-    scoutShip1moveBackDirection = -scoutShip1.rotation
-    distance = dist(scoutShip1.x, scoutShip1.y, movebackPoint.x, movebackPoint.y);
+    scoutShip1MoveBackDirection = -scoutShip1.rotation
+    distance = dist(scoutShip1.x, scoutShip1.y, moveBackPoint.x, moveBackPoint.y);
 
     if (mouse.pressed()) {
-        movecowordsx = mouse.x
-        movecowordsy = mouse.y
+        moveTowardsX = mouse.x
+        moveTowardsY = mouse.y
         console.log("pressed")
-        movebackPoint.x = scoutShip1.x;
-        movebackPoint.y = scoutShip1.y;
+        moveBackPoint.x = scoutShip1.x;
+        moveBackPoint.y = scoutShip1.y;
         await scoutShip1.rotateTo(mouse, 5);
-        await scoutShip1.moveTo(movecowordsx, movecowordsy, 1);
+        await scoutShip1.moveTo(moveTowardsX, moveTowardsY, 1);
 
     }
 
@@ -219,15 +220,15 @@ async function scoutShip() {
         scoutShip1.vel.y = 0;
         console.log("scoutShip1 has stoped because it has colided with somthing")
         await delay(500);
-        await scoutShip1.moveTo(movebackPoint, 1)
+        await scoutShip1.moveTo(moveBackPoint, 1)
 
     }
 
     if (distance > 80) {
-        movebackPoint.direction = movebackPoint.angleTo(scoutShip1);
-        movebackPoint.speed = 2;
+        moveBackPoint.direction = moveBackPoint.angleTo(scoutShip1);
+        moveBackPoint.speed = 2;
     } else if (distance < 30) {
-        movebackPoint.speed = 0;
+        moveBackPoint.speed = 0;
     }
 
 
@@ -240,26 +241,27 @@ async function scoutShip() {
     scoutShip1Cannon.direction = scoutShip1.direction
 
     console.log(scoutShip1Cannon.direction)
- if(scoutShip1Cannon){
 
- }
+    if (scoutShip1Cannon) {
+
+    }
 }
 
 
-function ammo(){
-   
-let bullet = new Sprite (scoutShip1Cannon.x,scoutShip1Cannon.y);
+function ammo() {
 
-return bullet;
+    let bullet = new Sprite(scoutShip1Cannon.x, scoutShip1Cannon.y);
+
+    return bullet;
 
 
 }
 
 
 
-function enemies(){
+function enemies() {
 
-SeaMon = new Sprite(-1500,2000,100,100)
+    SeaMon = new Sprite(-1500, 2000, 100, 100)
 
 
 
