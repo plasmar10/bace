@@ -197,7 +197,7 @@ function makeships() {
     scoutShip1Cannon = new scoutShipsClass.Sprite(0, 700, 30, 20, "n");
     scoutShip1Cannon.img = cannonImage
 
-    moveBackPoint = new scoutShipsClass.Sprite(1000, 700, 10, "n");
+    moveBackPoint = new scoutShipsClass.Sprite(scoutShip1.x, scoutShip1.y, 10, "n");
 }
 
 
