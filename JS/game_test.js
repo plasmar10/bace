@@ -331,16 +331,16 @@ function zoom() {
     
     camera.on();
     drawAllSpritesExcept();
-    if (kb.pressing('a')) {
+    if (kb.pressing('arrowleft')) {
         camera.x = camera.x - 10
     }
-    if (kb.pressing('d')) {
+    if (kb.pressing('arrowright')) {
         camera.x = camera.x + 10
     }
-    if (kb.pressing('w')) {
+    if (kb.pressing('arrowup')) {
         camera.y = camera.y - 10
     }
-    if (kb.pressing('s')) {
+    if (kb.pressing('arrowdown')) {
         camera.y = camera.y + 10
     }
     camera.off();
