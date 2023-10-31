@@ -401,9 +401,9 @@ function selection_system(){
        // Do something with the selected ships, e.g., apply selection state
     }
 
-    if (scoutShip1.x > selectionStartX ) {
-        console.log("ship_is_in")
-    }
+    // if (selectionrectangle.overlapping(scoutShip1) ) {
+    //     console.log("ship_is_in")
+    // }
 
     startpoint.x = selectionStartX
     startpoint.y = selectionStartY
@@ -432,7 +432,7 @@ else{
     if(selectionrectangle){
         selectionrectangle.remove()
        }
-console.log(dist(selectionStartX,0,selectionEndX,0))
+
 
 if (calX > -99999){
     selectionrectangle = new pointsforselect.Sprite(calX , calY, dist(selectionStartX,0,selectionEndX,0), dist(selectionStartY,0,selectionEndY,0), "n");
