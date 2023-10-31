@@ -401,9 +401,9 @@ function selection_system(){
        // Do something with the selected ships, e.g., apply selection state
     }
 
-    // if (selectionrectangle.overlapping(scoutShip1) ) {
-    //     console.log("ship_is_in")
-    // }
+    if (scoutShip1.x) {
+        console.log("ship_is_in")
+    }
 
     startpoint.x = selectionStartX
     startpoint.y = selectionStartY
