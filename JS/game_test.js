@@ -21,6 +21,7 @@ let MonsterEnemyDistance;
 let bulletTimer = 0;
 let calX = 0
 let calY = 0
+let actualships = [];
 
 
 let Resources = [];
@@ -126,6 +127,7 @@ function makeships() {
     scoutShip1Cannon = new ships.Sprite(0, 700, 30, 20, "n");
     scoutShip1Cannon.img = cannonImage
     moveBackPoint = new ships.Sprite(scoutShip1.x, scoutShip1.y, 10, "n");
+    actualships.push(scoutShip1)
 }
 
 
@@ -265,7 +267,7 @@ function enemies() {
     }
     
     
-    function monsterAni() {
+function monsterAni() {
         SeaMon.direction = SeaMon.rotation;//sync direction to rotation
           SeaMon.speed = 5; 
     
@@ -385,25 +387,18 @@ function selection_system(){
     // Draw the selection rectangle
 
     // Check for selected ships when the mouse is released
-    if (mouse.released()) {
-        //console.log("mouse releced")
-         selectedShips = []; // Clear the previously selected ships
-        for (let i = 0; i < scoutShipsClass.length; i++) {
-            //console.log(scoutShipsClass[i])
-           //  let ship = scoutShipsClass[i];
+    if (mouse.released())
+           if (
+            scoutShip1.x > min(selectionStartX, selectionEndX) &&
+            scoutShip1.x < max(selectionStartX, selectionEndX) &&
+            scoutShip1.y > min(selectionStartY, selectionEndY) &&
+            scoutShip1.y < max(selectionStartY, selectionEndY)
+        ) {
 
-
-             if (scoutShip1.x > selectionStartX && scoutShip1.x < selectionEndX && scoutShip1.y > selectionStartY && scoutShip1.y < selectionEndY) {
-            //     console.log("ship_is_in")
-             }
-            
+            console.log("ship selected");
         }
-       // Do something with the selected ships, e.g., apply selection state
-    }
+    
 
-    if (scoutShip1.x) {
-        console.log("ship_is_in")
-    }
 
     startpoint.x = selectionStartX
     startpoint.y = selectionStartY
@@ -437,6 +432,9 @@ else{
 if (calX > -99999){
     selectionrectangle = new pointsforselect.Sprite(calX , calY, dist(selectionStartX,0,selectionEndX,0), dist(selectionStartY,0,selectionEndY,0), "n");
     selectionrectangle.color= color(0,255,0, 100)
+
+
+
 }
 
 }
