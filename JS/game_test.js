@@ -46,6 +46,7 @@ function setup() {
     resourceNodes();
     makeships();
     enemies();//may have to go in draw for animation and stuff
+    
 gameInterface(); // this must alwas be done last
 }
 
@@ -385,18 +386,34 @@ function selection_system(){
     }
 
     // Draw the selection rectangle
-
-    // Check for selected ships when the mouse is released
     if (mouse.released())
-           if (
-            scoutShip1.x > min(selectionStartX, selectionEndX) &&
-            scoutShip1.x < max(selectionStartX, selectionEndX) &&
-            scoutShip1.y > min(selectionStartY, selectionEndY) &&
-            scoutShip1.y < max(selectionStartY, selectionEndY)
+for (let i = 0; i < actualships.length; i++) {
+    actualships[i].selected = false; 
+    
+    //console.log(actualships[i].x)
+    // Check for selected ships when the mouse is released
+    if (
+        actualships[i].x > min(selectionStartX, selectionEndX) &&
+        actualships[i].x < max(selectionStartX, selectionEndX) &&
+        actualships[i].y > min(selectionStartY, selectionEndY) &&
+        actualships[i].y < max(selectionStartY, selectionEndY)
         ) {
+            
+            console.log("ship selected" +  actualships[i]);
+            actualships[i].selected = true;
+         }
+        // else{
+        //     actualships[i].selected = false; 
+        // }
+        console.log( actualships[i].selected)
+    }
 
-            console.log("ship selected");
-        }
+
+
+
+
+
+
     
 
 
