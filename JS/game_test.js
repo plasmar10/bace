@@ -142,16 +142,16 @@ async function scoutShip() {
     scoutShip1MoveBackDirection = -scoutShip1.rotation
     movePointDistance = dist(scoutShip1.x, scoutShip1.y, moveBackPoint.x, moveBackPoint.y);
 
-    // if (mouse.pressed()) {
-    //     moveTowardsX = mouse.x
-    //     moveTowardsY = mouse.y
-    //     console.log("pressed")
-    //     moveBackPoint.x = scoutShip1.x;
-    //     moveBackPoint.y = scoutShip1.y;
-    //     await scoutShip1.rotateTo(mouse, 5);
-    //     await scoutShip1.moveTo(moveTowardsX, moveTowardsY, 1);
+    if (mouse.pressed()) {
+        moveTowardsX = mouse.x
+        moveTowardsY = mouse.y
+        console.log("pressed")
+        moveBackPoint.x = scoutShip1.x;
+        moveBackPoint.y = scoutShip1.y;
+        await scoutShip1.rotateTo(mouse, 5);
+        await scoutShip1.moveTo(moveTowardsX, moveTowardsY, 1);
 
-    // }
+    }
 
 
     if (scoutShip1.collides(allSprites)) {
@@ -429,9 +429,6 @@ else{
     calY = selectionStartY + ((dist(selectionStartY,0,selectionEndY,0)/2))
     }
 }
-   
-
-
     if(selectionrectangle){
         selectionrectangle.remove()
        }
