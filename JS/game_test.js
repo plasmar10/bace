@@ -333,6 +333,9 @@ function gameInterface() {
 	for (let i = 0; i < 9; i++) {
 		new ui.Sprite(100 + i * 40, 1000, 35, 35, 'n');
     }
+    counter = new ui.Sprite (80,35,150,60, 'n');
+counter.textSize = 50
+counter.text = 0
 }
 
 function zoom() {
@@ -499,9 +502,7 @@ let resourceShipimg
 function resourceShip(){
 resourceShip1 = new Sprite (1000,30,100,30)
 resourceShip1.img=resourceShipimg
-counter = new Sprite (100,-2000,500,100)
-counter.textSize = 100
-counter.text = 0
+
 
 }
 
