@@ -21,7 +21,7 @@ let MonsterEnemyDistance;
 let bulletTimer = 0;
 let calX = 0
 let calY = 0
-
+let counter 
 
 let Resources = [];
 
@@ -34,6 +34,7 @@ function preload() {
     mothershipImage = loadImage("./assets/Mothership.gif");
     cannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun.png");
 SeaMonSha= loadImage("./assets/enemy_sprites/reaper.gif")
+resourceShipimg= loadImage("./assets/ship_sptites/shipz/images/ship_medium_body.png")
 }
 
 function setup() {
@@ -44,19 +45,20 @@ function setup() {
     mothership();
     resourceNodes();
     makeships();
+    resourceShip();
     enemies();//may have to go in draw for animation and stuff
 gameInterface(); // this must alwas be done last
 }
 
 function draw() {
-
+  
     zoom();
     scoutShip();
 
 
     monsterAni();
-    selection_system()
-
+    selection_system();
+    resourceCollection();//this is the code for collecting resources 
 
    GUIE(); //this must alwas be done last 
 }
@@ -272,7 +274,7 @@ function enemies() {
     if(dist(scoutShip1.x,scoutShip1.y,SeaMon.x,SeaMon.y) < 1000){
         SeaMon.rotation -= 0
         SeaMon.rotateTowards(scoutShip1)
-        console.log("hi")
+       
     
     }
     else{
@@ -447,5 +449,68 @@ function creatpointsforselection(){
     endpoint = new pointsforselect.Sprite(99999, 99999, 1, "n");
 
 }
+let resourceShip1
+let resourceShipimg
+ let resourceShip1MoveBackDirection
+function resourceShip(){
+resourceShip1 = new Sprite (1000,30,100,30)
+resourceShip1.img=resourceShipimg
+counter = new Sprite (100,-2000,500,100)
+counter.textSize = 100
+counter.text = 0
+
+}
+
+ async function resourceCollection(){
+    resourceShip1MoveBackDirection = -resourceShip1.rotation
+    movePointDistance = dist(resourceShip1.x, resourceShip1.y, moveBackPoint.x, moveBackPoint.y);
+
+    if (mouse.pressed()) {
+        moveTowardsX = mouse.x
+        moveTowardsY = mouse.y
+        console.log("pressed")
+        moveBackPoint.x = resourceShip1.x;
+        moveBackPoint.y = resourceShip1.y;
+        await resourceShip1.rotateTo(mouse, 5);
+        await resourceShip1.moveTo(moveTowardsX, moveTowardsY, 1);
+
+    }
+
+
+    if (resourceShip1.collides(allSprites)) {
+        resourceShip1.rotationSpeed = 0;
+        resourceShip1.vel.x = 0;
+        resourceShip1.vel.y = 0;
+        console.log("resourceShip1 has stoped because it has colided with somthing")
+        await delay(500);
+        await resourceShip1.moveTo(moveBackPoint, 1)
+
+    }
+
+    if (movePointDistance > 80) {
+        moveBackPoint.direction = moveBackPoint.angleTo(resourceShip1);
+        moveBackPoint.speed = 2;
+    } else if (movePointDistance < 30) {
+        moveBackPoint.speed = 0;
+    }
+
+
+for (let i = 0; i < Resources.length; i++) {
+
+    let d = dist(resourceShip1.x, resourceShip1.y, Resources[i].x, Resources[i].y)
+
+    if (d < 200) {
+       counter.text ++
+
+    }
+
+}
+
+
+}
+
+
+
+
 
 // remonder for omrhi // use angleto for better prefromens for shiops and points so they resolve the promice cliding problem
