@@ -21,6 +21,11 @@ let MonsterEnemyDistance;
 let bulletTimer = 0;
 let calX = 0
 let calY = 0
+let actualships = [];
+let shipSelected = false;
+let selectionStartX, selectionStartY;
+let selectionEndX, selectionEndY;
+let selectedShips = [];
 let counter 
 
 let Resources = [];
@@ -47,6 +52,7 @@ function setup() {
     makeships();
     resourceShip();
     enemies();//may have to go in draw for animation and stuff
+    
 gameInterface(); // this must alwas be done last
 }
 
@@ -128,6 +134,7 @@ function makeships() {
     scoutShip1Cannon = new ships.Sprite(0, 700, 30, 20, "n");
     scoutShip1Cannon.img = cannonImage
     moveBackPoint = new ships.Sprite(scoutShip1.x, scoutShip1.y, 10, "n");
+    actualships.push(scoutShip1)
 }
 
 
@@ -143,7 +150,7 @@ async function scoutShip() {
 
     scoutShip1MoveBackDirection = -scoutShip1.rotation
     movePointDistance = dist(scoutShip1.x, scoutShip1.y, moveBackPoint.x, moveBackPoint.y);
-
+if (shipSelected){
     if (mouse.pressed()) {
         moveTowardsX = mouse.x
         moveTowardsY = mouse.y
@@ -152,7 +159,7 @@ async function scoutShip() {
         moveBackPoint.y = scoutShip1.y;
         await scoutShip1.rotateTo(mouse, 5);
         await scoutShip1.moveTo(moveTowardsX, moveTowardsY, 1);
-
+    }
     }
 
 
@@ -267,7 +274,7 @@ function enemies() {
     }
     
     
-    function monsterAni() {
+function monsterAni() {
         SeaMon.direction = SeaMon.rotation;//sync direction to rotation
           SeaMon.speed = 5; 
     
@@ -364,11 +371,6 @@ function drawAllSpritesExcept() {
     }
 }
 
-
-let selectionStartX, selectionStartY;
-let selectionEndX, selectionEndY;
-let selectedShips = [];
-
 function selection_system(){
     strokeWeight(1);
     (selectionStartX, selectionStartY);
@@ -385,27 +387,58 @@ function selection_system(){
     }
 
     // Draw the selection rectangle
-
+    if (mouse.released())
+for (let i = 0; i < actualships.length; i++) {
+    actualships[i].selected = false; 
+    
+    //console.log(actualships[i].x)
     // Check for selected ships when the mouse is released
-    if (mouse.released()) {
-        //console.log("mouse releced")
-         selectedShips = []; // Clear the previously selected ships
-        for (let i = 0; i < scoutShipsClass.length; i++) {
-            //console.log(scoutShipsClass[i])
-           //  let ship = scoutShipsClass[i];
-
-
-             if (scoutShip1.x > selectionStartX && scoutShip1.x < selectionEndX && scoutShip1.y > selectionStartY && scoutShip1.y < selectionEndY) {
-            //     console.log("ship_is_in")
-             }
+    if(!shipSelected){
+    if (
+        actualships[i].x > min(selectionStartX, selectionEndX) &&
+        actualships[i].x < max(selectionStartX, selectionEndX) &&
+        actualships[i].y > min(selectionStartY, selectionEndY) &&
+        actualships[i].y < max(selectionStartY, selectionEndY)
+        ) {
             
-        }
-       // Do something with the selected ships, e.g., apply selection state
+            console.log("ship selected" +  actualships[i]);
+            actualships[i].selected = true;
+         }
+        // else{
+        //     actualships[i].selected = false; 
+        // }
+        console.log( actualships[i].selected)
     }
+}
 
-    // if (selectionrectangle.overlapping(scoutShip1) ) {
-    //     console.log("ship_is_in")
-    // }
+    
+    for (let i = 0; i < actualships.length; i++) {
+if(actualships[i].selected === true ){
+    actualships[i].debug = true
+console.log(actualships[i] + 'selected')
+
+    } else {
+        actualships[i].debug = false;
+    }
+    }
+   
+//is a shop selected
+
+if(mouse.released()){
+    console.log('mouse releced')
+    for (let i = 0; i < actualships.length; i++) {
+        if(actualships[i].selected === true ){
+        shipSelected = true
+            } 
+            else{
+                shipSelected = false
+            }
+            }
+}
+
+
+    
+
 
     startpoint.x = selectionStartX
     startpoint.y = selectionStartY
@@ -438,7 +471,10 @@ else{
 
 if (calX > -99999){
     selectionrectangle = new pointsforselect.Sprite(calX , calY, dist(selectionStartX,0,selectionEndX,0), dist(selectionStartY,0,selectionEndY,0), "n");
-    selectionrectangle.color= color(0,255,0, 100)
+    selectionrectangle.color= color(0,255,0, 50)
+
+
+
 }
 
 }
