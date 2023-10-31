@@ -14,7 +14,7 @@ let SeaMon;
 let SeaMonSha
 let shots, basicShot;
 let ui;
-
+let pointsforselect, startpoint, endpoint, selectionrectangle;
 let shotOnce = false;
 let enemyInRange = false;
 let MonsterEnemyDistance;
@@ -38,12 +38,12 @@ function setup() {
     new Group();
     createCanvas(1920, 1076);
     ocean();
+    creatpointsforselection();
     mothership();
     resourceNodes();
     makeships();
     enemies();//may have to go in draw for animation and stuff
 gameInterface(); // this must alwas be done last
-
 }
 
 function draw() {
@@ -121,9 +121,9 @@ function makeships() {
     scoutShipsClass = new ships.Group();
     scoutShip1 = new scoutShipsClass.Sprite(0, 700, 105, 54, "d");
     scoutShip1.img = scoutShipImage
-    scoutShip1Cannon = new scoutShipsClass.Sprite(0, 700, 30, 20, "n");
+    scoutShip1Cannon = new ships.Sprite(0, 700, 30, 20, "n");
     scoutShip1Cannon.img = cannonImage
-    moveBackPoint = new scoutShipsClass.Sprite(scoutShip1.x, scoutShip1.y, 10, "n");
+    moveBackPoint = new ships.Sprite(scoutShip1.x, scoutShip1.y, 10, "n");
 }
 
 
@@ -140,16 +140,16 @@ async function scoutShip() {
     scoutShip1MoveBackDirection = -scoutShip1.rotation
     movePointDistance = dist(scoutShip1.x, scoutShip1.y, moveBackPoint.x, moveBackPoint.y);
 
-    if (mouse.pressed()) {
-        moveTowardsX = mouse.x
-        moveTowardsY = mouse.y
-        console.log("pressed")
-        moveBackPoint.x = scoutShip1.x;
-        moveBackPoint.y = scoutShip1.y;
-        await scoutShip1.rotateTo(mouse, 5);
-        await scoutShip1.moveTo(moveTowardsX, moveTowardsY, 1);
+    // if (mouse.pressed()) {
+    //     moveTowardsX = mouse.x
+    //     moveTowardsY = mouse.y
+    //     console.log("pressed")
+    //     moveBackPoint.x = scoutShip1.x;
+    //     moveBackPoint.y = scoutShip1.y;
+    //     await scoutShip1.rotateTo(mouse, 5);
+    //     await scoutShip1.moveTo(moveTowardsX, moveTowardsY, 1);
 
-    }
+    // }
 
 
     if (scoutShip1.collides(allSprites)) {
@@ -367,17 +367,17 @@ let selectedShips = [];
 
 function selection_system(){
     strokeWeight(1);
-    point(selectionStartX, selectionStartY);
+    (selectionStartX, selectionStartY);
     point(selectionEndX, selectionEndY);
     // Draw the selection rectangle while the mouse is pressed
     if (mouse.presses()) {
-        selectionStartX = mouseX;
-        selectionStartY = mouseY;
-        selectionEndX = mouseX;
-        selectionEndY = mouseY;
+        selectionStartX = mouse.x;
+        selectionStartY = mouse.y;
+        selectionEndX = mouse.x;
+        selectionEndY = mouse.y;
     } else if (mouse.pressing()) {
-        selectionEndX = mouseX;
-        selectionEndY = mouseY;
+        selectionEndX = mouse.x;
+        selectionEndY = mouse.y;
     }
 
     // Draw the selection rectangle
@@ -387,22 +387,42 @@ function selection_system(){
 
     // Check for selected ships when the mouse is released
     if (mouse.released()) {
-        console.log("mouse releced")
-        // selectedShips = []; // Clear the previously selected ships
-        // for (let i = 0; i < ships.length; i++) {
-        //     let ship = ships[i];
-        //     if (ship.overlapRect(selectionStartX, selectionStartY, selectionEndX, selectionEndY)) {
-        //         selectedShips.push(ship);
-        //     }
-        // }
-        // Do something with the selected ships, e.g., apply selection state
+        //console.log("mouse releced")
+         selectedShips = []; // Clear the previously selected ships
+        for (let i = 0; i < scoutShipsClass.length; i++) {
+            //console.log(scoutShipsClass[i])
+           //  let ship = scoutShipsClass[i];
+
+
+            // if (scoutShip1.x > selectionStartX && scoutShip1.x < selectionEndX && scoutShip1.y > selectionStartY && scoutShip1.y < selectionEndY) {
+            //     console.log("ship_is_in")
+            // }
+            
+        }
+       // Do something with the selected ships, e.g., apply selection state
     }
 
+    if (scoutShip1.x > selectionStartX ) {
+        console.log("ship_is_in")
+    }
 
+    startpoint.x = selectionStartX
+    startpoint.y = selectionStartY
+    endpoint.x = selectionEndX
+    endpoint.y = selectionEndY
+    
+if(!selectionrectangle){
+    selectionrectangle = new pointsforselect.Sprite(2000, 1000, 50, 500, "n");  // change points to vars
+    console.log("selectionrectangle")
+    selectionrectangle.remove()
+}
 
+}
 
-
-
+function creatpointsforselection(){
+    pointsforselect = new Group();
+    startpoint = new pointsforselect.Sprite(2000, 1000, 50, "n")
+    endpoint = new pointsforselect.Sprite(2100, 1100, 50, "n");
 }
 
 // remonder for omrhi // use angleto for better prefromens for shiops and points so they resolve the promice cliding problem
