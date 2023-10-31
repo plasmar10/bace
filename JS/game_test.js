@@ -551,11 +551,6 @@ for (let i = 0; i < Resources.length; i++) {
 
 }
 
-
 }
-
-
-
-
 
 // remonder for omrhi // use angleto for better prefromens for shiops and points so they resolve the promice cliding problem
