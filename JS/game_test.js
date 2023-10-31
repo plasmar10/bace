@@ -42,7 +42,7 @@ function setup() {
     resourceNodes();
     makeships();
     enemies();//may have to go in draw for animation and stuff
-gameInterface();
+gameInterface(); // this must alwas be done last
 
 }
 
@@ -53,11 +53,10 @@ function draw() {
 
 
     monsterAni();
+    selection_system()
 
 
-
-   GUIE();
-
+   GUIE(); //this must alwas be done last 
 }
 
 
@@ -361,5 +360,14 @@ function drawAllSpritesExcept() {
     }
 }
 
+
+function selection_system(){
+
+
+
+
+
+    
+}
 
 // remonder for omrhi // use angleto for better prefromens for shiops and points so they resolve the promice cliding problem
