@@ -22,7 +22,7 @@ let bulletTimer = 0;
 let calX = 0
 let calY = 0
 let actualships = [];
-
+let shipSelected = true;
 
 let Resources = [];
 
@@ -392,6 +392,7 @@ for (let i = 0; i < actualships.length; i++) {
     
     //console.log(actualships[i].x)
     // Check for selected ships when the mouse is released
+    if(!shipSelected){
     if (
         actualships[i].x > min(selectionStartX, selectionEndX) &&
         actualships[i].x < max(selectionStartX, selectionEndX) &&
@@ -407,11 +408,32 @@ for (let i = 0; i < actualships.length; i++) {
         // }
         console.log( actualships[i].selected)
     }
+}
 
+    
+    for (let i = 0; i < actualships.length; i++) {
+if(actualships[i].selected === true ){
+    actualships[i].debug = true
+console.log(actualships[i] + 'selected')
 
+    } else {
+        actualships[i].debug = false;
+    }
+    }
+   
+//is a shop selected
 
-
-
+if(mouse.released()){
+    console.log('mouse releced')
+    for (let i = 0; i < actualships.length; i++) {
+        if(actualships[i].selected === true ){
+        shipSelected = true
+            } 
+            else{
+                shipSelected = false
+            }
+            }
+}
 
 
     
@@ -448,7 +470,7 @@ else{
 
 if (calX > -99999){
     selectionrectangle = new pointsforselect.Sprite(calX , calY, dist(selectionStartX,0,selectionEndX,0), dist(selectionStartY,0,selectionEndY,0), "n");
-    selectionrectangle.color= color(0,255,0, 100)
+    selectionrectangle.color= color(0,255,0, 50)
 
 
 
