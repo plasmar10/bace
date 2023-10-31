@@ -142,16 +142,16 @@ async function scoutShip() {
     scoutShip1MoveBackDirection = -scoutShip1.rotation
     movePointDistance = dist(scoutShip1.x, scoutShip1.y, moveBackPoint.x, moveBackPoint.y);
 
-    // if (mouse.pressed()) {
-    //     moveTowardsX = mouse.x
-    //     moveTowardsY = mouse.y
-    //     console.log("pressed")
-    //     moveBackPoint.x = scoutShip1.x;
-    //     moveBackPoint.y = scoutShip1.y;
-    //     await scoutShip1.rotateTo(mouse, 5);
-    //     await scoutShip1.moveTo(moveTowardsX, moveTowardsY, 1);
+    if (mouse.pressed()) {
+        moveTowardsX = mouse.x
+        moveTowardsY = mouse.y
+        console.log("pressed")
+        moveBackPoint.x = scoutShip1.x;
+        moveBackPoint.y = scoutShip1.y;
+        await scoutShip1.rotateTo(mouse, 5);
+        await scoutShip1.moveTo(moveTowardsX, moveTowardsY, 1);
 
-    // }
+    }
 
 
     if (scoutShip1.collides(allSprites)) {
@@ -401,9 +401,9 @@ function selection_system(){
        // Do something with the selected ships, e.g., apply selection state
     }
 
-    if (scoutShip1.x > selectionStartX ) {
-        console.log("ship_is_in")
-    }
+    // if (selectionrectangle.overlapping(scoutShip1) ) {
+    //     console.log("ship_is_in")
+    // }
 
     startpoint.x = selectionStartX
     startpoint.y = selectionStartY
@@ -429,13 +429,10 @@ else{
     calY = selectionStartY + ((dist(selectionStartY,0,selectionEndY,0)/2))
     }
 }
-   
-
-
     if(selectionrectangle){
         selectionrectangle.remove()
        }
-console.log(dist(selectionStartX,0,selectionEndX,0))
+
 
 if (calX > -99999){
     selectionrectangle = new pointsforselect.Sprite(calX , calY, dist(selectionStartX,0,selectionEndX,0), dist(selectionStartY,0,selectionEndY,0), "n");
