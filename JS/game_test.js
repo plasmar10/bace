@@ -26,6 +26,7 @@ let shipSelected = false;
 let selectionStartX, selectionStartY;
 let selectionEndX, selectionEndY;
 let selectedShips = [];
+let destinationPoint
 
 let Resources = [];
 
@@ -474,12 +475,19 @@ if (calX > -99999){
 
 }
 
+if (mouse.presses()) {
+    destinationPoint.x = mouse.x;
+    destinationPoint.y = mouse.y;
+}
+
+
 }
 
 function creatpointsforselection(){
     pointsforselect = new Group();
     startpoint = new pointsforselect.Sprite(99999, 99999, 1, "n")
     endpoint = new pointsforselect.Sprite(99999, 99999, 1, "n");
+    destinationPoint = new pointsforselect.Sprite(99999, 99999, 100, "n");
 
 }
 
