@@ -68,11 +68,6 @@ function ocean() {
     oceanSprite.layer = -10
 }
 
-
-
-
-
-
 function mothership() {
     mothershipBase = new Sprite(1000, 1000, 400, 400, 's')
     mothershipBase.color = 'black'
@@ -86,23 +81,7 @@ function mothership() {
 }
 
 
-function mouseWheel(event) {
-    scrollNumber -= event.delta
-    if (scrollZoomLevel < 0.25) {
-        scrollZoomLevel = 0.25
-    }
-    if (scrollZoomLevel > 2.5) {
-        scrollZoomLevel = 2.5
-    }
-    console.log(scrollZoomLevel)
-    scrollZoomLevel = scrollZoomLevel + scrollNumber / 4000
-    if (scrollZoomLevel < 0.25) {
-        scrollZoomLevel = 0.25
-    }
-    if (scrollZoomLevel > 2.5) {
-        scrollZoomLevel = 2.5
-    }
-}
+
 
 
 function resourceNodes() {
@@ -201,7 +180,7 @@ async function scoutShip() {
     scoutShip1Cannon.rotation = scoutShip1Cannon.direction
 
 
-
+   
 
 
     MonsterEnemyDistance = dist(scoutShip1.x, scoutShip1.y, SeaMon.x, SeaMon.y)
@@ -213,15 +192,15 @@ async function scoutShip() {
     }
 
 
-    console.log(MonsterEnemyDistance)
+    //console.log(MonsterEnemyDistance)
 
 
-    console.log(enemyInRange)
+    //console.log(enemyInRange)
 
 
 
     if (enemyInRange === true) {
-        scoutShip1Cannon.rotateTowards(SeaMon, 0.5, 0);
+        scoutShip1Cannon.rotateTowards(SeaMon, 1, 0)
         await delay(400);
         let x = scoutShip1Cannon.x;
         let y = scoutShip1Cannon.y;
@@ -301,6 +280,34 @@ function enemies() {
     
 }
 
+function mouseWheel(event) {
+    scrollNumber -= event.delta
+    if (scrollZoomLevel < 0.25) {
+        scrollZoomLevel = 0.25
+    }
+    if (scrollZoomLevel > 2.5) {
+        scrollZoomLevel = 2.5
+    }
+    console.log(scrollZoomLevel)
+    scrollZoomLevel = scrollZoomLevel + scrollNumber / 4000
+    if (scrollZoomLevel < 0.25) {
+        scrollZoomLevel = 0.25
+    }
+    if (scrollZoomLevel > 2.5) {
+        scrollZoomLevel = 2.5
+    }
+
+    if (scrollZoomLevel > 1.4) {
+        camera.x = camera.x + (camera.mouse.x - width / 2) * 0.01
+        camera.y = camera.y + (camera.mouse.y - height / 2) * 0.01
+    }
+else if (event.delta < 0) {
+    camera.x = camera.x + (camera.mouse.x - width / 2) * 0.1
+    camera.y = camera.y + (camera.mouse.y - height / 2) * 0.1
+}
+    
+}
+
 function GUIE() {
     camera.off();
     ui.color = 'orange';
@@ -338,17 +345,21 @@ function zoom() {
     }
     camera.off();
     ui.draw();
-    ui.type="ui"
     ui.layer = 9999
+
+
+
 }
 
 function drawAllSpritesExcept() {
 
     for (let i = 0; i < allSprites.length; i++) {
         const sprite = allSprites[i];
-        allSprites[i].type= "allspritess"
         if (allSprites[i].layer < 9999) {
             sprite.draw();
         }
     }
 }
+
+
+// remonder for omrhi // use angleto for better prefromens for shiops and points so they resolve the promice cliding problem
