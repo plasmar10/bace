@@ -30,7 +30,7 @@ function preload() {
     resourceImage = loadImage("./assets/metalplate.png");
     mothershipImage = loadImage("./assets/Mothership.gif");
     cannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun.png");
-SeaMonSha= loadImage("./assets/enemy_sprites/reaper.gif")
+    SeaMonSha = loadImage("./assets/enemy_sprites/reaper.gif")
 }
 
 function setup() {
@@ -261,7 +261,7 @@ async function scoutShip() {
 
     MonsterEnemyDistance = dist(scoutShip1.x, scoutShip1.y, SeaMon.x, SeaMon.y)
 
-    if (MonsterEnemyDistance < 1800) {
+    if (MonsterEnemyDistance < 1600) {
         enemyInRange = true;
     } else {
         enemyInRange = false;
@@ -271,13 +271,13 @@ async function scoutShip() {
     console.log(MonsterEnemyDistance)
 
 
-    console.log(enemyInRange)
+    //console.log(enemyInRange)
+
 
 
 
     if (enemyInRange === true) {
-        scoutShip1Cannon.rotateTowards(SeaMon, 0.5, 0);
-        await delay(400);
+        scoutShip1Cannon.rotateTowards(SeaMon, 1, 0);
         let x = scoutShip1Cannon.x;
         let y = scoutShip1Cannon.y;
         let direction = scoutShip1Cannon.direction;
@@ -286,8 +286,8 @@ async function scoutShip() {
         ammo(x, y, direction, selectedAmmo);
         bulletTimer += 1;
 
-    } else if (enemyInRange === false) {
-        scoutShip1Cannon.direction = scoutShip1.direction
+    } else {
+
         bulletTimer = 0
         bulletTimer += 0
     }
@@ -332,27 +332,28 @@ function ammo(x, y, direction, selectedAmmo) {
 
 function enemies() {
 
-    SeaMon = new Sprite(-1500, 2000, 100, 100)
+    SeaMon = new Sprite(-1500, 2000, 100, 200)
 
- SeaMonSha.resize(500,500)
-SeaMon.img = SeaMonSha
+    SeaMonSha.resize(500, 500)
+    SeaMon.img = SeaMonSha
+    SeaMon.debug = true;
 
 }
 
 
 function monsterAni() {
     SeaMon.direction = SeaMon.rotation;//sync direction to rotation
-      SeaMon.speed = 5; 
+    SeaMon.speed = 5;
 
-if(dist(scoutShip1.x,scoutShip1.y,SeaMon.x,SeaMon.y) < 1000){
-    SeaMon.rotation -= 0
-    SeaMon.rotateTowards(scoutShip1)
-    console.log("hi")
+    if (dist(scoutShip1.x, scoutShip1.y, SeaMon.x, SeaMon.y) < 1000) {
+        SeaMon.rotation -= 0
+        SeaMon.rotateTowards(scoutShip1)
+        console.log("hi")
 
-}
-else{
- SeaMon.rotation -= 1; 
-}
+    }
+    else {
+        SeaMon.rotation -= 1;
+    }
 
-    
+
 }
