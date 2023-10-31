@@ -19,6 +19,8 @@ let shotOnce = false;
 let enemyInRange = false;
 let MonsterEnemyDistance;
 let bulletTimer = 0;
+let calX = 0
+let calY = 0
 
 
 let Resources = [];
@@ -410,12 +412,23 @@ function selection_system(){
     startpoint.y = selectionStartY
     endpoint.x = selectionEndX
     endpoint.y = selectionEndY
-    
-if(!selectionrectangle){
-    selectionrectangle = new pointsforselect.Sprite(2000, 1000, 50, 500, "n");  // change points to vars
-    console.log("selectionrectangle")
-    selectionrectangle.remove()
+
+    calX = selectionStartX + ((dist(selectionStartX,0,selectionEndX,0)/2))
+    calY = selectionStartY + ((dist(selectionStartY,0,selectionEndY,0)/2))
+
+    if(selectionrectangle){
+        selectionrectangle.remove()
+       }
+//console.log(dist(selectionStartX,0,selectionEndX,0))
+
+if (calX > 0){
+    selectionrectangle = new pointsforselect.Sprite(calX , calY, dist(selectionStartX,0,selectionEndX,0), dist(selectionStartY,0,selectionEndY,0), "n");  // change points to vars
 }
+    
+   // console.log("selectionrectangle")
+
+
+
 
 }
 
