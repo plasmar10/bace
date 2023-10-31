@@ -23,6 +23,9 @@ let calX = 0
 let calY = 0
 let actualships = [];
 let shipSelected = false;
+let selectionStartX, selectionStartY;
+let selectionEndX, selectionEndY;
+let selectedShips = [];
 
 let Resources = [];
 
@@ -364,11 +367,6 @@ function drawAllSpritesExcept() {
         }
     }
 }
-
-
-let selectionStartX, selectionStartY;
-let selectionEndX, selectionEndY;
-let selectedShips = [];
 
 function selection_system(){
     strokeWeight(1);
