@@ -393,9 +393,9 @@ function selection_system(){
            //  let ship = scoutShipsClass[i];
 
 
-            // if (scoutShip1.x > selectionStartX && scoutShip1.x < selectionEndX && scoutShip1.y > selectionStartY && scoutShip1.y < selectionEndY) {
+             if (scoutShip1.x > selectionStartX && scoutShip1.x < selectionEndX && scoutShip1.y > selectionStartY && scoutShip1.y < selectionEndY) {
             //     console.log("ship_is_in")
-            // }
+             }
             
         }
        // Do something with the selected ships, e.g., apply selection state
