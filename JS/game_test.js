@@ -383,9 +383,6 @@ function selection_system(){
     }
 
     // Draw the selection rectangle
-    noFill();
-    stroke(255);
-    rect(selectionStartX, selectionStartY, selectionEndX - selectionStartX, selectionEndY - selectionStartY);
 
     // Check for selected ships when the mouse is released
     if (mouse.released()) {
@@ -412,30 +409,46 @@ function selection_system(){
     startpoint.y = selectionStartY
     endpoint.x = selectionEndX
     endpoint.y = selectionEndY
-
+if(startpoint.x > endpoint.x){
+    if (startpoint.y >= endpoint.y){
+        calX = selectionStartX - ((dist(selectionStartX,0,selectionEndX,0)/2))
+        calY = selectionStartY - ((dist(selectionStartY,0,selectionEndY,0)/2))
+    }
+    else{
+    calX = selectionStartX - ((dist(selectionStartX,0,selectionEndX,0)/2))
+    calY = selectionStartY + ((dist(selectionStartY,0,selectionEndY,0)/2))
+    }
+}
+else{
+    if (startpoint.y >= endpoint.y){
+        calX = selectionStartX + ((dist(selectionStartX,0,selectionEndX,0)/2))
+        calY = selectionStartY - ((dist(selectionStartY,0,selectionEndY,0)/2))
+    }
+    else{
     calX = selectionStartX + ((dist(selectionStartX,0,selectionEndX,0)/2))
     calY = selectionStartY + ((dist(selectionStartY,0,selectionEndY,0)/2))
+    }
+}
+   
+
 
     if(selectionrectangle){
         selectionrectangle.remove()
        }
-//console.log(dist(selectionStartX,0,selectionEndX,0))
+console.log(dist(selectionStartX,0,selectionEndX,0))
 
 if (calX > -99999){
-    selectionrectangle = new pointsforselect.Sprite(calX , calY, dist(selectionStartX,0,selectionEndX,0), dist(selectionStartY,0,selectionEndY,0), "n");  // change points to vars
+    selectionrectangle = new pointsforselect.Sprite(calX , calY, dist(selectionStartX,0,selectionEndX,0), dist(selectionStartY,0,selectionEndY,0), "n");
+    selectionrectangle.color= color(0,255,0, 100)
 }
-    
-   // console.log("selectionrectangle")
-
-
-
 
 }
 
 function creatpointsforselection(){
     pointsforselect = new Group();
-    startpoint = new pointsforselect.Sprite(2000, 1000, 50, "n")
-    endpoint = new pointsforselect.Sprite(2100, 1100, 50, "n");
+    startpoint = new pointsforselect.Sprite(99999, 99999, 1, "n")
+    endpoint = new pointsforselect.Sprite(99999, 99999, 1, "n");
+
 }
 
 // remonder for omrhi // use angleto for better prefromens for shiops and points so they resolve the promice cliding problem
