@@ -22,7 +22,7 @@ let bulletTimer = 0;
 let calX = 0
 let calY = 0
 let actualships = [];
-let shipSelected = true;
+let shipSelected = false;
 
 let Resources = [];
 
@@ -144,7 +144,7 @@ async function scoutShip() {
 
     scoutShip1MoveBackDirection = -scoutShip1.rotation
     movePointDistance = dist(scoutShip1.x, scoutShip1.y, moveBackPoint.x, moveBackPoint.y);
-
+if (shipSelected){
     if (mouse.pressed()) {
         moveTowardsX = mouse.x
         moveTowardsY = mouse.y
@@ -153,7 +153,7 @@ async function scoutShip() {
         moveBackPoint.y = scoutShip1.y;
         await scoutShip1.rotateTo(mouse, 5);
         await scoutShip1.moveTo(moveTowardsX, moveTowardsY, 1);
-
+    }
     }
 
 
