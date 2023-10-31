@@ -361,13 +361,48 @@ function drawAllSpritesExcept() {
 }
 
 
+let selectionStartX, selectionStartY;
+let selectionEndX, selectionEndY;
+let selectedShips = [];
+
 function selection_system(){
+    strokeWeight(1);
+    point(selectionStartX, selectionStartY);
+    point(selectionEndX, selectionEndY);
+    // Draw the selection rectangle while the mouse is pressed
+    if (mouse.presses()) {
+        selectionStartX = mouseX;
+        selectionStartY = mouseY;
+        selectionEndX = mouseX;
+        selectionEndY = mouseY;
+    } else if (mouse.pressing()) {
+        selectionEndX = mouseX;
+        selectionEndY = mouseY;
+    }
+
+    // Draw the selection rectangle
+    noFill();
+    stroke(255);
+    rect(selectionStartX, selectionStartY, selectionEndX - selectionStartX, selectionEndY - selectionStartY);
+
+    // Check for selected ships when the mouse is released
+    if (mouse.released()) {
+        console.log("mouse releced")
+        // selectedShips = []; // Clear the previously selected ships
+        // for (let i = 0; i < ships.length; i++) {
+        //     let ship = ships[i];
+        //     if (ship.overlapRect(selectionStartX, selectionStartY, selectionEndX, selectionEndY)) {
+        //         selectedShips.push(ship);
+        //     }
+        // }
+        // Do something with the selected ships, e.g., apply selection state
+    }
 
 
 
 
 
-    
+
 }
 
 // remonder for omrhi // use angleto for better prefromens for shiops and points so they resolve the promice cliding problem
