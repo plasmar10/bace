@@ -151,7 +151,7 @@ async function scoutShip() {
 
     scoutShip1MoveBackDirection = -scoutShip1.rotation
     movePointDistance = dist(scoutShip1.x, scoutShip1.y, moveBackPoint.x, moveBackPoint.y);
-if (shipSelected){
+if (shipSelected && selectionrectangle.width < 60) {
     if (mouse.pressed()) {
         moveTowardsX = mouse.x
         moveTowardsY = mouse.y
@@ -360,9 +360,6 @@ function zoom() {
     camera.off();
     ui.draw();
     ui.layer = 9999
-
-
-
 }
 
 function drawAllSpritesExcept() {
@@ -376,10 +373,6 @@ function drawAllSpritesExcept() {
 }
 
 function selection_system(){
-    strokeWeight(1);
-    (selectionStartX, selectionStartY);
-    point(selectionEndX, selectionEndY);
-    // Draw the selection rectangle while the mouse is pressed
     if (mouse.presses()) {
         selectionStartX = mouse.x;
         selectionStartY = mouse.y;
@@ -390,14 +383,13 @@ function selection_system(){
         selectionEndY = mouse.y;
     }
 
-    // Draw the selection rectangle
-    if (mouse.released())
+
+    if (mouse.released() )
+    if (selectionrectangle.width >= 60) {
 for (let i = 0; i < actualships.length; i++) {
     actualships[i].selected = false; 
     
-    //console.log(actualships[i].x)
-    // Check for selected ships when the mouse is released
-    if(!shipSelected){
+   
     if (
         actualships[i].x > min(selectionStartX, selectionEndX) &&
         actualships[i].x < max(selectionStartX, selectionEndX) &&
@@ -408,13 +400,10 @@ for (let i = 0; i < actualships.length; i++) {
             console.log("ship selected" +  actualships[i]);
             actualships[i].selected = true;
          }
-        // else{
-        //     actualships[i].selected = false; 
-        // }
+
         console.log( actualships[i].selected)
     }
-}
-
+    }
     
     for (let i = 0; i < actualships.length; i++) {
 if(actualships[i].selected === true ){
@@ -439,11 +428,6 @@ if(mouse.released()){
             }
             }
 }
-
-
-    
-
-
     startpoint.x = selectionStartX
     startpoint.y = selectionStartY
     endpoint.x = selectionEndX
