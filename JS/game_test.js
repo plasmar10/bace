@@ -38,6 +38,12 @@ let scrapMetalResourceNodes = [];
 let oilResourceNodes = [];
 let crystalResourceNodes = [];
 
+let scoutShip1MoveBackDirection;
+let moveTowardsX;
+let moveTowardsY;
+let moveBackPoint;
+let movePointDistance;
+
 
 function preload() {
     oceanBackground = loadImage("./assets/ocean.jpg");
@@ -289,11 +295,7 @@ function makeship(shiptype, newshipX, newshipY) {
 
 
 
-let scoutShip1MoveBackDirection;
-let moveTowardsX;
-let moveTowardsY;
-let moveBackPoint;
-let movePointDistance;
+
 
 
 function moveShips() {
