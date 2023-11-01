@@ -7,7 +7,7 @@ let scrollNumber = 0
 let scrollZoomLevel = 0.25
 let ships, scoutShipsClass, scoutShip1, scoutShip1Cannon;
 let scoutShipImage;
-let scrapMetalImage, oilImage;
+let scrapMetalImage, oilImage, crystalImage;
 let cannonImage;
 let destroyerimg
 let GUI;
@@ -37,6 +37,13 @@ let movepoints = []
 let resourceStations
 let scrapMetalResourceNodes = [];
 let oilResourceNodes = [];
+let crystalResourceNodes = [];
+
+let scoutShip1MoveBackDirection;
+let moveTowardsX;
+let moveTowardsY;
+let moveBackPoint;
+let movePointDistance;
 
 
 function preload() {
@@ -45,6 +52,7 @@ function preload() {
     scoutShipCannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png")
     scrapMetalImage = loadImage("./assets/metalplate.png");
     oilImage = loadImage("./assets/oil.png");
+    crystalImage = loadImage("./assets/Crystal.png");
     mothershipImage = loadImage("./assets/Mothership.gif");
     cannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun.png");
     SeaMonSha = loadImage("./assets/enemy_sprites/reaper.gif")
@@ -75,7 +83,7 @@ function draw() {
 
     zoom();
     moveShips();
-
+    moveselectedships();
 
     monsterAni();
     selection_system();
@@ -93,7 +101,7 @@ function ocean() {
 }
 
 function mothership() {
-    mothershipBase = new Sprite(1000, 1000, 400, 400, 's')
+    mothershipBase = new Sprite(width / 2, height / 2, 400, 400, 's')
     mothershipBase.color = 'black'
     mothershipImage.resize(400, 400)
     mothershipBase.img = mothershipImage
@@ -113,7 +121,7 @@ function resourceSpawner() {
         let resourceZoneHeight = 1500;
 
         let resourceZoneX1 = -2750;
-        let resourceZoneY1 = -1000;
+        let resourceZoneY1 = -1500;
 
         let resourceZoneX2 = resourceZoneX1 + resourceZoneWidth;
         let resourceZoneY2 = resourceZoneY1 + resourceZoneHeight;
@@ -129,7 +137,7 @@ function resourceSpawner() {
         let resourceZoneHeight = 1500;
 
         let resourceZoneX1 = 1750;
-        let resourceZoneY1 = -1000;
+        let resourceZoneY1 = -1500;
 
         let resourceZoneX2 = resourceZoneX1 + resourceZoneWidth;
         let resourceZoneY2 = resourceZoneY1 + resourceZoneHeight;
@@ -139,6 +147,21 @@ function resourceSpawner() {
         resourceNodes(resourceZoneWidth, resourceZoneHeight, resourceZoneX1, resourceZoneY1, resourceZoneX2, resourceZoneY2, selectedResource)
     }
 
+    //Crystal//
+    if (1 === 1) {
+        let resourceZoneWidth = 3000;
+        let resourceZoneHeight = 1500;
+
+        let resourceZoneX1 = 1750;
+        let resourceZoneY1 = 1000;
+
+        let resourceZoneX2 = resourceZoneX1 + resourceZoneWidth;
+        let resourceZoneY2 = resourceZoneY1 + resourceZoneHeight;
+
+        let selectedResource = 'Crystal';
+
+        resourceNodes(resourceZoneWidth, resourceZoneHeight, resourceZoneX1, resourceZoneY1, resourceZoneX2, resourceZoneY2, selectedResource)
+    }
 
 
 }
@@ -152,8 +175,9 @@ function resourceNodes(resourceZoneWidth, resourceZoneHeight, resourceZoneX1, re
     resourceZone = new Sprite(resourceZoneX1, resourceZoneY1, resourceZoneWidth, resourceZoneHeight, 'n');
     resourceZone.offset.x = resourceZoneWidth / 2;
     resourceZone.offset.y = resourceZoneHeight / 2;
-    scrapMetalImage.resize(40, 40)
-    oilImage.resize(40, 40)
+    scrapMetalImage.resize(50, 50)
+    oilImage.resize(50, 50)
+    crystalImage.resize(50, 50)
     resourceZone.debug = true;
 
     for (let i = 0; i < 25; i++) {
@@ -164,28 +188,58 @@ function resourceNodes(resourceZoneWidth, resourceZoneHeight, resourceZoneX1, re
         defaultResource = new Sprite(resourceX, resourceY, 40, 40, 's');
         defaultResource.color = 'gray';
 
-        for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
 
-            let d = dist(defaultResource.x, defaultResource.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
-
-            if (d < 200) { //edit this to change how far spread apart the resources are
-                defaultResource.remove();
-
-            }
-
-        }
 
         if (selectedResource === 'ScrapMetal') {
             defaultResource.img = scrapMetalImage
+
+            for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
+
+                let d = dist(defaultResource.x, defaultResource.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
+
+                if (d < 250) { //edit this to change how far spread apart the resources are
+                    defaultResource.remove();
+
+                }
+            }
+
             scrapMetalResourceNodes.push(defaultResource)
-        } else if (selectedResource === 'Oil') {
+        }
+
+        else if (selectedResource === 'Oil') {
             defaultResource.img = oilImage
+
+            for (let i = 0; i < oilResourceNodes.length; i++) {
+
+                let d = dist(defaultResource.x, defaultResource.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
+
+                if (d < 200) { //edit this to change how far spread apart the resources are
+                    defaultResource.remove();
+
+                }
+            }
             oilResourceNodes.push(defaultResource)
         }
-        
+
+        else if (selectedResource === 'Crystal') {
+            defaultResource.img = crystalImage
+
+            for (let i = 0; i < crystalResourceNodes.length; i++) {
+
+                let d = dist(defaultResource.x, defaultResource.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
+
+                if (d < 300) { //edit this to change how far spread apart the resources are
+                    defaultResource.remove();
+
+                }
+            }
+            crystalResourceNodes.push(defaultResource)
+        }
+
         console.log(scrapMetalResourceNodes)
         console.log(oilResourceNodes)
-        
+        console.log(crystalResourceNodes)
+
 
     }
 
@@ -247,11 +301,7 @@ function makeship(shiptype, newshipX, newshipY) {
 
 
 
-let scoutShip1MoveBackDirection;
-let moveTowardsX;
-let moveTowardsY;
-let moveBackPoint;
-let movePointDistance;
+
 
 
 function moveShips() {
@@ -263,60 +313,17 @@ function moveShips() {
         if (mouse.pressed()) {
             for (let selectedship of actualships) {
                 if (selectedship.selected == true) {
-                movepoint = new Sprite(mouse.x, mouse.y, 50, "n")
-                movepoints.push(movepoint)
+                    movepoint = new Sprite(mouse.x, mouse.y, 50, "n")
+                    movepoints.push(movepoint)
 
-                selectedship.moveTo(movepoint.x, movepoint.y, 1);
+                selectedship.needstobemoved = true
   
 
                 }
             }
 
-
-            // moveTowardsX = mouse.x
-            // moveTowardsY = mouse.y
-            // console.log("pressed")
-            // moveBackPoint.x = scoutShip1.x;
-            // moveBackPoint.y = scoutShip1.y;
-            // await scoutShip1.rotateTo(mouse, 5);
-            // await scoutShip1.moveTo(moveTowardsX, moveTowardsY, 1);
         }
     }
-
-
-
-
-    //     scoutShip1MoveBackDirection = -scoutShip1.rotation
-    //     movePointDistance = dist(scoutShip1.x, scoutShip1.y, moveBackPoint.x, moveBackPoint.y);
-    // if (shipSelected && selectionrectangle.width < 60) {
-    //     if (mouse.pressed()) {
-    //         moveTowardsX = mouse.x
-    //         moveTowardsY = mouse.y
-    //         console.log("pressed")
-    //         moveBackPoint.x = scoutShip1.x;
-    //         moveBackPoint.y = scoutShip1.y;
-    //         await scoutShip1.rotateTo(mouse, 5);
-    //         await scoutShip1.moveTo(moveTowardsX, moveTowardsY, 1);
-    //     }
-    //     }
-
-
-    //     if (scoutShip1.collides(allSprites)) {
-    //         scoutShip1.rotationSpeed = 0;
-    //         scoutShip1.vel.x = 0;
-    //         scoutShip1.vel.y = 0;
-    //         console.log("scoutShip1 has stoped because it has colided with somthing")
-    //         await delay(500);
-    //         await scoutShip1.moveTo(moveBackPoint, 1)
-
-    //     }
-
-    //     if (movePointDistance > 80) {
-    //         moveBackPoint.direction = moveBackPoint.angleTo(scoutShip1);
-    //         moveBackPoint.speed = 2;
-    //     } else if (movePointDistance < 30) {
-    //         moveBackPoint.speed = 0;
-    //     }
 
 
     //Cannon//
@@ -378,6 +385,13 @@ function moveShips() {
 
 
 function moveselectedships(){
+    for (let selectedship of actualships) {
+        if (selectedship.needstobemoved == true) {
+            selectedship.angleTo(100,100)
+            console.log("not working")
+
+        }
+    }
 
 }
 
