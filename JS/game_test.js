@@ -27,7 +27,7 @@ let selectionStartX, selectionStartY;
 let selectionEndX, selectionEndY;
 let selectedShips = [];
 let destinationPoint
-let counter
+let scrapMetalCounter, oilCounter, crystalCounter;
 let fighterShipsClass
 let destroyerShipsClass
 let constructerShipsClass
@@ -506,6 +506,14 @@ function mouseWheel(event) {
 function GUIE() {
     camera.off();
     ui.color = 'orange';
+    
+    scrapMetalCounter.color = '#d8d8d8';
+
+    oilCounter.color = 'black'; 
+    oilCounter.textColor = 'white';
+
+    crystalCounter.color = '#e6e1f9';
+   
     for (let i = 0; i < 9; i++) {
         if (kb[i + 1]) ui[i].color = 'red';
     }
@@ -517,9 +525,19 @@ function gameInterface() {
     for (let i = 0; i < 9; i++) {
         new ui.Sprite(100 + i * 40, 1000, 35, 35, 'n');
     }
-    counter = new ui.Sprite(80, 35, 150, 60, 'n');
-    counter.textSize = 50
-    counter.text = 0
+    scrapMetalCounter = new ui.Sprite(80, 35, 150, 60, 'n');
+    scrapMetalCounter.textSize = 50
+    scrapMetalCounter.text = 0
+    
+
+    oilCounter = new ui.Sprite(250, 35, 150, 60, 'n');
+    oilCounter.textSize = 50
+    oilCounter.text = 0
+
+    crystalCounter = new ui.Sprite(420, 35, 150, 60, 'n');
+    crystalCounter.textSize = 50
+    crystalCounter.text = 0
+
 }
 
 function zoom() {
@@ -676,6 +694,8 @@ function resourceShip() {
 
 }
 
+
+
 async function resourceCollection() {
     resourceShip1MoveBackDirection = -resourceShip1.rotation
     movePointDistance = dist(resourceShip1.x, resourceShip1.y, moveBackPoint.x, moveBackPoint.y);
@@ -687,6 +707,7 @@ async function resourceCollection() {
     }
 
 
+    //ScrapMetal
     for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
         for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
 
@@ -701,19 +722,93 @@ async function resourceCollection() {
 
         }
     }
+
+    //Oil
+    for (let i = 0; i < oilResourceNodes.length; i++) {
+        for (let i = 0; i < oilResourceNodes.length; i++) {
+
+            let d = dist(resourceShip1.x, resourceShip1.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
+            if (d < 200 && key === "p" && !resourceStationSpawned) {
+                resourceStation = new Sprite(resourceShip1.x, resourceShip1.y)
+                resourceStationSpawned = true;
+                resourceShip1.remove()
+                resourceStations.push(resourceStation)
+            }
+
+
+        }
+    }
+
+    //Crystal
+    for (let i = 0; i < crystalResourceNodes.length; i++) {
+        for (let i = 0; i < crystalResourceNodes.length; i++) {
+
+            let d = dist(resourceShip1.x, resourceShip1.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
+            if (d < 200 && key === "p" && !resourceStationSpawned) {
+                resourceStation = new Sprite(resourceShip1.x, resourceShip1.y)
+                resourceStationSpawned = true;
+                resourceShip1.remove()
+                resourceStations.push(resourceStation)
+            }
+
+
+        }
+    }
+
+
+
+
 }
+
+
 function resourceCollector() {
+
     if (resourceStationSpawned === true) {
+        //ScrapMetal
         for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
             let c = dist(resourceStation.x, resourceStation.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
             if (c < 200) {
                 if (frameCount % 60 === 0) {
-                    counter.text++
+                    scrapMetalCounter.text++
                 }
 
             }
         }
+
+        //Oil
+        for (let i = 0; i < oilResourceNodes.length; i++) {
+            let c = dist(resourceStation.x, resourceStation.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
+            if (c < 200) {
+                if (frameCount % 60 === 0) {
+                    oilCounter.text++
+                }
+
+            }
+        }
+
+        //Crystal
+        for (let i = 0; i < crystalResourceNodes.length; i++) {
+            let c = dist(resourceStation.x, resourceStation.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
+            if (c < 200) {
+                if (frameCount % 60 === 0) {
+                    crystalCounter.text++
+                }
+
+            }
+        }
+
+
+
+
+
+
+
+
     }
+
+
+
+
 }
 
 
