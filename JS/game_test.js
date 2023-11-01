@@ -9,6 +9,7 @@ let ships, scoutShipsClass, scoutShip1, scoutShip1Cannon;
 let scoutShipImage;
 let scrapMetalImage, oilImage;
 let cannonImage;
+let destroyerimg
 let GUI;
 let SeaMon;
 let SeaMonSha
@@ -47,9 +48,10 @@ function preload() {
     mothershipImage = loadImage("./assets/Mothership.gif");
     cannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun.png");
     SeaMonSha = loadImage("./assets/enemy_sprites/reaper.gif")
-    resourceShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_medium_body.png")
+    fighterShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_medium_body.png")
     SeaMonSha = loadImage("./assets/enemy_sprites/reaper.gif")
-    resourceShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_medium_body.png")
+    destroyerimg = loadImage("./assets/ship_sptites/shipz/images/ship_large_body.png")
+    fighterShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_medium_body.png")
 }
 
 function setup() {
@@ -210,8 +212,9 @@ function makeships() {
     scoutShip1Cannon.img = cannonImage
     moveBackPoint = new ships.Sprite(scoutShip1.x, scoutShip1.y, 10, "n");
     actualships.push(scoutShip1)
-    makeship("scout", 300, 700)
-    makeship("fighter", 300, 700)
+    makeship("scout", 200, 700)
+    makeship("fighter", 500, 700)
+    makeship("destroyer",800,700)
 
 
 }
@@ -222,14 +225,17 @@ function makeship(shiptype, newshipX, newshipY) {
     if (shiptype == "scout") {
         test = new scoutShipsClass.Sprite(newshipX, newshipY, 105, 54, "d")
         actualships.push(test)
+       scoutShipsClass.img = scoutShipImage
     }
     if (shiptype == "fighter") {
         test = new fighterShipsClass.Sprite(newshipX, newshipY, 200, 54, "d")
         actualships.push(test)
+        fighterShipsClass.img = fighterShipimg
     }
     if (shiptype == "destroyer") {
         test = new destroyerShipsClass.Sprite(newshipX, newshipY, 300, 54, "d")
         actualships.push(test)
+        destroyerShipsClass.img = destroyerimg
     }
     if (shiptype == "constructer") {
         test = new constructerShipsClass.Sprite(newshipX, newshipY, 300, 200, "d")
@@ -617,13 +623,13 @@ function creatpointsforselection() {
 
 }
 let resourceShip1;
-let resourceShipimg;
+let fighterShipimg;
 let resourceStation;
 let resourceStationSpawned = false;
 let resourceShip1MoveBackDirection
 function resourceShip() {
     resourceShip1 = new Sprite(1000, 30, 100, 30)
-    resourceShip1.img = resourceShipimg
+    resourceShip1.img = fighterShipimg
 
 
 }
