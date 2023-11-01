@@ -519,6 +519,7 @@ async function resourceCollection() {
 
     }
 }
+}
 function resourceCollector() {
 if(resourceStationSpawned === true ){
     for (let i = 0; i < Resources.length; i++) {
