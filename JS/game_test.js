@@ -73,7 +73,7 @@ function draw() {
 
     zoom();
     moveShips();
-
+    moveselectedships();
 
     monsterAni();
     selection_system();
@@ -260,57 +260,14 @@ function moveShips() {
                 movepoint = new Sprite(mouse.x, mouse.y, 50, "n")
                 movepoints.push(movepoint)
 
-                selectedship.moveTo(movepoint.x, movepoint.y, 1);
+                selectedship.needstobemoved = true
   
 
                 }
             }
 
-
-            // moveTowardsX = mouse.x
-            // moveTowardsY = mouse.y
-            // console.log("pressed")
-            // moveBackPoint.x = scoutShip1.x;
-            // moveBackPoint.y = scoutShip1.y;
-            // await scoutShip1.rotateTo(mouse, 5);
-            // await scoutShip1.moveTo(moveTowardsX, moveTowardsY, 1);
         }
     }
-
-
-
-
-    //     scoutShip1MoveBackDirection = -scoutShip1.rotation
-    //     movePointDistance = dist(scoutShip1.x, scoutShip1.y, moveBackPoint.x, moveBackPoint.y);
-    // if (shipSelected && selectionrectangle.width < 60) {
-    //     if (mouse.pressed()) {
-    //         moveTowardsX = mouse.x
-    //         moveTowardsY = mouse.y
-    //         console.log("pressed")
-    //         moveBackPoint.x = scoutShip1.x;
-    //         moveBackPoint.y = scoutShip1.y;
-    //         await scoutShip1.rotateTo(mouse, 5);
-    //         await scoutShip1.moveTo(moveTowardsX, moveTowardsY, 1);
-    //     }
-    //     }
-
-
-    //     if (scoutShip1.collides(allSprites)) {
-    //         scoutShip1.rotationSpeed = 0;
-    //         scoutShip1.vel.x = 0;
-    //         scoutShip1.vel.y = 0;
-    //         console.log("scoutShip1 has stoped because it has colided with somthing")
-    //         await delay(500);
-    //         await scoutShip1.moveTo(moveBackPoint, 1)
-
-    //     }
-
-    //     if (movePointDistance > 80) {
-    //         moveBackPoint.direction = moveBackPoint.angleTo(scoutShip1);
-    //         moveBackPoint.speed = 2;
-    //     } else if (movePointDistance < 30) {
-    //         moveBackPoint.speed = 0;
-    //     }
 
 
     //Cannon//
@@ -372,6 +329,13 @@ function moveShips() {
 
 
 function moveselectedships(){
+    for (let selectedship of actualships) {
+        if (selectedship.needstobemoved == true) {
+            selectedship.angleTo(100,100)
+            console.log("not working")
+
+        }
+    }
 
 }
 
