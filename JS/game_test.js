@@ -61,6 +61,7 @@ function setup() {
 
 function draw() {
 
+
     zoom();
     scoutShip();
 
@@ -153,7 +154,7 @@ async function scoutShip() {
 
     scoutShip1MoveBackDirection = -scoutShip1.rotation
     movePointDistance = dist(scoutShip1.x, scoutShip1.y, moveBackPoint.x, moveBackPoint.y);
-    if (shipSelected) {
+    if (shipSelected && selectionrectangle.width < 60) {
         if (mouse.pressed()) {
             moveTowardsX = mouse.x
             moveTowardsY = mouse.y
@@ -198,7 +199,7 @@ async function scoutShip() {
 
     MonsterEnemyDistance = dist(scoutShip1.x, scoutShip1.y, SeaMon.x, SeaMon.y)
 
-    if (MonsterEnemyDistance < 1800) {
+    if (MonsterEnemyDistance < 1600) {
         enemyInRange = true;
     } else {
         enemyInRange = false;
@@ -213,8 +214,7 @@ async function scoutShip() {
 
 
     if (enemyInRange === true) {
-        scoutShip1Cannon.rotateTowards(SeaMon, 1, 0)
-        await delay(400);
+        scoutShip1Cannon.rotateTowards(SeaMon, 1, 0);
         let x = scoutShip1Cannon.x;
         let y = scoutShip1Cannon.y;
         let direction = scoutShip1Cannon.direction;
@@ -223,8 +223,8 @@ async function scoutShip() {
         ammo(x, y, direction, selectedAmmo);
         bulletTimer += 1;
 
-    } else if (enemyInRange === false) {
-        scoutShip1Cannon.direction = scoutShip1.direction
+    } else {
+
         bulletTimer = 0
         bulletTimer += 0
     }
@@ -269,7 +269,7 @@ function ammo(x, y, direction, selectedAmmo) {
 
 function enemies() {
 
-    SeaMon = new Sprite(-1500, 2000, 100, 100)
+    SeaMon = new Sprite(-1500, 2000, 100, 200)
 
     SeaMonSha.resize(500, 500)
     SeaMon.img = SeaMonSha
@@ -362,9 +362,6 @@ function zoom() {
     camera.off();
     ui.draw();
     ui.layer = 9999
-
-
-
 }
 
 function drawAllSpritesExcept() {
@@ -378,10 +375,6 @@ function drawAllSpritesExcept() {
 }
 
 function selection_system() {
-    strokeWeight(1);
-    (selectionStartX, selectionStartY);
-    point(selectionEndX, selectionEndY);
-    // Draw the selection rectangle while the mouse is pressed
     if (mouse.presses()) {
         selectionStartX = mouse.x;
         selectionStartY = mouse.y;
@@ -392,14 +385,13 @@ function selection_system() {
         selectionEndY = mouse.y;
     }
 
-    // Draw the selection rectangle
-    if (mouse.released())
-        for (let i = 0; i < actualships.length; i++) {
-            actualships[i].selected = false;
 
-            //console.log(actualships[i].x)
-            // Check for selected ships when the mouse is released
-            if (!shipSelected) {
+    if (mouse.released())
+        if (selectionrectangle.width >= 60) {
+            for (let i = 0; i < actualships.length; i++) {
+                actualships[i].selected = false;
+
+
                 if (
                     actualships[i].x > min(selectionStartX, selectionEndX) &&
                     actualships[i].x < max(selectionStartX, selectionEndX) &&
@@ -410,13 +402,10 @@ function selection_system() {
                     console.log("ship selected" + actualships[i]);
                     actualships[i].selected = true;
                 }
-                // else{
-                //     actualships[i].selected = false; 
-                // }
+
                 console.log(actualships[i].selected)
             }
         }
-
 
     for (let i = 0; i < actualships.length; i++) {
         if (actualships[i].selected === true) {
@@ -441,11 +430,6 @@ function selection_system() {
             }
         }
     }
-
-
-
-
-
     startpoint.x = selectionStartX
     startpoint.y = selectionStartY
     endpoint.x = selectionEndX
@@ -521,6 +505,7 @@ async function resourceCollection() {
     }
 
 
+    for (let i = 0; i < Resources.length; i++) {
     for (let i = 0; i < Resources.length; i++) {
 
         let d = dist(resourceShip1.x, resourceShip1.y, Resources[i].x, Resources[i].y)
