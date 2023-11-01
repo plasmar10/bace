@@ -13,12 +13,21 @@ let GUI;
 let SeaMon;
 let SeaMonSha
 let shots, basicShot;
-
+let ui;
+let pointsforselect, startpoint, endpoint, selectionrectangle;
 let shotOnce = false;
 let enemyInRange = false;
 let MonsterEnemyDistance;
 let bulletTimer = 0;
-
+let calX = 0
+let calY = 0
+let actualships = [];
+let shipSelected = false;
+let selectionStartX, selectionStartY;
+let selectionEndX, selectionEndY;
+let selectedShips = [];
+let destinationPoint
+let counter 
 
 let Resources = [];
 
@@ -30,37 +39,35 @@ function preload() {
     resourceImage = loadImage("./assets/metalplate.png");
     mothershipImage = loadImage("./assets/Mothership.gif");
     cannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun.png");
-    SeaMonSha = loadImage("./assets/enemy_sprites/reaper.gif")
+SeaMonSha= loadImage("./assets/enemy_sprites/reaper.gif")
+resourceShipimg= loadImage("./assets/ship_sptites/shipz/images/ship_medium_body.png")
 }
 
 function setup() {
     new Group();
     createCanvas(1920, 1076);
     ocean();
+    creatpointsforselection();
     mothership();
     resourceNodes();
     makeships();
-
-
-    gameInterface();
-
+    resourceShip();
     enemies();//may have to go in draw for animation and stuff
-
-
-
+    
+gameInterface(); // this must alwas be done last
 }
 
 function draw() {
-
+  
     zoom();
     scoutShip();
 
 
     monsterAni();
+    selection_system();
+    resourceCollection();//this is the code for collecting resources 
 
-
-
-
+   GUIE(); //this must alwas be done last 
 }
 
 
@@ -70,28 +77,6 @@ function ocean() {
     oceanSprite.image = oceanBackground
     oceanSprite.layer = -10
 }
-
-
-
-function gameInterface() {
-
-    /*
-
-    GUI = new Sprite(0, 0, 1076, 50, 'n');
-    GUI.scale = 10
-    GUI.color = color(100, 100, 100, 225);
-
-    https://p5play.org/learn/camera.html?page=3
-
-    
-    */
-
-
-
-
-
-}
-
 
 function mothership() {
     mothershipBase = new Sprite(1000, 1000, 400, 400, 's')
@@ -106,49 +91,7 @@ function mothership() {
 }
 
 
-function zoom() {
-    scrollNumber = 0
-    camera.zoomTo(scrollZoomLevel)
-    background(0);
-    camera.on();
 
-    if (kb.pressing('a')) {
-        camera.x = camera.x - 10
-    }
-    if (kb.pressing('d')) {
-        camera.x = camera.x + 10
-    }
-    if (kb.pressing('w')) {
-        camera.y = camera.y - 10
-    }
-    if (kb.pressing('s')) {
-        camera.y = camera.y + 10
-    }
-
-    camera.off();
-
-}
-
-
-
-function mouseWheel(event) {
-    scrollNumber -= event.delta
-    if (scrollZoomLevel < 0.25) {
-        scrollZoomLevel = 0.25
-    }
-    if (scrollZoomLevel > 2.5) {
-        scrollZoomLevel = 2.5
-    }
-    console.log(scrollZoomLevel)
-    scrollZoomLevel = scrollZoomLevel + scrollNumber / 4000
-    if (scrollZoomLevel < 0.25) {
-        scrollZoomLevel = 0.25
-    }
-    if (scrollZoomLevel > 2.5) {
-        scrollZoomLevel = 2.5
-    }
-
-}
 
 
 function resourceNodes() {
@@ -179,15 +122,8 @@ function resourceNodes() {
         resourceScrapMetal.img = resourceImage
         Resources.push(resourceScrapMetal)
 
-
     }
-
-
-
-
     //add purchasable placeable mines
-
-
 
 }
 
@@ -196,11 +132,10 @@ function makeships() {
     scoutShipsClass = new ships.Group();
     scoutShip1 = new scoutShipsClass.Sprite(0, 700, 105, 54, "d");
     scoutShip1.img = scoutShipImage
-
-    scoutShip1Cannon = new scoutShipsClass.Sprite(0, 700, 30, 20, "n");
+    scoutShip1Cannon = new ships.Sprite(0, 700, 30, 20, "n");
     scoutShip1Cannon.img = cannonImage
-
-    moveBackPoint = new scoutShipsClass.Sprite(scoutShip1.x, scoutShip1.y, 10, "n");
+    moveBackPoint = new ships.Sprite(scoutShip1.x, scoutShip1.y, 10, "n");
+    actualships.push(scoutShip1)
 }
 
 
@@ -216,7 +151,7 @@ async function scoutShip() {
 
     scoutShip1MoveBackDirection = -scoutShip1.rotation
     movePointDistance = dist(scoutShip1.x, scoutShip1.y, moveBackPoint.x, moveBackPoint.y);
-
+if (shipSelected){
     if (mouse.pressed()) {
         moveTowardsX = mouse.x
         moveTowardsY = mouse.y
@@ -225,7 +160,7 @@ async function scoutShip() {
         moveBackPoint.y = scoutShip1.y;
         await scoutShip1.rotateTo(mouse, 5);
         await scoutShip1.moveTo(moveTowardsX, moveTowardsY, 1);
-
+    }
     }
 
 
@@ -256,7 +191,7 @@ async function scoutShip() {
     scoutShip1Cannon.rotation = scoutShip1Cannon.direction
 
 
-
+   
 
 
     MonsterEnemyDistance = dist(scoutShip1.x, scoutShip1.y, SeaMon.x, SeaMon.y)
@@ -268,11 +203,10 @@ async function scoutShip() {
     }
 
 
-    console.log(MonsterEnemyDistance)
+    //console.log(MonsterEnemyDistance)
 
 
     //console.log(enemyInRange)
-
 
 
 
@@ -334,26 +268,288 @@ function enemies() {
 
     SeaMon = new Sprite(-1500, 2000, 100, 200)
 
-    SeaMonSha.resize(500, 500)
+    SeaMonSha.resize(500,500)
     SeaMon.img = SeaMonSha
-    SeaMon.debug = true;
-
-}
-
-
+    
+    }
+    
+    
 function monsterAni() {
-    SeaMon.direction = SeaMon.rotation;//sync direction to rotation
-    SeaMon.speed = 5;
-
-    if (dist(scoutShip1.x, scoutShip1.y, SeaMon.x, SeaMon.y) < 1000) {
+        SeaMon.direction = SeaMon.rotation;//sync direction to rotation
+          SeaMon.speed = 5; 
+    
+    if(dist(scoutShip1.x,scoutShip1.y,SeaMon.x,SeaMon.y) < 1000){
         SeaMon.rotation -= 0
         SeaMon.rotateTowards(scoutShip1)
-        console.log("hi")
+       
+    
+    }
+    else{
+     SeaMon.rotation -= 1; 
+    }
+    
+}
 
+function mouseWheel(event) {
+    scrollNumber -= event.delta
+    if (scrollZoomLevel < 0.25) {
+        scrollZoomLevel = 0.25
     }
-    else {
-        SeaMon.rotation -= 1;
+    if (scrollZoomLevel > 2.5) {
+        scrollZoomLevel = 2.5
     }
+    console.log(scrollZoomLevel)
+    scrollZoomLevel = scrollZoomLevel + scrollNumber / 4000
+    if (scrollZoomLevel < 0.25) {
+        scrollZoomLevel = 0.25
+    }
+    if (scrollZoomLevel > 2.5) {
+        scrollZoomLevel = 2.5
+    }
+
+    if (scrollZoomLevel > 1.4) {
+        camera.x = camera.x + (camera.mouse.x - width / 2) * 0.01
+        camera.y = camera.y + (camera.mouse.y - height / 2) * 0.01
+    }
+else if (event.delta < 0) {
+    camera.x = camera.x + (camera.mouse.x - width / 2) * 0.1
+    camera.y = camera.y + (camera.mouse.y - height / 2) * 0.1
+}
+    
+}
+
+function GUIE() {
+    camera.off();
+    ui.color = 'orange';
+    for (let i = 0; i < 9; i++) {
+        if (kb[i + 1]) ui[i].color = 'red';
+    }
+    ui.draw();
+}
+
+function gameInterface() {
+	ui = new Group();
+	for (let i = 0; i < 9; i++) {
+		new ui.Sprite(100 + i * 40, 1000, 35, 35, 'n');
+    }
+    counter = new ui.Sprite (80,35,150,60, 'n');
+counter.textSize = 50
+counter.text = 0
+}
+
+function zoom() {
+    scrollNumber = 0
+    camera.zoomTo(scrollZoomLevel)
+    background(0);
+    
+    camera.on();
+    drawAllSpritesExcept();
+    if (kb.pressing('arrowleft')) {
+        camera.x = camera.x - 10
+    }
+    if (kb.pressing('arrowright')) {
+        camera.x = camera.x + 10
+    }
+    if (kb.pressing('arrowup')) {
+        camera.y = camera.y - 10
+    }
+    if (kb.pressing('arrowdown')) {
+        camera.y = camera.y + 10
+    }
+    camera.off();
+    ui.draw();
+    ui.layer = 9999
+
 
 
 }
+
+function drawAllSpritesExcept() {
+
+    for (let i = 0; i < allSprites.length; i++) {
+        const sprite = allSprites[i];
+        if (allSprites[i].layer < 9999) {
+            sprite.draw();
+        }
+    }
+}
+
+function selection_system(){
+    strokeWeight(1);
+    (selectionStartX, selectionStartY);
+    point(selectionEndX, selectionEndY);
+    // Draw the selection rectangle while the mouse is pressed
+    if (mouse.presses()) {
+        selectionStartX = mouse.x;
+        selectionStartY = mouse.y;
+        selectionEndX = mouse.x;
+        selectionEndY = mouse.y;
+    } else if (mouse.pressing()) {
+        selectionEndX = mouse.x;
+        selectionEndY = mouse.y;
+    }
+
+    // Draw the selection rectangle
+    if (mouse.released())
+for (let i = 0; i < actualships.length; i++) {
+    actualships[i].selected = false; 
+    
+    //console.log(actualships[i].x)
+    // Check for selected ships when the mouse is released
+    if(!shipSelected){
+    if (
+        actualships[i].x > min(selectionStartX, selectionEndX) &&
+        actualships[i].x < max(selectionStartX, selectionEndX) &&
+        actualships[i].y > min(selectionStartY, selectionEndY) &&
+        actualships[i].y < max(selectionStartY, selectionEndY)
+        ) {
+            
+            console.log("ship selected" +  actualships[i]);
+            actualships[i].selected = true;
+         }
+        // else{
+        //     actualships[i].selected = false; 
+        // }
+        console.log( actualships[i].selected)
+    }
+}
+
+    
+    for (let i = 0; i < actualships.length; i++) {
+if(actualships[i].selected === true ){
+    actualships[i].debug = true
+console.log(actualships[i] + 'selected')
+
+    } else {
+        actualships[i].debug = false;
+    }
+    }
+   
+//is a shop selected
+
+if(mouse.released()){
+    console.log('mouse releced')
+    for (let i = 0; i < actualships.length; i++) {
+        if(actualships[i].selected === true ){
+        shipSelected = true
+            } 
+            else{
+                shipSelected = false
+            }
+            }
+}
+
+
+    
+
+
+    startpoint.x = selectionStartX
+    startpoint.y = selectionStartY
+    endpoint.x = selectionEndX
+    endpoint.y = selectionEndY
+if(startpoint.x > endpoint.x){
+    if (startpoint.y >= endpoint.y){
+        calX = selectionStartX - ((dist(selectionStartX,0,selectionEndX,0)/2))
+        calY = selectionStartY - ((dist(selectionStartY,0,selectionEndY,0)/2))
+    }
+    else{
+    calX = selectionStartX - ((dist(selectionStartX,0,selectionEndX,0)/2))
+    calY = selectionStartY + ((dist(selectionStartY,0,selectionEndY,0)/2))
+    }
+}
+else{
+    if (startpoint.y >= endpoint.y){
+        calX = selectionStartX + ((dist(selectionStartX,0,selectionEndX,0)/2))
+        calY = selectionStartY - ((dist(selectionStartY,0,selectionEndY,0)/2))
+    }
+    else{
+    calX = selectionStartX + ((dist(selectionStartX,0,selectionEndX,0)/2))
+    calY = selectionStartY + ((dist(selectionStartY,0,selectionEndY,0)/2))
+    }
+}
+    if(selectionrectangle){
+        selectionrectangle.remove()
+       }
+
+
+if (calX > -99999){
+    selectionrectangle = new pointsforselect.Sprite(calX , calY, dist(selectionStartX,0,selectionEndX,0), dist(selectionStartY,0,selectionEndY,0), "n");
+    selectionrectangle.color= color(0,255,0, 50)
+
+
+
+}
+
+if (mouse.presses()) {
+    destinationPoint.x = mouse.x;
+    destinationPoint.y = mouse.y;
+}
+
+
+}
+
+function creatpointsforselection(){
+    pointsforselect = new Group();
+    startpoint = new pointsforselect.Sprite(99999, 99999, 1, "n")
+    endpoint = new pointsforselect.Sprite(99999, 99999, 1, "n");
+    destinationPoint = new pointsforselect.Sprite(99999, 99999, 100, "n");
+
+}
+let resourceShip1
+let resourceShipimg
+ let resourceShip1MoveBackDirection
+function resourceShip(){
+resourceShip1 = new Sprite (1000,30,100,30)
+resourceShip1.img=resourceShipimg
+
+
+}
+
+ async function resourceCollection(){
+    resourceShip1MoveBackDirection = -resourceShip1.rotation
+    movePointDistance = dist(resourceShip1.x, resourceShip1.y, moveBackPoint.x, moveBackPoint.y);
+
+    if (mouse.pressed()) {
+        moveTowardsX = mouse.x
+        moveTowardsY = mouse.y
+        console.log("pressed")
+        moveBackPoint.x = resourceShip1.x;
+        moveBackPoint.y = resourceShip1.y;
+        await resourceShip1.rotateTo(mouse, 5);
+        await resourceShip1.moveTo(moveTowardsX, moveTowardsY, 1);
+
+    }
+
+
+    if (resourceShip1.collides(allSprites)) {
+        resourceShip1.rotationSpeed = 0;
+        resourceShip1.vel.x = 0;
+        resourceShip1.vel.y = 0;
+        console.log("resourceShip1 has stoped because it has colided with somthing")
+        await delay(500);
+        await resourceShip1.moveTo(moveBackPoint, 1)
+
+    }
+
+    if (movePointDistance > 80) {
+        moveBackPoint.direction = moveBackPoint.angleTo(resourceShip1);
+        moveBackPoint.speed = 2;
+    } else if (movePointDistance < 30) {
+        moveBackPoint.speed = 0;
+    }
+
+
+for (let i = 0; i < Resources.length; i++) {
+
+    let d = dist(resourceShip1.x, resourceShip1.y, Resources[i].x, Resources[i].y)
+
+    if (d < 200) {
+       counter.text ++
+
+    }
+
+}
+
+}
+
+// remonder for omrhi // use angleto for better prefromens for shiops and points so they resolve the promice cliding problem
