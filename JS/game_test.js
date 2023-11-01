@@ -1,5 +1,5 @@
 "use strict";
-let mothershipBase, resourceScrapMetal, resourceZone;
+let mothershipBase, defaultResource, resourceZone;
 let oceanBackground, mothershipImage, scoutShipCannonImage;
 let player;
 let oceanSprite;
@@ -29,7 +29,8 @@ let selectedShips = [];
 let destinationPoint
 let counter
 let resourceStations
-let Resources = [];
+let scrapMetalResourceNodes = [];
+let oilResourceNodes = [];
 
 
 function preload() {
@@ -151,27 +152,31 @@ function resourceNodes(resourceZoneWidth, resourceZoneHeight, resourceZoneX1, re
         let resourceX = random(resourceZoneX1 + 40, resourceZoneX2 - 40);
         let resourceY = random(resourceZoneY1 + 40, resourceZoneY2 - 40);
 
-        resourceScrapMetal = new Sprite(resourceX, resourceY, 40, 40, 's');
-        resourceScrapMetal.color = 'gray';
+        defaultResource = new Sprite(resourceX, resourceY, 40, 40, 's');
+        defaultResource.color = 'gray';
 
-        for (let i = 0; i < Resources.length; i++) {
+        for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
 
-            let d = dist(resourceScrapMetal.x, resourceScrapMetal.y, Resources[i].x, Resources[i].y)
+            let d = dist(defaultResource.x, defaultResource.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
 
             if (d < 200) { //edit this to change how far spread apart the resources are
-                resourceScrapMetal.remove();
+                defaultResource.remove();
 
             }
 
         }
 
         if (selectedResource === 'ScrapMetal') {
-            resourceScrapMetal.img = scrapMetalImage
+            defaultResource.img = scrapMetalImage
+            scrapMetalResourceNodes.push(defaultResource)
         } else if (selectedResource === 'Oil') {
-            resourceScrapMetal.img = oilImage
+            defaultResource.img = oilImage
+            oilResourceNodes.push(defaultResource)
         }
-
-        Resources.push(resourceScrapMetal)
+        
+        console.log(scrapMetalResourceNodes)
+        console.log(oilResourceNodes)
+        
 
     }
 
@@ -564,10 +569,10 @@ async function resourceCollection() {
     }
 
 
-    for (let i = 0; i < Resources.length; i++) {
-        for (let i = 0; i < Resources.length; i++) {
+    for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
+        for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
 
-            let d = dist(resourceShip1.x, resourceShip1.y, Resources[i].x, Resources[i].y)
+            let d = dist(resourceShip1.x, resourceShip1.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
             if (d < 200 && key === "p" && !resourceStationSpawned) {
                 resourceStation = new Sprite(resourceShip1.x, resourceShip1.y)
                 resourceStationSpawned = true;
@@ -581,8 +586,8 @@ async function resourceCollection() {
 }
 function resourceCollector() {
     if (resourceStationSpawned === true) {
-        for (let i = 0; i < Resources.length; i++) {
-            let c = dist(resourceStation.x, resourceStation.y, Resources[i].x, Resources[i].y)
+        for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
+            let c = dist(resourceStation.x, resourceStation.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
             if (c < 200) {
                 if (frameCount % 60 === 0) {
                     counter.text++
