@@ -151,16 +151,16 @@ async function scoutShip() {
 
     scoutShip1MoveBackDirection = -scoutShip1.rotation
     movePointDistance = dist(scoutShip1.x, scoutShip1.y, moveBackPoint.x, moveBackPoint.y);
-if (shipSelected && selectionrectangle.width < 60) {
-    if (mouse.pressed()) {
-        moveTowardsX = mouse.x
-        moveTowardsY = mouse.y
-        console.log("pressed")
-        moveBackPoint.x = scoutShip1.x;
-        moveBackPoint.y = scoutShip1.y;
-        await scoutShip1.rotateTo(mouse, 5);
-        await scoutShip1.moveTo(moveTowardsX, moveTowardsY, 1);
-    }
+    if (shipSelected && selectionrectangle.width < 60) {
+        if (mouse.pressed()) {
+            moveTowardsX = mouse.x
+            moveTowardsY = mouse.y
+            console.log("pressed")
+            moveBackPoint.x = scoutShip1.x;
+            moveBackPoint.y = scoutShip1.y;
+            await scoutShip1.rotateTo(mouse, 5);
+            await scoutShip1.moveTo(moveTowardsX, moveTowardsY, 1);
+        }
     }
 
 
@@ -371,7 +371,7 @@ function drawAllSpritesExcept() {
     }
 }
 
-function selection_system(){
+function selection_system() {
     if (mouse.presses()) {
         selectionStartX = mouse.x;
         selectionStartY = mouse.y;
@@ -383,27 +383,27 @@ function selection_system(){
     }
 
 
-    if (mouse.released() )
-    if (selectionrectangle.width >= 60) {
-for (let i = 0; i < actualships.length; i++) {
-    actualships[i].selected = false; 
-    
-   
-    if (
-        actualships[i].x > min(selectionStartX, selectionEndX) &&
-        actualships[i].x < max(selectionStartX, selectionEndX) &&
-        actualships[i].y > min(selectionStartY, selectionEndY) &&
-        actualships[i].y < max(selectionStartY, selectionEndY)
-        ) {
-            
-            console.log("ship selected" +  actualships[i]);
-            actualships[i].selected = true;
-         }
+    if (mouse.released())
+        if (selectionrectangle.width >= 60) {
+            for (let i = 0; i < actualships.length; i++) {
+                actualships[i].selected = false;
 
-        console.log( actualships[i].selected)
-    }
-    }
-    
+
+                if (
+                    actualships[i].x > min(selectionStartX, selectionEndX) &&
+                    actualships[i].x < max(selectionStartX, selectionEndX) &&
+                    actualships[i].y > min(selectionStartY, selectionEndY) &&
+                    actualships[i].y < max(selectionStartY, selectionEndY)
+                ) {
+
+                    console.log("ship selected" + actualships[i]);
+                    actualships[i].selected = true;
+                }
+
+                console.log(actualships[i].selected)
+            }
+        }
+
     for (let i = 0; i < actualships.length; i++) {
         if (actualships[i].selected === true) {
             actualships[i].debug = true
@@ -425,8 +425,8 @@ for (let i = 0; i < actualships.length; i++) {
             else {
                 shipSelected = false
             }
-            }
-}
+        }
+    }
     startpoint.x = selectionStartX
     startpoint.y = selectionStartY
     endpoint.x = selectionEndX
