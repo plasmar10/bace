@@ -92,17 +92,32 @@ function mothership() {
 
 
 
+let resourceZoneWidth = 800;
+let resourceZoneHeight = 800; 
+
+let resourceZoneX1 = -300;
+let resourceZoneY1 = -170;
+
+let resourceZoneX2 = resourceZoneX1 + resourceZoneWidth;
+let resourceZoneY2 = resourceZoneY1 + resourceZoneHeight;
+
+console.log(resourceZoneX2)
+console.log(resourceZoneY2)
+
 
 
 function resourceNodes() {
 
-    resourceZone = new Sprite(-1500, -500, 4000, 2500, 'n');
-    resourceZone.color = color(255, 255, 255, 100);
+    resourceZone = new Sprite(resourceZoneX1, resourceZoneY1, resourceZoneWidth, resourceZoneHeight, 'n');
+	resourceZone.offset.x = resourceZoneWidth / 2;
+    resourceZone.offset.y = resourceZoneHeight / 2;
 
-    for (let i = 0; i < 50; i++) {
+    resourceZone.debug = true;
 
-        let resourceX = random(-3460, 460);
-        let resourceY = random(-1710, 710);
+    for (let i = 0; i < 500; i++) {
+
+        let resourceX = random(resourceZoneX1 + 40, resourceZoneX2 - 40);
+        let resourceY = random(resourceZoneY1 + 40, resourceZoneY2 - 40);
 
         resourceScrapMetal = new Sprite(resourceX, resourceY, 40, 40, 's');
         resourceScrapMetal.color = 'gray';
@@ -111,7 +126,7 @@ function resourceNodes() {
 
             let d = dist(resourceScrapMetal.x, resourceScrapMetal.y, Resources[i].x, Resources[i].y)
 
-            if (d < 200) {
+            if (d < 55) {
                 resourceScrapMetal.remove();
 
             }
@@ -123,9 +138,17 @@ function resourceNodes() {
         Resources.push(resourceScrapMetal)
 
     }
+
+
+
+
+
+
+
     //add purchasable placeable mines
 
 }
+
 
 function makeships() {
     ships = new Group();
@@ -137,6 +160,9 @@ function makeships() {
     moveBackPoint = new ships.Sprite(scoutShip1.x, scoutShip1.y, 10, "n");
     actualships.push(scoutShip1)
 }
+
+
+
 
 
 
