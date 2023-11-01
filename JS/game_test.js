@@ -28,7 +28,7 @@ let selectionEndX, selectionEndY;
 let selectedShips = [];
 let destinationPoint
 let counter
-
+let resourceStations
 let Resources = [];
 
 
@@ -53,11 +53,14 @@ function setup() {
     makeships();
     resourceShip();
     enemies();//may have to go in draw for animation and stuff
+    resourceStations = new Group();
 
     gameInterface(); // this must alwas be done last
+
 }
 
 function draw() {
+
 
     zoom();
     scoutShip();
@@ -65,8 +68,8 @@ function draw() {
 
     monsterAni();
     selection_system();
-    resourceCollection();//this is the code for collecting resources 
-
+    resourceCollection();//
+    resourceCollector();
     GUIE(); //this must alwas be done last 
 }
 
@@ -505,8 +508,10 @@ function creatpointsforselection() {
     destinationPoint = new pointsforselect.Sprite(99999, 99999, 100, "n");
 
 }
-let resourceShip1
-let resourceShipimg
+let resourceShip1;
+let resourceShipimg;
+let resourceStation;
+let resourceStationSpawned = false;
 let resourceShip1MoveBackDirection
 function resourceShip() {
     resourceShip1 = new Sprite(1000, 30, 100, 30)
@@ -520,46 +525,40 @@ async function resourceCollection() {
     movePointDistance = dist(resourceShip1.x, resourceShip1.y, moveBackPoint.x, moveBackPoint.y);
 
     if (mouse.pressed()) {
-        moveTowardsX = mouse.x
-        moveTowardsY = mouse.y
-        console.log("pressed")
-        moveBackPoint.x = resourceShip1.x;
-        moveBackPoint.y = resourceShip1.y;
-        await resourceShip1.rotateTo(mouse, 5);
-        await resourceShip1.moveTo(moveTowardsX, moveTowardsY, 1);
+        resourceShip1.x = mouse.x
+        resourceShip1.y = mouse.y
 
-    }
-
-
-    if (resourceShip1.collides(allSprites)) {
-        resourceShip1.rotationSpeed = 0;
-        resourceShip1.vel.x = 0;
-        resourceShip1.vel.y = 0;
-        console.log("resourceShip1 has stoped because it has colided with somthing")
-        await delay(500);
-        await resourceShip1.moveTo(moveBackPoint, 1)
-
-    }
-
-    if (movePointDistance > 80) {
-        moveBackPoint.direction = moveBackPoint.angleTo(resourceShip1);
-        moveBackPoint.speed = 2;
-    } else if (movePointDistance < 30) {
-        moveBackPoint.speed = 0;
     }
 
 
     for (let i = 0; i < Resources.length; i++) {
+    for (let i = 0; i < Resources.length; i++) {
 
         let d = dist(resourceShip1.x, resourceShip1.y, Resources[i].x, Resources[i].y)
-
-        if (d < 200) {
-            counter.text++
-
+        if (d < 200 && key === "p" && !resourceStationSpawned) {
+            resourceStation = new Sprite(resourceShip1.x, resourceShip1.y)
+            resourceStationSpawned = true;
+            resourceShip1.remove()
+            resourceStations.push(resourceStation)
         }
 
-    }
 
+    }
 }
+}
+function resourceCollector() {
+if(resourceStationSpawned === true ){
+    for (let i = 0; i < Resources.length; i++) {
+        let c = dist(resourceStation.x, resourceStation.y, Resources[i].x, Resources[i].y)
+        if (c < 200) {
+            if (frameCount % 60 === 0) {
+                counter.text++
+            }
+            
+        }
+    }
+}
+}
+
 
 // remonder for omrhi // use angleto for better prefromens for shiops and points so they resolve the promice cliding problem
