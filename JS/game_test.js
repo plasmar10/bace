@@ -27,8 +27,8 @@ let selectionStartX, selectionStartY;
 let selectionEndX, selectionEndY;
 let selectedShips = [];
 let destinationPoint
-let counter 
-
+let counter
+let resourceStations
 let Resources = [];
 
 
@@ -39,8 +39,8 @@ function preload() {
     resourceImage = loadImage("./assets/metalplate.png");
     mothershipImage = loadImage("./assets/Mothership.gif");
     cannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun.png");
-SeaMonSha= loadImage("./assets/enemy_sprites/reaper.gif")
-resourceShipimg= loadImage("./assets/ship_sptites/shipz/images/ship_medium_body.png")
+    SeaMonSha = loadImage("./assets/enemy_sprites/reaper.gif")
+    resourceShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_medium_body.png")
 }
 
 function setup() {
@@ -53,21 +53,23 @@ function setup() {
     makeships();
     resourceShip();
     enemies();//may have to go in draw for animation and stuff
-    
-gameInterface(); // this must alwas be done last
+    resourceStations = new Group();
+
+    gameInterface(); // this must alwas be done last
+
 }
 
 function draw() {
-  
+
     zoom();
     scoutShip();
 
 
     monsterAni();
     selection_system();
-    resourceCollection();//this is the code for collecting resources 
-
-   GUIE(); //this must alwas be done last 
+    resourceCollection();//
+    resourceCollector();
+    GUIE(); //this must alwas be done last 
 }
 
 
@@ -151,16 +153,16 @@ async function scoutShip() {
 
     scoutShip1MoveBackDirection = -scoutShip1.rotation
     movePointDistance = dist(scoutShip1.x, scoutShip1.y, moveBackPoint.x, moveBackPoint.y);
-if (shipSelected){
-    if (mouse.pressed()) {
-        moveTowardsX = mouse.x
-        moveTowardsY = mouse.y
-        console.log("pressed")
-        moveBackPoint.x = scoutShip1.x;
-        moveBackPoint.y = scoutShip1.y;
-        await scoutShip1.rotateTo(mouse, 5);
-        await scoutShip1.moveTo(moveTowardsX, moveTowardsY, 1);
-    }
+    if (shipSelected) {
+        if (mouse.pressed()) {
+            moveTowardsX = mouse.x
+            moveTowardsY = mouse.y
+            console.log("pressed")
+            moveBackPoint.x = scoutShip1.x;
+            moveBackPoint.y = scoutShip1.y;
+            await scoutShip1.rotateTo(mouse, 5);
+            await scoutShip1.moveTo(moveTowardsX, moveTowardsY, 1);
+        }
     }
 
 
@@ -191,7 +193,7 @@ if (shipSelected){
     scoutShip1Cannon.rotation = scoutShip1Cannon.direction
 
 
-   
+
 
 
     MonsterEnemyDistance = dist(scoutShip1.x, scoutShip1.y, SeaMon.x, SeaMon.y)
@@ -269,26 +271,26 @@ function enemies() {
 
     SeaMon = new Sprite(-1500, 2000, 100, 100)
 
-    SeaMonSha.resize(500,500)
+    SeaMonSha.resize(500, 500)
     SeaMon.img = SeaMonSha
-    
-    }
-    
-    
+
+}
+
+
 function monsterAni() {
-        SeaMon.direction = SeaMon.rotation;//sync direction to rotation
-          SeaMon.speed = 5; 
-    
-    if(dist(scoutShip1.x,scoutShip1.y,SeaMon.x,SeaMon.y) < 1000){
+    SeaMon.direction = SeaMon.rotation;//sync direction to rotation
+    SeaMon.speed = 5;
+
+    if (dist(scoutShip1.x, scoutShip1.y, SeaMon.x, SeaMon.y) < 1000) {
         SeaMon.rotation -= 0
         SeaMon.rotateTowards(scoutShip1)
-       
-    
+
+
     }
-    else{
-     SeaMon.rotation -= 1; 
+    else {
+        SeaMon.rotation -= 1;
     }
-    
+
 }
 
 function mouseWheel(event) {
@@ -312,11 +314,11 @@ function mouseWheel(event) {
         camera.x = camera.x + (camera.mouse.x - width / 2) * 0.01
         camera.y = camera.y + (camera.mouse.y - height / 2) * 0.01
     }
-else if (event.delta < 0) {
-    camera.x = camera.x + (camera.mouse.x - width / 2) * 0.1
-    camera.y = camera.y + (camera.mouse.y - height / 2) * 0.1
-}
-    
+    else if (event.delta < 0) {
+        camera.x = camera.x + (camera.mouse.x - width / 2) * 0.1
+        camera.y = camera.y + (camera.mouse.y - height / 2) * 0.1
+    }
+
 }
 
 function GUIE() {
@@ -329,20 +331,20 @@ function GUIE() {
 }
 
 function gameInterface() {
-	ui = new Group();
-	for (let i = 0; i < 9; i++) {
-		new ui.Sprite(100 + i * 40, 1000, 35, 35, 'n');
+    ui = new Group();
+    for (let i = 0; i < 9; i++) {
+        new ui.Sprite(100 + i * 40, 1000, 35, 35, 'n');
     }
-    counter = new ui.Sprite (80,35,150,60, 'n');
-counter.textSize = 50
-counter.text = 0
+    counter = new ui.Sprite(80, 35, 150, 60, 'n');
+    counter.textSize = 50
+    counter.text = 0
 }
 
 function zoom() {
     scrollNumber = 0
     camera.zoomTo(scrollZoomLevel)
     background(0);
-    
+
     camera.on();
     drawAllSpritesExcept();
     if (kb.pressing('arrowleft')) {
@@ -375,7 +377,7 @@ function drawAllSpritesExcept() {
     }
 }
 
-function selection_system(){
+function selection_system() {
     strokeWeight(1);
     (selectionStartX, selectionStartY);
     point(selectionEndX, selectionEndY);
@@ -392,165 +394,159 @@ function selection_system(){
 
     // Draw the selection rectangle
     if (mouse.released())
-for (let i = 0; i < actualships.length; i++) {
-    actualships[i].selected = false; 
-    
-    //console.log(actualships[i].x)
-    // Check for selected ships when the mouse is released
-    if(!shipSelected){
-    if (
-        actualships[i].x > min(selectionStartX, selectionEndX) &&
-        actualships[i].x < max(selectionStartX, selectionEndX) &&
-        actualships[i].y > min(selectionStartY, selectionEndY) &&
-        actualships[i].y < max(selectionStartY, selectionEndY)
-        ) {
-            
-            console.log("ship selected" +  actualships[i]);
-            actualships[i].selected = true;
-         }
-        // else{
-        //     actualships[i].selected = false; 
-        // }
-        console.log( actualships[i].selected)
-    }
-}
+        for (let i = 0; i < actualships.length; i++) {
+            actualships[i].selected = false;
 
-    
+            //console.log(actualships[i].x)
+            // Check for selected ships when the mouse is released
+            if (!shipSelected) {
+                if (
+                    actualships[i].x > min(selectionStartX, selectionEndX) &&
+                    actualships[i].x < max(selectionStartX, selectionEndX) &&
+                    actualships[i].y > min(selectionStartY, selectionEndY) &&
+                    actualships[i].y < max(selectionStartY, selectionEndY)
+                ) {
+
+                    console.log("ship selected" + actualships[i]);
+                    actualships[i].selected = true;
+                }
+                // else{
+                //     actualships[i].selected = false; 
+                // }
+                console.log(actualships[i].selected)
+            }
+        }
+
+
     for (let i = 0; i < actualships.length; i++) {
-if(actualships[i].selected === true ){
-    actualships[i].debug = true
-console.log(actualships[i] + 'selected')
+        if (actualships[i].selected === true) {
+            actualships[i].debug = true
+            console.log(actualships[i] + 'selected')
 
-    } else {
-        actualships[i].debug = false;
+        } else {
+            actualships[i].debug = false;
+        }
     }
-    }
-   
-//is a shop selected
 
-if(mouse.released()){
-    console.log('mouse releced')
-    for (let i = 0; i < actualships.length; i++) {
-        if(actualships[i].selected === true ){
-        shipSelected = true
-            } 
-            else{
+    //is a shop selected
+
+    if (mouse.released()) {
+        console.log('mouse releced')
+        for (let i = 0; i < actualships.length; i++) {
+            if (actualships[i].selected === true) {
+                shipSelected = true
+            }
+            else {
                 shipSelected = false
             }
-            }
-}
+        }
+    }
 
 
-    
+
 
 
     startpoint.x = selectionStartX
     startpoint.y = selectionStartY
     endpoint.x = selectionEndX
     endpoint.y = selectionEndY
-if(startpoint.x > endpoint.x){
-    if (startpoint.y >= endpoint.y){
-        calX = selectionStartX - ((dist(selectionStartX,0,selectionEndX,0)/2))
-        calY = selectionStartY - ((dist(selectionStartY,0,selectionEndY,0)/2))
+    if (startpoint.x > endpoint.x) {
+        if (startpoint.y >= endpoint.y) {
+            calX = selectionStartX - ((dist(selectionStartX, 0, selectionEndX, 0) / 2))
+            calY = selectionStartY - ((dist(selectionStartY, 0, selectionEndY, 0) / 2))
+        }
+        else {
+            calX = selectionStartX - ((dist(selectionStartX, 0, selectionEndX, 0) / 2))
+            calY = selectionStartY + ((dist(selectionStartY, 0, selectionEndY, 0) / 2))
+        }
     }
-    else{
-    calX = selectionStartX - ((dist(selectionStartX,0,selectionEndX,0)/2))
-    calY = selectionStartY + ((dist(selectionStartY,0,selectionEndY,0)/2))
+    else {
+        if (startpoint.y >= endpoint.y) {
+            calX = selectionStartX + ((dist(selectionStartX, 0, selectionEndX, 0) / 2))
+            calY = selectionStartY - ((dist(selectionStartY, 0, selectionEndY, 0) / 2))
+        }
+        else {
+            calX = selectionStartX + ((dist(selectionStartX, 0, selectionEndX, 0) / 2))
+            calY = selectionStartY + ((dist(selectionStartY, 0, selectionEndY, 0) / 2))
+        }
     }
-}
-else{
-    if (startpoint.y >= endpoint.y){
-        calX = selectionStartX + ((dist(selectionStartX,0,selectionEndX,0)/2))
-        calY = selectionStartY - ((dist(selectionStartY,0,selectionEndY,0)/2))
-    }
-    else{
-    calX = selectionStartX + ((dist(selectionStartX,0,selectionEndX,0)/2))
-    calY = selectionStartY + ((dist(selectionStartY,0,selectionEndY,0)/2))
-    }
-}
-    if(selectionrectangle){
+    if (selectionrectangle) {
         selectionrectangle.remove()
-       }
+    }
 
 
-if (calX > -99999){
-    selectionrectangle = new pointsforselect.Sprite(calX , calY, dist(selectionStartX,0,selectionEndX,0), dist(selectionStartY,0,selectionEndY,0), "n");
-    selectionrectangle.color= color(0,255,0, 50)
+    if (calX > -99999) {
+        selectionrectangle = new pointsforselect.Sprite(calX, calY, dist(selectionStartX, 0, selectionEndX, 0), dist(selectionStartY, 0, selectionEndY, 0), "n");
+        selectionrectangle.color = color(0, 255, 0, 50)
 
+
+
+    }
+
+    if (mouse.presses()) {
+        destinationPoint.x = mouse.x;
+        destinationPoint.y = mouse.y;
+    }
 
 
 }
 
-if (mouse.presses()) {
-    destinationPoint.x = mouse.x;
-    destinationPoint.y = mouse.y;
-}
-
-
-}
-
-function creatpointsforselection(){
+function creatpointsforselection() {
     pointsforselect = new Group();
     startpoint = new pointsforselect.Sprite(99999, 99999, 1, "n")
     endpoint = new pointsforselect.Sprite(99999, 99999, 1, "n");
     destinationPoint = new pointsforselect.Sprite(99999, 99999, 100, "n");
 
 }
-let resourceShip1
-let resourceShipimg
- let resourceShip1MoveBackDirection
-function resourceShip(){
-resourceShip1 = new Sprite (1000,30,100,30)
-resourceShip1.img=resourceShipimg
+let resourceShip1;
+let resourceShipimg;
+let resourceStation;
+let resourceStationSpawned = false;
+let resourceShip1MoveBackDirection
+function resourceShip() {
+    resourceShip1 = new Sprite(1000, 30, 100, 30)
+    resourceShip1.img = resourceShipimg
 
 
 }
 
- async function resourceCollection(){
+async function resourceCollection() {
     resourceShip1MoveBackDirection = -resourceShip1.rotation
     movePointDistance = dist(resourceShip1.x, resourceShip1.y, moveBackPoint.x, moveBackPoint.y);
 
     if (mouse.pressed()) {
-        moveTowardsX = mouse.x
-        moveTowardsY = mouse.y
-        console.log("pressed")
-        moveBackPoint.x = resourceShip1.x;
-        moveBackPoint.y = resourceShip1.y;
-        await resourceShip1.rotateTo(mouse, 5);
-        await resourceShip1.moveTo(moveTowardsX, moveTowardsY, 1);
+        resourceShip1.x = mouse.x
+        resourceShip1.y = mouse.y
 
     }
 
 
-    if (resourceShip1.collides(allSprites)) {
-        resourceShip1.rotationSpeed = 0;
-        resourceShip1.vel.x = 0;
-        resourceShip1.vel.y = 0;
-        console.log("resourceShip1 has stoped because it has colided with somthing")
-        await delay(500);
-        await resourceShip1.moveTo(moveBackPoint, 1)
+    for (let i = 0; i < Resources.length; i++) {
+
+        let d = dist(resourceShip1.x, resourceShip1.y, Resources[i].x, Resources[i].y)
+        if (d < 200 && key === "p" && !resourceStationSpawned) {
+            resourceStation = new Sprite(resourceShip1.x, resourceShip1.y)
+            resourceStationSpawned = true;
+            resourceShip1.remove()
+            resourceStations.push(resourceStation)
+        }
+
 
     }
-
-    if (movePointDistance > 80) {
-        moveBackPoint.direction = moveBackPoint.angleTo(resourceShip1);
-        moveBackPoint.speed = 2;
-    } else if (movePointDistance < 30) {
-        moveBackPoint.speed = 0;
+}
+function resourceCollector() {
+if(resourceStationSpawned === true ){
+    for (let i = 0; i < Resources.length; i++) {
+        let c = dist(resourceStation.x, resourceStation.y, Resources[i].x, Resources[i].y)
+        if (c < 200) {
+            if (frameCount % 60 === 0) {
+                counter.text++
+            }
+            
+        }
     }
-
-
-for (let i = 0; i < Resources.length; i++) {
-
-    let d = dist(resourceShip1.x, resourceShip1.y, Resources[i].x, Resources[i].y)
-
-    if (d < 200) {
-       counter.text ++
-
-    }
-
+}
 }
 
-}
 
 // remonder for omrhi // use angleto for better prefromens for shiops and points so they resolve the promice cliding problem
