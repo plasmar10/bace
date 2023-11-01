@@ -7,7 +7,7 @@ let scrollNumber = 0
 let scrollZoomLevel = 0.25
 let ships, scoutShipsClass, scoutShip1, scoutShip1Cannon;
 let scoutShipImage;
-let resourceImage;
+let scrapMetalImage, oilImage;
 let cannonImage;
 let GUI;
 let SeaMon;
@@ -36,7 +36,8 @@ function preload() {
     oceanBackground = loadImage("./assets/ocean.jpg");
     scoutShipImage = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png");
     scoutShipCannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png")
-    resourceImage = loadImage("./assets/metalplate.png");
+    scrapMetalImage = loadImage("./assets/metalplate.png");
+    oilImage = loadImage("./assets/oil.png");
     mothershipImage = loadImage("./assets/Mothership.gif");
     cannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun.png");
     SeaMonSha = loadImage("./assets/enemy_sprites/reaper.gif")
@@ -49,7 +50,7 @@ function setup() {
     ocean();
     creatpointsforselection();
     mothership();
-    resourceNodes();
+    resourceSpawner();
     makeships();
     resourceShip();
     enemies();//may have to go in draw for animation and stuff
@@ -93,31 +94,59 @@ function mothership() {
     camera.y = 800;
 }
 
+function resourceSpawner() {
 
 
-let resourceZoneWidth = 800;
-let resourceZoneHeight = 800; 
+    //SCRAP METAL//
+    if (1 === 1) {
+        let resourceZoneWidth = 3000;
+        let resourceZoneHeight = 1500;
 
-let resourceZoneX1 = -300;
-let resourceZoneY1 = -170;
+        let resourceZoneX1 = -2750;
+        let resourceZoneY1 = -1000;
 
-let resourceZoneX2 = resourceZoneX1 + resourceZoneWidth;
-let resourceZoneY2 = resourceZoneY1 + resourceZoneHeight;
+        let resourceZoneX2 = resourceZoneX1 + resourceZoneWidth;
+        let resourceZoneY2 = resourceZoneY1 + resourceZoneHeight;
 
-console.log(resourceZoneX2)
-console.log(resourceZoneY2)
+        let selectedResource = 'ScrapMetal';
+
+        resourceNodes(resourceZoneWidth, resourceZoneHeight, resourceZoneX1, resourceZoneY1, resourceZoneX2, resourceZoneY2, selectedResource)
+    }
+
+    //Oil//
+    if (1 === 1) {
+        let resourceZoneWidth = 3000;
+        let resourceZoneHeight = 1500;
+
+        let resourceZoneX1 = 1750;
+        let resourceZoneY1 = -1000;
+
+        let resourceZoneX2 = resourceZoneX1 + resourceZoneWidth;
+        let resourceZoneY2 = resourceZoneY1 + resourceZoneHeight;
+
+        let selectedResource = 'Oil';
+
+        resourceNodes(resourceZoneWidth, resourceZoneHeight, resourceZoneX1, resourceZoneY1, resourceZoneX2, resourceZoneY2, selectedResource)
+    }
 
 
 
-function resourceNodes() {
+}
+
+
+
+
+
+function resourceNodes(resourceZoneWidth, resourceZoneHeight, resourceZoneX1, resourceZoneY1, resourceZoneX2, resourceZoneY2, selectedResource) {
 
     resourceZone = new Sprite(resourceZoneX1, resourceZoneY1, resourceZoneWidth, resourceZoneHeight, 'n');
-	resourceZone.offset.x = resourceZoneWidth / 2;
+    resourceZone.offset.x = resourceZoneWidth / 2;
     resourceZone.offset.y = resourceZoneHeight / 2;
-
+    scrapMetalImage.resize(40, 40)
+    oilImage.resize(40, 40)
     resourceZone.debug = true;
 
-    for (let i = 0; i < 500; i++) {
+    for (let i = 0; i < 25; i++) {
 
         let resourceX = random(resourceZoneX1 + 40, resourceZoneX2 - 40);
         let resourceY = random(resourceZoneY1 + 40, resourceZoneY2 - 40);
@@ -129,15 +158,19 @@ function resourceNodes() {
 
             let d = dist(resourceScrapMetal.x, resourceScrapMetal.y, Resources[i].x, Resources[i].y)
 
-            if (d < 55) {
+            if (d < 200) { //edit this to change how far spread apart the resources are
                 resourceScrapMetal.remove();
 
             }
 
         }
 
-        resourceImage.resize(40, 40)
-        resourceScrapMetal.img = resourceImage
+        if (selectedResource === 'ScrapMetal') {
+            resourceScrapMetal.img = scrapMetalImage
+        } else if (selectedResource === 'Oil') {
+            resourceScrapMetal.img = oilImage
+        }
+
         Resources.push(resourceScrapMetal)
 
     }
@@ -532,32 +565,32 @@ async function resourceCollection() {
 
 
     for (let i = 0; i < Resources.length; i++) {
-    for (let i = 0; i < Resources.length; i++) {
+        for (let i = 0; i < Resources.length; i++) {
 
-        let d = dist(resourceShip1.x, resourceShip1.y, Resources[i].x, Resources[i].y)
-        if (d < 200 && key === "p" && !resourceStationSpawned) {
-            resourceStation = new Sprite(resourceShip1.x, resourceShip1.y)
-            resourceStationSpawned = true;
-            resourceShip1.remove()
-            resourceStations.push(resourceStation)
+            let d = dist(resourceShip1.x, resourceShip1.y, Resources[i].x, Resources[i].y)
+            if (d < 200 && key === "p" && !resourceStationSpawned) {
+                resourceStation = new Sprite(resourceShip1.x, resourceShip1.y)
+                resourceStationSpawned = true;
+                resourceShip1.remove()
+                resourceStations.push(resourceStation)
+            }
+
+
         }
-
-
     }
-}
 }
 function resourceCollector() {
-if(resourceStationSpawned === true ){
-    for (let i = 0; i < Resources.length; i++) {
-        let c = dist(resourceStation.x, resourceStation.y, Resources[i].x, Resources[i].y)
-        if (c < 200) {
-            if (frameCount % 60 === 0) {
-                counter.text++
+    if (resourceStationSpawned === true) {
+        for (let i = 0; i < Resources.length; i++) {
+            let c = dist(resourceStation.x, resourceStation.y, Resources[i].x, Resources[i].y)
+            if (c < 200) {
+                if (frameCount % 60 === 0) {
+                    counter.text++
+                }
+
             }
-            
         }
     }
-}
 }
 
 
