@@ -36,6 +36,7 @@ let movepoints = []
 let resourceStations
 let scrapMetalResourceNodes = [];
 let oilResourceNodes = [];
+let crystalResourceNodes = [];
 
 
 function preload() {
@@ -162,28 +163,40 @@ function resourceNodes(resourceZoneWidth, resourceZoneHeight, resourceZoneX1, re
         defaultResource = new Sprite(resourceX, resourceY, 40, 40, 's');
         defaultResource.color = 'gray';
 
-        for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
 
-            let d = dist(defaultResource.x, defaultResource.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
-
-            if (d < 200) { //edit this to change how far spread apart the resources are
-                defaultResource.remove();
-
-            }
-
-        }
 
         if (selectedResource === 'ScrapMetal') {
             defaultResource.img = scrapMetalImage
+
+            for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
+
+                let d = dist(defaultResource.x, defaultResource.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
+
+                if (d < 200) { //edit this to change how far spread apart the resources are
+                    defaultResource.remove();
+
+                }
+            }
+
             scrapMetalResourceNodes.push(defaultResource)
         } else if (selectedResource === 'Oil') {
             defaultResource.img = oilImage
+
+            for (let i = 0; i < oilResourceNodes.length; i++) {
+
+                let d = dist(defaultResource.x, defaultResource.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
+
+                if (d < 200) { //edit this to change how far spread apart the resources are
+                    defaultResource.remove();
+
+                }
+            }
             oilResourceNodes.push(defaultResource)
         }
-        
+
         console.log(scrapMetalResourceNodes)
         console.log(oilResourceNodes)
-        
+
 
     }
 
@@ -257,8 +270,8 @@ function moveShips() {
         if (mouse.pressed()) {
             for (let selectedship of actualships) {
                 if (selectedship.selected == true) {
-                movepoint = new Sprite(mouse.x, mouse.y, 50, "n")
-                movepoints.push(movepoint)
+                    movepoint = new Sprite(mouse.x, mouse.y, 50, "n")
+                    movepoints.push(movepoint)
 
                 selectedship.needstobemoved = true
   
