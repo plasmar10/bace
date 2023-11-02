@@ -46,6 +46,11 @@ let moveTowardsY;
 let moveBackPoint;
 let movePointDistance;
 
+let smallCan = [];
+let smallCan2 = [];
+
+let dualCan;
+
 
 function preload() {
     oceanBackground = loadImage("./assets/ocean.jpg");
@@ -85,6 +90,7 @@ function draw() {
     zoom();
     moveShips();
     moveselectedships();
+    Weapons();
 
     monsterAni();
     selection_system();
@@ -283,15 +289,34 @@ function makeship(shiptype, newshipX, newshipY) {
         actualships.push(test)
         scoutShipsClass.img = scoutShipImage
         test.needstobemoved = false
+        let newSmallCan = new Sprite(newshipX, newshipY, 20, 20)
+        newSmallCan.id = test.idNum
+        newSmallCan.overlaps(ships)
+        smallCan.push(newSmallCan)
+
+
     }
     if (shiptype == "fighter") {
-        test = new fighterShipsClass.Sprite(newshipX, newshipY, 200, 54, "d")
+        test = new fighterShipsClass.Sprite(newshipX, newshipY, 179, 62, "d")
         actualships.push(test)
         fighterShipsClass.img = fighterShipimg
         test.needstobemoved = false
+        let newSmallCan2 = new Sprite(newshipX, newshipY, 20, 20)
+        newSmallCan2.id = test.idNum
+        newSmallCan2.overlaps(ships)
+        smallCan2.push(newSmallCan2)
+
+        newSmallCan2.cannonnumber = 1
+
+        let newSmallCan3 = new Sprite(newshipX, newshipY, 20, 20)
+        newSmallCan3.id = test.idNum
+        newSmallCan3.overlaps(ships)
+        smallCan2.push(newSmallCan3)
+        newSmallCan3.cannonnumber = 2
+
     }
     if (shiptype == "destroyer") {
-        test = new destroyerShipsClass.Sprite(newshipX, newshipY, 300, 54, "d")
+        test = new destroyerShipsClass.Sprite(newshipX, newshipY, 368, 122, "d")
         actualships.push(test)
         destroyerShipsClass.img = destroyerimg
         test.needstobemoved = false
@@ -304,7 +329,33 @@ function makeship(shiptype, newshipX, newshipY) {
 
 }
 
-
+function Weapons() {
+    //scout
+    for (let newSmallCan of smallCan) {
+        for (let ship of ships) {
+            if (newSmallCan.id === ship.idNum) {
+                newSmallCan.x = ship.x
+                newSmallCan.y = ship.y
+            }
+        }
+    }
+    //fighter
+    for (let cannon of smallCan2) {
+        for (let ship of ships) {
+            if (cannon.id === ship.idNum) {
+                if(cannon.cannonnumber===1){
+                cannon.x = ship.x + 25
+                cannon.y = ship.y
+                }
+                if(cannon.cannonnumber===2){
+                    cannon.x = ship.x - 45
+                    cannon.y = ship.y
+                    }
+            }
+        }
+    }
+   
+}
 
 
 
@@ -684,11 +735,11 @@ async function resourceCollection() {
     resourceShip1MoveBackDirection = -resourceShip1.rotation
     movePointDistance = dist(resourceShip1.x, resourceShip1.y, moveBackPoint.x, moveBackPoint.y);
 
-    // if (mouse.pressed()) {
-    //     resourceShip1.x = mouse.x
-    //     resourceShip1.y = mouse.y
+    if (mouse.pressed()) {
+        resourceShip1.x = mouse.x
+        resourceShip1.y = mouse.y
 
-    // }
+    }
 
 
     //ScrapMetal
