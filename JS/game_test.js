@@ -261,6 +261,7 @@ function makeships() {
     destroyerShipsClass = new ships.Group();
     constructerShipsClass = new ships.Group();
     scoutShip1 = new scoutShipsClass.Sprite(0, 700, 105, 54, "d");
+    scoutShip1.needstobemoved = false
     scoutShip1.img = scoutShipImage
     scoutShip1Cannon = new ships.Sprite(0, 700, 30, 20, "n");
     scoutShip1Cannon.img = cannonImage
@@ -275,25 +276,29 @@ function makeships() {
 let test
 let scoutshipnum
 function makeship(shiptype, newshipX, newshipY) {
-    console.log(actualships.length)
+    //console.log(actualships.length)
     if (shiptype == "scout") {
         test = new scoutShipsClass.Sprite(newshipX, newshipY, 105, 54, "d")
         actualships.push(test)
        scoutShipsClass.img = scoutShipImage
+       test.needstobemoved = false
     }
     if (shiptype == "fighter") {
         test = new fighterShipsClass.Sprite(newshipX, newshipY, 200, 54, "d")
         actualships.push(test)
         fighterShipsClass.img = fighterShipimg
+        test.needstobemoved = false
     }
     if (shiptype == "destroyer") {
         test = new destroyerShipsClass.Sprite(newshipX, newshipY, 300, 54, "d")
         actualships.push(test)
         destroyerShipsClass.img = destroyerimg
+        test.needstobemoved = false
     }
     if (shiptype == "constructer") {
         test = new constructerShipsClass.Sprite(newshipX, newshipY, 300, 200, "d")
         actualships.push(test)
+        test.needstobemoved = false
     }
 
 }
@@ -309,19 +314,21 @@ function moveShips() {
 
     scoutShip1MoveBackDirection = -scoutShip1.rotation
     movePointDistance = dist(scoutShip1.x, scoutShip1.y, moveBackPoint.x, moveBackPoint.y);
+    console.log(shipSelected)
     if (shipSelected && selectionrectangle.width < 60) {
         if (mouse.pressed()) {
+            let numofships = 0
             for (let selectedship of actualships) {
                 if (selectedship.selected == true) {
                     movepoint = new Sprite(mouse.x, mouse.y, 50, "n")
                     movepoints.push(movepoint)
-
+                    numofships ++
                 selectedship.needstobemoved = true
   
 
                 }
             }
-
+console.log(numofships)
         }
     }
 
@@ -385,14 +392,16 @@ function moveShips() {
 
 
 function moveselectedships(){
+   
     for (let selectedship of actualships) {
-        if (selectedship.needstobemoved == true) {
-            selectedship.angleTo(100,100)
-            console.log("not working")
-
+       // console.log("before if", selectedship,selectedship.needstobemoved)
+        if (selectedship.needstobemoved) {
+          //  console.log("after if",selectedship)
+            selectedship.rotation = selectedship.direction
+            selectedship.direction = selectedship.angleTo(mouse);
+            selectedship.speed = 10;
         }
     }
-
 }
 
 
@@ -590,7 +599,7 @@ function selection_system() {
     }
 
     //is a shop selected
-
+// problematic only works if all are selected
     if (mouse.released()) {
         console.log('mouse releced')
         for (let i = 0; i < actualships.length; i++) {
@@ -672,11 +681,11 @@ async function resourceCollection() {
     resourceShip1MoveBackDirection = -resourceShip1.rotation
     movePointDistance = dist(resourceShip1.x, resourceShip1.y, moveBackPoint.x, moveBackPoint.y);
 
-    if (mouse.pressed()) {
-        resourceShip1.x = mouse.x
-        resourceShip1.y = mouse.y
+    // if (mouse.pressed()) {
+    //     resourceShip1.x = mouse.x
+    //     resourceShip1.y = mouse.y
 
-    }
+    // }
 
 
     //ScrapMetal
