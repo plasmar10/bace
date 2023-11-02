@@ -270,7 +270,7 @@ function makeships() {
     actualships.push(scoutShip1)
     makeship("scout", 200, 700)
     makeship("fighter", 500, 700)
-    makeship("destroyer",800,700) 
+    makeship("destroyer", 800, 700)
 
 
 }
@@ -316,16 +316,17 @@ function moveShips() {
     scoutShip1MoveBackDirection = -scoutShip1.rotation
     movePointDistance = dist(scoutShip1.x, scoutShip1.y, moveBackPoint.x, moveBackPoint.y);
     // console.log(shipSelected)
-    if (shipSelected && selectionrectangle.width < 60) {
+    if (shipSelected && selectionrectangle.width < 100) {
         if (mouse.pressed()) {
             for (let selectedship of actualships) {
                 if (selectedship.selected == true) {
                     movepoint = new Sprite(mouse.x, mouse.y, 50, "n")
+                    movepoint.visible = false
                     movepoints.push(movepoint)
                     selectedship.needstobemoved = true
                     lastmovepoint = movepoints.length
-selectedship.movepoint = movepoint
-console.log(selectedship.movepoint, movepoint)
+                    selectedship.movepoint = movepoint
+                    console.log(selectedship.movepoint, movepoint)
                 }
             }
         }
@@ -386,7 +387,7 @@ console.log(selectedship.movepoint, movepoint)
 
 
 function moveselectedships() {
-   // console.log(lastmovepoint + " lastmovepoint")
+    // console.log(lastmovepoint + " lastmovepoint")
     for (let selectedship of actualships) {
         if (selectedship.needstobemoved) {
             selectedship.rotation = selectedship.direction
@@ -394,14 +395,14 @@ function moveselectedships() {
             selectedship.speed = 10;
         }
 
-        if (selectedship.needstobemoved && (dist(selectedship.x, selectedship.y, movepoints[lastmovepoint-1].x, movepoints[lastmovepoint-1].y) < 60)) {
-         console.log("helloworld")
-         selectedship.needstobemoved = false
-         selectedship.vel.x = 0;
-         selectedship.vel.y = 0;
-         selectedship.rotation = 0;
+        if (selectedship.needstobemoved && (dist(selectedship.x, selectedship.y, movepoints[lastmovepoint - 1].x, movepoints[lastmovepoint - 1].y) < 60)) {
+            console.log("helloworld")
+            selectedship.needstobemoved = false
+            selectedship.vel.x = 0;
+            selectedship.vel.y = 0;
+            selectedship.rotation = 0;
 
-        }   
+        }
 
     }
 }
