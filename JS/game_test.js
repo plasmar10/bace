@@ -38,6 +38,7 @@ let resourceStations
 let scrapMetalResourceNodes = [];
 let oilResourceNodes = [];
 let crystalResourceNodes = [];
+let lastmovepoint = 0
 
 let scoutShip1MoveBackDirection;
 let moveTowardsX;
@@ -363,25 +364,21 @@ function Weapons() {
 
 
 function moveShips() {
-    scoutShip1.angleTo(mouse, 0.5)
-
     scoutShip1MoveBackDirection = -scoutShip1.rotation
     movePointDistance = dist(scoutShip1.x, scoutShip1.y, moveBackPoint.x, moveBackPoint.y);
-    console.log(shipSelected)
+    // console.log(shipSelected)
     if (shipSelected && selectionrectangle.width < 60) {
         if (mouse.pressed()) {
-            let numofships = 0
             for (let selectedship of actualships) {
                 if (selectedship.selected == true) {
                     movepoint = new Sprite(mouse.x, mouse.y, 50, "n")
                     movepoints.push(movepoint)
-                    numofships++
                     selectedship.needstobemoved = true
-
-
+                    lastmovepoint = movepoints.length
+selectedship.movepoint = movepoint
+console.log(selectedship.movepoint, movepoint)
                 }
             }
-            console.log(numofships)
         }
     }
 
@@ -436,24 +433,27 @@ function moveShips() {
         bulletTimer = 0
     }
 
-
-
-
-
 }
 
 
-
 function moveselectedships() {
-
+   // console.log(lastmovepoint + " lastmovepoint")
     for (let selectedship of actualships) {
-        // console.log("before if", selectedship,selectedship.needstobemoved)
         if (selectedship.needstobemoved) {
-            //  console.log("after if",selectedship)
             selectedship.rotation = selectedship.direction
-            selectedship.direction = selectedship.angleTo(mouse);
+            selectedship.direction = selectedship.angleTo(selectedship.movepoint);
             selectedship.speed = 10;
         }
+
+        if (selectedship.needstobemoved && (dist(selectedship.x, selectedship.y, movepoints[lastmovepoint-1].x, movepoints[lastmovepoint-1].y) < 60)) {
+         console.log("helloworld")
+         selectedship.needstobemoved = false
+         selectedship.vel.x = 0;
+         selectedship.vel.y = 0;
+         selectedship.rotation = 0;
+
+        }   
+
     }
 }
 
@@ -655,11 +655,11 @@ function selection_system() {
     // problematic only works if all are selected
     if (mouse.released()) {
         console.log('mouse released');
-        shipSelected = false; // Assume no ships are selected initially
+        shipSelected = false;
         for (let i = 0; i < actualships.length; i++) {
             if (actualships[i].selected === true) {
-                shipSelected = true; // Set to true if any ship is selected
-                break; // No need to continue checking once one ship is found to be selected
+                shipSelected = true;
+                break;
             }
         }
     }
