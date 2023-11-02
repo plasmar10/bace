@@ -473,7 +473,7 @@ function moveselectedships() {
             selectedship.needstobemoved = false
             selectedship.vel.x = 0;
             selectedship.vel.y = 0;
-            selectedship.speed = 0;
+            selectedship.speed = 0; // set this to speed instead of rotation
 
         }
 
