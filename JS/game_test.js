@@ -355,13 +355,15 @@ function Weapons() {
         for (let ship of ships) {
 
             //not on point might edit the actual image of ship to make the center inbetween the cannons so they fit properly, wont affect anything just empty image space for centering
-            let fighterCannon1X = 40 * cos(ship.direction);
-            let fighterCannon1Y = 40 * sin(ship.direction);
-            let fighterCannon2X = 40 * cos(ship.direction- 180);
-            let fighterCannon2Y = 40 * sin(ship.direction- 180);
+            let fighterCannon1X = 40 * cos(ship.rotation);
+            let fighterCannon1Y = 40 * sin(ship.rotation);
+            let fighterCannon2X = 40 * cos(ship.rotation - 180);
+            let fighterCannon2Y = 40 * sin(ship.rotation - 180);
 
+            
 
             if (cannon.id === ship.idNum) {
+                //cannon.img = cannonImage
 
                 if (cannon.cannonnumber === 1) {
                     cannon.x = ship.x + fighterCannon1X
@@ -469,11 +471,12 @@ function moveselectedships() {
         }
 
         if (selectedship.needstobemoved && (dist(selectedship.x, selectedship.y, movepoints[lastmovepoint - 1].x, movepoints[lastmovepoint - 1].y) < 60)) {
+            selectedship.rotation = selectedship.direction
             console.log("helloworld")
             selectedship.needstobemoved = false
             selectedship.vel.x = 0;
             selectedship.vel.y = 0;
-            selectedship.speed = 0; // set this to speed instead of rotation
+            selectedship.rotationLock = true;
 
         }
 
