@@ -600,17 +600,17 @@ function selection_system() {
 
     //is a shop selected
 // problematic only works if all are selected
-    if (mouse.released()) {
-        console.log('mouse releced')
-        for (let i = 0; i < actualships.length; i++) {
-            if (actualships[i].selected === true) {
-                shipSelected = true
-            }
-            else {
-                shipSelected = false
-            }
+if (mouse.released()) {
+    console.log('mouse released');
+    shipSelected = false; // Assume no ships are selected initially
+    for (let i = 0; i < actualships.length; i++) {
+        if (actualships[i].selected === true) {
+            shipSelected = true; // Set to true if any ship is selected
+            break; // No need to continue checking once one ship is found to be selected
         }
     }
+}
+
     startpoint.x = selectionStartX
     startpoint.y = selectionStartY
     endpoint.x = selectionEndX
