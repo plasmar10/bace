@@ -324,7 +324,8 @@ function moveShips() {
                     movepoints.push(movepoint)
                     selectedship.needstobemoved = true
                     lastmovepoint = movepoints.length
-
+selectedship.movepoint = movepoint
+console.log(selectedship.movepoint, movepoint)
                 }
             }
         }
@@ -389,7 +390,7 @@ function moveselectedships() {
     for (let selectedship of actualships) {
         if (selectedship.needstobemoved) {
             selectedship.rotation = selectedship.direction
-            selectedship.direction = selectedship.angleTo(movepoints[lastmovepoint-1]);
+            selectedship.direction = selectedship.angleTo(selectedship.movepoint);
             selectedship.speed = 10;
         }
 
@@ -398,6 +399,8 @@ function moveselectedships() {
          selectedship.needstobemoved = false
          selectedship.vel.x = 0;
          selectedship.vel.y = 0;
+         selectedship.rotation = 0;
+
         }   
 
     }
