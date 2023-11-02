@@ -376,7 +376,7 @@ function Weapons() {
     }
 
 
-    
+
 }
 
 
@@ -758,8 +758,8 @@ async function resourceCollection() {
     movePointDistance = dist(resourceShip1.x, resourceShip1.y, moveBackPoint.x, moveBackPoint.y);
 
     if (mouse.pressed()) {
-        resourceShip1.x = mothershipBase.x
-        resourceShip1.y = mothershipBase.y
+        resourceShip1.x = mouse.x + - 600
+        resourceShip1.y = mouse.y
 
     }
 
