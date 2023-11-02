@@ -28,7 +28,7 @@ let selectionStartX, selectionStartY;
 let selectionEndX, selectionEndY;
 let selectedShips = [];
 let destinationPoint
-let counter
+let scrapMetalCounter, oilCounter, crystalCounter;
 let fighterShipsClass
 let destroyerShipsClass
 let constructerShipsClass
@@ -261,6 +261,7 @@ function makeships() {
     destroyerShipsClass = new ships.Group();
     constructerShipsClass = new ships.Group();
     scoutShip1 = new scoutShipsClass.Sprite(0, 700, 105, 54, "d");
+    scoutShip1.needstobemoved = false
     scoutShip1.img = scoutShipImage
     scoutShip1Cannon = new ships.Sprite(0, 700, 30, 20, "n");
     scoutShip1Cannon.img = cannonImage
@@ -275,25 +276,29 @@ function makeships() {
 let test
 let scoutshipnum
 function makeship(shiptype, newshipX, newshipY) {
-    console.log(actualships.length)
+    //console.log(actualships.length)
     if (shiptype == "scout") {
         test = new scoutShipsClass.Sprite(newshipX, newshipY, 105, 54, "d")
         actualships.push(test)
        scoutShipsClass.img = scoutShipImage
+       test.needstobemoved = false
     }
     if (shiptype == "fighter") {
         test = new fighterShipsClass.Sprite(newshipX, newshipY, 200, 54, "d")
         actualships.push(test)
         fighterShipsClass.img = fighterShipimg
+        test.needstobemoved = false
     }
     if (shiptype == "destroyer") {
         test = new destroyerShipsClass.Sprite(newshipX, newshipY, 300, 54, "d")
         actualships.push(test)
         destroyerShipsClass.img = destroyerimg
+        test.needstobemoved = false
     }
     if (shiptype == "constructer") {
         test = new constructerShipsClass.Sprite(newshipX, newshipY, 300, 200, "d")
         actualships.push(test)
+        test.needstobemoved = false
     }
 
 }
@@ -311,19 +316,21 @@ function moveShips() {
 
     scoutShip1MoveBackDirection = -scoutShip1.rotation
     movePointDistance = dist(scoutShip1.x, scoutShip1.y, moveBackPoint.x, moveBackPoint.y);
+    console.log(shipSelected)
     if (shipSelected && selectionrectangle.width < 60) {
         if (mouse.pressed()) {
+            let numofships = 0
             for (let selectedship of actualships) {
                 if (selectedship.selected == true) {
                     movepoint = new Sprite(mouse.x, mouse.y, 50, "n")
                     movepoints.push(movepoint)
-
+                    numofships ++
                 selectedship.needstobemoved = true
   
 
                 }
             }
-
+console.log(numofships)
         }
     }
 
@@ -387,14 +394,16 @@ function moveShips() {
 
 
 function moveselectedships(){
+   
     for (let selectedship of actualships) {
-        if (selectedship.needstobemoved == true) {
-            selectedship.angleTo(100,100)
-            console.log("not working")
-
+       // console.log("before if", selectedship,selectedship.needstobemoved)
+        if (selectedship.needstobemoved) {
+          //  console.log("after if",selectedship)
+            selectedship.rotation = selectedship.direction
+            selectedship.direction = selectedship.angleTo(mouse);
+            selectedship.speed = 10;
         }
     }
-
 }
 
 
@@ -480,6 +489,14 @@ function mouseWheel(event) {
 function GUIE() {
     camera.off();
     ui.color = 'orange';
+    
+    scrapMetalCounter.color = '#d8d8d8';
+
+    oilCounter.color = 'black'; 
+    oilCounter.textColor = 'white';
+
+    crystalCounter.color = '#e6e1f9';
+   
     for (let i = 0; i < 9; i++) {
         if (kb[i + 1]) ui[i].color = 'red';
     }
@@ -491,9 +508,19 @@ function gameInterface() {
     for (let i = 0; i < 9; i++) {
         new ui.Sprite(100 + i * 40, 1000, 35, 35, 'n');
     }
-    counter = new ui.Sprite(80, 35, 150, 60, 'n');
-    counter.textSize = 50
-    counter.text = 0
+    scrapMetalCounter = new ui.Sprite(80, 35, 150, 60, 'n');
+    scrapMetalCounter.textSize = 50
+    scrapMetalCounter.text = 0
+    
+
+    oilCounter = new ui.Sprite(250, 35, 150, 60, 'n');
+    oilCounter.textSize = 50
+    oilCounter.text = 0
+
+    crystalCounter = new ui.Sprite(420, 35, 150, 60, 'n');
+    crystalCounter.textSize = 50
+    crystalCounter.text = 0
+
 }
 
 function zoom() {
@@ -574,18 +601,18 @@ function selection_system() {
     }
 
     //is a shop selected
-
-    if (mouse.released()) {
-        console.log('mouse releced')
-        for (let i = 0; i < actualships.length; i++) {
-            if (actualships[i].selected === true) {
-                shipSelected = true
-            }
-            else {
-                shipSelected = false
-            }
+// problematic only works if all are selected
+if (mouse.released()) {
+    console.log('mouse released');
+    shipSelected = false; // Assume no ships are selected initially
+    for (let i = 0; i < actualships.length; i++) {
+        if (actualships[i].selected === true) {
+            shipSelected = true; // Set to true if any ship is selected
+            break; // No need to continue checking once one ship is found to be selected
         }
     }
+}
+
     startpoint.x = selectionStartX
     startpoint.y = selectionStartY
     endpoint.x = selectionEndX
@@ -650,17 +677,20 @@ function resourceShip() {
 
 }
 
+
+
 async function resourceCollection() {
     resourceShip1MoveBackDirection = -resourceShip1.rotation
     movePointDistance = dist(resourceShip1.x, resourceShip1.y, moveBackPoint.x, moveBackPoint.y);
 
-    if (mouse.pressed()) {
-        resourceShip1.x = mouse.x
-        resourceShip1.y = mouse.y
+    // if (mouse.pressed()) {
+    //     resourceShip1.x = mouse.x
+    //     resourceShip1.y = mouse.y
 
-    }
+    // }
 
 
+    //ScrapMetal
     for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
         for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
 
@@ -675,19 +705,93 @@ async function resourceCollection() {
 
         }
     }
+
+    //Oil
+    for (let i = 0; i < oilResourceNodes.length; i++) {
+        for (let i = 0; i < oilResourceNodes.length; i++) {
+
+            let d = dist(resourceShip1.x, resourceShip1.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
+            if (d < 200 && key === "p" && !resourceStationSpawned) {
+                resourceStation = new Sprite(resourceShip1.x, resourceShip1.y)
+                resourceStationSpawned = true;
+                resourceShip1.remove()
+                resourceStations.push(resourceStation)
+            }
+
+
+        }
+    }
+
+    //Crystal
+    for (let i = 0; i < crystalResourceNodes.length; i++) {
+        for (let i = 0; i < crystalResourceNodes.length; i++) {
+
+            let d = dist(resourceShip1.x, resourceShip1.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
+            if (d < 200 && key === "p" && !resourceStationSpawned) {
+                resourceStation = new Sprite(resourceShip1.x, resourceShip1.y)
+                resourceStationSpawned = true;
+                resourceShip1.remove()
+                resourceStations.push(resourceStation)
+            }
+
+
+        }
+    }
+
+
+
+
 }
+
+
 function resourceCollector() {
+
     if (resourceStationSpawned === true) {
+        //ScrapMetal
         for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
             let c = dist(resourceStation.x, resourceStation.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
             if (c < 200) {
                 if (frameCount % 60 === 0) {
-                    counter.text++
+                    scrapMetalCounter.text++
                 }
 
             }
         }
+
+        //Oil
+        for (let i = 0; i < oilResourceNodes.length; i++) {
+            let c = dist(resourceStation.x, resourceStation.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
+            if (c < 200) {
+                if (frameCount % 60 === 0) {
+                    oilCounter.text++
+                }
+
+            }
+        }
+
+        //Crystal
+        for (let i = 0; i < crystalResourceNodes.length; i++) {
+            let c = dist(resourceStation.x, resourceStation.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
+            if (c < 200) {
+                if (frameCount % 60 === 0) {
+                    crystalCounter.text++
+                }
+
+            }
+        }
+
+
+
+
+
+
+
+
     }
+
+
+
+
 }
 
 
