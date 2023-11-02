@@ -299,6 +299,7 @@ function makeship(shiptype, newshipX, newshipY) {
         newSmallCan.id = test.idNum
         newSmallCan.overlaps(ships)
         smallCan.push(newSmallCan)
+        test.collider
 
 
     }
@@ -364,6 +365,7 @@ function Weapons() {
 
             if (cannon.id === ship.idNum) {
                 //cannon.img = cannonImage
+                cannon.collider = 'none';
 
                 if (cannon.cannonnumber === 1) {
                     cannon.x = ship.x + fighterCannon1X
