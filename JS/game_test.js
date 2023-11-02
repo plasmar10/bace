@@ -45,6 +45,11 @@ let moveTowardsY;
 let moveBackPoint;
 let movePointDistance;
 
+let smallCan = [];
+let smallCan2 = [];
+
+let dualCan;
+
 
 function preload() {
     oceanBackground = loadImage("./assets/ocean.jpg");
@@ -84,6 +89,7 @@ function draw() {
     zoom();
     moveShips();
     moveselectedships();
+    Weapons();
 
     monsterAni();
     selection_system();
@@ -269,7 +275,7 @@ function makeships() {
     actualships.push(scoutShip1)
     makeship("scout", 200, 700)
     makeship("fighter", 500, 700)
-    makeship("destroyer",800,700) 
+    makeship("destroyer", 800, 700)
 
 
 }
@@ -280,17 +286,36 @@ function makeship(shiptype, newshipX, newshipY) {
     if (shiptype == "scout") {
         test = new scoutShipsClass.Sprite(newshipX, newshipY, 105, 54, "d")
         actualships.push(test)
-       scoutShipsClass.img = scoutShipImage
-       test.needstobemoved = false
+        scoutShipsClass.img = scoutShipImage
+        test.needstobemoved = false
+        let newSmallCan = new Sprite(newshipX, newshipY, 20, 20)
+        newSmallCan.id = test.idNum
+        newSmallCan.overlaps(ships)
+        smallCan.push(newSmallCan)
+
+
     }
     if (shiptype == "fighter") {
-        test = new fighterShipsClass.Sprite(newshipX, newshipY, 200, 54, "d")
+        test = new fighterShipsClass.Sprite(newshipX, newshipY, 179, 62, "d")
         actualships.push(test)
         fighterShipsClass.img = fighterShipimg
         test.needstobemoved = false
+        let newSmallCan2 = new Sprite(newshipX, newshipY, 20, 20)
+        newSmallCan2.id = test.idNum
+        newSmallCan2.overlaps(ships)
+        smallCan2.push(newSmallCan2)
+
+        newSmallCan2.cannonnumber = 1
+
+        let newSmallCan3 = new Sprite(newshipX, newshipY, 20, 20)
+        newSmallCan3.id = test.idNum
+        newSmallCan3.overlaps(ships)
+        smallCan2.push(newSmallCan3)
+        newSmallCan3.cannonnumber = 2
+
     }
     if (shiptype == "destroyer") {
-        test = new destroyerShipsClass.Sprite(newshipX, newshipY, 300, 54, "d")
+        test = new destroyerShipsClass.Sprite(newshipX, newshipY, 368, 122, "d")
         actualships.push(test)
         destroyerShipsClass.img = destroyerimg
         test.needstobemoved = false
@@ -303,7 +328,33 @@ function makeship(shiptype, newshipX, newshipY) {
 
 }
 
-
+function Weapons() {
+    //scout
+    for (let newSmallCan of smallCan) {
+        for (let ship of ships) {
+            if (newSmallCan.id === ship.idNum) {
+                newSmallCan.x = ship.x
+                newSmallCan.y = ship.y
+            }
+        }
+    }
+    //fighter
+    for (let cannon of smallCan2) {
+        for (let ship of ships) {
+            if (cannon.id === ship.idNum) {
+                if(cannon.cannonnumber===1){
+                cannon.x = ship.x + 25
+                cannon.y = ship.y
+                }
+                if(cannon.cannonnumber===2){
+                    cannon.x = ship.x - 45
+                    cannon.y = ship.y
+                    }
+            }
+        }
+    }
+   
+}
 
 
 
@@ -324,13 +375,13 @@ function moveShips() {
                 if (selectedship.selected == true) {
                     movepoint = new Sprite(mouse.x, mouse.y, 50, "n")
                     movepoints.push(movepoint)
-                    numofships ++
-                selectedship.needstobemoved = true
-  
+                    numofships++
+                    selectedship.needstobemoved = true
+
 
                 }
             }
-console.log(numofships)
+            console.log(numofships)
         }
     }
 
@@ -393,12 +444,12 @@ console.log(numofships)
 
 
 
-function moveselectedships(){
-   
+function moveselectedships() {
+
     for (let selectedship of actualships) {
-       // console.log("before if", selectedship,selectedship.needstobemoved)
+        // console.log("before if", selectedship,selectedship.needstobemoved)
         if (selectedship.needstobemoved) {
-          //  console.log("after if",selectedship)
+            //  console.log("after if",selectedship)
             selectedship.rotation = selectedship.direction
             selectedship.direction = selectedship.angleTo(mouse);
             selectedship.speed = 10;
@@ -489,14 +540,14 @@ function mouseWheel(event) {
 function GUIE() {
     camera.off();
     ui.color = 'orange';
-    
+
     scrapMetalCounter.color = '#d8d8d8';
 
-    oilCounter.color = 'black'; 
+    oilCounter.color = 'black';
     oilCounter.textColor = 'white';
 
     crystalCounter.color = '#e6e1f9';
-   
+
     for (let i = 0; i < 9; i++) {
         if (kb[i + 1]) ui[i].color = 'red';
     }
@@ -511,7 +562,7 @@ function gameInterface() {
     scrapMetalCounter = new ui.Sprite(80, 35, 150, 60, 'n');
     scrapMetalCounter.textSize = 50
     scrapMetalCounter.text = 0
-    
+
 
     oilCounter = new ui.Sprite(250, 35, 150, 60, 'n');
     oilCounter.textSize = 50
@@ -601,17 +652,17 @@ function selection_system() {
     }
 
     //is a shop selected
-// problematic only works if all are selected
-if (mouse.released()) {
-    console.log('mouse released');
-    shipSelected = false; // Assume no ships are selected initially
-    for (let i = 0; i < actualships.length; i++) {
-        if (actualships[i].selected === true) {
-            shipSelected = true; // Set to true if any ship is selected
-            break; // No need to continue checking once one ship is found to be selected
+    // problematic only works if all are selected
+    if (mouse.released()) {
+        console.log('mouse released');
+        shipSelected = false; // Assume no ships are selected initially
+        for (let i = 0; i < actualships.length; i++) {
+            if (actualships[i].selected === true) {
+                shipSelected = true; // Set to true if any ship is selected
+                break; // No need to continue checking once one ship is found to be selected
+            }
         }
     }
-}
 
     startpoint.x = selectionStartX
     startpoint.y = selectionStartY
@@ -683,11 +734,11 @@ async function resourceCollection() {
     resourceShip1MoveBackDirection = -resourceShip1.rotation
     movePointDistance = dist(resourceShip1.x, resourceShip1.y, moveBackPoint.x, moveBackPoint.y);
 
-    // if (mouse.pressed()) {
-    //     resourceShip1.x = mouse.x
-    //     resourceShip1.y = mouse.y
+    if (mouse.pressed()) {
+        resourceShip1.x = mouse.x
+        resourceShip1.y = mouse.y
 
-    // }
+    }
 
 
     //ScrapMetal
