@@ -50,6 +50,9 @@ let smallCan = [];
 let smallCan2 = [];
 
 let dualCan;
+let cannon1Angle = 0;
+let cannon2Angle = 180;
+
 
 
 function preload() {
@@ -82,10 +85,13 @@ function setup() {
 
     gameInterface(); // this must alwas be done last
 
+
+
 }
 
 function draw() {
-
+    cannon1Angle++;
+    cannon2Angle++;
 
     zoom();
     moveShips();
@@ -243,9 +249,9 @@ function resourceNodes(resourceZoneWidth, resourceZoneHeight, resourceZoneX1, re
             crystalResourceNodes.push(defaultResource)
         }
 
-        console.log(scrapMetalResourceNodes)
-        console.log(oilResourceNodes)
-        console.log(crystalResourceNodes)
+        //console.log(scrapMetalResourceNodes)
+        // console.log(oilResourceNodes)
+        //console.log(crystalResourceNodes)
 
 
     }
@@ -329,7 +335,11 @@ function makeship(shiptype, newshipX, newshipY) {
 
 }
 
+
+
 function Weapons() {
+
+
     //scout
     for (let newSmallCan of smallCan) {
         for (let ship of ships) {
@@ -339,22 +349,34 @@ function Weapons() {
             }
         }
     }
+
     //fighter
     for (let cannon of smallCan2) {
         for (let ship of ships) {
+
+            //not on point might edit the actual image of ship to make the center inbetween the cannons so they fit properly, wont affect anything just empty image space for centering
+            let fighterCannon1X = 40 * cos(ship.direction);
+            let fighterCannon1Y = 40 * sin(ship.direction);
+            let fighterCannon2X = 40 * cos(ship.direction- 180);
+            let fighterCannon2Y = 40 * sin(ship.direction- 180);
+
+
             if (cannon.id === ship.idNum) {
-                if(cannon.cannonnumber===1){
-                cannon.x = ship.x + 25
-                cannon.y = ship.y
+
+                if (cannon.cannonnumber === 1) {
+                    cannon.x = ship.x + fighterCannon1X
+                    cannon.y = ship.y + fighterCannon1Y
                 }
-                if(cannon.cannonnumber===2){
-                    cannon.x = ship.x - 45
-                    cannon.y = ship.y
-                    }
+                if (cannon.cannonnumber === 2) {
+                    cannon.x = ship.x + fighterCannon2X
+                    cannon.y = ship.y + fighterCannon2Y
+                }
             }
         }
     }
-   
+
+
+    
 }
 
 
@@ -451,7 +473,7 @@ function moveselectedships() {
             selectedship.needstobemoved = false
             selectedship.vel.x = 0;
             selectedship.vel.y = 0;
-            selectedship.rotation = 0;
+            selectedship.speed = 0;
 
         }
 
@@ -736,8 +758,8 @@ async function resourceCollection() {
     movePointDistance = dist(resourceShip1.x, resourceShip1.y, moveBackPoint.x, moveBackPoint.y);
 
     if (mouse.pressed()) {
-        resourceShip1.x = mouse.x
-        resourceShip1.y = mouse.y
+        resourceShip1.x = mothershipBase.x
+        resourceShip1.y = mothershipBase.y
 
     }
 
