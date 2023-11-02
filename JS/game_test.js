@@ -268,7 +268,7 @@ function makeships() {
     actualships.push(scoutShip1)
     makeship("scout", 200, 700)
     makeship("fighter", 500, 700)
-    makeship("destroyer",800,700)
+    makeship("destroyer",800,700) 
 
 
 }
@@ -297,6 +297,8 @@ function makeship(shiptype, newshipX, newshipY) {
     }
 
 }
+
+
 
 
 
