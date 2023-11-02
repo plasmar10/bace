@@ -38,6 +38,7 @@ let resourceStations
 let scrapMetalResourceNodes = [];
 let oilResourceNodes = [];
 let crystalResourceNodes = [];
+let lastmovepoint = 0
 
 let scoutShip1MoveBackDirection;
 let moveTowardsX;
@@ -269,7 +270,7 @@ function makeships() {
     actualships.push(scoutShip1)
     makeship("scout", 200, 700)
     makeship("fighter", 500, 700)
-    makeship("destroyer",800,700)
+    makeship("destroyer", 800, 700)
 
 
 }
@@ -280,8 +281,8 @@ function makeship(shiptype, newshipX, newshipY) {
     if (shiptype == "scout") {
         test = new scoutShipsClass.Sprite(newshipX, newshipY, 105, 54, "d")
         actualships.push(test)
-       scoutShipsClass.img = scoutShipImage
-       test.needstobemoved = false
+        scoutShipsClass.img = scoutShipImage
+        test.needstobemoved = false
     }
     if (shiptype == "fighter") {
         test = new fighterShipsClass.Sprite(newshipX, newshipY, 200, 54, "d")
@@ -310,25 +311,20 @@ function makeship(shiptype, newshipX, newshipY) {
 
 
 function moveShips() {
-    scoutShip1.angleTo(mouse, 0.5)
-
     scoutShip1MoveBackDirection = -scoutShip1.rotation
     movePointDistance = dist(scoutShip1.x, scoutShip1.y, moveBackPoint.x, moveBackPoint.y);
-    console.log(shipSelected)
+    // console.log(shipSelected)
     if (shipSelected && selectionrectangle.width < 60) {
         if (mouse.pressed()) {
-            let numofships = 0
             for (let selectedship of actualships) {
                 if (selectedship.selected == true) {
                     movepoint = new Sprite(mouse.x, mouse.y, 50, "n")
                     movepoints.push(movepoint)
-                    numofships ++
-                selectedship.needstobemoved = true
-  
+                    selectedship.needstobemoved = true
+                    lastmovepoint = movepoints.length
 
                 }
             }
-console.log(numofships)
         }
     }
 
@@ -383,24 +379,25 @@ console.log(numofships)
         bulletTimer = 0
     }
 
-
-
-
-
 }
 
 
-
-function moveselectedships(){
-   
+function moveselectedships() {
+   // console.log(lastmovepoint + " lastmovepoint")
     for (let selectedship of actualships) {
-       // console.log("before if", selectedship,selectedship.needstobemoved)
         if (selectedship.needstobemoved) {
-          //  console.log("after if",selectedship)
             selectedship.rotation = selectedship.direction
-            selectedship.direction = selectedship.angleTo(mouse);
+            selectedship.direction = selectedship.angleTo(movepoints[lastmovepoint-1]);
             selectedship.speed = 10;
         }
+
+        if (selectedship.needstobemoved && (dist(selectedship.x, selectedship.y, movepoints[lastmovepoint-1].x, movepoints[lastmovepoint-1].y) < 60)) {
+         console.log("helloworld")
+         selectedship.needstobemoved = false
+         selectedship.vel.x = 0;
+         selectedship.vel.y = 0;
+        }   
+
     }
 }
 
@@ -487,14 +484,14 @@ function mouseWheel(event) {
 function GUIE() {
     camera.off();
     ui.color = 'orange';
-    
+
     scrapMetalCounter.color = '#d8d8d8';
 
-    oilCounter.color = 'black'; 
+    oilCounter.color = 'black';
     oilCounter.textColor = 'white';
 
     crystalCounter.color = '#e6e1f9';
-   
+
     for (let i = 0; i < 9; i++) {
         if (kb[i + 1]) ui[i].color = 'red';
     }
@@ -509,7 +506,7 @@ function gameInterface() {
     scrapMetalCounter = new ui.Sprite(80, 35, 150, 60, 'n');
     scrapMetalCounter.textSize = 50
     scrapMetalCounter.text = 0
-    
+
 
     oilCounter = new ui.Sprite(250, 35, 150, 60, 'n');
     oilCounter.textSize = 50
@@ -599,17 +596,17 @@ function selection_system() {
     }
 
     //is a shop selected
-// problematic only works if all are selected
-if (mouse.released()) {
-    console.log('mouse released');
-    shipSelected = false; // Assume no ships are selected initially
-    for (let i = 0; i < actualships.length; i++) {
-        if (actualships[i].selected === true) {
-            shipSelected = true; // Set to true if any ship is selected
-            break; // No need to continue checking once one ship is found to be selected
+    // problematic only works if all are selected
+    if (mouse.released()) {
+        console.log('mouse released');
+        shipSelected = false;
+        for (let i = 0; i < actualships.length; i++) {
+            if (actualships[i].selected === true) {
+                shipSelected = true;
+                break;
+            }
         }
     }
-}
 
     startpoint.x = selectionStartX
     startpoint.y = selectionStartY
