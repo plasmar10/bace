@@ -321,6 +321,8 @@ function makeship(shiptype, newshipX, newshipY) {
         smallCan2.push(newSmallCan3)
         newSmallCan3.cannonnumber = 2
 
+        
+
     }
     if (shiptype == "destroyer") {
         test = new destroyerShipsClass.Sprite(newshipX, newshipY, 368, 122, "d")
@@ -355,7 +357,9 @@ function Weapons() {
     for (let cannon of smallCan2) {
         for (let ship of ships) {
 
-            //not on point might edit the actual image of ship to make the center inbetween the cannons so they fit properly, wont affect anything just empty image space for centering
+            //ship.offset.x = 10; 
+           // ship.debug = true;
+
             let fighterCannon1X = 40 * cos(ship.rotation);
             let fighterCannon1Y = 40 * sin(ship.rotation);
             let fighterCannon2X = 40 * cos(ship.rotation - 180);
