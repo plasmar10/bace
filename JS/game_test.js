@@ -1,6 +1,6 @@
 "use strict";
 let mothershipBase, defaultResource, resourceZone;
-let oceanBackground, mothershipImage, scoutShipCannonImage;
+let oceanBackground, mothershipImage, scoutShipCannonImage, mainMusic;
 let player;
 let oceanSprite;
 let scrollNumber = 0
@@ -69,6 +69,8 @@ function preload() {
     SeaMonSha = loadImage("./assets/enemy_sprites/reaper.gif")
     destroyerimg = loadImage("./assets/ship_sptites/shipz/images/ship_large_body.png")
     fighterShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_medium_body.png")
+    mainMusic = loadSound("./assets/music/MainMusic.mp3")
+
 }
 
 function setup() {
@@ -90,6 +92,7 @@ function setup() {
 }
 
 function draw() {
+
     cannon1Angle++;
     cannon2Angle++;
 
@@ -103,6 +106,17 @@ function draw() {
     resourceCollection();//
     resourceCollector();
     GUIE(); //this must alwas be done last 
+
+
+
+    if (mainMusic.isPlaying()) {
+
+    } else {
+        mainMusic.loop();
+        mainMusic.setVolume(0.1);
+    }
+
+
 }
 
 
@@ -299,7 +313,8 @@ function makeship(shiptype, newshipX, newshipY) {
         newSmallCan.id = test.idNum
         newSmallCan.overlaps(ships)
         smallCan.push(newSmallCan)
-        test.collider
+
+
 
 
     }
@@ -321,7 +336,7 @@ function makeship(shiptype, newshipX, newshipY) {
         smallCan2.push(newSmallCan3)
         newSmallCan3.cannonnumber = 2
 
-        
+
 
     }
     if (shiptype == "destroyer") {
@@ -347,6 +362,7 @@ function Weapons() {
     for (let newSmallCan of smallCan) {
         for (let ship of ships) {
             if (newSmallCan.id === ship.idNum) {
+                newSmallCan.collider = 'none';
                 newSmallCan.x = ship.x
                 newSmallCan.y = ship.y
             }
@@ -358,14 +374,14 @@ function Weapons() {
         for (let ship of ships) {
 
             //ship.offset.x = 10; 
-           // ship.debug = true;
+            // ship.debug = true;
 
             let fighterCannon1X = 40 * cos(ship.rotation);
             let fighterCannon1Y = 40 * sin(ship.rotation);
             let fighterCannon2X = 40 * cos(ship.rotation - 180);
             let fighterCannon2Y = 40 * sin(ship.rotation - 180);
 
-            
+
 
             if (cannon.id === ship.idNum) {
                 //cannon.img = cannonImage
@@ -476,12 +492,13 @@ function moveselectedships() {
             selectedship.speed = 10;
         }
 
-        if (selectedship.needstobemoved && (dist(selectedship.x, selectedship.y, movepoints[lastmovepoint - 1].x, movepoints[lastmovepoint - 1].y) < 60)) {
+        if (selectedship.needstobemoved && (dist(selectedship.x, selectedship.y, movepoints[lastmovepoint - 1].x, movepoints[lastmovepoint - 1].y) < 60)) {// || selectedship.collides(allSprites)
             selectedship.rotation = selectedship.direction
             console.log("helloworld")
             selectedship.needstobemoved = false
             selectedship.vel.x = 0;
             selectedship.vel.y = 0;
+            selectedship.speed = 0;
             selectedship.rotationLock = true;
 
         }
