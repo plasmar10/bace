@@ -735,11 +735,11 @@ async function resourceCollection() {
     resourceShip1MoveBackDirection = -resourceShip1.rotation
     movePointDistance = dist(resourceShip1.x, resourceShip1.y, moveBackPoint.x, moveBackPoint.y);
 
-    if (mouse.pressed()) {
-        resourceShip1.x = mouse.x
-        resourceShip1.y = mouse.y
+    // if (mouse.pressed()) {
+    //     resourceShip1.x = mouse.x
+    //     resourceShip1.y = mouse.y
 
-    }
+    // }
 
 
     //ScrapMetal
