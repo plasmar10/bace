@@ -1,6 +1,6 @@
 "use strict";
 let mothershipBase, defaultResource, resourceZone;
-let oceanBackground, mothershipImage, scoutShipCannonImage;
+let oceanBackground, mothershipImage, scoutShipCannonImage, mainMusic;
 let player;
 let oceanSprite;
 let scrollNumber = 0
@@ -50,6 +50,9 @@ let smallCan = [];
 let smallCan2 = [];
 
 let dualCan;
+let cannon1Angle = 0;
+let cannon2Angle = 180;
+
 
 
 function preload() {
@@ -66,6 +69,8 @@ function preload() {
     SeaMonSha = loadImage("./assets/enemy_sprites/reaper.gif")
     destroyerimg = loadImage("./assets/ship_sptites/shipz/images/ship_large_body.png")
     fighterShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_medium_body.png")
+    mainMusic = loadSound("./assets/music/MainMusic.mp3")
+
 }
 
 function setup() {
@@ -82,10 +87,14 @@ function setup() {
 
     gameInterface(); // this must alwas be done last
 
+
+
 }
 
 function draw() {
 
+    cannon1Angle++;
+    cannon2Angle++;
 
     zoom();
     moveShips();
@@ -97,6 +106,17 @@ function draw() {
     resourceCollection();//
     resourceCollector();
     GUIE(); //this must alwas be done last 
+
+
+
+    if (mainMusic.isPlaying()) {
+
+    } else {
+        mainMusic.loop();
+        mainMusic.setVolume(0.1);
+    }
+
+
 }
 
 
@@ -243,9 +263,9 @@ function resourceNodes(resourceZoneWidth, resourceZoneHeight, resourceZoneX1, re
             crystalResourceNodes.push(defaultResource)
         }
 
-        console.log(scrapMetalResourceNodes)
-        console.log(oilResourceNodes)
-        console.log(crystalResourceNodes)
+        //console.log(scrapMetalResourceNodes)
+        // console.log(oilResourceNodes)
+        //console.log(crystalResourceNodes)
 
 
     }
@@ -295,6 +315,8 @@ function makeship(shiptype, newshipX, newshipY) {
         smallCan.push(newSmallCan)
 
 
+
+
     }
     if (shiptype == "fighter") {
         test = new fighterShipsClass.Sprite(newshipX, newshipY, 179, 62, "d")
@@ -314,6 +336,8 @@ function makeship(shiptype, newshipX, newshipY) {
         smallCan2.push(newSmallCan3)
         newSmallCan3.cannonnumber = 2
 
+
+
     }
     if (shiptype == "destroyer") {
         test = new destroyerShipsClass.Sprite(newshipX, newshipY, 368, 122, "d")
@@ -329,32 +353,54 @@ function makeship(shiptype, newshipX, newshipY) {
 
 }
 
+
+
 function Weapons() {
+
+
     //scout
     for (let newSmallCan of smallCan) {
         for (let ship of ships) {
             if (newSmallCan.id === ship.idNum) {
+                newSmallCan.collider = 'none';
                 newSmallCan.x = ship.x
                 newSmallCan.y = ship.y
             }
         }
     }
+
     //fighter
     for (let cannon of smallCan2) {
         for (let ship of ships) {
+
+            //ship.offset.x = 10; 
+            // ship.debug = true;
+
+            let fighterCannon1X = 40 * cos(ship.rotation);
+            let fighterCannon1Y = 40 * sin(ship.rotation);
+            let fighterCannon2X = 40 * cos(ship.rotation - 180);
+            let fighterCannon2Y = 40 * sin(ship.rotation - 180);
+
+
+
             if (cannon.id === ship.idNum) {
-                if(cannon.cannonnumber===1){
-                cannon.x = ship.x + 25
-                cannon.y = ship.y
+                //cannon.img = cannonImage
+                cannon.collider = 'none';
+
+                if (cannon.cannonnumber === 1) {
+                    cannon.x = ship.x + fighterCannon1X
+                    cannon.y = ship.y + fighterCannon1Y
                 }
-                if(cannon.cannonnumber===2){
-                    cannon.x = ship.x - 45
-                    cannon.y = ship.y
-                    }
+                if (cannon.cannonnumber === 2) {
+                    cannon.x = ship.x + fighterCannon2X
+                    cannon.y = ship.y + fighterCannon2Y
+                }
             }
         }
     }
-   
+
+
+
 }
 
 
@@ -446,12 +492,14 @@ function moveselectedships() {
             selectedship.speed = 10;
         }
 
-        if (selectedship.needstobemoved && (dist(selectedship.x, selectedship.y, movepoints[lastmovepoint - 1].x, movepoints[lastmovepoint - 1].y) < 60)) {
+        if (selectedship.needstobemoved && (dist(selectedship.x, selectedship.y, movepoints[lastmovepoint - 1].x, movepoints[lastmovepoint - 1].y) < 60)) {// || selectedship.collides(allSprites)
+            selectedship.rotation = selectedship.direction
             console.log("helloworld")
             selectedship.needstobemoved = false
             selectedship.vel.x = 0;
             selectedship.vel.y = 0;
-            selectedship.rotation = 0;
+            selectedship.speed = 0;
+            selectedship.rotationLock = true;
 
         }
 
@@ -735,9 +783,9 @@ async function resourceCollection() {
     resourceShip1MoveBackDirection = -resourceShip1.rotation
     movePointDistance = dist(resourceShip1.x, resourceShip1.y, moveBackPoint.x, moveBackPoint.y);
 
-    // if (mouse.pressed()) {
-    //     resourceShip1.x = mouse.x
-    //     resourceShip1.y = mouse.y
+    if (mouse.pressed()) {
+        resourceShip1.x = mouse.x + - 600
+        resourceShip1.y = mouse.y
 
     // }
 

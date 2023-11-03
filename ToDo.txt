@@ -1,0 +1,63 @@
+- Main Menu Screen / Screen changing
+  - Credits?
+
+- Buy ships GUI
+ - able to sell ships/collectors?
+
+
+
+- Sort out ship collision
+ - figure out how to layout multiple ships moving at the same time, 
+   so they dont collide
+ - ship health
+
+
+- Move the shooting scout ships creation into the makeships function  
+ - Put working cannons onto every ship
+
+
+- More Enemies
+ - Sea Monsters
+ - Pirate Ships
+ - The One Piece...
+
+
+- Locations that are only accessable with ship upgrades
+ - Lava River 
+ - Calm Belt
+ - Radiation Zones
+
+
+- Obstacles in difficult areas
+ - Icebergs
+ - Naval Mines
+
+
+- Different Tier of Collectors for different resources?
+ - Factories to create new materials?
+
+
+
+
+
+If we have time / if its fun
+ - Resource Mini Games
+  - Pipe game for oil
+
+ - Undersea levels for rare components
+  - Deploy submarine from high tier ship on space ship wreck nodes
+  - Maybe some like mario platformer type
+  
+- Ability to tame sea monsters
+ - can drag ship wrecks from extreme dangerzones?
+ - 
+
+- Story events
+ - Sunbeam crash lmaooo
+ - Find explorer notes/audio in ship wrecks
+ 
+ - Bad Ending: The player has awoken the slumbering cosmic deity in the depths of the ocean and gone insane: Cthulhu pulls up
+ - Neutral Ending: The player discovered the worlds secrets and left the planet safely
+
+ - Optional Cthulhu boss battle
+ - Good Ending: The player has slain Cthulhu and backflipped on his corpse
