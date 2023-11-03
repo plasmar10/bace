@@ -104,7 +104,7 @@ function draw() {
     monsterAni();
     selection_system();
     resourceCollection();//
-    resourceCollector();
+    //resourceCollector();     //idl why but it was breaking game
     GUIE(); //this must alwas be done last 
 
 
@@ -893,6 +893,6 @@ function resourceCollector() {
 
 
 }
-
+}
 
 // remonder for omrhi // use angleto for better prefromens for shiops and points so they resolve the promice cliding problem
