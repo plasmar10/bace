@@ -559,33 +559,49 @@ function Weapons() {
 
 
 function moveShips() {
-    // console.log(shipSelected)
+    //console.log(selectedShips)
     if (shipSelected && selectionrectangle.width < 100) {
         if (mouse.pressed()) {
-            for (let selectedship of actualships) {
-                if (selectedship.selected == true) {
-                    movepoint = new Sprite(mouse.x, mouse.y, 50, "n")
-                    movepoint.visible = false
-                    selectedship.needstobemoved = true
+            movepoints.splice(0, actualships.length)
+            for (let i = 0; i < selectedShips.length; i++) {
+
+
+                if (selectedShips[i].selected == true) {
+
+                    let xAxisDistance = dist(selectedShips[i].x, 0, mouse.x, 0)
+                    let yAxisDistance = dist(0, selectedShips[i].y, 0, mouse.y)
+
+                    if (xAxisDistance < yAxisDistance) {
+                        movepoint = new Sprite(mouse.x + i * 200, mouse.y, 50, "n")
+                    } else {
+                        movepoint = new Sprite(mouse.x, mouse.y + i * 200, 50, "n")
+                    }
+
+
+                    movepoint.visible = false;
+                    selectedShips[i].needstobemoved = true
                     lastmovepoint = movepoints.length
-                    selectedship.movepoint = movepoint
-                    //console.log(selectedship.movepoint, movepoint)
+                    selectedShips[i].movepoint = movepoint
+                    //console.log(selectedShips[i].movepoint, movepoint)
                     movepoint.life = 240000
                     movepoints.push(movepoint)
                 }
+
+
             }
         }
     }
-
-
-
-
-
 }
 
 
+
+
+
+
+
+
 function moveselectedships() {
-    // console.log(lastmovepoint + " lastmovepoint")
+
     for (let selectedship of actualships) {
         // console.log(selectedship.hp)
         if (selectedship.needstobemoved) {
@@ -610,7 +626,8 @@ function moveselectedships() {
             }
         }
         //console.log(movepoints[lastmovepoint - 1] + "  testing problem")
-        if (selectedship.needstobemoved && (dist(selectedship.x, selectedship.y, movepoints[lastmovepoint].x, movepoints[lastmovepoint].y) < 60)) {
+
+        if (selectedship.needstobemoved && (dist(selectedship.x, selectedship.y, selectedship.movepoint.x, selectedship.movepoint.y) < 100)) {
             selectedship.rotation = selectedship.direction
             console.log("Finished Moving")
             selectedship.needstobemoved = false
@@ -620,8 +637,9 @@ function moveselectedships() {
             selectedship.rotationLock = true;
 
         }
-
     }
+
+
 }
 
 
@@ -814,6 +832,9 @@ function selection_system() {
                 actualships[i].selected = false;
 
 
+                selectedShips.splice(i, actualships.length)
+
+
                 if (
                     actualships[i].x > min(selectionStartX, selectionEndX) &&
                     actualships[i].x < max(selectionStartX, selectionEndX) &&
@@ -822,10 +843,13 @@ function selection_system() {
                 ) {
 
                     console.log("ship selected " + actualships[i]);
+                    selectedShips.push(actualships[i])
                     actualships[i].selected = true;
+
                 }
 
-                console.log(actualships[i].selected)
+                //console.log(actualships[i].selected)
+
             }
         }
 
@@ -975,6 +999,7 @@ async function resourceCollection() {
                     let d = dist(selectedship.x, selectedship.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
                     if (d < 200 && key === "p" && !resourceStationSpawned) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
+                        resourceStation.collider = 'static'
                         resourceStationSpawned = true;
                         selectedship.remove()
                         resourceStations.push(resourceStation)
@@ -991,6 +1016,7 @@ async function resourceCollection() {
                     let d = dist(selectedship.x, selectedship.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
                     if (d < 200 && key === "p" && !resourceStationSpawned) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
+                        resourceStation.collider = 'static'
                         resourceStationSpawned = true;
                         selectedship.remove()
                         resourceStations.push(resourceStation)
