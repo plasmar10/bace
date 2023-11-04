@@ -572,9 +572,9 @@ function moveShips() {
                     let yAxisDistance = dist(0, selectedShips[i].y, 0, mouse.y)
 
                     if (xAxisDistance < yAxisDistance) {
-                        movepoint = new Sprite(mouse.x + i * 200, mouse.y, 50, "n")
+                        movepoint = new Sprite(mouse.x + i * 100 - 100 * (selectedShips.length / 3), mouse.y, 50, "n")
                     } else {
-                        movepoint = new Sprite(mouse.x, mouse.y + i * 200, 50, "n")
+                        movepoint = new Sprite(mouse.x, mouse.y + i * 100 - 100 * (selectedShips.length / 3), 50, "n")
                     }
 
 
