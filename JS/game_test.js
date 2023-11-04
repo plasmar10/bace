@@ -382,33 +382,34 @@ function makeships() {
 
 }
 
-let scout
-let fighter
-let destroyer
-let constructer
 function makeship(shiptype, newshipX, newshipY) {
+    let scout
+    let fighter
+    let destroyer
+    let constructer
     //console.log(actualships.length)
     if (shiptype == "scout") {
         scout = new scoutShipsClass.Sprite(newshipX, newshipY, 105, 54, "d")
-        actualships.push(scout)
         scoutShipsClass.img = scoutShipImage
         scout.needstobemoved = false
+        scout.maxHP = 25
+        scout.hp = 25
+        scout.shipclass = "scout"
+        console.log(scout.shipclass)
+        
+        actualships.push(scout)
+
         let newSmallCan = new Sprite(newshipX, newshipY, 20, 20)
         newSmallCan.img= cannonImage
         newSmallCan.id = scout.idNum
         newSmallCan.overlaps(ships)
         smallCan.push(newSmallCan)
-        scout.shipclass = "scout"
-        console.log(scout.shipclass)
-        scout.maxHP = 25
-        scout.hp = 25
 
 
 
     }
     if (shiptype == "fighter") {
         fighter = new fighterShipsClass.Sprite(newshipX, newshipY, 179, 62, "d")
-        actualships.push(fighter)
         fighterShipsClass.img = fighterShipimg
         fighter.needstobemoved = false
         let newSmallCan2 = new Sprite(newshipX, newshipY, 20, 20)
@@ -417,7 +418,7 @@ function makeship(shiptype, newshipX, newshipY) {
         smallCan2.push(newSmallCan2)
         newSmallCan2.img = cannonImage
         newSmallCan2.cannonnumber = 1
-
+        
         let newSmallCan3 = new Sprite(newshipX, newshipY, 20, 20)
         newSmallCan3.id = fighter.idNum
         newSmallCan3.overlaps(ships)
@@ -427,25 +428,26 @@ function makeship(shiptype, newshipX, newshipY) {
         fighter.shipclass = "fighter"
         fighter.maxHP = 100
         fighter.hp = 100
+        actualships.push(fighter)
 
 
     }
     if (shiptype == "destroyer") {
         destroyer = new destroyerShipsClass.Sprite(newshipX, newshipY, 368, 122, "d")
-        actualships.push(destroyer)
         destroyerShipsClass.img = destroyerimg
         destroyer.needstobemoved = false
         destroyer.shipclass = "destroyer"
         destroyer.maxHP = 500
         destroyer.hp = 500
+        actualships.push(destroyer)
     }
     if (shiptype == "constructer") {
         constructer = new constructerShipsClass.Sprite(newshipX, newshipY, 300, 200, "d")
-        actualships.push(constructer)
         constructer.needstobemoved = false
         destroyer.shipclass = "constructer"
         constructer.maxHP = 100
         constructer.hp = 100
+        actualships.push(constructer)
     }
 
 }
@@ -587,7 +589,9 @@ function moveselectedships() {
         if (selectedship.needstobemoved) {
             selectedship.rotation = selectedship.direction
             selectedship.direction = selectedship.angleTo(selectedship.movepoint);
+            console.log(selectedship)
             console.log(selectedship.shipclass)
+            console.log(selectedship.hp)
             if(selectedship.shipclass === "scout"){
                 selectedship.speed = 2
             }
@@ -595,10 +599,10 @@ function moveselectedships() {
                 selectedship.speed = 1
             }
             if (selectedship.shipclass === "destroyer") {
-                selectedship.speed = 1
+                selectedship.speed = 0.5
             }
             if (selectedship.shipclass === "constructer") {
-                selectedship.speed = 1
+                selectedship.speed = 0.5
             }
         }
 
@@ -1006,7 +1010,7 @@ async function resourceCollection() {
 function hpsystem() {
     
 for (let selectedship of actualships) {
-    console.log(selectedship.hp)
+    //console.log(selectedship.hp)
 
     }
 }
