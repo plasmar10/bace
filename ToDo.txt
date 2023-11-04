@@ -4,7 +4,8 @@
 - Buy ships GUI
  - able to sell ships/collectors?
 
-
+-fog
+ -unable to see area untill explored
 
 - Sort out ship collision
  - figure out how to layout multiple ships moving at the same time, 
