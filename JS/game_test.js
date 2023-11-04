@@ -998,7 +998,7 @@ async function resourceCollection() {
 function hpsystem() {
     
 for (let selectedship of actualships) {
-    console.log(selectedship.hp)
+    console.log(selectedship.hp) 
 
     }
 }
