@@ -1,45 +1,44 @@
 "use strict";
 let mothershipBase, defaultResource, resourceZone;
-let oceanBackground, mothershipImage, scoutShipCannonImage, mainMusic;
-let player;
+let oceanBackground, mothershipImage, mainMusic;
 let oceanSprite;
 let scrollNumber = 0
 let scrollZoomLevel = 0.25
 let ships, scoutShipsClass, scoutShip1, scoutShip1Cannon;
 let scoutShipImage;
 let scrapMetalImage, oilImage, crystalImage;
-let cannonImage;
-let destroyerimg
-let GUI;
+let cannonImage, destroyerimg;
 let SeaMon;
-let SeaMonSha
+let SeaMonShadowImage;
 let shots, basicShot;
 let ui;
-let pointsforselect, startpoint, endpoint, selectionrectangle;
+
 let shotOnce = false;
 let enemyInRange = false;
 let MonsterEnemyDistance;
 let bulletTimer = 0;
+
+let actualships = [];
+
+let scrapMetalCounter, oilCounter, crystalCounter;
+let fighterShipsClass, destroyerShipsClass, constructerShipsClass;
+
+let resourceStations
+let scrapMetalResourceNodes = [];
+let oilResourceNodes = [];
+let crystalResourceNodes = [];
+
 let calX = 0
 let calY = 0
-let actualships = [];
+let pointsforselect, startpoint, endpoint, selectionrectangle;
 let shipSelected = false;
 let selectionStartX, selectionStartY;
 let selectionEndX, selectionEndY;
 let selectedShips = [];
 let destinationPoint
-let scrapMetalCounter, oilCounter, crystalCounter;
-let fighterShipsClass
-let destroyerShipsClass
-let constructerShipsClass
+let lastmovepoint = 0
 let movepoint
 let movepoints = []
-let resourceStations
-let scrapMetalResourceNodes = [];
-let oilResourceNodes = [];
-let crystalResourceNodes = [];
-let lastmovepoint = 0
-
 let scoutShip1MoveBackDirection;
 let moveTowardsX;
 let moveTowardsY;
@@ -49,7 +48,7 @@ let movePointDistance;
 let smallCan = [];
 let smallCan2 = [];
 
-let dualCan;
+//Fighter Ship//
 let cannon1Angle = 0;
 let cannon2Angle = 180;
 
@@ -57,20 +56,27 @@ let cannon2Angle = 180;
 
 
 function preload() {
+    //Background//
     oceanBackground = loadImage("./assets/ocean.jpg");
-    scoutShipImage = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png");
-    scoutShipCannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png")
+
+    //Resources//
     scrapMetalImage = loadImage("./assets/metalplate.png");
     oilImage = loadImage("./assets/oil.png");
     crystalImage = loadImage("./assets/Crystal.png");
+
+    //Ships//
     mothershipImage = loadImage("./assets/Mothership.gif");
+    scoutShipImage = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png");
+    fighterShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_medium_body.png");
+    destroyerimg = loadImage("./assets/ship_sptites/shipz/images/ship_large_body.png");
     cannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun.png");
-    SeaMonSha = loadImage("./assets/enemy_sprites/reaper.gif")
-    fighterShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_medium_body.png")
-    SeaMonSha = loadImage("./assets/enemy_sprites/reaper.gif")
-    destroyerimg = loadImage("./assets/ship_sptites/shipz/images/ship_large_body.png")
-    fighterShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_medium_body.png")
+
+    //Monsters//
+    SeaMonShadowImage = loadImage("./assets/enemy_sprites/reaper.gif")
+
+    //Music//
     mainMusic = loadSound("./assets/music/MainMusic.mp3")
+
 
 }
 
@@ -538,8 +544,8 @@ function enemies() {
 
     SeaMon = new Sprite(-1500, 2000, 100, 200)
 
-    SeaMonSha.resize(500, 500)
-    SeaMon.img = SeaMonSha
+    SeaMonShadowImage.resize(500, 500)
+    SeaMon.img = SeaMonShadowImage
 
 }
 
@@ -837,6 +843,7 @@ async function resourceCollection() {
                 let d = dist(resourceShip1.x, resourceShip1.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
                 if (d < 200 && key === "p" && !resourceStationSpawned) {
                     resourceStation = new Sprite(resourceShip1.x, resourceShip1.y)
+                    resourceStation.collider = 'static'
                     resourceStationSpawned = true;
                     resourceShip1.remove()
                     resourceStations.push(resourceStation)
