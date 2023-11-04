@@ -531,20 +531,10 @@ function Weapons() {
 
                     bulletTimer++;
 
-
                 }
-
-
-
             }
 
 
-
-
-
-
-
-            console.log(bulletTimer)
 
 
         }
@@ -601,9 +591,11 @@ function moveselectedships() {
         if (selectedship.needstobemoved) {
             selectedship.rotation = selectedship.direction
             selectedship.direction = selectedship.angleTo(selectedship.movepoint);
-            console.log(selectedship)
-            console.log(selectedship.shipclass)
-            console.log(selectedship.hp)
+
+            //console.log(selectedship)
+            //console.log(selectedship.shipclass)
+            //console.log(selectedship.hp)
+
             if (selectedship.shipclass === "scout") {
                 selectedship.speed = 2
             }
@@ -829,7 +821,7 @@ function selection_system() {
                     actualships[i].y < max(selectionStartY, selectionEndY)
                 ) {
 
-                    console.log("ship selected" + actualships[i]);
+                    console.log("ship selected " + actualships[i]);
                     actualships[i].selected = true;
                 }
 
@@ -953,13 +945,13 @@ function resourceCollected() {
 
 async function resourceCollection() {
 
-    //ScrapMetal
+
     for (let selectedship of actualships) {
-        
+
         if (selectedship.shipclass === 'constructor') {
 
 
-
+            //ScrapMetal
             for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
                 for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
 
