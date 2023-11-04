@@ -15,9 +15,6 @@ let shots, basicShot;
 let ui;
 
 let shotOnce = false;
-let enemyInRange = false;
-let MonsterEnemyDistance;
-let bulletTimer = 0;
 
 let actualships = [];
 
@@ -127,7 +124,7 @@ function draw() {
     }
     else if (currentScreen === 1) { //Intro
         background('pink')
-        
+
         //IntroSetup//
         if (menuLoadOnce === false) {
 
@@ -382,8 +379,9 @@ function makeships() {
 
 }
 
-let test
+
 function makeship(shiptype, newshipX, newshipY) {
+    let test
     //console.log(actualships.length)
     if (shiptype == "scout") {
         test = new scoutShipsClass.Sprite(newshipX, newshipY, 105, 54, "d")
@@ -432,10 +430,17 @@ function makeship(shiptype, newshipX, newshipY) {
         test.needstobemoved = false
     }
 
+
+
+
+
+
+
+
 }
 
 
-
+let bulletTimer = 0;
 function Weapons() {
 
 
@@ -447,6 +452,30 @@ function Weapons() {
                 newSmallCan.x = ship.x
                 newSmallCan.y = ship.y
             }
+            let MonsterEnemyDistance = dist(ship.x, ship.y, SeaMon.x, SeaMon.y)
+
+
+            if (MonsterEnemyDistance < 1600) {
+                newSmallCan.rotateTowards(SeaMon, 1, 0);
+                let x = newSmallCan.x;
+                let y = newSmallCan.y;
+                let direction = newSmallCan.direction;
+                let selectedAmmo = basicShot;
+
+                if (bulletTimer === 0) {
+
+                    shotOnce = false;
+                    ammo(x, y, direction, selectedAmmo);
+                }
+
+                if (bulletTimer >= 300) {
+                    bulletTimer = -1;
+                }
+
+                bulletTimer++;
+
+
+            }
         }
     }
 
@@ -457,6 +486,7 @@ function Weapons() {
             //ship.offset.x = 10; 
             // ship.debug = true;
 
+
             let fighterCannon1X = 40 * cos(ship.rotation);
             let fighterCannon1Y = 40 * sin(ship.rotation);
             let fighterCannon2X = 40 * cos(ship.rotation - 180);
@@ -465,6 +495,7 @@ function Weapons() {
 
 
             if (cannon.id === ship.idNum) {
+
                 //cannon.img = cannonImage
                 cannon.collider = 'none';
 
@@ -476,9 +507,55 @@ function Weapons() {
                     cannon.x = ship.x + fighterCannon2X
                     cannon.y = ship.y + fighterCannon2Y
                 }
+
+                let MonsterEnemyDistance = dist(ship.x, ship.y, SeaMon.x, SeaMon.y)
+
+
+                if (MonsterEnemyDistance < 1600) {
+                    cannon.rotateTowards(SeaMon, 1, 0);
+                    let x = cannon.x;
+                    let y = cannon.y;
+                    let direction = cannon.direction;
+                    let selectedAmmo = basicShot;
+
+                    if (bulletTimer === 0) {
+
+                        shotOnce = false;
+                        ammo(x, y, direction, selectedAmmo);
+                    }
+
+                    if (bulletTimer >= 300) {
+                        bulletTimer = -1;
+                    }
+
+                    bulletTimer++;
+
+
+                }
+
+
+
             }
+
+
+
+
+
+
+
+            console.log(bulletTimer)
+
+
         }
     }
+
+
+
+
+
+
+
+
 
 
 
@@ -523,44 +600,6 @@ function moveShips() {
 
 
 
-    MonsterEnemyDistance = dist(scoutShip1.x, scoutShip1.y, SeaMon.x, SeaMon.y)
-
-    if (MonsterEnemyDistance < 1600) {
-        enemyInRange = true;
-    } else {
-        enemyInRange = false;
-    }
-
-
-    //console.log(MonsterEnemyDistance)
-
-
-    //console.log(enemyInRange)
-
-
-
-    if (enemyInRange === true) {
-        scoutShip1Cannon.rotateTowards(SeaMon, 1, 0);
-        let x = scoutShip1Cannon.x;
-        let y = scoutShip1Cannon.y;
-        let direction = scoutShip1Cannon.direction;
-        let selectedAmmo = basicShot;
-
-        ammo(x, y, direction, selectedAmmo);
-        bulletTimer += 1;
-
-    } else {
-
-        bulletTimer = 0
-        bulletTimer += 0
-    }
-
-
-    if (bulletTimer > 100) {
-        shotOnce = false;
-        bulletTimer = 0
-    }
-
 }
 
 
@@ -589,26 +628,32 @@ function moveselectedships() {
 
 
 function ammo(x, y, direction, selectedAmmo) {
+    console.log('joe')
 
     if (shotOnce === false && selectedAmmo === basicShot) {
-        basicShot = new Sprite(x, y, 5);
+        basicShot = new Sprite(x, y, 20);
         basicShot.direction = direction;
         basicShot.speed = 0;
-        basicShot.life = 400;
+        basicShot.life = 300;
 
         basicShot.speed = 5;
         basicShot.collider = 'd';
-        basicShot.color = 'red';
-        basicShot.overlaps(scoutShip1)
+        //basicShot.color = 'red';
         basicShot.overlaps(basicShot)
 
+        for (let i = 0; i < actualships.length; i++) {
+            basicShot.overlaps(actualships[i])
+        }
 
         shotOnce = true;
+
     }
 
     if (basicShot.collides(allSprites)) {
         basicShot.remove();
     }
+
+
 }
 
 
@@ -740,9 +785,9 @@ function drawAllSpritesExcept() {
 
 function selection_system() {
     for (let i = 0; i < actualships.length; i++) {
-    if (actualships[i].needstobemoved === false) {
-        actualships[i].speed = 0
-        actualships[i].rotationSpeed = 0
+        if (actualships[i].needstobemoved === false) {
+            actualships[i].speed = 0
+            actualships[i].rotationSpeed = 0
         }
     }
 
