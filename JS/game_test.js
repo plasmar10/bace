@@ -55,6 +55,7 @@ let cannon2Angle = 180;
 
 
 
+
 function preload() {
     oceanBackground = loadImage("./assets/ocean.jpg");
     scoutShipImage = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png");
@@ -103,8 +104,9 @@ function draw() {
 
     monsterAni();
     selection_system();
-    resourceCollection();//
-    //resourceCollector();     //idl why but it was breaking game
+    resourceCollection();
+    resourceCollected();     //idl why but it was breaking game
+
     GUIE(); //this must alwas be done last 
 
 
@@ -778,73 +780,7 @@ function resourceShip() {
 }
 
 
-
-async function resourceCollection() {
-    resourceShip1MoveBackDirection = -resourceShip1.rotation
-    movePointDistance = dist(resourceShip1.x, resourceShip1.y, moveBackPoint.x, moveBackPoint.y);
-
-    if (mouse.pressed()) {
-        resourceShip1.x = mouse.x + - 600
-        resourceShip1.y = mouse.y
-
-    // }
-
-
-    //ScrapMetal
-    for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
-        for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
-
-            let d = dist(resourceShip1.x, resourceShip1.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
-            if (d < 200 && key === "p" && !resourceStationSpawned) {
-                resourceStation = new Sprite(resourceShip1.x, resourceShip1.y)
-                resourceStationSpawned = true;
-                resourceShip1.remove()
-                resourceStations.push(resourceStation)
-            }
-
-
-        }
-    }
-
-    //Oil
-    for (let i = 0; i < oilResourceNodes.length; i++) {
-        for (let i = 0; i < oilResourceNodes.length; i++) {
-
-            let d = dist(resourceShip1.x, resourceShip1.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
-            if (d < 200 && key === "p" && !resourceStationSpawned) {
-                resourceStation = new Sprite(resourceShip1.x, resourceShip1.y)
-                resourceStationSpawned = true;
-                resourceShip1.remove()
-                resourceStations.push(resourceStation)
-            }
-
-
-        }
-    }
-
-    //Crystal
-    for (let i = 0; i < crystalResourceNodes.length; i++) {
-        for (let i = 0; i < crystalResourceNodes.length; i++) {
-
-            let d = dist(resourceShip1.x, resourceShip1.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
-            if (d < 200 && key === "p" && !resourceStationSpawned) {
-                resourceStation = new Sprite(resourceShip1.x, resourceShip1.y)
-                resourceStationSpawned = true;
-                resourceShip1.remove()
-                resourceStations.push(resourceStation)
-            }
-
-
-        }
-    }
-
-
-
-
-}
-
-
-function resourceCollector() {
+function resourceCollected() {
 
     if (resourceStationSpawned === true) {
         //ScrapMetal
@@ -880,9 +816,67 @@ function resourceCollector() {
             }
         }
 
+    }
+
+}
 
 
+async function resourceCollection() {
+    resourceShip1MoveBackDirection = -resourceShip1.rotation
+    movePointDistance = dist(resourceShip1.x, resourceShip1.y, moveBackPoint.x, moveBackPoint.y);
 
+    if (mouse.pressed()) {
+        resourceShip1.x = mouse.x + - 600
+        resourceShip1.y = mouse.y
+
+
+        //ScrapMetal
+        for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
+            for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
+
+                let d = dist(resourceShip1.x, resourceShip1.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
+                if (d < 200 && key === "p" && !resourceStationSpawned) {
+                    resourceStation = new Sprite(resourceShip1.x, resourceShip1.y)
+                    resourceStationSpawned = true;
+                    resourceShip1.remove()
+                    resourceStations.push(resourceStation)
+                }
+
+
+            }
+        }
+
+        //Oil
+        for (let i = 0; i < oilResourceNodes.length; i++) {
+            for (let i = 0; i < oilResourceNodes.length; i++) {
+
+                let d = dist(resourceShip1.x, resourceShip1.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
+                if (d < 200 && key === "p" && !resourceStationSpawned) {
+                    resourceStation = new Sprite(resourceShip1.x, resourceShip1.y)
+                    resourceStationSpawned = true;
+                    resourceShip1.remove()
+                    resourceStations.push(resourceStation)
+                }
+
+
+            }
+        }
+
+        //Crystal
+        for (let i = 0; i < crystalResourceNodes.length; i++) {
+            for (let i = 0; i < crystalResourceNodes.length; i++) {
+
+                let d = dist(resourceShip1.x, resourceShip1.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
+                if (d < 200 && key === "p" && !resourceStationSpawned) {
+                    resourceStation = new Sprite(resourceShip1.x, resourceShip1.y)
+                    resourceStationSpawned = true;
+                    resourceShip1.remove()
+                    resourceStations.push(resourceStation)
+                }
+
+
+            }
+        }
 
 
 
@@ -891,8 +885,6 @@ function resourceCollector() {
 
 
 
-
-}
 }
 
 // remonder for omrhi // use angleto for better prefromens for shiops and points so they resolve the promice cliding problem
