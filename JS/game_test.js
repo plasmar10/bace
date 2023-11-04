@@ -728,6 +728,14 @@ function drawAllSpritesExcept() {
 }
 
 function selection_system() {
+    for (let i = 0; i < actualships.length; i++) {
+    if (actualships[i].needstobemoved === false) {
+        actualships[i].speed = 0
+        actualships[i].rotationSpeed = 0
+        }
+    }
+
+
     if (mouse.presses()) {
         selectionStartX = mouse.x;
         selectionStartY = mouse.y;
@@ -773,7 +781,7 @@ function selection_system() {
     //is a shop selected
     // problematic only works if all are selected
     if (mouse.released()) {
-        console.log('mouse released');
+        //console.log('mouse released');
         shipSelected = false;
         for (let i = 0; i < actualships.length; i++) {
             if (actualships[i].selected === true) {
