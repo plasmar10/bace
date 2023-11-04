@@ -616,9 +616,9 @@ function moveselectedships() {
             }
         }
 
-        if (selectedship.needstobemoved && (dist(selectedship.x, selectedship.y, movepoints[lastmovepoint - 1].x, movepoints[lastmovepoint - 1].y) < 60)) {// || selectedship.collides(allSprites)
+        if (selectedship.needstobemoved && (dist(selectedship.x, selectedship.y, movepoints[lastmovepoint - 1].x, movepoints[lastmovepoint - 1].y) < 60)) {
             selectedship.rotation = selectedship.direction
-            console.log("helloworld")
+            console.log("Finished Moving")
             selectedship.needstobemoved = false
             selectedship.vel.x = 0;
             selectedship.vel.y = 0;
@@ -632,7 +632,7 @@ function moveselectedships() {
 
 
 function ammo(x, y, direction, selectedAmmo) {
-    console.log('joe')
+
 
     if (shotOnce === false && selectedAmmo === basicShot) {
         basicShot = new Sprite(x, y, 8);
@@ -960,12 +960,13 @@ function resourceCollected() {
 
 async function resourceCollection() {
 
-
+/*
     if (mouse.pressed()) {
         resourceShip1.x = mouse.x
         resourceShip1.y = mouse.y
 
     }
+*/
     //ScrapMetal
     for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
         for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
