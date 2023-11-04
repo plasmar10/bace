@@ -49,11 +49,21 @@ let movePointDistance;
 let smallCan = [];
 let smallCan2 = [];
 
-//Fighter Ship//
-let cannon1Angle = 0;
-let cannon2Angle = 180;
-
 let resourceStationSpawned = false;
+
+
+let currentScreen = 0
+let mainMenuScreen = 0
+let introScreen = 1
+let gameScreen = 2
+
+let gameLoadOnce = false;
+let menuLoadOnce = false;
+
+
+let MenuSprites, newGameButton;
+
+
 
 
 function preload() {
@@ -76,54 +86,116 @@ function preload() {
     SeaMonShadowImage = loadImage("./assets/enemy_sprites/reaper.gif")
 
     //Music//
-    mainMusic = loadSound("./assets/music/MainMusic.mp3")
+    mainMusic = loadSound("./assets/music/Salutations.mp3")
 
 
 }
 
 function setup() {
-    new Group();
     createCanvas(1920, 1076);
-    ocean();
-    creatpointsforselection();
-    mothership();
-    resourceSpawner();
-    makeships();
-    resourceShip();
-    enemies();//may have to go in draw for animation and stuff
-    resourceStations = new Group();
-
-    gameInterface(); // this must alwas be done last
-
 
 
 }
 
 function draw() {
 
-    cannon1Angle++;
-    cannon2Angle++;
+    if (currentScreen === 0) { //MainMenu
+        background('blue')
 
-    zoom();
-    moveShips();
-    moveselectedships();
-    Weapons();
+        //MenuSetup//
+        if (menuLoadOnce === false) {
+            MenuSprites = new Group();
+            newGameButton = new Sprite(width / 5, height / 4, 400, 150)
+            newGameButton.textSize = '80'
+            newGameButton.text = 'Start';
+            MenuSprites.push(newGameButton)
+            newGameButton.color = 'white';
 
-    monsterAni();
-    selection_system();
-    resourceCollection();
-    resourceCollected();     //idl why but it was breaking game
+            menuLoadOnce = true;
+        }
 
-    GUIE(); //this must alwas be done last 
+        if (newGameButton.mouse.pressed()) {
+            MenuSprites.remove();
+            currentScreen = 1;
+
+
+        };
 
 
 
-    if (mainMusic.isPlaying()) {
 
-    } else {
-        mainMusic.loop();
-        mainMusic.setVolume(0.1);
     }
+    else if (currentScreen === 1) { //Intro
+        background('pink')
+        
+        //IntroSetup//
+        if (menuLoadOnce === false) {
+
+
+
+        }
+
+
+        if (kb.pressing(' ')) {
+            currentScreen = 2;
+        }
+
+
+    }
+    else if (currentScreen === 2) { //Game
+
+        //GameSetup//
+        if (gameLoadOnce === false) {
+            new Group();
+
+            ocean();
+            creatpointsforselection();
+            mothership();
+            resourceSpawner();
+            makeships();
+            resourceShip();
+            enemies();//may have to go in draw for animation and stuff
+            resourceStations = new Group();
+
+            gameInterface(); // this must alwas be done last
+
+
+            gameLoadOnce = true;
+        }
+
+
+
+
+
+
+
+
+
+        zoom();
+        moveShips();
+        moveselectedships();
+        Weapons();
+
+        monsterAni();
+        selection_system();
+        resourceCollection();
+        resourceCollected();     //idl why but it was breaking game
+
+        GUIE(); //this must alwas be done last 
+
+
+
+        if (mainMusic.isPlaying()) {
+
+        } else {
+            mainMusic.loop();
+            mainMusic.setVolume(0.1);
+        }
+
+
+    }
+
+
 
 
 }
@@ -668,6 +740,14 @@ function drawAllSpritesExcept() {
 }
 
 function selection_system() {
+    for (let i = 0; i < actualships.length; i++) {
+    if (actualships[i].needstobemoved === false) {
+        actualships[i].speed = 0
+        actualships[i].rotationSpeed = 0
+        }
+    }
+
+
     if (mouse.presses()) {
         selectionStartX = mouse.x;
         selectionStartY = mouse.y;
@@ -713,7 +793,7 @@ function selection_system() {
     //is a shop selected
     // problematic only works if all are selected
     if (mouse.released()) {
-        console.log('mouse released');
+        //console.log('mouse released');
         shipSelected = false;
         for (let i = 0; i < actualships.length; i++) {
             if (actualships[i].selected === true) {
