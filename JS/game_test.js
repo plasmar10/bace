@@ -60,8 +60,8 @@ let gameScreen = 2
 let gameLoadOnce = false;
 let menuLoadOnce = false;
 
-let MenuSprites = [];
-let newGameButton;
+
+let MenuSprites, newGameButton;
 
 
 
@@ -104,28 +104,39 @@ function draw() {
 
         //MenuSetup//
         if (menuLoadOnce === false) {
-
-            newGameButton = new Sprite(width/2, height/2, 500, 200)
+            MenuSprites = new Group();
+            newGameButton = new Sprite(width / 5, height / 4, 400, 150)
             newGameButton.textSize = '80'
             newGameButton.text = 'Start';
+            MenuSprites.push(newGameButton)
+            newGameButton.color = 'white';
 
-
-
-            
             menuLoadOnce = true;
         }
 
-
-        if (kb.pressing(' ')) {
+        if (newGameButton.mouse.pressed()) {
+            MenuSprites.remove();
             currentScreen = 1;
-        }
+
+
+        };
+
+
 
 
     }
     else if (currentScreen === 1) { //Intro
         background('pink')
+        
+        //IntroSetup//
+        if (menuLoadOnce === false) {
 
-        if (kb.pressing('p')) {
+
+
+        }
+
+
+        if (kb.pressing(' ')) {
             currentScreen = 2;
         }
 
