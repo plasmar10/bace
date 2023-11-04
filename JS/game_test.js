@@ -382,7 +382,10 @@ function makeships() {
 
 }
 
-let test
+let scout
+let fighter
+let destroyer
+let constructer
 function makeship(shiptype, newshipX, newshipY) {
     //console.log(actualships.length)
     if (shiptype == "scout") {
@@ -395,7 +398,10 @@ function makeship(shiptype, newshipX, newshipY) {
         newSmallCan.id = scout.idNum
         newSmallCan.overlaps(ships)
         smallCan.push(newSmallCan)
-
+        scout.shipclass = "scout"
+        console.log(scout.shipclass)
+        scout.maxHP = 25
+        scout.hp = 25
 
 
 
@@ -409,7 +415,7 @@ function makeship(shiptype, newshipX, newshipY) {
         newSmallCan2.id = fighter.idNum
         newSmallCan2.overlaps(ships)
         smallCan2.push(newSmallCan2)
-newSmallCan2.img = cannonImage
+        newSmallCan2.img = cannonImage
         newSmallCan2.cannonnumber = 1
 
         let newSmallCan3 = new Sprite(newshipX, newshipY, 20, 20)
@@ -418,6 +424,9 @@ newSmallCan2.img = cannonImage
         smallCan2.push(newSmallCan3)
         newSmallCan3.cannonnumber = 2
         newSmallCan3.img = cannonImage
+        fighter.shipclass = "fighter"
+        fighter.maxHP = 100
+        fighter.hp = 100
 
 
     }
@@ -426,11 +435,17 @@ newSmallCan2.img = cannonImage
         actualships.push(destroyer)
         destroyerShipsClass.img = destroyerimg
         destroyer.needstobemoved = false
+        destroyer.shipclass = "destroyer"
+        destroyer.maxHP = 500
+        destroyer.hp = 500
     }
     if (shiptype == "constructer") {
         constructer = new constructerShipsClass.Sprite(newshipX, newshipY, 300, 200, "d")
         actualships.push(constructer)
         constructer.needstobemoved = false
+        destroyer.shipclass = "constructer"
+        constructer.maxHP = 100
+        constructer.hp = 100
     }
 
 }
@@ -568,10 +583,24 @@ function moveShips() {
 function moveselectedships() {
     // console.log(lastmovepoint + " lastmovepoint")
     for (let selectedship of actualships) {
+        console.log(selectedship.hp)
         if (selectedship.needstobemoved) {
             selectedship.rotation = selectedship.direction
             selectedship.direction = selectedship.angleTo(selectedship.movepoint);
-            selectedship.speed = 1;
+            console.log(selectedship.shipclass)
+
+            if(selectedship.shipclass === "scout"){
+                selectedship.speed = 2
+            }
+            if (selectedship.shipclass === "fighter") {
+                selectedship.speed = 1
+            }
+            if (selectedship.shipclass === "destroyer") {
+                selectedship.speed = 1
+            }
+            if (selectedship.shipclass === "constructer") {
+                selectedship.speed = 1
+            }
         }
 
         if (selectedship.needstobemoved && (dist(selectedship.x, selectedship.y, movepoints[lastmovepoint - 1].x, movepoints[lastmovepoint - 1].y) < 60)) {// || selectedship.collides(allSprites)
