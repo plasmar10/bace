@@ -1031,7 +1031,7 @@ async function resourceCollection() {
                 for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
-                    if (d < 200 && key === "p" && !resourceStationSpawned) {
+                    if (d < 200 && kb.presses('p') && !resourceStationSpawned) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
                         resourceStationSpawned = true;
@@ -1048,7 +1048,7 @@ async function resourceCollection() {
                 for (let i = 0; i < oilResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
-                    if (d < 200 && key === "p" && !resourceStationSpawned) {
+                    if (d < 200 && kb.presses('p') && !resourceStationSpawned) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
                         resourceStationSpawned = true;
@@ -1065,7 +1065,7 @@ async function resourceCollection() {
                 for (let i = 0; i < crystalResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
-                    if (d < 200 && key === "p" && !resourceStationSpawned) {
+                    if (d < 200 && kb.presses('p') && !resourceStationSpawned) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
                         resourceStationSpawned = true;
