@@ -175,7 +175,7 @@ function draw() {
         moveShips();
         moveselectedships();
         Weapons();
-
+        hpsystem()
         monsterAni();
         selection_system();
         resourceCollection();
@@ -382,55 +382,70 @@ function makeships() {
 
 }
 
-let test
+let scout
+let fighter
+let destroyer
+let constructer
 function makeship(shiptype, newshipX, newshipY) {
     //console.log(actualships.length)
     if (shiptype == "scout") {
-        test = new scoutShipsClass.Sprite(newshipX, newshipY, 105, 54, "d")
-        actualships.push(test)
+        scout = new scoutShipsClass.Sprite(newshipX, newshipY, 105, 54, "d")
+        actualships.push(scout)
         scoutShipsClass.img = scoutShipImage
-        test.needstobemoved = false
+        scout.needstobemoved = false
         let newSmallCan = new Sprite(newshipX, newshipY, 20, 20)
         newSmallCan.img= cannonImage
-        newSmallCan.id = test.idNum
+        newSmallCan.id = scout.idNum
         newSmallCan.overlaps(ships)
         smallCan.push(newSmallCan)
-
+        scout.shipclass = "scout"
+        console.log(scout.shipclass)
+        scout.maxHP = 25
+        scout.hp = 25
 
 
 
     }
     if (shiptype == "fighter") {
-        test = new fighterShipsClass.Sprite(newshipX, newshipY, 179, 62, "d")
-        actualships.push(test)
+        fighter = new fighterShipsClass.Sprite(newshipX, newshipY, 179, 62, "d")
+        actualships.push(fighter)
         fighterShipsClass.img = fighterShipimg
-        test.needstobemoved = false
+        fighter.needstobemoved = false
         let newSmallCan2 = new Sprite(newshipX, newshipY, 20, 20)
-        newSmallCan2.id = test.idNum
+        newSmallCan2.id = fighter.idNum
         newSmallCan2.overlaps(ships)
         smallCan2.push(newSmallCan2)
-newSmallCan2.img = cannonImage
+        newSmallCan2.img = cannonImage
         newSmallCan2.cannonnumber = 1
 
         let newSmallCan3 = new Sprite(newshipX, newshipY, 20, 20)
-        newSmallCan3.id = test.idNum
+        newSmallCan3.id = fighter.idNum
         newSmallCan3.overlaps(ships)
         smallCan2.push(newSmallCan3)
         newSmallCan3.cannonnumber = 2
         newSmallCan3.img = cannonImage
+        fighter.shipclass = "fighter"
+        fighter.maxHP = 100
+        fighter.hp = 100
 
 
     }
     if (shiptype == "destroyer") {
-        test = new destroyerShipsClass.Sprite(newshipX, newshipY, 368, 122, "d")
-        actualships.push(test)
+        destroyer = new destroyerShipsClass.Sprite(newshipX, newshipY, 368, 122, "d")
+        actualships.push(destroyer)
         destroyerShipsClass.img = destroyerimg
-        test.needstobemoved = false
+        destroyer.needstobemoved = false
+        destroyer.shipclass = "destroyer"
+        destroyer.maxHP = 500
+        destroyer.hp = 500
     }
     if (shiptype == "constructer") {
-        test = new constructerShipsClass.Sprite(newshipX, newshipY, 300, 200, "d")
-        actualships.push(test)
-        test.needstobemoved = false
+        constructer = new constructerShipsClass.Sprite(newshipX, newshipY, 300, 200, "d")
+        actualships.push(constructer)
+        constructer.needstobemoved = false
+        destroyer.shipclass = "constructer"
+        constructer.maxHP = 100
+        constructer.hp = 100
     }
 
 }
@@ -568,10 +583,23 @@ function moveShips() {
 function moveselectedships() {
     // console.log(lastmovepoint + " lastmovepoint")
     for (let selectedship of actualships) {
+       // console.log(selectedship.hp)
         if (selectedship.needstobemoved) {
             selectedship.rotation = selectedship.direction
             selectedship.direction = selectedship.angleTo(selectedship.movepoint);
-            selectedship.speed = 10;
+            console.log(selectedship.shipclass)
+            if(selectedship.shipclass === "scout"){
+                selectedship.speed = 2
+            }
+            if (selectedship.shipclass === "fighter") {
+                selectedship.speed = 1
+            }
+            if (selectedship.shipclass === "destroyer") {
+                selectedship.speed = 1
+            }
+            if (selectedship.shipclass === "constructer") {
+                selectedship.speed = 1
+            }
         }
 
         if (selectedship.needstobemoved && (dist(selectedship.x, selectedship.y, movepoints[lastmovepoint - 1].x, movepoints[lastmovepoint - 1].y) < 60)) {// || selectedship.collides(allSprites)
@@ -966,4 +994,12 @@ async function resourceCollection() {
         }
 }
 
+
+function hpsystem() {
+    
+for (let selectedship of actualships) {
+    console.log(selectedship.hp)
+
+    }
+}
 // remonder for omrhi // use angleto for better prefromens for shiops and points so they resolve the promice cliding problem
