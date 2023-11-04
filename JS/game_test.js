@@ -319,6 +319,7 @@ function makeship(shiptype, newshipX, newshipY) {
         scoutShipsClass.img = scoutShipImage
         test.needstobemoved = false
         let newSmallCan = new Sprite(newshipX, newshipY, 20, 20)
+        newSmallCan.img= cannonImage
         newSmallCan.id = test.idNum
         newSmallCan.overlaps(ships)
         smallCan.push(newSmallCan)
@@ -336,7 +337,7 @@ function makeship(shiptype, newshipX, newshipY) {
         newSmallCan2.id = test.idNum
         newSmallCan2.overlaps(ships)
         smallCan2.push(newSmallCan2)
-
+newSmallCan2.img = cannonImage
         newSmallCan2.cannonnumber = 1
 
         let newSmallCan3 = new Sprite(newshipX, newshipY, 20, 20)
@@ -344,7 +345,7 @@ function makeship(shiptype, newshipX, newshipY) {
         newSmallCan3.overlaps(ships)
         smallCan2.push(newSmallCan3)
         newSmallCan3.cannonnumber = 2
-
+        newSmallCan3.img = cannonImage
 
 
     }
