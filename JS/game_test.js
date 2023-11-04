@@ -568,8 +568,8 @@ function moveShips() {
 
                 if (selectedShips[i].selected == true) {
 
-                    let xAxisDistance = dist(selectedShips[i].x, 0, mouse.x, 0)
-                    let yAxisDistance = dist(0, selectedShips[i].y, 0, mouse.y)
+                    let xAxisDistance = dist(selectedShips[0].x, 0, mouse.x, 0)
+                    let yAxisDistance = dist(0, selectedShips[0].y, 0, mouse.y)
 
                     if (xAxisDistance < yAxisDistance) {
                         movepoint = new Sprite(mouse.x + i * 100 - 100 * (selectedShips.length / 3), mouse.y, 50, "n")
@@ -578,7 +578,7 @@ function moveShips() {
                     }
 
 
-                    movepoint.visible = false;
+                    movepoint.visible = true;
                     selectedShips[i].needstobemoved = true
                     lastmovepoint = movepoints.length
                     selectedShips[i].movepoint = movepoint
