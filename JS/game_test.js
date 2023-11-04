@@ -5,7 +5,6 @@ let oceanSprite;
 let scrollNumber = 0
 let scrollZoomLevel = 0.25
 let ships, scoutShipsClass, resourceStation;
-let resourceShip1, resourceShip1MoveBackDirection;
 let scoutShipImage;
 let scrapMetalImage, oilImage, crystalImage;
 let cannonImage, destroyerimg, fighterShipimg;
@@ -19,7 +18,7 @@ let shotOnce = false;
 let actualships = [];
 
 let scrapMetalCounter, oilCounter, crystalCounter;
-let fighterShipsClass, destroyerShipsClass, constructerShipsClass;
+let fighterShipsClass, destroyerShipsClass, constructorShipsClass;
 
 let resourceStations
 let scrapMetalResourceNodes = [];
@@ -146,7 +145,6 @@ function draw() {
             mothership();
             resourceSpawner();
             makeships();
-            resourceShip();
             enemies();//may have to go in draw for animation and stuff
             resourceStations = new Group();
 
@@ -360,10 +358,11 @@ function makeships() {
     scoutShipsClass = new ships.Group();
     fighterShipsClass = new ships.Group();
     destroyerShipsClass = new ships.Group();
-    constructerShipsClass = new ships.Group();
-    makeship("scout", 200, 700)
+    constructorShipsClass = new ships.Group();
+    makeship("scout", 200, 400)
     makeship("fighter", 500, 700)
-    makeship("destroyer", 800, 700)
+    makeship("destroyer", 800, 1000)
+    makeship('constructor', 1500, 700)
 
 
 }
@@ -372,7 +371,7 @@ function makeship(shiptype, newshipX, newshipY) {
     let scout
     let fighter
     let destroyer
-    let constructer
+    let constructor
     //console.log(actualships.length)
     if (shiptype == "scout") {
         scout = new scoutShipsClass.Sprite(newshipX, newshipY, 105, 54, "d")
@@ -427,14 +426,17 @@ function makeship(shiptype, newshipX, newshipY) {
         destroyer.hp = 500
         actualships.push(destroyer)
     }
-    if (shiptype == "constructer") {
-        constructer = new constructerShipsClass.Sprite(newshipX, newshipY, 300, 200, "d")
-        constructer.needstobemoved = false
-        destroyer.shipclass = "constructer"
-        constructer.maxHP = 100
-        constructer.hp = 100
-        actualships.push(constructer)
+    if (shiptype == "constructor") {
+        constructor = new constructorShipsClass.Sprite(newshipX, newshipY, 179, 62, "d")
+        constructor.img = fighterShipimg
+        constructor.needstobemoved = false
+        constructor.shipclass = "constructor"
+        constructor.maxHP = 100
+        constructor.hp = 100
+        actualships.push(constructor)
+
     }
+    constructor
 
 }
 
@@ -611,11 +613,11 @@ function moveselectedships() {
             if (selectedship.shipclass === "destroyer") {
                 selectedship.speed = 0.5
             }
-            if (selectedship.shipclass === "constructer") {
-                selectedship.speed = 0.5
+            if (selectedship.shipclass === "constructor") {
+                selectedship.speed = 10
             }
         }
-//console.log(movepoints[lastmovepoint - 1] + "  testing problem")
+        //console.log(movepoints[lastmovepoint - 1] + "  testing problem")
         if (selectedship.needstobemoved && (dist(selectedship.x, selectedship.y, movepoints[lastmovepoint].x, movepoints[lastmovepoint].y) < 60)) {
             selectedship.rotation = selectedship.direction
             console.log("Finished Moving")
@@ -908,15 +910,6 @@ function creatpointsforselection() {
 }
 
 
-
-function resourceShip() {
-    resourceShip1 = new Sprite(1000, 30, 100, 30)
-    resourceShip1.img = fighterShipimg
-
-
-}
-
-
 function resourceCollected() {
 
     if (resourceStationSpawned === true) {
@@ -960,57 +953,62 @@ function resourceCollected() {
 
 async function resourceCollection() {
 
-/*
-    if (mouse.pressed()) {
-        resourceShip1.x = mouse.x
-        resourceShip1.y = mouse.y
-
-    }
-*/
     //ScrapMetal
-    for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
-        for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
+    for (let selectedship of actualships) {
+        
+        if (selectedship.shipclass === 'constructor') {
 
-            let d = dist(resourceShip1.x, resourceShip1.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
-            if (d < 200 && key === "p" && !resourceStationSpawned) {
-                resourceStation = new Sprite(resourceShip1.x, resourceShip1.y)
-                resourceStation.collider = 'static'
-                resourceStationSpawned = true;
-                resourceShip1.remove()
-                resourceStations.push(resourceStation)
+
+
+            for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
+                for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
+
+                    let d = dist(selectedship.x, selectedship.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
+                    if (d < 200 && key === "p" && !resourceStationSpawned) {
+                        resourceStation = new Sprite(selectedship.x, selectedship.y)
+                        resourceStation.collider = 'static'
+                        resourceStationSpawned = true;
+                        selectedship.remove()
+                        resourceStations.push(resourceStation)
+                    }
+
+
+                }
+            }
+
+            //Oil
+            for (let i = 0; i < oilResourceNodes.length; i++) {
+                for (let i = 0; i < oilResourceNodes.length; i++) {
+
+                    let d = dist(selectedship.x, selectedship.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
+                    if (d < 200 && key === "p" && !resourceStationSpawned) {
+                        resourceStation = new Sprite(selectedship.x, selectedship.y)
+                        resourceStationSpawned = true;
+                        selectedship.remove()
+                        resourceStations.push(resourceStation)
+                    }
+
+
+                }
+            }
+
+            //Crystal
+            for (let i = 0; i < crystalResourceNodes.length; i++) {
+                for (let i = 0; i < crystalResourceNodes.length; i++) {
+
+                    let d = dist(selectedship.x, selectedship.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
+                    if (d < 200 && key === "p" && !resourceStationSpawned) {
+                        resourceStation = new Sprite(selectedship.x, selectedship.y)
+                        resourceStationSpawned = true;
+                        selectedship.remove()
+                        resourceStations.push(resourceStation)
+                    }
+
+
+                }
             }
 
 
-        }
-    }
-
-    //Oil
-    for (let i = 0; i < oilResourceNodes.length; i++) {
-        for (let i = 0; i < oilResourceNodes.length; i++) {
-
-            let d = dist(resourceShip1.x, resourceShip1.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
-            if (d < 200 && key === "p" && !resourceStationSpawned) {
-                resourceStation = new Sprite(resourceShip1.x, resourceShip1.y)
-                resourceStationSpawned = true;
-                resourceShip1.remove()
-                resourceStations.push(resourceStation)
-            }
-
-
-        }
-    }
-
-    //Crystal
-    for (let i = 0; i < crystalResourceNodes.length; i++) {
-        for (let i = 0; i < crystalResourceNodes.length; i++) {
-
-            let d = dist(resourceShip1.x, resourceShip1.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
-            if (d < 200 && key === "p" && !resourceStationSpawned) {
-                resourceStation = new Sprite(resourceShip1.x, resourceShip1.y)
-                resourceStationSpawned = true;
-                resourceShip1.remove()
-                resourceStations.push(resourceStation)
-            }
 
 
         }
