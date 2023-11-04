@@ -49,11 +49,21 @@ let movePointDistance;
 let smallCan = [];
 let smallCan2 = [];
 
-//Fighter Ship//
-let cannon1Angle = 0;
-let cannon2Angle = 180;
-
 let resourceStationSpawned = false;
+
+
+let currentScreen = 0
+let mainMenuScreen = 0
+let introScreen = 1
+let gameScreen = 2
+
+let gameLoadOnce = false;
+let menuLoadOnce = false;
+
+let MenuSprites = [];
+let newGameButton;
+
+
 
 
 function preload() {
@@ -82,48 +92,99 @@ function preload() {
 }
 
 function setup() {
-    new Group();
     createCanvas(1920, 1076);
-    ocean();
-    creatpointsforselection();
-    mothership();
-    resourceSpawner();
-    makeships();
-    resourceShip();
-    enemies();//may have to go in draw for animation and stuff
-    resourceStations = new Group();
-
-    gameInterface(); // this must alwas be done last
-
 
 
 }
 
 function draw() {
 
-    cannon1Angle++;
-    cannon2Angle++;
+    if (currentScreen === 0) { //MainMenu
+        background('blue')
 
-    zoom();
-    moveShips();
-    moveselectedships();
-    Weapons();
+        //MenuSetup//
+        if (menuLoadOnce === false) {
 
-    monsterAni();
-    selection_system();
-    resourceCollection();
-    resourceCollected();     //idl why but it was breaking game
-
-    GUIE(); //this must alwas be done last 
+            newGameButton = new Sprite(width/2, height/2, 500, 200)
+            newGameButton.textSize = '80'
+            newGameButton.text = 'Start';
 
 
 
-    if (mainMusic.isPlaying()) {
+            
+            menuLoadOnce = true;
+        }
 
-    } else {
-        mainMusic.loop();
-        mainMusic.setVolume(0.1);
+
+        if (kb.pressing(' ')) {
+            currentScreen = 1;
+        }
+
+
     }
+    else if (currentScreen === 1) { //Intro
+        background('pink')
+
+        if (kb.pressing('p')) {
+            currentScreen = 2;
+        }
+
+
+    }
+    else if (currentScreen === 2) { //Game
+
+        //GameSetup//
+        if (gameLoadOnce === false) {
+            new Group();
+
+            ocean();
+            creatpointsforselection();
+            mothership();
+            resourceSpawner();
+            makeships();
+            resourceShip();
+            enemies();//may have to go in draw for animation and stuff
+            resourceStations = new Group();
+
+            gameInterface(); // this must alwas be done last
+
+
+            gameLoadOnce = true;
+        }
+
+
+
+
+
+
+
+
+
+        zoom();
+        moveShips();
+        moveselectedships();
+        Weapons();
+
+        monsterAni();
+        selection_system();
+        resourceCollection();
+        resourceCollected();     //idl why but it was breaking game
+
+        GUIE(); //this must alwas be done last 
+
+
+
+        if (mainMusic.isPlaying()) {
+
+        } else {
+            mainMusic.loop();
+            mainMusic.setVolume(0.1);
+        }
+
+
+    }
+
+
 
 
 }
