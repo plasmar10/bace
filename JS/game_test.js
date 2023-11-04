@@ -912,10 +912,10 @@ async function resourceCollection() {
     movePointDistance = dist(resourceShip1.x, resourceShip1.y, moveBackPoint.x, moveBackPoint.y);
 
     if (mouse.pressed()) {
-        resourceShip1.x = mouse.x + - 600
+        resourceShip1.x = mouse.x 
         resourceShip1.y = mouse.y
 
-
+    }
         //ScrapMetal
         for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
             for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
@@ -964,14 +964,6 @@ async function resourceCollection() {
 
             }
         }
-
-
-
-
-    }
-
-
-
 }
 
 // remonder for omrhi // use angleto for better prefromens for shiops and points so they resolve the promice cliding problem
