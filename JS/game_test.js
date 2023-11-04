@@ -60,8 +60,8 @@ let gameScreen = 2
 let gameLoadOnce = false;
 let menuLoadOnce = false;
 
-let MenuSprites = [];
-let newGameButton;
+
+let MenuSprites, newGameButton;
 
 
 
@@ -104,28 +104,39 @@ function draw() {
 
         //MenuSetup//
         if (menuLoadOnce === false) {
-
-            newGameButton = new Sprite(width/2, height/2, 500, 200)
+            MenuSprites = new Group();
+            newGameButton = new Sprite(width / 5, height / 4, 400, 150)
             newGameButton.textSize = '80'
             newGameButton.text = 'Start';
+            MenuSprites.push(newGameButton)
+            newGameButton.color = 'white';
 
-
-
-            
             menuLoadOnce = true;
         }
 
-
-        if (kb.pressing(' ')) {
+        if (newGameButton.mouse.pressed()) {
+            MenuSprites.remove();
             currentScreen = 1;
-        }
+
+
+        };
+
+
 
 
     }
     else if (currentScreen === 1) { //Intro
         background('pink')
+        
+        //IntroSetup//
+        if (menuLoadOnce === false) {
 
-        if (kb.pressing('p')) {
+
+
+        }
+
+
+        if (kb.pressing(' ')) {
             currentScreen = 2;
         }
 
@@ -380,6 +391,7 @@ function makeship(shiptype, newshipX, newshipY) {
         scoutShipsClass.img = scoutShipImage
         scout.needstobemoved = false
         let newSmallCan = new Sprite(newshipX, newshipY, 20, 20)
+        newSmallCan.img= cannonImage
         newSmallCan.id = scout.idNum
         newSmallCan.overlaps(ships)
         smallCan.push(newSmallCan)
@@ -397,7 +409,7 @@ function makeship(shiptype, newshipX, newshipY) {
         newSmallCan2.id = fighter.idNum
         newSmallCan2.overlaps(ships)
         smallCan2.push(newSmallCan2)
-
+newSmallCan2.img = cannonImage
         newSmallCan2.cannonnumber = 1
 
         let newSmallCan3 = new Sprite(newshipX, newshipY, 20, 20)
@@ -405,7 +417,7 @@ function makeship(shiptype, newshipX, newshipY) {
         newSmallCan3.overlaps(ships)
         smallCan2.push(newSmallCan3)
         newSmallCan3.cannonnumber = 2
-
+        newSmallCan3.img = cannonImage
 
 
     }
