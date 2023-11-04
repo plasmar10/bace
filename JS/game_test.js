@@ -615,7 +615,7 @@ function moveselectedships() {
                 selectedship.speed = 0.5
             }
         }
-
+//console.log(movepoints[lastmovepoint - 1] + "  testing problem")
         if (selectedship.needstobemoved && (dist(selectedship.x, selectedship.y, movepoints[lastmovepoint - 1].x, movepoints[lastmovepoint - 1].y) < 60)) {
             selectedship.rotation = selectedship.direction
             console.log("Finished Moving")
