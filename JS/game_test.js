@@ -44,22 +44,26 @@ let smallCan2 = [];
 let resourceStationSpawned = false;
 
 
-let currentScreen = 2
+let currentScreen = 0
 let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
 
 let gameLoadOnce = false;
 let menuLoadOnce = false;
+let videoPlayOnce = false;
+let playEasterEggVideo = false;
 
 
-let MenuSprites, newGameButton;
+let MenuSprites, newGameButton, menuBackground;
+let introVideo, easterEggVideo;
 
 
 
 
 function preload() {
     //Background//
+    menuBackground = loadImage("./assets/menuImage.jpg");
     oceanBackground = loadImage("./assets/ocean.jpg");
 
     //Resources//
@@ -80,6 +84,14 @@ function preload() {
     //Music//
     mainMusic = loadSound("./assets/music/Salutations.mp3")
 
+    //Videos//
+    introVideo = createVideo("./assets/videos/IntroVideo.mp4")
+    easterEggVideo = createVideo("./assets/videos/EasterEggVideo.mp4")
+    introVideo.hide();
+    easterEggVideo.hide();
+    introVideo.volume(0.1);
+    easterEggVideo.volume(0.5);
+
 
 }
 
@@ -92,12 +104,12 @@ function setup() {
 function draw() {
 
     if (currentScreen === 0) { //MainMenu
-        background('blue')
+        image(menuBackground, 0, 0, width, height)
 
         //MenuSetup//
         if (menuLoadOnce === false) {
             MenuSprites = new Group();
-            newGameButton = new Sprite(width / 5, height / 4, 400, 150)
+            newGameButton = new Sprite(width / 5, height / 2.8, 350, 120)
             newGameButton.textSize = '80'
             newGameButton.text = 'Start';
             MenuSprites.push(newGameButton)
@@ -112,30 +124,44 @@ function draw() {
 
 
         };
+        if (newGameButton.mouse.hovering()) {
+            newGameButton.color = 'blue';
+            newGameButton.textColor = 'white';
+        } else {
+            newGameButton.color = 'white';
+            newGameButton.textColor = 'black';
+        }
 
 
 
 
     }
     else if (currentScreen === 1) { //Intro
-        background('pink')
+        background('black')
+        image(introVideo, 0, 0, width, height);
 
         //IntroSetup//
-        if (menuLoadOnce === false) {
+        if (videoPlayOnce === false) {
+            introVideo.play();
+            videoPlayOnce = true;
 
-
-
+        } else if (videoPlayOnce === true && kb.presses(' ')) {
+            introVideo.stop();
+            gameLoadOnce = false;
+            currentScreen = 2
+            videoPlayOnce = false;
         }
 
+        introVideo.onended(IntroEnded);
 
-        if (kb.pressing(' ')) {
-            currentScreen = 2;
-        }
+
+
 
 
     }
     else if (currentScreen === 2) { //Game
 
+        clear();
         //GameSetup//
         if (gameLoadOnce === false) {
             new Group();
@@ -161,7 +187,6 @@ function draw() {
 
 
 
-
         zoom();
         moveShips();
         moveselectedships();
@@ -176,6 +201,7 @@ function draw() {
 
 
 
+        //MainMusic//
         if (mainMusic.isPlaying()) {
 
         } else {
@@ -183,12 +209,37 @@ function draw() {
             mainMusic.setVolume(0.1);
         }
 
+        //EasterEggVideo//
+        if (playEasterEggVideo === false && kb.presses('l')) {
+
+            easterEggVideo.play();
+
+            playEasterEggVideo = true;
+
+        } else if (playEasterEggVideo === true && kb.presses('l')) {
+            easterEggVideo.stop();
+            playEasterEggVideo = false;
+
+        }
+
+        if (playEasterEggVideo === true) {
+            image(easterEggVideo, 0, 0, width, height);
+        }
 
     }
 
 
 
 
+}
+
+function IntroEnded() {
+    if (videoPlayOnce === true) {
+        introVideo.stop();
+        gameLoadOnce = false;
+        currentScreen = 2
+        videoPlayOnce = false;
+    }
 }
 
 
