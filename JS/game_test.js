@@ -33,7 +33,6 @@ let shipSelected = false;
 let selectionStartX, selectionStartY;
 let selectionEndX, selectionEndY;
 let selectedShips = [];
-let destinationPoint
 let lastmovepoint = 0
 let movepoint
 let movepoints = []
@@ -897,10 +896,7 @@ function selection_system() {
 
     }
 
-    if (mouse.presses()) {
-        destinationPoint.x = mouse.x;
-        destinationPoint.y = mouse.y;
-    }
+
 
 
 }
@@ -909,7 +905,6 @@ function creatpointsforselection() {
     pointsforselect = new Group();
     startpoint = new pointsforselect.Sprite(99999, 99999, 1, "n")
     endpoint = new pointsforselect.Sprite(99999, 99999, 1, "n");
-    destinationPoint = new pointsforselect.Sprite(99999, 99999, 100, "n");
 
 }
 
@@ -965,8 +960,7 @@ function resourceCollected() {
 
 
 async function resourceCollection() {
-    resourceShip1MoveBackDirection = -resourceShip1.rotation
-    movePointDistance = dist(resourceShip1.x, resourceShip1.y, moveBackPoint.x, moveBackPoint.y);
+
 
     if (mouse.pressed()) {
         resourceShip1.x = mouse.x
