@@ -576,11 +576,12 @@ function moveShips() {
                 if (selectedship.selected == true) {
                     movepoint = new Sprite(mouse.x, mouse.y, 50, "n")
                     movepoint.visible = false
-                    movepoints.push(movepoint)
                     selectedship.needstobemoved = true
                     lastmovepoint = movepoints.length
                     selectedship.movepoint = movepoint
-                    console.log(selectedship.movepoint, movepoint)
+                    //console.log(selectedship.movepoint, movepoint)
+                    movepoint.life = 240000
+                    movepoints.push(movepoint)
                 }
             }
         }
