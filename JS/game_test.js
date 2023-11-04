@@ -175,7 +175,7 @@ function draw() {
         moveShips();
         moveselectedships();
         Weapons();
-
+        hpsystem()
         monsterAni();
         selection_system();
         resourceCollection();
@@ -583,12 +583,11 @@ function moveShips() {
 function moveselectedships() {
     // console.log(lastmovepoint + " lastmovepoint")
     for (let selectedship of actualships) {
-        console.log(selectedship.hp)
+       // console.log(selectedship.hp)
         if (selectedship.needstobemoved) {
             selectedship.rotation = selectedship.direction
             selectedship.direction = selectedship.angleTo(selectedship.movepoint);
             console.log(selectedship.shipclass)
-
             if(selectedship.shipclass === "scout"){
                 selectedship.speed = 2
             }
@@ -1003,4 +1002,12 @@ async function resourceCollection() {
 
 }
 
+
+function hpsystem() {
+    
+for (let selectedship of actualships) {
+    console.log(selectedship.hp)
+
+    }
+}
 // remonder for omrhi // use angleto for better prefromens for shiops and points so they resolve the promice cliding problem
