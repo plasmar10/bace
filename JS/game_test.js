@@ -86,7 +86,7 @@ function preload() {
     SeaMonShadowImage = loadImage("./assets/enemy_sprites/reaper.gif")
 
     //Music//
-    mainMusic = loadSound("./assets/music/MainMusic.mp3")
+    mainMusic = loadSound("./assets/music/Salutations.mp3")
 
 
 }
