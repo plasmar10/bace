@@ -4,10 +4,11 @@ let oceanBackground, mothershipImage, mainMusic;
 let oceanSprite;
 let scrollNumber = 0
 let scrollZoomLevel = 0.25
-let ships, scoutShipsClass, scoutShip1, scoutShip1Cannon;
+let ships, scoutShipsClass, scoutShip1, scoutShip1Cannon, resourceStation;
+let resourceShip1, resourceShip1MoveBackDirection;
 let scoutShipImage;
 let scrapMetalImage, oilImage, crystalImage;
-let cannonImage, destroyerimg;
+let cannonImage, destroyerimg, fighterShipimg;
 let SeaMon;
 let SeaMonShadowImage;
 let shots, basicShot;
@@ -52,7 +53,7 @@ let smallCan2 = [];
 let cannon1Angle = 0;
 let cannon2Angle = 180;
 
-
+let resourceStationSpawned = false;
 
 
 function preload() {
@@ -308,8 +309,8 @@ function makeships() {
 
 
 }
+
 let test
-let scoutshipnum
 function makeship(shiptype, newshipX, newshipY) {
     //console.log(actualships.length)
     if (shiptype == "scout") {
@@ -773,11 +774,9 @@ function creatpointsforselection() {
     destinationPoint = new pointsforselect.Sprite(99999, 99999, 100, "n");
 
 }
-let resourceShip1;
-let fighterShipimg;
-let resourceStation;
-let resourceStationSpawned = false;
-let resourceShip1MoveBackDirection
+
+
+
 function resourceShip() {
     resourceShip1 = new Sprite(1000, 30, 100, 30)
     resourceShip1.img = fighterShipimg
