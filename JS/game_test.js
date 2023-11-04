@@ -34,11 +34,10 @@ let selectionStartX, selectionStartY;
 let selectionEndX, selectionEndY;
 let selectedShips = [];
 let destinationPoint
+
 let lastmovepoint = 0
 let movepoint
 let movepoints = []
-let moveTowardsX;
-let moveTowardsY;
 let moveBackPoint;
 let movePointDistance;
 
@@ -690,8 +689,8 @@ function monsterAni() {
         else {
             SeaMon.rotation -= 0.2;
         }
-        
-        
+
+
     }
 
 
