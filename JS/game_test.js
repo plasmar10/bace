@@ -44,7 +44,7 @@ let smallCan2 = [];
 let resourceStationSpawned = false;
 
 
-let currentScreen = 0
+let currentScreen = 2
 let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
@@ -77,7 +77,6 @@ function preload() {
     fighterShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_medium_body.png");
     destroyerimg = loadImage("./assets/ship_sptites/shipz/images/ship_large_body.png");
     cannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun.png");
-
     //Monsters//
     SeaMonShadowImage = loadImage("./assets/enemy_sprites/reaper.gif")
 
@@ -195,7 +194,7 @@ function draw() {
         monsterAni();
         selection_system();
         resourceCollection();
-        resourceCollected();     //idl why but it was breaking game
+        resourceCollected();
 
         GUIE(); //this must alwas be done last 
 
@@ -226,11 +225,8 @@ function draw() {
             image(easterEggVideo, 0, 0, width, height);
         }
 
+
     }
-
-
-
-
 }
 
 function IntroEnded() {
@@ -315,9 +311,6 @@ function resourceSpawner() {
 
 
 }
-
-
-
 
 
 function resourceNodes(resourceZoneWidth, resourceZoneHeight, resourceZoneX1, resourceZoneY1, resourceZoneX2, resourceZoneY2, selectedResource) {
@@ -604,11 +597,6 @@ function Weapons() {
 }
 
 
-
-
-
-
-
 function moveShips() {
     //console.log(selectedShips)
     if (shipSelected && selectionrectangle.width < 100) {
@@ -643,13 +631,6 @@ function moveShips() {
         }
     }
 }
-
-
-
-
-
-
-
 
 function moveselectedships() {
 
@@ -798,15 +779,27 @@ function GUIE() {
     crystalCounter.color = '#e6e1f9';
 
     for (let i = 0; i < 9; i++) {
-        if (kb[i + 1]) ui[i].color = 'red';
+        if (kb[i + 1]) {
+            ui[i].color = 'red';
+        }
     }
+
+    if (mothershipBase.mouse.pressed()) {
+        ui[0].img = fighterShipimg
+    
+
+    } else if (mouse.pressed()) {
+        ui[0].img = destroyerimg
+
+    }
+
     ui.draw();
 }
 
 function gameInterface() {
     ui = new Group();
     for (let i = 0; i < 9; i++) {
-        new ui.Sprite(100 + i * 40, 1000, 35, 35, 'n');
+        new ui.Sprite(100 + i * 60, 1000, 50, 50, 'n');
     }
     scrapMetalCounter = new ui.Sprite(80, 35, 150, 60, 'n');
     scrapMetalCounter.textSize = 50
