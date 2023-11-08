@@ -57,8 +57,9 @@ let playEasterEggVideo = false;
 
 let MenuSprites, newGameButton, menuBackground;
 let introVideo, easterEggVideo;
-
-
+let zoneSpawned = false
+let lavaZone
+let index
 
 
 function preload() {
@@ -98,6 +99,7 @@ function setup() {
     createCanvas(1920, 1076);
 
 
+
 }
 
 function draw() {
@@ -113,6 +115,7 @@ function draw() {
             newGameButton.text = 'Start';
             MenuSprites.push(newGameButton)
             newGameButton.color = 'white';
+
 
             menuLoadOnce = true;
         }
@@ -160,19 +163,23 @@ function draw() {
     }
     else if (currentScreen === 2) { //Game
 
+        for (let i = 0; i < actualships.length; i++) {
+            index = i
+             actualships[i].overlap(lavaZone,health) 
+        }
         clear();
         //GameSetup//
         if (gameLoadOnce === false) {
             new Group();
 
             ocean();
+            Zones();
             creatpointsforselection();
             mothership();
             resourceSpawner();
             makeships();
             enemies();//may have to go in draw for animation and stuff
             resourceStations = new Group();
-
             gameInterface(); // this must alwas be done last
 
 
@@ -181,7 +188,7 @@ function draw() {
 
 
 
-
+    }
 
 
 
@@ -195,6 +202,7 @@ function draw() {
         selection_system();
         resourceCollection();
         resourceCollected();
+       
 
         GUIE(); //this must alwas be done last 
 
@@ -227,7 +235,7 @@ function draw() {
 
 
     }
-}
+
 
 function IntroEnded() {
     if (videoPlayOnce === true) {
@@ -786,7 +794,7 @@ function GUIE() {
 
     if (mothershipBase.mouse.pressed()) {
         ui[0].img = fighterShipimg
-    
+
 
     } else if (mouse.pressed()) {
         ui[0].img = destroyerimg
@@ -1081,8 +1089,28 @@ async function resourceCollection() {
 function hpsystem() {
 
     for (let selectedship of actualships) {
-        //console.log(selectedship.hp)
+       // console.log(selectedship.hp)
 
     }
 }
+
+function Zones() {
+    if (zoneSpawned === false) {
+        lavaZone = new Sprite(4000, 200, 2000, 3000)
+        zoneSpawned = true
+    }
+   
+    lavaZone.collider = 'n'
+  
+}
+function health (){
+    
+    //if (frameCount % 60 === 0) {
+      actualships[index].hp -= 2; 
+
+
+            
+console.log(actualships[index].hp)
+}
+
 // remonder for omrhi // use angleto for better prefromens for shiops and points so they resolve the promice cliding problem
