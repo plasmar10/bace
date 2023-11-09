@@ -13,6 +13,7 @@ let SeaMonShadowImage;
 let shots, basicShot;
 let ui;
 let constructorimg
+let startgamebuttion
 
 let shotOnce = false;
 
@@ -46,7 +47,7 @@ let healthBarComponents = [];
 let resourceStationSpawned = false;
 
 
-let currentScreen = 2
+let currentScreen = 0
 let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
@@ -65,6 +66,10 @@ let radiationZone;
 let index;
 let buyScreen ;
 let buyConstructor;
+let surfusnaticaVideo
+
+
+let makeMenubuttions = false
 
 function preload() {
     //Background//
@@ -97,8 +102,13 @@ function preload() {
     easterEggVideo.hide();
     introVideo.volume(0.1);
     easterEggVideo.volume(0.5);
-
-
+    surfusnaticaVideo = createVideo("./assets/videos/surfusnatica_1.mp4", videoLoaded);
+    surfusnaticaVideo.hide();
+    
+    function videoLoaded() {
+      surfusnaticaVideo.loop();
+    }
+    
 }
 
 function setup() {
@@ -106,64 +116,16 @@ function setup() {
 
 
 }
-
+function videoLoaded() {
+    surfusnaticaVideo.loop();
+  }
 function draw() {
 
-    if (currentScreen === 0) { //MainMenu
-        image(menuBackground, 0, 0, width, height)
-
-        //MenuSetup//
-        if (menuLoadOnce === false) {
-            MenuSprites = new Group();
-            newGameButton = new Sprite(width / 5, height / 2.8, 350, 120)
-            newGameButton.textSize = '80'
-            newGameButton.text = 'Start';
-            MenuSprites.push(newGameButton)
-            newGameButton.color = 'white';
-
-
-            menuLoadOnce = true;
-        }
-
-        if (newGameButton.mouse.pressed()) {
-            MenuSprites.remove();
-            currentScreen = 1;
-
-
-        };
-        if (newGameButton.mouse.hovering()) {
-            newGameButton.color = 'blue';
-            newGameButton.textColor = 'white';
-        } else {
-            newGameButton.color = 'white';
-            newGameButton.textColor = 'black';
-        }
-
-
-
-
+    if (currentScreen === 0) { //start screem
+        startscreen()
     }
-    else if (currentScreen === 1) { //Intro
-        background('black')
-        image(introVideo, 0, 0, width, height);
-
-        //IntroSetup//
-        if (videoPlayOnce === false) {
-            introVideo.play();
-            videoPlayOnce = true;
-
-        } else if (videoPlayOnce === true && kb.presses(' ')) {
-            introVideo.stop();
-            gameLoadOnce = false;
-            currentScreen = 2
-            videoPlayOnce = false;
-        }
-
-        introVideo.onended(IntroEnded);
-
-
-
-
+    else if (currentScreen === 1) { //menue screen
+        menuScreen()
 
     }
     else if (currentScreen === 2) { //Game
@@ -210,13 +172,6 @@ function draw() {
     
     
     
-        //MainMusic//
-        if (mainMusic.isPlaying()) {
-    
-        } else {
-            mainMusic.loop();
-            mainMusic.setVolume(0.1);
-        }
     
         //EasterEggVideo//
         if (playEasterEggVideo === false && kb.presses('l')) {
@@ -241,6 +196,75 @@ function draw() {
     }
 }
 
+
+
+function menuScreen() {
+    background(0);
+    image(surfusnaticaVideo, 0, 0, 1920, 1076);
+    // Display your video or any other content for the menu screen here
+    if (mainMusic.isPlaying()) {
+    
+    } else {
+        mainMusic.loop();
+        mainMusic.setVolume(0.1);
+    }
+    if (!makeMenubuttions){
+    startgamebuttion = new Sprite(300, 700, 300, 100)
+    startgamebuttion = new Sprite(300, 810, 300, 100)
+    startgamebuttion = new Sprite(300, 920, 300, 100)
+
+
+
+
+    makeMenubuttions = true
+    }
+  }
+  function button1Action() {
+    // Define the action for Button 1 here
+  }
+  
+  function button2Action() {
+    // Define the action for Button 2 here
+  }
+  
+  function button3Action() {
+    // Define the action for Button 3 here
+  }
+
+
+
+
+
+
+
+
+
+    function startscreen(){
+        image(menuBackground, 0, 0, width, height)
+
+        //MenuSetup//
+        if (menuLoadOnce === false) {
+            MenuSprites = new Group();
+            newGameButton = new Sprite(width / 5, height / 2.8, 350, 120)
+            newGameButton.textSize = '80'
+            newGameButton.text = 'Start';
+            MenuSprites.push(newGameButton)
+            newGameButton.color = 'white';
+            menuLoadOnce = true;
+        }
+        if (newGameButton.mouse.pressed()) {
+            MenuSprites.remove();
+            currentScreen = 1;
+        };
+        if (newGameButton.mouse.hovering()) {
+            newGameButton.color = 'blue';
+            newGameButton.textColor = 'white';
+        } else {
+            newGameButton.color = 'white';
+            newGameButton.textColor = 'black';
+        }
+
+}
 
 function IntroEnded() {
     if (videoPlayOnce === true) {
