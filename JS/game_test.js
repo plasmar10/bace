@@ -1113,5 +1113,3 @@ function health (){
             
 console.log(actualships[index].hp)
 }
-
-// remonder for omrhi // use angleto for better prefromens for shiops and points so they resolve the promice cliding problem
