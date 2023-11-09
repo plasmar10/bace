@@ -1264,7 +1264,9 @@ function Zones() {
     if (zoneSpawned === false) {
         lavaZone = new Sprite(-6050, -1450, 6000, 6000)
         lavaZone.color = color (255, 0, 0, 50)
-       radiationZone = new Sprite(-2000, 200, 1, 1)
+        lavaZone.visible = false
+   radiationZone = new Sprite(-5680, 4250, 6000, 5000)
+       radiationZone.visible = false
         zoneSpawned = true
     }
 
