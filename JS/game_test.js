@@ -1309,6 +1309,11 @@ async function resourceCollection() {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'd'
                         resourceStationSpawned = true;
+
+                        selectedship.hp = 0;
+
+
+                        
                         selectedship.remove()
                         resourceStations.push(resourceStation)
                     }
