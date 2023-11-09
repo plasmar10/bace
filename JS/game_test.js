@@ -12,6 +12,7 @@ let SeaMon;
 let SeaMonShadowImage;
 let shots, basicShot;
 let ui;
+let constructorimg
 
 let shotOnce = false;
 
@@ -68,7 +69,8 @@ let buyConstructor;
 function preload() {
     //Background//
     menuBackground = loadImage("./assets/menuImage.jpg");
-    //oceanBackground = loadImage("./assets/backround_with_zones.jpg");
+    oceanBackground = loadImage("./assets/small_backround_low_rez.jpg");
+   // oceanBackground = loadImage("./assets/backround_with_zones.jpg");
 
     //Resources//
     scrapMetalImage = loadImage("./assets/metalplate.png");
@@ -80,6 +82,7 @@ function preload() {
     scoutShipImage = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png");
     fighterShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_medium_body.png");
     destroyerimg = loadImage("./assets/ship_sptites/shipz/images/ship_large_body.png");
+    constructorimg = loadImage("./assets/ship_sptites/shipz/images/constructer_ship.png");
     cannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun.png");
     //Monsters//
     SeaMonShadowImage = loadImage("./assets/enemy_sprites/reaper.gif")
@@ -192,53 +195,50 @@ function draw() {
         }
 
 
+        zoom();
+        moveShips();
+        moveselectedships();
+        Weapons();
+        hpsystem()
+        monsterAni();
+        selection_system();
+        resourceCollection();
+        resourceCollected();
+    
+    
+        GUIE(); //this must alwas be done last 
+    
+    
+    
+        //MainMusic//
+        if (mainMusic.isPlaying()) {
+    
+        } else {
+            mainMusic.loop();
+            mainMusic.setVolume(0.1);
+        }
+    
+        //EasterEggVideo//
+        if (playEasterEggVideo === false && kb.presses('l')) {
+    
+            easterEggVideo.play();
+    
+            playEasterEggVideo = true;
+    
+        } else if (playEasterEggVideo === true && kb.presses('l')) {
+            easterEggVideo.stop();
+            playEasterEggVideo = false;
+    
+        }
+    
+        if (playEasterEggVideo === true) {
+            image(easterEggVideo, 0, 0, width, height);
+        }
+
+
+
 
     }
-
-
-
-
-    zoom();
-    moveShips();
-    moveselectedships();
-    Weapons();
-    hpsystem()
-    monsterAni();
-    selection_system();
-    resourceCollection();
-    resourceCollected();
-
-
-    GUIE(); //this must alwas be done last 
-
-
-
-    //MainMusic//
-    if (mainMusic.isPlaying()) {
-
-    } else {
-        mainMusic.loop();
-        mainMusic.setVolume(0.1);
-    }
-
-    //EasterEggVideo//
-    if (playEasterEggVideo === false && kb.presses('l')) {
-
-        easterEggVideo.play();
-
-        playEasterEggVideo = true;
-
-    } else if (playEasterEggVideo === true && kb.presses('l')) {
-        easterEggVideo.stop();
-        playEasterEggVideo = false;
-
-    }
-
-    if (playEasterEggVideo === true) {
-        image(easterEggVideo, 0, 0, width, height);
-    }
-
-
 }
 
 
@@ -520,8 +520,8 @@ function makeship(shiptype, newshipX, newshipY) {
 
     }
     if (shiptype == "constructor") {
-        constructor = new constructorShipsClass.Sprite(newshipX, newshipY, 179, 62, "d")
-        constructor.img = fighterShipimg
+        constructor = new constructorShipsClass.Sprite(newshipX, newshipY, 368, 224, "d")
+        constructor.img = constructorimg
         constructor.needstobemoved = false
         constructor.shipclass = "constructor"
         constructor.maxHP = 100
@@ -1270,9 +1270,9 @@ function hpsystem() {
 
 function Zones() {
     if (zoneSpawned === false) {
-        lavaZone = new Sprite(4000, 200, 2000, 3000)
-        lavaZone.color = color (255, 0, 0, 150)
-        radiationZone = new Sprite(-2000, 200, 2000, 3000)
+        lavaZone = new Sprite(-6050, -1450, 6000, 6000)
+        lavaZone.color = color (255, 0, 0, 50)
+       radiationZone = new Sprite(-2000, 200, 1, 1)
         zoneSpawned = true
     }
 
