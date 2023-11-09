@@ -420,7 +420,7 @@ function makeships() {
     constructorShipsClass = new ships.Group();
     makeship("scout", 200, 400)
     makeship("fighter", 500, 700)
-    makeship("fighter", 500, 700)
+    makeship("fighter", 0, 800)
     makeship("destroyer", 800, 1000)
     makeship('constructor', 1500, 700)
 
@@ -662,7 +662,7 @@ function Weapons() {
 
                 }
 
-                if (cannon.bulletTimer >= 200) {
+                if (cannon.bulletTimer >= 90) {
                     cannon.bulletTimer = -1;
                 }
 
