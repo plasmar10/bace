@@ -67,7 +67,6 @@ let introVideo, easterEggVideo;
 let zoneSpawned = false
 let lavaZone;
 let radiationZone;
-let index;
 let buyScreen;
 let buyConstructor;
 
@@ -75,7 +74,7 @@ function preload() {
     //Background//
     menuBackground = loadImage("./assets/menuImage.jpg");
     oceanBackground = loadImage("./assets/small_backround_low_rez.jpg");
-   // oceanBackground = loadImage("./assets/backround_with_zones.jpg");
+    // oceanBackground = loadImage("./assets/backround_with_zones.jpg");
 
     //Resources//
     scrapMetalImage = loadImage("./assets/metalplate.png");
@@ -173,13 +172,7 @@ function draw() {
     }
     else if (currentScreen === 2) { //Game
 
-        for (let i = 0; i < actualships.length; i++) {
-            index = i
-            actualships[i].overlapping(lavaZone, health)
-        } for (let i = 0; i < actualships.length; i++) {
-            index = i
-            actualships[i].overlapping(radiationZone, health)
-        }
+
         clear();
         //GameSetup//
         if (gameLoadOnce === false) {
@@ -258,7 +251,7 @@ function IntroEnded() {
 
 
 function ocean() {
-   // oceanBackground.resize(width * 10, height * 10)
+    // oceanBackground.resize(width * 10, height * 10)
     oceanSprite = new Sprite(width / 2, height / 2, width * 10, height * 10, "n")
     oceanSprite.image = oceanBackground
     oceanSprite.layer = -10
@@ -592,7 +585,7 @@ function Weapons() {
 
                 ammo(x, y, direction, selectedAmmo, timer);
 
-                
+
                 cannon.bulletTimer += 1;
 
             }
@@ -660,7 +653,7 @@ function Weapons() {
 
                     ammo(x, y, direction, selectedAmmo, timer);
 
-                    
+
                     cannon.bulletTimer += 1;
 
                 }
@@ -995,28 +988,28 @@ function GUIE() {
         }
     }
 
-if(createmenue){
-     buyScreen = new ui.Sprite (9000, 35, 400, 600, 'n')
-     createmenue = false
-     buyConstructor = new ui.Sprite(9000,35,200,60)
-     buyConstructor.colour = 'white'
-     buyConstructor.text = 'constructor'
-     buyConstructor.textSize = 30
-      
+    if (createmenue) {
+        buyScreen = new ui.Sprite(9000, 35, 400, 600, 'n')
+        createmenue = false
+        buyConstructor = new ui.Sprite(9000, 35, 200, 60)
+        buyConstructor.colour = 'white'
+        buyConstructor.text = 'constructor'
+        buyConstructor.textSize = 30
+
     }
-    
+
     if (mothershipBase.mouse.pressed()) {
         buyScreen.x = 1750
         buyConstructor.x = 1800
     }
     if (mouse.pressed()) {
-     if (!mothershipBase.mouse.pressed()){
-        buyScreen.x = 9000
-        buyConstructor.x = 9000
-    
-     }
+        if (!mothershipBase.mouse.pressed()) {
+            buyScreen.x = 9000
+            buyConstructor.x = 9000
+
+        }
     }
-    if(buyConstructor.mouse.pressed()){
+    if (buyConstructor.mouse.pressed()) {
         makeship('constructor', 1500, 750)
     }
 
@@ -1312,6 +1305,9 @@ function hpsystem() {
         // console.log(selectedship.hp)
         //console.log(selectedship.idNum)
 
+        let removeShip = false;
+
+
         for (let health of healthBarComponents) {
             //console.log(health.idNum)
 
@@ -1342,9 +1338,16 @@ function hpsystem() {
                 health.width = selectedship.maxHP;
                 //console.log(health.width)
             }
+
+
+
+
             for (let i = 0; i < actualships.length; i++) {
-                if (actualships[i].hp <= 0.9) {
-                    health.width = 0;
+                if (actualships[i].hp <= 0.5) {
+                    removeShip = true;
+                    if (health.componentId === 'bar' && health.idNum === selectedship.idNum) {
+                        health.width = 0;
+                    }
                     actualships[i].remove();
                     actualships.splice(i, 1)
 
@@ -1352,6 +1355,19 @@ function hpsystem() {
                 }
             }
         }
+
+
+        for (let i = 0; i < healthBarComponents.length; i++) {
+
+            if (healthBarComponents[i].width <= 2 && removeShip === true) {
+                healthBarComponents[i].remove();
+                healthBarComponents[i - 1].remove();
+                healthBarComponents.splice(i - 1, 2)
+
+            }
+        }
+
+
 
         if (selectedship.collides(SeaMon)) {
 
@@ -1364,37 +1380,30 @@ function hpsystem() {
             selectedship.hp = 0;
         }
 
-
-        for (let i = 0; i < healthBarComponents.length; i++) {
-            //console.log(healthBarComponents[i].width)
-            if (healthBarComponents[i].width <= 2 && selectedship.hp <= 0.9) {
-                healthBarComponents[i].remove();
-                healthBarComponents[i - 1].remove();
-                healthBarComponents.splice(i - 1, 2)
-
-            }
+        if (selectedship.overlapping(radiationZone)) {
+            selectedship.hp -= 0.5;
+            console.log(selectedship.hp)
         }
+
 
 
     }
 
 
-
-
-
-
-    //scout 
-
-
 }
+
+
+
+
+
 
 function Zones() {
     if (zoneSpawned === false) {
         lavaZone = new Sprite(-6050, -1450, 6000, 6000)
-        lavaZone.color = color (255, 0, 0, 50)
+        lavaZone.color = color(255, 0, 0, 50)
         lavaZone.visible = false
-   radiationZone = new Sprite(-5680, 4250, 6000, 5000)
-       radiationZone.visible = false
+        radiationZone = new Sprite(-5680, 4250, 6000, 5000)
+        radiationZone.visible = false
         zoneSpawned = true
     }
 
@@ -1403,18 +1412,5 @@ function Zones() {
 
 
 
-
-
-
 }
 
-
-function health() {
-
-    //if (frameCount % 60 === 0) {
-    //actualships[index].hp -= 0.06;
-
-
-
-    //console.log(actualships[index].hp)
-}
