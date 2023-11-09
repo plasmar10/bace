@@ -625,7 +625,7 @@ function moveShips() {
                     }
 
 
-                    movepoint.visible = true;
+                    movepoint.visible = false;
                     selectedShips[i].needstobemoved = true
                     lastmovepoint = movepoints.length
                     selectedShips[i].movepoint = movepoint
@@ -1097,6 +1097,7 @@ function hpsystem() {
 function Zones() {
     if (zoneSpawned === false) {
         lavaZone = new Sprite(4000, 200, 2000, 3000)
+        lavaZone.color = color (255, 0, 0, 150)
         zoneSpawned = true
     }
    
