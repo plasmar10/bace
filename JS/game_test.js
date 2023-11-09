@@ -59,8 +59,9 @@ let MenuSprites, newGameButton, menuBackground;
 let introVideo, easterEggVideo;
 let zoneSpawned = false
 let lavaZone
+let radiationZone
 let index
-
+let buyScreen 
 
 function preload() {
     //Background//
@@ -165,7 +166,10 @@ function draw() {
 
         for (let i = 0; i < actualships.length; i++) {
             index = i
-             actualships[i].overlap(lavaZone,health) 
+             actualships[i].overlapping(lavaZone,health) 
+        }  for (let i = 0; i < actualships.length; i++) {
+            index = i
+             actualships[i].overlapping(radiationZone,health) 
         }
         clear();
         //GameSetup//
@@ -793,14 +797,15 @@ function GUIE() {
     }
 
     if (mothershipBase.mouse.pressed()) {
-        ui[0].img = fighterShipimg
-
-
-    } else if (mouse.pressed()) {
-        ui[0].img = destroyerimg
+    buyScreen = new ui.Sprite (1750, 35, 400, 600, 'n')
+    
+    }
+    else if(mouse.pressed()){ 
+        buyScreen.remove();
 
     }
-
+    
+    
     ui.draw();
 }
 
@@ -812,16 +817,16 @@ function gameInterface() {
     scrapMetalCounter = new ui.Sprite(80, 35, 150, 60, 'n');
     scrapMetalCounter.textSize = 50
     scrapMetalCounter.text = 0
-
-
+    
+    
     oilCounter = new ui.Sprite(250, 35, 150, 60, 'n');
     oilCounter.textSize = 50
     oilCounter.text = 0
-
+    
     crystalCounter = new ui.Sprite(420, 35, 150, 60, 'n');
     crystalCounter.textSize = 50
     crystalCounter.text = 0
-
+    
 }
 
 function zoom() {
@@ -1097,16 +1102,23 @@ function hpsystem() {
 function Zones() {
     if (zoneSpawned === false) {
         lavaZone = new Sprite(4000, 200, 2000, 3000)
+        radiationZone = new Sprite(-2000, 200, 2000, 3000)
         zoneSpawned = true
     }
    
     lavaZone.collider = 'n'
+    radiationZone.collider = 'n'
+    
+
+       
+    
+   
   
 }
 function health (){
     
     //if (frameCount % 60 === 0) {
-      actualships[index].hp -= 2; 
+      actualships[index].hp -= 0.06; 
 
 
             
