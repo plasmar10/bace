@@ -76,6 +76,7 @@ let surfusnaticaVideo
 
 let dificltybuttion, creditsbuttion;
 let makeMenubuttions = false
+let menuimg
 
 function preload() {
     //Background//
@@ -205,17 +206,22 @@ function menuScreen() {
     image(surfusnaticaVideo, 0, 0, 1920, 1076);
     // Display your video or any other content for the menu screen here
     if (mainMusic.isPlaying()) {
-
+        noStroke();
     } else {
         mainMusic.loop();
         mainMusic.setVolume(0.1);
     }
     if (!makeMenubuttions){
         menuebuttionsgroup = new Group()
-        menuebuttionsgroupimg.resize(428, 80);
-    startgamebuttion = new menuebuttionsgroup.Sprite(300, 700, 428, 80)
-    creditsbuttion = new menuebuttionsgroup.Sprite(300, 810, 428, 80)
-    dificltybuttion = new menuebuttionsgroup.Sprite(300, 920, 428, 80)
+        menuebuttionsgroupimg.resize(354, 80);
+        startgamebuttion = new Sprite(420, 700, 414, 80, 'n');
+        creditsbuttion = new Sprite(420, 810, 414, 80, 'n')
+        dificltybuttion = new Sprite(420, 920, 414, 80, 'n')
+
+
+    menuimg = new menuebuttionsgroup.Sprite(450, 700, 354, 80, 'n');
+    menuimg = new menuebuttionsgroup.Sprite(450, 810, 354, 80, 'n')
+    menuimg = new menuebuttionsgroup.Sprite(450, 920, 354, 80, 'n')
     menuebuttionsgroup.img = menuebuttionsgroupimg
 
 
@@ -223,6 +229,20 @@ function menuScreen() {
 
         makeMenubuttions = true
     }
+
+noFill();
+stroke(88, 176, 229);
+strokeWeight(7)
+circle(250, 700, 62);
+circle(250, 810, 62);
+circle(250, 920, 62);
+//hovver
+noStroke();
+fill(251, 192, 45)
+circle(250, 700, 45);
+
+
+    
 }
 
 function button1Action() {
