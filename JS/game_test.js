@@ -797,6 +797,8 @@ function GUIE() {
         }
     }
 
+
+
     if (mothershipBase.mouse.pressed()) {
     buyScreen = new ui.Sprite (1750, 35, 400, 600, 'n')
     buyConstructor = createButton('Constructor')
