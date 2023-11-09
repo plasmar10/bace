@@ -12,6 +12,7 @@ let SeaMon;
 let SeaMonShadowImage;
 let shots, basicShot;
 let ui;
+let constructorimg
 
 let shotOnce = false;
 
@@ -79,6 +80,7 @@ function preload() {
     scoutShipImage = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png");
     fighterShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_medium_body.png");
     destroyerimg = loadImage("./assets/ship_sptites/shipz/images/ship_large_body.png");
+    constructorimg = loadImage("./assets/ship_sptites/shipz/images/constructer_ship.png");
     cannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun.png");
     //Monsters//
     SeaMonShadowImage = loadImage("./assets/enemy_sprites/reaper.gif")
@@ -483,8 +485,8 @@ function makeship(shiptype, newshipX, newshipY) {
         actualships.push(destroyer)
     }
     if (shiptype == "constructor") {
-        constructor = new constructorShipsClass.Sprite(newshipX, newshipY, 179, 62, "d")
-        constructor.img = fighterShipimg
+        constructor = new constructorShipsClass.Sprite(newshipX, newshipY, 368, 224, "d")
+        constructor.img = constructorimg
         constructor.needstobemoved = false
         constructor.shipclass = "constructor"
         constructor.maxHP = 100
