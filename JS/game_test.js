@@ -807,15 +807,12 @@ if(createmenue){
     if (mothershipBase.mouse.pressed()) {
         buyScreen.x = 1750
     }
-    // else if(mouse.pressed()&&!mothershipBase.mouse.pressed()){ 
-    //     if(buyScreen){
+    if (mouse.pressed()) {
+     if (!mothershipBase.mouse.pressed()){
+        buyScreen.x = 9000
+     }
+    }
 
-    //         buyScreen.x = 40000
-            
-    //     }
-    
-    // }
-    
     
     ui.draw();
 }
