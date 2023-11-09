@@ -211,7 +211,7 @@ function menuScreen() {
         mainMusic.loop();
         mainMusic.setVolume(0.1);
     }
-    if (!makeMenubuttions){
+    if (!makeMenubuttions) {
         menuebuttionsgroup = new Group()
         menuebuttionsgroupimg.resize(354, 80);
         startgamebuttion = new Sprite(420, 700, 414, 80, 'n');
@@ -219,10 +219,10 @@ function menuScreen() {
         dificltybuttion = new Sprite(420, 920, 414, 80, 'n')
 
 
-    menuimg = new menuebuttionsgroup.Sprite(450, 700, 354, 80, 'n');
-    menuimg = new menuebuttionsgroup.Sprite(450, 810, 354, 80, 'n')
-    menuimg = new menuebuttionsgroup.Sprite(450, 920, 354, 80, 'n')
-    menuebuttionsgroup.img = menuebuttionsgroupimg
+        menuimg = new menuebuttionsgroup.Sprite(450, 700, 354, 80, 'n');
+        menuimg = new menuebuttionsgroup.Sprite(450, 810, 354, 80, 'n')
+        menuimg = new menuebuttionsgroup.Sprite(450, 920, 354, 80, 'n')
+        menuebuttionsgroup.img = menuebuttionsgroupimg
 
 
 
@@ -230,19 +230,19 @@ function menuScreen() {
         makeMenubuttions = true
     }
 
-noFill();
-stroke(88, 176, 229);
-strokeWeight(7)
-circle(250, 700, 62);
-circle(250, 810, 62);
-circle(250, 920, 62);
-//hovver
-noStroke();
-fill(251, 192, 45)
-circle(250, 700, 45);
+    noFill();
+    stroke(88, 176, 229);
+    strokeWeight(7)
+    circle(250, 700, 62);
+    circle(250, 810, 62);
+    circle(250, 920, 62);
+    //hovver
+    noStroke();
+    fill(251, 192, 45)
+    circle(250, 700, 45);
 
 
-    
+
 }
 
 function button1Action() {
@@ -1251,40 +1251,42 @@ function creatpointsforselection() {
 
 function resourceCollected() {
 
-    if (resourceStationSpawned === true) {
-        //ScrapMetal
-        for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
-            let c = dist(resourceStation.x, resourceStation.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
-            if (c < 200) {
-                if (frameCount % 60 === 0) {
-                    scrapMetalCounter.text++
+    for (let resourceStation of resourceStations) {
+        if (resourceStationSpawned === true) {
+            //ScrapMetal
+            for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
+                let c = dist(resourceStation.x, resourceStation.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
+                if (c < 200) {
+                    if (frameCount % 60 === 0) {
+                        scrapMetalCounter.text++
+                    }
+
                 }
-
             }
-        }
 
-        //Oil
-        for (let i = 0; i < oilResourceNodes.length; i++) {
-            let c = dist(resourceStation.x, resourceStation.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
-            if (c < 200) {
-                if (frameCount % 60 === 0) {
-                    oilCounter.text++
+            //Oil
+            for (let i = 0; i < oilResourceNodes.length; i++) {
+                let c = dist(resourceStation.x, resourceStation.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
+                if (c < 200) {
+                    if (frameCount % 60 === 0) {
+                        oilCounter.text++
+                    }
+
                 }
-
             }
-        }
 
-        //Crystal
-        for (let i = 0; i < crystalResourceNodes.length; i++) {
-            let c = dist(resourceStation.x, resourceStation.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
-            if (c < 200) {
-                if (frameCount % 60 === 0) {
-                    crystalCounter.text++
+            //Crystal
+            for (let i = 0; i < crystalResourceNodes.length; i++) {
+                let c = dist(resourceStation.x, resourceStation.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
+                if (c < 200) {
+                    if (frameCount % 60 === 0) {
+                        crystalCounter.text++
+                    }
+
                 }
-
             }
-        }
 
+        }
     }
 
 }
