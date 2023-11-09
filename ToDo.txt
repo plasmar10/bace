@@ -1,6 +1,10 @@
 - Main Menu Screen / Screen changing
   - Credits?
 
+  - map
+    - map boders
+    -backround for the backround
+
 - Buy ships GUI
  - able to sell ships/collectors?
 

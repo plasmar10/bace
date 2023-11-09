@@ -59,14 +59,16 @@ let playEasterEggVideo = false;
 let MenuSprites, newGameButton, menuBackground;
 let introVideo, easterEggVideo;
 let zoneSpawned = false
-let lavaZone
-let index
-
+let lavaZone;
+let radiationZone;
+let index;
+let buyScreen ;
+let buyConstructor;
 
 function preload() {
     //Background//
     menuBackground = loadImage("./assets/menuImage.jpg");
-    oceanBackground = loadImage("./assets/ocean.jpg");
+    oceanBackground = loadImage("./assets/backround_with_zones.jpg");
 
     //Resources//
     scrapMetalImage = loadImage("./assets/metalplate.png");
@@ -98,7 +100,6 @@ function preload() {
 
 function setup() {
     createCanvas(1920, 1076);
-
 
 
 }
@@ -166,7 +167,10 @@ function draw() {
 
         for (let i = 0; i < actualships.length; i++) {
             index = i
-            actualships[i].overlap(lavaZone, health)
+             actualships[i].overlapping(lavaZone,health) 
+        }  for (let i = 0; i < actualships.length; i++) {
+            index = i
+             actualships[i].overlapping(radiationZone,health) 
         }
         clear();
         //GameSetup//
@@ -249,7 +253,7 @@ function IntroEnded() {
 
 
 function ocean() {
-    oceanBackground.resize(width * 5, height * 5)
+    oceanBackground.resize(width * 10, height * 10)
     oceanSprite = new Sprite(width / 2, height / 2, width * 10, height * 10, "n")
     oceanSprite.image = oceanBackground
     oceanSprite.layer = -10
@@ -853,7 +857,7 @@ function mouseWheel(event) {
     }
 
 }
-
+let createmenue = true
 function GUIE() {
     camera.off();
     ui.color = 'orange';
@@ -871,15 +875,24 @@ function GUIE() {
         }
     }
 
+if(createmenue){
+     buyScreen = new ui.Sprite (9000, 35, 400, 600, 'n')
+    // buyConstructor = createButton('Constructor')
+    // buyConstructor.position(1800,40)
+    createmenue = false
+
+}
+
     if (mothershipBase.mouse.pressed()) {
-        ui[0].img = fighterShipimg
-
-
-    } else if (mouse.pressed()) {
-        ui[0].img = destroyerimg
-
+        buyScreen.x = 1750
+    }
+    if (mouse.pressed()) {
+     if (!mothershipBase.mouse.pressed()){
+        buyScreen.x = 9000
+     }
     }
 
+    
     ui.draw();
 }
 
@@ -891,16 +904,16 @@ function gameInterface() {
     scrapMetalCounter = new ui.Sprite(80, 35, 150, 60, 'n');
     scrapMetalCounter.textSize = 50
     scrapMetalCounter.text = 0
-
-
+    
+    
     oilCounter = new ui.Sprite(250, 35, 150, 60, 'n');
     oilCounter.textSize = 50
     oilCounter.text = 0
-
+    
     crystalCounter = new ui.Sprite(420, 35, 150, 60, 'n');
     crystalCounter.textSize = 50
     crystalCounter.text = 0
-
+    
 }
 
 function zoom() {
@@ -1250,19 +1263,26 @@ function hpsystem() {
 function Zones() {
     if (zoneSpawned === false) {
         lavaZone = new Sprite(4000, 200, 2000, 3000)
-        lavaZone.color = color(255, 0, 0, 150)
+        lavaZone.color = color (255, 0, 0, 150)
+        radiationZone = new Sprite(-2000, 200, 2000, 3000)
         zoneSpawned = true
     }
 
     lavaZone.collider = 'n'
+    radiationZone.collider = 'n'
+    
 
+       
+    
+   
+  
 }
 
 
 function health() {
 
     //if (frameCount % 60 === 0) {
-    actualships[index].hp -= 2;
+      actualships[index].hp -= 0.06; 
 
 
 
