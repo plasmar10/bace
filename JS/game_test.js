@@ -1384,6 +1384,10 @@ function hpsystem() {
             selectedship.hp -= 0.5;
             console.log(selectedship.hp)
         }
+        if (selectedship.overlapping(lavaZone)) {
+            selectedship.hp -= 0.5;
+            console.log(selectedship.hp)
+        }
 
 
 
