@@ -251,7 +251,7 @@ function IntroEnded() {
 
 
 function ocean() {
-    // oceanBackground.resize(width * 10, height * 10)
+    oceanBackground.resize(width * 10, height * 10)
     oceanSprite = new Sprite(width / 2, height / 2, width * 10, height * 10, "n")
     oceanSprite.image = oceanBackground
     oceanSprite.layer = -10
@@ -1400,9 +1400,10 @@ function hpsystem() {
 function Zones() {
     if (zoneSpawned === false) {
         lavaZone = new Sprite(-6050, -1450, 6000, 6000)
-        lavaZone.color = color(255, 0, 0, 50)
+        lavaZone.color = color(220, 0, 0, 50)
         lavaZone.visible = false
         radiationZone = new Sprite(-5680, 4250, 6000, 5000)
+        radiationZone.color = color(0, 0, 0, 50)
         radiationZone.visible = false
         zoneSpawned = true
     }
