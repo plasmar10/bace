@@ -1289,8 +1289,8 @@ function resourceCollected() {
         }
     }
 
-}
 
+}
 
 async function resourceCollection() {
 
@@ -1305,6 +1305,7 @@ async function resourceCollection() {
                 for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
+                    if (d < 200 && kb.presses('p')) {
                     if (d < 200 && kb.presses('p')) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'd'
@@ -1328,8 +1329,8 @@ async function resourceCollection() {
                     let d = dist(selectedship.x, selectedship.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
                     if (d < 200 && kb.presses('p')) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
-                        resourceStation.collider = 'd'
-                        resourceStationSpawned = true;
+                        resourceStation.collider = 'static'
+                        resourceStationSpawned= true
                         selectedship.remove()
                         resourceStations.push(resourceStation)
                     }
@@ -1345,8 +1346,8 @@ async function resourceCollection() {
                     let d = dist(selectedship.x, selectedship.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
                     if (d < 200 && kb.presses('p')) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
-                        resourceStation.collider = 'd'
-                        resourceStationSpawned = true;
+                        resourceStation.collider = 'static'
+                        resourceStationSpawned= true
                         selectedship.remove()
                         resourceStations.push(resourceStation)
                     }
@@ -1496,3 +1497,4 @@ function Zones() {
 
 }
 
+}
