@@ -1358,7 +1358,7 @@ async function resourceCollection() {
         }
     }
 }
-
+}
 
 function hpsystem() {
 
@@ -1493,4 +1493,4 @@ function Zones() {
 
 }
 
-}
+
