@@ -7,7 +7,7 @@ let scrollZoomLevel = 0.25
 let ships, scoutShipsClass, resourceStation;
 let scoutShipImage;
 let scrapMetalImage, oilImage, crystalImage;
-let cannonImage, destroyerimg, fighterShipimg;
+let cannonImage, destroyerimg, fighterShipimg, damagedFighterShipimg, damagedCannonImage;
 let SeaMon;
 let SeaMonShadowImage;
 let basicShot;
@@ -85,9 +85,12 @@ function preload() {
     mothershipImage = loadImage("./assets/Mothership.gif");
     scoutShipImage = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png");
     fighterShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_medium_body.png");
+    damagedFighterShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_medium_body_destroyed.png");
     destroyerimg = loadImage("./assets/ship_sptites/shipz/images/ship_large_body.png");
     constructorimg = loadImage("./assets/ship_sptites/shipz/images/constructer_ship.png");
     cannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun.png");
+    damagedCannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun_destroyed.png");
+
     //Monsters//
     SeaMonShadowImage = loadImage("./assets/enemy_sprites/reaper.gif")
 
@@ -112,7 +115,7 @@ function setup() {
 }
 
 function draw() {
-    console.log(actualships)
+    //console.log(actualships)
     if (currentScreen === 0) { //MainMenu
         image(menuBackground, 0, 0, width, height)
 
@@ -405,7 +408,7 @@ function resourceNodes(resourceZoneWidth, resourceZoneHeight, resourceZoneX1, re
 
     //add purchasable placeable mines
 
- 
+
 }
 
 
@@ -416,6 +419,7 @@ function makeships() {
     destroyerShipsClass = new ships.Group();
     constructorShipsClass = new ships.Group();
     makeship("scout", 200, 400)
+    makeship("fighter", 500, 700)
     makeship("fighter", 500, 700)
     makeship("destroyer", 800, 1000)
     makeship('constructor', 1500, 700)
@@ -439,7 +443,7 @@ function makeship(shiptype, newshipX, newshipY) {
 
         let newSmallCan = new Sprite(newshipX, newshipY, 20, 20)
         newSmallCan.img = cannonImage
-        newSmallCan.id = scout.idNum
+        newSmallCan.idNum = scout.idNum
         newSmallCan.overlaps(ships)
         smallCan.push(newSmallCan)
         allCannons.push(newSmallCan)
@@ -471,7 +475,7 @@ function makeship(shiptype, newshipX, newshipY) {
 
 
         let newSmallCan2 = new Sprite(newshipX, newshipY, 20, 20)
-        newSmallCan2.id = fighter.idNum
+        newSmallCan2.idNum = fighter.idNum
         newSmallCan2.overlaps(ships)
         smallCan2.push(newSmallCan2)
         allCannons.push(newSmallCan2)
@@ -480,7 +484,7 @@ function makeship(shiptype, newshipX, newshipY) {
         newSmallCan2.bulletTimer = random(0, 50);
 
         let newSmallCan3 = new Sprite(newshipX, newshipY, 20, 20)
-        newSmallCan3.id = fighter.idNum
+        newSmallCan3.idNum = fighter.idNum
         newSmallCan3.overlaps(ships)
         smallCan2.push(newSmallCan3)
         allCannons.push(newSmallCan3)
@@ -559,7 +563,7 @@ function Weapons() {
     //scout
     for (let cannon of smallCan) {
         for (let ship of ships) {
-            if (cannon.id === ship.idNum) {
+            if (cannon.idNum === ship.idNum) {
                 cannon.collider = 'none';
                 cannon.x = ship.x
                 cannon.y = ship.y
@@ -625,7 +629,7 @@ function Weapons() {
 
 
 
-            if (cannon.id === ship.idNum) {
+            if (cannon.idNum === ship.idNum) {
 
                 cannon.collider = 'none';
 
@@ -988,14 +992,14 @@ function GUIE() {
         }
     }
 
-if(createmenue){
-     buyScreen = new ui.Sprite (9000, 35, 400, 600, 'n')
-     buyConstructor = new ui.Sprite(9000,35,200,60)
-     buyConstructor.colour = 'white'
-     buyConstructor.text = 'constructor'
-     buyConstructor.textSize = 30
-     createmenue = false
-     
+    if (createmenue) {
+        buyScreen = new ui.Sprite(9000, 35, 400, 600, 'n')
+        buyConstructor = new ui.Sprite(9000, 35, 200, 60)
+        buyConstructor.colour = 'white'
+        buyConstructor.text = 'constructor'
+        buyConstructor.textSize = 30
+        createmenue = false
+
     }
 
     if (mothershipBase.mouse.pressed()) {
@@ -1326,10 +1330,23 @@ function hpsystem() {
 
                 if (selectedship.maxHP / 4 > selectedship.hp && health.idNum === selectedship.idNum) {
                     health.color = 'red';
-                    selectedship.img
+
+
+
+                    if (selectedship.shipclass === 'fighter') {
+                        selectedship.img = damagedFighterShipimg
+                        for (let cannon of smallCan2) {
+                            if (cannon.idNum === selectedship.idNum) {
+                                cannon.img = damagedCannonImage
+                            }
+                        }
+                    }
+
+
+
+
                 } else if (selectedship.maxHP / 1.5 > selectedship.hp && health.idNum === selectedship.idNum) {
                     health.color = 'yellow';
-                    selectedship.img
                 }
 
             }
