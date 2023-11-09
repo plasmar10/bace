@@ -41,11 +41,12 @@ let movePointDistance;
 
 let smallCan = [];
 let smallCan2 = [];
+let healthBarComponents = [];
 
 let resourceStationSpawned = false;
 
 
-let currentScreen = 2
+let currentScreen = 0
 let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
@@ -193,12 +194,6 @@ function draw() {
         }
 
 
-
-    }
-
-
-
-
         zoom();
         moveShips();
         moveselectedships();
@@ -208,39 +203,42 @@ function draw() {
         selection_system();
         resourceCollection();
         resourceCollected();
-       
-
+    
+    
         GUIE(); //this must alwas be done last 
-
-
-
+    
+    
+    
         //MainMusic//
         if (mainMusic.isPlaying()) {
-
+    
         } else {
             mainMusic.loop();
             mainMusic.setVolume(0.1);
         }
-
+    
         //EasterEggVideo//
         if (playEasterEggVideo === false && kb.presses('l')) {
-
+    
             easterEggVideo.play();
-
+    
             playEasterEggVideo = true;
-
+    
         } else if (playEasterEggVideo === true && kb.presses('l')) {
             easterEggVideo.stop();
             playEasterEggVideo = false;
-
+    
         }
-
+    
         if (playEasterEggVideo === true) {
             image(easterEggVideo, 0, 0, width, height);
         }
 
 
+
+
     }
+}
 
 
 function IntroEnded() {
@@ -438,8 +436,6 @@ function makeship(shiptype, newshipX, newshipY) {
         scout.maxHP = 25
         scout.hp = 25
         scout.shipclass = "scout"
-        console.log(scout.shipclass)
-
         actualships.push(scout)
 
         let newSmallCan = new Sprite(newshipX, newshipY, 20, 20)
@@ -447,6 +443,18 @@ function makeship(shiptype, newshipX, newshipY) {
         newSmallCan.id = scout.idNum
         newSmallCan.overlaps(ships)
         smallCan.push(newSmallCan)
+
+        let healthBarBackground = new Sprite(-1000, 100, 100, 15, 'none');
+        healthBarBackground.idNum = scout.idNum;
+        healthBarBackground.componentId = 'background';
+        healthBarBackground.color = 'black';
+        healthBarComponents.push(healthBarBackground)
+
+        let healthBarLife = new Sprite(-1000, 100, 100, 14, 'none');
+        healthBarLife.idNum = scout.idNum;
+        healthBarLife.componentId = 'bar';
+        healthBarLife.color = 'lightgreen';
+        healthBarComponents.push(healthBarLife)
 
 
 
@@ -473,6 +481,18 @@ function makeship(shiptype, newshipX, newshipY) {
         fighter.hp = 100
         actualships.push(fighter)
 
+        let healthBarBackground = new Sprite(-1000, 100, 100, 15, 'none');
+        healthBarBackground.idNum = fighter.idNum;
+        healthBarBackground.componentId = 'background';
+        healthBarBackground.color = 'black';
+        healthBarComponents.push(healthBarBackground)
+
+        let healthBarLife = new Sprite(-1000, 100, 100, 14, 'none');
+        healthBarLife.idNum = fighter.idNum;
+        healthBarLife.componentId = 'bar';
+        healthBarLife.color = 'lightgreen';
+        healthBarComponents.push(healthBarLife)
+
 
     }
     if (shiptype == "destroyer") {
@@ -483,6 +503,20 @@ function makeship(shiptype, newshipX, newshipY) {
         destroyer.maxHP = 500
         destroyer.hp = 500
         actualships.push(destroyer)
+
+        let healthBarBackground = new Sprite(-1000, 100, 100, 15, 'none');
+        healthBarBackground.idNum = destroyer.idNum;
+        healthBarBackground.componentId = 'background';
+        healthBarBackground.color = 'black';
+        healthBarComponents.push(healthBarBackground)
+
+        let healthBarLife = new Sprite(-1000, 100, 100, 14, 'none');
+        healthBarLife.idNum = destroyer.idNum;
+        healthBarLife.componentId = 'bar';
+        healthBarLife.color = 'lightgreen';
+        healthBarComponents.push(healthBarLife)
+
+
     }
     if (shiptype == "constructor") {
         constructor = new constructorShipsClass.Sprite(newshipX, newshipY, 368, 224, "d")
@@ -493,8 +527,20 @@ function makeship(shiptype, newshipX, newshipY) {
         constructor.hp = 100
         actualships.push(constructor)
 
+        let healthBarBackground = new Sprite(-1000, 100, 100, 15, 'none');
+        healthBarBackground.idNum = constructor.idNum;
+        healthBarBackground.componentId = 'background';
+        healthBarBackground.color = 'black';
+        healthBarComponents.push(healthBarBackground)
+
+        let healthBarLife = new Sprite(-1000, 100, 100, 14, 'none');
+        healthBarLife.idNum = constructor.idNum;
+        healthBarLife.componentId = 'bar';
+        healthBarLife.color = 'lightgreen';
+        healthBarComponents.push(healthBarLife)
+
     }
-    constructor
+
 
 }
 
@@ -510,7 +556,21 @@ function Weapons() {
                 newSmallCan.collider = 'none';
                 newSmallCan.x = ship.x
                 newSmallCan.y = ship.y
+
+                console.log(ship.hp)
+                if (ship.hp <= 1) {
+                    newSmallCan.remove();
+
+
+                }
             }
+
+
+
+
+
+
+
             let MonsterEnemyDistance = dist(ship.x, ship.y, SeaMon.x, SeaMon.y)
 
 
@@ -535,8 +595,18 @@ function Weapons() {
 
 
             }
+
+
+
+
+
+
         }
     }
+
+
+
+
 
     //fighter
     for (let cannon of smallCan2) {
@@ -555,7 +625,6 @@ function Weapons() {
 
             if (cannon.id === ship.idNum) {
 
-                //cannon.img = cannonImage
                 cannon.collider = 'none';
 
                 if (cannon.cannonnumber === 1) {
@@ -588,6 +657,11 @@ function Weapons() {
                     }
 
                     bulletTimer++;
+
+                }
+
+                if (ship.hp <= 2) {
+                    cannon.remove();
 
                 }
             }
@@ -746,6 +820,8 @@ function monsterAni() {
         else {
             SeaMon.rotation -= 0.2;
         }
+
+
 
 
     }
@@ -1104,9 +1180,83 @@ async function resourceCollection() {
 function hpsystem() {
 
     for (let selectedship of actualships) {
-       // console.log(selectedship.hp)
+        // console.log(selectedship.hp)
+        //console.log(selectedship.idNum)
+
+        for (let health of healthBarComponents) {
+            //console.log(health.idNum)
+
+
+            if (health.idNum === selectedship.idNum) {
+                health.collider = 'none';
+                health.x = selectedship.x
+                health.y = selectedship.y - 60
+            }
+
+            if (health.componentId === 'bar' && health.idNum === selectedship.idNum) {
+
+                health.width = selectedship.hp;
+                //console.log(selectedship.maxHP)
+                //console.log(selectedship.hp)
+
+                if (selectedship.maxHP / 4 > selectedship.hp && health.idNum === selectedship.idNum) {
+                    health.color = 'red';
+                    selectedship.img
+                } else if (selectedship.maxHP / 1.5 > selectedship.hp && health.idNum === selectedship.idNum) {
+                    health.color = 'yellow';
+                    selectedship.img
+                }
+
+            }
+            if (health.componentId === 'background' && health.idNum === selectedship.idNum) {
+
+                health.width = selectedship.maxHP;
+                //console.log(health.width)
+            }
+            for (let i = 0; i < actualships.length; i++) {
+                if (actualships[i].hp === 0) {
+                    health.width = 0;
+                    actualships[i].remove();
+                    actualships.splice(i, 1)
+
+
+                }
+            }
+        }
+
+        if (selectedship.collides(SeaMon)) {
+
+            console.log('WERE HIT ', selectedship.hp)
+
+            selectedship.hp -= 2;
+        }
+
+        if (selectedship.hp <= 0) {
+            selectedship.hp = 0;
+        }
+
+
+        for (let i = 0; i < healthBarComponents.length; i++) {
+            //console.log(healthBarComponents[i].width)
+            if (healthBarComponents[i].width <= 2 && selectedship.hp === 0) {
+                healthBarComponents[i].remove();
+                healthBarComponents[i - 1].remove();
+                healthBarComponents.splice(i - 1, 2)
+
+            }
+        }
+
 
     }
+
+
+
+
+
+
+    //scout 
+
+
 }
 
 function Zones() {
@@ -1116,7 +1266,7 @@ function Zones() {
         radiationZone = new Sprite(-2000, 200, 2000, 3000)
         zoneSpawned = true
     }
-   
+
     lavaZone.collider = 'n'
     radiationZone.collider = 'n'
     
@@ -1126,12 +1276,14 @@ function Zones() {
    
   
 }
-function health (){
-    
+
+
+function health() {
+
     //if (frameCount % 60 === 0) {
       actualships[index].hp -= 0.06; 
 
 
-            
-console.log(actualships[index].hp)
+
+    console.log(actualships[index].hp)
 }
