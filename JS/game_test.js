@@ -45,7 +45,7 @@ let healthBarComponents = [];
 let resourceStationSpawned = false;
 
 
-let currentScreen = 2
+let currentScreen = 0
 let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
@@ -192,53 +192,50 @@ function draw() {
         }
 
 
+        zoom();
+        moveShips();
+        moveselectedships();
+        Weapons();
+        hpsystem()
+        monsterAni();
+        selection_system();
+        resourceCollection();
+        resourceCollected();
+    
+    
+        GUIE(); //this must alwas be done last 
+    
+    
+    
+        //MainMusic//
+        if (mainMusic.isPlaying()) {
+    
+        } else {
+            mainMusic.loop();
+            mainMusic.setVolume(0.1);
+        }
+    
+        //EasterEggVideo//
+        if (playEasterEggVideo === false && kb.presses('l')) {
+    
+            easterEggVideo.play();
+    
+            playEasterEggVideo = true;
+    
+        } else if (playEasterEggVideo === true && kb.presses('l')) {
+            easterEggVideo.stop();
+            playEasterEggVideo = false;
+    
+        }
+    
+        if (playEasterEggVideo === true) {
+            image(easterEggVideo, 0, 0, width, height);
+        }
+
+
+
 
     }
-
-
-
-
-    zoom();
-    moveShips();
-    moveselectedships();
-    Weapons();
-    hpsystem()
-    monsterAni();
-    selection_system();
-    resourceCollection();
-    resourceCollected();
-
-
-    GUIE(); //this must alwas be done last 
-
-
-
-    //MainMusic//
-    if (mainMusic.isPlaying()) {
-
-    } else {
-        mainMusic.loop();
-        mainMusic.setVolume(0.1);
-    }
-
-    //EasterEggVideo//
-    if (playEasterEggVideo === false && kb.presses('l')) {
-
-        easterEggVideo.play();
-
-        playEasterEggVideo = true;
-
-    } else if (playEasterEggVideo === true && kb.presses('l')) {
-        easterEggVideo.stop();
-        playEasterEggVideo = false;
-
-    }
-
-    if (playEasterEggVideo === true) {
-        image(easterEggVideo, 0, 0, width, height);
-    }
-
-
 }
 
 
