@@ -1308,9 +1308,13 @@ async function resourceCollection() {
                     if (d < 200 && kb.presses('p')) {
                     if (d < 200 && kb.presses('p')) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
-                        resourceStation.collider = 'static'
-                        resourceStationSpawned= true
-                        selectedship.remove()
+                        resourceStation.collider = 'd'
+                        resourceStationSpawned = true;
+
+                        selectedship.hp = 0;
+
+
+                        
                         resourceStations.push(resourceStation)
                     }
 
