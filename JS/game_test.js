@@ -54,7 +54,7 @@ let oceanCreatures = [];
 let resourceStationSpawned = false;
 
 
-let currentScreen = 0
+let currentScreen = 2
 let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
@@ -1225,7 +1225,7 @@ function creatpointsforselection() {
 
 
 function resourceCollected() {
-
+for(let resourceStation of resourceStations  ){
     if (resourceStationSpawned === true) {
         //ScrapMetal
         for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
@@ -1263,6 +1263,7 @@ function resourceCollected() {
     }
 
 }
+}
 
 
 async function resourceCollection() {
@@ -1278,10 +1279,10 @@ async function resourceCollection() {
                 for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
-                    if (d < 200 && kb.presses('p') && !resourceStationSpawned) {
+                    if (d < 200 && kb.presses('p')) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
-                        resourceStationSpawned = true;
+                        resourceStationSpawned= true
                         selectedship.remove()
                         resourceStations.push(resourceStation)
                     }
@@ -1295,10 +1296,10 @@ async function resourceCollection() {
                 for (let i = 0; i < oilResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
-                    if (d < 200 && kb.presses('p') && !resourceStationSpawned) {
+                    if (d < 200 && kb.presses('p')) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
-                        resourceStationSpawned = true;
+                        resourceStationSpawned= true
                         selectedship.remove()
                         resourceStations.push(resourceStation)
                     }
@@ -1312,10 +1313,10 @@ async function resourceCollection() {
                 for (let i = 0; i < crystalResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
-                    if (d < 200 && kb.presses('p') && !resourceStationSpawned) {
+                    if (d < 200 && kb.presses('p') ) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
-                        resourceStationSpawned = true;
+                        resourceStationSpawned= true
                         selectedship.remove()
                         resourceStations.push(resourceStation)
                     }
