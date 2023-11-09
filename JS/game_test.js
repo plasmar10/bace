@@ -69,7 +69,8 @@ let buyConstructor;
 function preload() {
     //Background//
     menuBackground = loadImage("./assets/menuImage.jpg");
-    oceanBackground = loadImage("./assets/backround_with_zones.jpg");
+    oceanBackground = loadImage("./assets/small_backround_low_rez.jpg");
+   // oceanBackground = loadImage("./assets/backround_with_zones.jpg");
 
     //Resources//
     scrapMetalImage = loadImage("./assets/metalplate.png");
