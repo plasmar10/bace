@@ -7,15 +7,16 @@ let scrollZoomLevel = 0.25
 let ships, scoutShipsClass, resourceStation;
 let scoutShipImage;
 let scrapMetalImage, oilImage, crystalImage;
-let cannonImage, destroyerimg, fighterShipimg;
+let cannonImage, destroyerimg, fighterShipimg, damagedFighterShipimg, damagedCannonImage;
 let SeaMon;
 let SeaMonShadowImage;
-let shots, basicShot;
+let basicShot;
 let ui;
 let constructorimg
 let startgamebuttion
 
 let shotOnce = false;
+let shots = [];
 
 let actualships = [];
 
@@ -42,7 +43,11 @@ let movePointDistance;
 
 let smallCan = [];
 let smallCan2 = [];
+let allCannons = [];
 let healthBarComponents = [];
+let monsterHealthBarComponents = [];
+
+let oceanCreatures = [];
 
 let resourceStationSpawned = false;
 
@@ -63,8 +68,7 @@ let introVideo, easterEggVideo;
 let zoneSpawned = false
 let lavaZone;
 let radiationZone;
-let index;
-let buyScreen ;
+let buyScreen;
 let buyConstructor;
 let surfusnaticaVideo
 
@@ -75,7 +79,7 @@ function preload() {
     //Background//
     menuBackground = loadImage("./assets/menuImage.jpg");
     oceanBackground = loadImage("./assets/small_backround_low_rez.jpg");
-   // oceanBackground = loadImage("./assets/backround_with_zones.jpg");
+    // oceanBackground = loadImage("./assets/backround_with_zones.jpg");
 
     //Resources//
     scrapMetalImage = loadImage("./assets/metalplate.png");
@@ -86,9 +90,12 @@ function preload() {
     mothershipImage = loadImage("./assets/Mothership.gif");
     scoutShipImage = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png");
     fighterShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_medium_body.png");
+    damagedFighterShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_medium_body_destroyed.png");
     destroyerimg = loadImage("./assets/ship_sptites/shipz/images/ship_large_body.png");
     constructorimg = loadImage("./assets/ship_sptites/shipz/images/constructer_ship.png");
     cannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun.png");
+    damagedCannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun_destroyed.png");
+
     //Monsters//
     SeaMonShadowImage = loadImage("./assets/enemy_sprites/reaper.gif")
 
@@ -130,13 +137,7 @@ function draw() {
     }
     else if (currentScreen === 2) { //Game
 
-        for (let i = 0; i < actualships.length; i++) {
-            index = i
-             actualships[i].overlapping(lavaZone,health) 
-        }  for (let i = 0; i < actualships.length; i++) {
-            index = i
-             actualships[i].overlapping(radiationZone,health) 
-        }
+
         clear();
         //GameSetup//
         if (gameLoadOnce === false) {
@@ -166,8 +167,8 @@ function draw() {
         selection_system();
         resourceCollection();
         resourceCollected();
-    
-    
+
+
         GUIE(); //this must alwas be done last 
     
     
@@ -175,17 +176,17 @@ function draw() {
     
         //EasterEggVideo//
         if (playEasterEggVideo === false && kb.presses('l')) {
-    
+
             easterEggVideo.play();
-    
+
             playEasterEggVideo = true;
-    
+
         } else if (playEasterEggVideo === true && kb.presses('l')) {
             easterEggVideo.stop();
             playEasterEggVideo = false;
-    
+
         }
-    
+
         if (playEasterEggVideo === true) {
             image(easterEggVideo, 0, 0, width, height);
         }
@@ -277,7 +278,7 @@ function IntroEnded() {
 
 
 function ocean() {
-   // oceanBackground.resize(width * 10, height * 10)
+    oceanBackground.resize(width * 10, height * 10)
     oceanSprite = new Sprite(width / 2, height / 2, width * 10, height * 10, "n")
     oceanSprite.image = oceanBackground
     oceanSprite.layer = -10
@@ -431,6 +432,7 @@ function resourceNodes(resourceZoneWidth, resourceZoneHeight, resourceZoneX1, re
 
     //add purchasable placeable mines
 
+
 }
 
 
@@ -442,9 +444,9 @@ function makeships() {
     constructorShipsClass = new ships.Group();
     makeship("scout", 200, 400)
     makeship("fighter", 500, 700)
+    makeship("fighter", 500, 700)
     makeship("destroyer", 800, 1000)
     makeship('constructor', 1500, 700)
-
 
 }
 
@@ -465,9 +467,11 @@ function makeship(shiptype, newshipX, newshipY) {
 
         let newSmallCan = new Sprite(newshipX, newshipY, 20, 20)
         newSmallCan.img = cannonImage
-        newSmallCan.id = scout.idNum
+        newSmallCan.idNum = scout.idNum
         newSmallCan.overlaps(ships)
         smallCan.push(newSmallCan)
+        allCannons.push(newSmallCan)
+        newSmallCan.bulletTimer = random(0, 50);
 
         let healthBarBackground = new Sprite(-1000, 100, 100, 15, 'none');
         healthBarBackground.idNum = scout.idNum;
@@ -488,23 +492,29 @@ function makeship(shiptype, newshipX, newshipY) {
         fighter = new fighterShipsClass.Sprite(newshipX, newshipY, 179, 62, "d")
         fighterShipsClass.img = fighterShipimg
         fighter.needstobemoved = false
-        let newSmallCan2 = new Sprite(newshipX, newshipY, 20, 20)
-        newSmallCan2.id = fighter.idNum
-        newSmallCan2.overlaps(ships)
-        smallCan2.push(newSmallCan2)
-        newSmallCan2.img = cannonImage
-        newSmallCan2.cannonnumber = 1
-
-        let newSmallCan3 = new Sprite(newshipX, newshipY, 20, 20)
-        newSmallCan3.id = fighter.idNum
-        newSmallCan3.overlaps(ships)
-        smallCan2.push(newSmallCan3)
-        newSmallCan3.cannonnumber = 2
-        newSmallCan3.img = cannonImage
         fighter.shipclass = "fighter"
         fighter.maxHP = 100
         fighter.hp = 100
         actualships.push(fighter)
+
+
+        let newSmallCan2 = new Sprite(newshipX, newshipY, 20, 20)
+        newSmallCan2.idNum = fighter.idNum
+        newSmallCan2.overlaps(ships)
+        smallCan2.push(newSmallCan2)
+        allCannons.push(newSmallCan2)
+        newSmallCan2.img = cannonImage
+        newSmallCan2.cannonnumber = 1
+        newSmallCan2.bulletTimer = random(0, 50);
+
+        let newSmallCan3 = new Sprite(newshipX, newshipY, 20, 20)
+        newSmallCan3.idNum = fighter.idNum
+        newSmallCan3.overlaps(ships)
+        smallCan2.push(newSmallCan3)
+        allCannons.push(newSmallCan3)
+        newSmallCan3.img = cannonImage
+        newSmallCan3.cannonnumber = 2
+        newSmallCan3.bulletTimer = random(0, 50);
 
         let healthBarBackground = new Sprite(-1000, 100, 100, 15, 'none');
         healthBarBackground.idNum = fighter.idNum;
@@ -570,57 +580,52 @@ function makeship(shiptype, newshipX, newshipY) {
 }
 
 
-let bulletTimer = 0;
+
 function Weapons() {
 
 
     //scout
-    for (let newSmallCan of smallCan) {
+    for (let cannon of smallCan) {
         for (let ship of ships) {
-            if (newSmallCan.id === ship.idNum) {
-                newSmallCan.collider = 'none';
-                newSmallCan.x = ship.x
-                newSmallCan.y = ship.y
+            if (cannon.idNum === ship.idNum) {
+                cannon.collider = 'none';
+                cannon.x = ship.x
+                cannon.y = ship.y
 
-                console.log(ship.hp)
+                //console.log(ship.hp)
                 if (ship.hp <= 1) {
-                    newSmallCan.remove();
+                    cannon.remove();
 
 
                 }
             }
-
-
-
-
-
-
 
             let MonsterEnemyDistance = dist(ship.x, ship.y, SeaMon.x, SeaMon.y)
-
-
             if (MonsterEnemyDistance < 1600) {
-                newSmallCan.rotateTowards(SeaMon, 1, 0);
-                let x = newSmallCan.x;
-                let y = newSmallCan.y;
-                let direction = newSmallCan.direction;
+                cannon.rotateTowards(SeaMon, 1, 0);
+                let x = cannon.x;
+                let y = cannon.y;
+                let direction = cannon.direction;
                 let selectedAmmo = basicShot;
 
-                if (bulletTimer === 0) {
+                let timer = cannon.bulletTimer;
 
-                    shotOnce = false;
-                    ammo(x, y, direction, selectedAmmo);
-                }
 
-                if (bulletTimer >= 300) {
-                    bulletTimer = -1;
-                }
+                ammo(x, y, direction, selectedAmmo, timer);
 
-                bulletTimer++;
 
+                cannon.bulletTimer += 1;
 
             }
 
+            if (cannon.bulletTimer >= 200) {
+                cannon.bulletTimer = -1;
+            }
+
+            if (ship.hp <= 2) {
+                cannon.remove();
+
+            }
 
 
 
@@ -648,7 +653,7 @@ function Weapons() {
 
 
 
-            if (cannon.id === ship.idNum) {
+            if (cannon.idNum === ship.idNum) {
 
                 cannon.collider = 'none';
 
@@ -671,18 +676,18 @@ function Weapons() {
                     let direction = cannon.direction;
                     let selectedAmmo = basicShot;
 
-                    if (bulletTimer === 0) {
+                    let timer = cannon.bulletTimer;
 
-                        shotOnce = false;
-                        ammo(x, y, direction, selectedAmmo);
-                    }
 
-                    if (bulletTimer >= 300) {
-                        bulletTimer = -1;
-                    }
+                    ammo(x, y, direction, selectedAmmo, timer);
 
-                    bulletTimer++;
 
+                    cannon.bulletTimer += 1;
+
+                }
+
+                if (cannon.bulletTimer >= 200) {
+                    cannon.bulletTimer = -1;
                 }
 
                 if (ship.hp <= 2) {
@@ -758,16 +763,16 @@ function moveselectedships() {
             //console.log(selectedship.hp)
 
             if (selectedship.shipclass === "scout") {
-                selectedship.speed = 2
+                selectedship.speed = 15
             }
             if (selectedship.shipclass === "fighter") {
-                selectedship.speed = 1
+                selectedship.speed = 15
             }
             if (selectedship.shipclass === "destroyer") {
-                selectedship.speed = 0.5
+                selectedship.speed = 10
             }
             if (selectedship.shipclass === "constructor") {
-                selectedship.speed = 10
+                selectedship.speed = 15
             }
         }
         //console.log(movepoints[lastmovepoint - 1] + "  testing problem")
@@ -788,43 +793,71 @@ function moveselectedships() {
 }
 
 
-function ammo(x, y, direction, selectedAmmo) {
+function ammo(x, y, direction, selectedAmmo, timer) {
 
 
-    if (shotOnce === false && selectedAmmo === basicShot) {
-        basicShot = new Sprite(x, y, 8);
-        basicShot.direction = direction;
-        basicShot.speed = 0;
-        basicShot.life = 300;
 
-        basicShot.speed = 5;
-        basicShot.collider = 'd';
-        basicShot.color = 'red';
-        basicShot.overlaps(basicShot)
 
-        for (let i = 0; i < actualships.length; i++) {
-            basicShot.overlaps(actualships[i])
+    if (timer === 0) {
+
+        if (selectedAmmo === basicShot) {
+            basicShot = new Sprite(x, y, 8);
+            basicShot.direction = direction;
+            basicShot.speed = 0;
+            basicShot.life = 300;
+
+            basicShot.speed = 5;
+            basicShot.collider = 'd';
+            basicShot.color = 'red';
+            basicShot.overlaps(basicShot)
+
+            for (let i = 0; i < ships.length; i++) {
+                basicShot.overlaps(ships[i])
+            }
+
+
+            shots.push(basicShot)
+
+
+            shotOnce = true;
+
         }
-
-        shotOnce = true;
-
     }
 
-    if (basicShot.collides(allSprites)) {
-        basicShot.remove();
-    }
+
+
+
 
 
 }
 
 
-
 function enemies() {
 
-    SeaMon = new Sprite(-1500, 2000, 100, 200)
-
-    SeaMonShadowImage.resize(500, 500)
+    SeaMon = new Sprite(-1500, 2000, 355, 150)
+    SeaMonShadowImage.resize(350, 230)
+    SeaMon.offset.x = -145;
     SeaMon.img = SeaMonShadowImage
+    SeaMon.maxHP = 10000;
+    SeaMon.hp = 10000;
+    SeaMon.idNum = 0;
+    SeaMon.debug = true;
+    oceanCreatures.push(SeaMon)
+
+
+    let monsterHealthBarBackground = new Sprite(-1000, 100, 300, 15, 'none');
+    monsterHealthBarBackground.componentId = 'background';
+    monsterHealthBarBackground.color = 'black';
+    monsterHealthBarBackground.idNum = SeaMon.idNum;
+    monsterHealthBarComponents.push(monsterHealthBarBackground)
+
+
+    let monsterHealthBarLife = new Sprite(-1000, 100, 300, 14, 'none');
+    monsterHealthBarLife.componentId = 'bar';
+    monsterHealthBarLife.color = 'lightgreen';
+    monsterHealthBarLife.idNum = SeaMon.idNum;
+    monsterHealthBarComponents.push(monsterHealthBarLife)
+
 
 }
 
@@ -851,8 +884,91 @@ function monsterAni() {
 
     }
 
+    monsterHpSystem();
 
 }
+
+function monsterHpSystem() {
+    // console.log(selectedship.hp)
+    //console.log(selectedship.idNum)
+    for (let monster of oceanCreatures) {
+        for (let health of monsterHealthBarComponents) {
+            //console.log(health.idNum)
+
+
+            if (health.idNum === monster.idNum) {
+                health.collider = 'none';
+                health.x = monster.x
+                health.y = monster.y - 110
+            }
+
+            if (health.componentId === 'bar' && health.idNum === monster.idNum) {
+
+                health.width = monster.hp / 20;
+                //console.log(monster.maxHP)
+                //console.log(monster.hp)
+
+                if (monster.maxHP / 4 > monster.hp && health.idNum === monster.idNum) {
+                    health.color = 'red';
+                    monster.img
+                } else if (monster.maxHP / 1.5 > monster.hp && health.idNum === monster.idNum) {
+                    health.color = 'yellow';
+                    monster.img
+                }
+
+            }
+            if (health.componentId === 'background' && health.idNum === monster.idNum) {
+
+                health.width = monster.maxHP / 20;
+                //console.log(health.width)
+            }
+
+
+            for (let i = 0; i < oceanCreatures.length; i++) {
+                //console.log(oceanCreatures[i].hp)
+                if (oceanCreatures[i].hp === 0) {
+                    health.width = 0;
+                    oceanCreatures[i].remove();
+                    oceanCreatures.splice(i, 1)
+
+
+                }
+            }
+
+
+        }
+
+
+        if (monster.hp <= 0) {
+            monster.hp = 0;
+        }
+
+
+        for (let i = 0; i < monsterHealthBarComponents.length; i++) {
+
+            if (monsterHealthBarComponents[i].width <= 2 && monster.hp === 0) {
+
+                monsterHealthBarComponents[i].remove();
+                monsterHealthBarComponents[i + 1].remove();
+                monsterHealthBarComponents.splice(i - 1, 2)
+
+            }
+        }
+
+        for (let i = 0; i < shots.length; i++) {
+            if (shots[i].collides(monster)) {
+                shots[i].remove();
+                monster.hp -= 500;
+            }
+
+        }
+    }
+}
+
+
+
+
+
 
 function mouseWheel(event) {
     scrollNumber -= event.delta
@@ -881,6 +997,7 @@ function mouseWheel(event) {
     }
 
 }
+
 let createmenue = true
 function GUIE() {
     camera.off();
@@ -899,32 +1016,32 @@ function GUIE() {
         }
     }
 
-if(createmenue){
-     buyScreen = new ui.Sprite (9000, 35, 400, 600, 'n')
-     createmenue = false
-     buyConstructor = new ui.Sprite(9000,35,200,60)
-     buyConstructor.colour = 'white'
-     buyConstructor.text = 'constructor'
-     buyConstructor.textSize = 30
-      
+    if (createmenue) {
+        buyScreen = new ui.Sprite(9000, 35, 400, 600, 'n')
+        buyConstructor = new ui.Sprite(9000, 35, 200, 60)
+        buyConstructor.colour = 'white'
+        buyConstructor.text = 'constructor'
+        buyConstructor.textSize = 30
+        createmenue = false
+
     }
-    
+
     if (mothershipBase.mouse.pressed()) {
         buyScreen.x = 1750
         buyConstructor.x = 1800
     }
     if (mouse.pressed()) {
-     if (!mothershipBase.mouse.pressed()){
-        buyScreen.x = 9000
-        buyConstructor.x = 9000
-    
-     }
+        if (!mothershipBase.mouse.pressed()) {
+            buyScreen.x = 9000
+            buyConstructor.x = 9000
+
+        }
     }
-    if(buyConstructor.mouse.pressed()){
+    if (buyConstructor.mouse.pressed()) {
         makeship('constructor', 1500, 750)
     }
 
-    
+
     ui.draw();
 }
 
@@ -936,16 +1053,16 @@ function gameInterface() {
     scrapMetalCounter = new ui.Sprite(80, 35, 150, 60, 'n');
     scrapMetalCounter.textSize = 50
     scrapMetalCounter.text = 0
-    
-    
+
+
     oilCounter = new ui.Sprite(250, 35, 150, 60, 'n');
     oilCounter.textSize = 50
     oilCounter.text = 0
-    
+
     crystalCounter = new ui.Sprite(420, 35, 150, 60, 'n');
     crystalCounter.textSize = 50
     crystalCounter.text = 0
-    
+
 }
 
 function zoom() {
@@ -1216,6 +1333,9 @@ function hpsystem() {
         // console.log(selectedship.hp)
         //console.log(selectedship.idNum)
 
+        let removeShip = false;
+
+
         for (let health of healthBarComponents) {
             //console.log(health.idNum)
 
@@ -1234,10 +1354,23 @@ function hpsystem() {
 
                 if (selectedship.maxHP / 4 > selectedship.hp && health.idNum === selectedship.idNum) {
                     health.color = 'red';
-                    selectedship.img
+
+
+
+                    if (selectedship.shipclass === 'fighter') {
+                        selectedship.img = damagedFighterShipimg
+                        for (let cannon of smallCan2) {
+                            if (cannon.idNum === selectedship.idNum) {
+                                cannon.img = damagedCannonImage
+                            }
+                        }
+                    }
+
+
+
+
                 } else if (selectedship.maxHP / 1.5 > selectedship.hp && health.idNum === selectedship.idNum) {
                     health.color = 'yellow';
-                    selectedship.img
                 }
 
             }
@@ -1246,9 +1379,16 @@ function hpsystem() {
                 health.width = selectedship.maxHP;
                 //console.log(health.width)
             }
+
+
+
+
             for (let i = 0; i < actualships.length; i++) {
-                if (actualships[i].hp === 0) {
-                    health.width = 0;
+                if (actualships[i].hp <= 0.5) {
+                    removeShip = true;
+                    if (health.componentId === 'bar' && health.idNum === selectedship.idNum) {
+                        health.width = 0;
+                    }
                     actualships[i].remove();
                     actualships.splice(i, 1)
 
@@ -1256,6 +1396,19 @@ function hpsystem() {
                 }
             }
         }
+
+
+        for (let i = 0; i < healthBarComponents.length; i++) {
+
+            if (healthBarComponents[i].width <= 2 && removeShip === true) {
+                healthBarComponents[i].remove();
+                healthBarComponents[i - 1].remove();
+                healthBarComponents.splice(i - 1, 2)
+
+            }
+        }
+
+
 
         if (selectedship.collides(SeaMon)) {
 
@@ -1268,57 +1421,42 @@ function hpsystem() {
             selectedship.hp = 0;
         }
 
-
-        for (let i = 0; i < healthBarComponents.length; i++) {
-            //console.log(healthBarComponents[i].width)
-            if (healthBarComponents[i].width <= 2 && selectedship.hp === 0) {
-                healthBarComponents[i].remove();
-                healthBarComponents[i - 1].remove();
-                healthBarComponents.splice(i - 1, 2)
-
-            }
+        if (selectedship.overlapping(radiationZone)) {
+            selectedship.hp -= 0.5;
+            console.log(selectedship.hp)
         }
+        if (selectedship.overlapping(lavaZone)) {
+            selectedship.hp -= 0.5;
+            console.log(selectedship.hp)
+        }
+
 
 
     }
 
 
-
-
-
-
-    //scout 
-
-
 }
+
+
+
+
+
 
 function Zones() {
     if (zoneSpawned === false) {
         lavaZone = new Sprite(-6050, -1450, 6000, 6000)
-        lavaZone.color = color (255, 0, 0, 50)
+        lavaZone.color = color(220, 0, 0, 50)
         lavaZone.visible = false
-   radiationZone = new Sprite(-5680, 4250, 6000, 5000)
-       radiationZone.visible = false
+        radiationZone = new Sprite(-5680, 4250, 6000, 5000)
+        radiationZone.color = color(0, 0, 0, 50)
+        radiationZone.visible = false
         zoneSpawned = true
     }
 
     lavaZone.collider = 'n'
     radiationZone.collider = 'n'
-    
 
-       
-    
-   
-  
+
+
 }
 
-
-function health() {
-
-    //if (frameCount % 60 === 0) {
-      actualships[index].hp -= 0.06; 
-
-
-
-    console.log(actualships[index].hp)
-}
