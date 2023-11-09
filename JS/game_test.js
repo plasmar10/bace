@@ -66,7 +66,7 @@ let buyScreen
 function preload() {
     //Background//
     menuBackground = loadImage("./assets/menuImage.jpg");
-    oceanBackground = loadImage("./assets/ocean.jpg");
+    oceanBackground = loadImage("./assets/backround_with_zones.jpg");
 
     //Resources//
     scrapMetalImage = loadImage("./assets/metalplate.png");
@@ -252,7 +252,7 @@ function IntroEnded() {
 
 
 function ocean() {
-    oceanBackground.resize(width * 5, height * 5)
+    oceanBackground.resize(width * 10, height * 10)
     oceanSprite = new Sprite(width / 2, height / 2, width * 10, height * 10, "n")
     oceanSprite.image = oceanBackground
     oceanSprite.layer = -10
