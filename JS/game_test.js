@@ -68,7 +68,7 @@ let buyConstructor;
 function preload() {
     //Background//
     menuBackground = loadImage("./assets/menuImage.jpg");
-    oceanBackground = loadImage("./assets/backround_with_zones.jpg");
+    //oceanBackground = loadImage("./assets/backround_with_zones.jpg");
 
     //Resources//
     scrapMetalImage = loadImage("./assets/metalplate.png");
@@ -253,7 +253,7 @@ function IntroEnded() {
 
 
 function ocean() {
-    oceanBackground.resize(width * 10, height * 10)
+   // oceanBackground.resize(width * 10, height * 10)
     oceanSprite = new Sprite(width / 2, height / 2, width * 10, height * 10, "n")
     oceanSprite.image = oceanBackground
     oceanSprite.layer = -10
@@ -860,7 +860,7 @@ function mouseWheel(event) {
 let createmenue = true
 function GUIE() {
     camera.off();
-    ui.color = 'orange';
+    // ui.color = 'orange';
 
     scrapMetalCounter.color = '#d8d8d8';
 
@@ -877,19 +877,27 @@ function GUIE() {
 
 if(createmenue){
      buyScreen = new ui.Sprite (9000, 35, 400, 600, 'n')
-    // buyConstructor = createButton('Constructor')
-    // buyConstructor.position(1800,40)
-    createmenue = false
-
-}
-
+     createmenue = false
+     buyConstructor = new ui.Sprite(9000,35,200,60)
+     buyConstructor.colour = 'white'
+     buyConstructor.text = 'constructor'
+     buyConstructor.textSize = 30
+      
+    }
+    
     if (mothershipBase.mouse.pressed()) {
         buyScreen.x = 1750
+        buyConstructor.x = 1800
     }
     if (mouse.pressed()) {
      if (!mothershipBase.mouse.pressed()){
         buyScreen.x = 9000
+        buyConstructor.x = 9000
+    
      }
+    }
+    if(buyConstructor.mouse.pressed()){
+        makeship('constructor', 1500, 750)
     }
 
     
