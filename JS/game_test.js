@@ -111,11 +111,8 @@ function preload() {
     easterEggVideo.volume(0.5);
     surfusnaticaVideo = createVideo("./assets/videos/surfusnatica_1.mp4", videoLoaded);
     surfusnaticaVideo.hide();
-    
-    function videoLoaded() {
-      surfusnaticaVideo.loop();
-    }
-    
+
+
 }
 
 function setup() {
@@ -123,15 +120,17 @@ function setup() {
 
 
 }
+
 function videoLoaded() {
     surfusnaticaVideo.loop();
-  }
+}
+
 function draw() {
 
-    if (currentScreen === 0) { //start screem
+    if (currentScreen === 0) { //Start Screen
         startscreen()
     }
-    else if (currentScreen === 1) { //menue screen
+    else if (currentScreen === 1) { //Menu Screen
         menuScreen()
 
     }
@@ -170,10 +169,10 @@ function draw() {
 
 
         GUIE(); //this must alwas be done last 
-    
-    
-    
-    
+
+
+
+
         //EasterEggVideo//
         if (playEasterEggVideo === false && kb.presses('l')) {
 
@@ -204,33 +203,34 @@ function menuScreen() {
     image(surfusnaticaVideo, 0, 0, 1920, 1076);
     // Display your video or any other content for the menu screen here
     if (mainMusic.isPlaying()) {
-    
+
     } else {
         mainMusic.loop();
         mainMusic.setVolume(0.1);
     }
-    if (!makeMenubuttions){
-    startgamebuttion = new Sprite(300, 700, 300, 100)
-    startgamebuttion = new Sprite(300, 810, 300, 100)
-    startgamebuttion = new Sprite(300, 920, 300, 100)
+    if (!makeMenubuttions) {
+        startgamebuttion = new Sprite(300, 700, 300, 100)
+        startgamebuttion = new Sprite(300, 810, 300, 100)
+        startgamebuttion = new Sprite(300, 920, 300, 100)
 
 
 
 
-    makeMenubuttions = true
+        makeMenubuttions = true
     }
-  }
-  function button1Action() {
+}
+
+function button1Action() {
     // Define the action for Button 1 here
-  }
-  
-  function button2Action() {
+}
+
+function button2Action() {
     // Define the action for Button 2 here
-  }
-  
-  function button3Action() {
+}
+
+function button3Action() {
     // Define the action for Button 3 here
-  }
+}
 
 
 
@@ -240,30 +240,30 @@ function menuScreen() {
 
 
 
-    function startscreen(){
-        image(menuBackground, 0, 0, width, height)
+function startscreen() {
+    image(menuBackground, 0, 0, width, height)
 
-        //MenuSetup//
-        if (menuLoadOnce === false) {
-            MenuSprites = new Group();
-            newGameButton = new Sprite(width / 5, height / 2.8, 350, 120)
-            newGameButton.textSize = '80'
-            newGameButton.text = 'Start';
-            MenuSprites.push(newGameButton)
-            newGameButton.color = 'white';
-            menuLoadOnce = true;
-        }
-        if (newGameButton.mouse.pressed()) {
-            MenuSprites.remove();
-            currentScreen = 1;
-        };
-        if (newGameButton.mouse.hovering()) {
-            newGameButton.color = 'blue';
-            newGameButton.textColor = 'white';
-        } else {
-            newGameButton.color = 'white';
-            newGameButton.textColor = 'black';
-        }
+    //MenuSetup//
+    if (menuLoadOnce === false) {
+        MenuSprites = new Group();
+        newGameButton = new Sprite(width / 5, height / 2.8, 350, 120)
+        newGameButton.textSize = '80'
+        newGameButton.text = 'Start';
+        MenuSprites.push(newGameButton)
+        newGameButton.color = 'white';
+        menuLoadOnce = true;
+    }
+    if (newGameButton.mouse.pressed()) {
+        MenuSprites.remove();
+        currentScreen = 1;
+    };
+    if (newGameButton.mouse.hovering()) {
+        newGameButton.color = 'blue';
+        newGameButton.textColor = 'white';
+    } else {
+        newGameButton.color = 'white';
+        newGameButton.textColor = 'black';
+    }
 
 }
 
