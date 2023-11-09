@@ -76,6 +76,7 @@ let surfusnaticaVideo
 
 let dificltybuttion, creditsbuttion;
 let makeMenubuttions = false
+let menuimg
 
 function preload() {
     //Background//
@@ -205,24 +206,43 @@ function menuScreen() {
     image(surfusnaticaVideo, 0, 0, 1920, 1076);
     // Display your video or any other content for the menu screen here
     if (mainMusic.isPlaying()) {
-
+        noStroke();
     } else {
         mainMusic.loop();
         mainMusic.setVolume(0.1);
     }
-    if (!makeMenubuttions){
+    if (!makeMenubuttions) {
         menuebuttionsgroup = new Group()
-        menuebuttionsgroupimg.resize(428, 80);
-    startgamebuttion = new menuebuttionsgroup.Sprite(300, 700, 428, 80)
-    creditsbuttion = new menuebuttionsgroup.Sprite(300, 810, 428, 80)
-    dificltybuttion = new menuebuttionsgroup.Sprite(300, 920, 428, 80)
-    menuebuttionsgroup.img = menuebuttionsgroupimg
+        menuebuttionsgroupimg.resize(354, 80);
+        startgamebuttion = new Sprite(420, 700, 414, 80, 'n');
+        creditsbuttion = new Sprite(420, 810, 414, 80, 'n')
+        dificltybuttion = new Sprite(420, 920, 414, 80, 'n')
+
+
+        menuimg = new menuebuttionsgroup.Sprite(450, 700, 354, 80, 'n');
+        menuimg = new menuebuttionsgroup.Sprite(450, 810, 354, 80, 'n')
+        menuimg = new menuebuttionsgroup.Sprite(450, 920, 354, 80, 'n')
+        menuebuttionsgroup.img = menuebuttionsgroupimg
 
 
 
 
         makeMenubuttions = true
     }
+
+    noFill();
+    stroke(88, 176, 229);
+    strokeWeight(7)
+    circle(250, 700, 62);
+    circle(250, 810, 62);
+    circle(250, 920, 62);
+    //hovver
+    noStroke();
+    fill(251, 192, 45)
+    circle(250, 700, 45);
+
+
+
 }
 
 function button1Action() {
@@ -473,6 +493,7 @@ function makeship(shiptype, newshipX, newshipY) {
         let newSmallCan = new Sprite(newshipX, newshipY, 20, 20)
         newSmallCan.img = cannonImage
         newSmallCan.idNum = scout.idNum
+        newSmallCan.shoot = true;
         newSmallCan.overlaps(ships)
         smallCan.push(newSmallCan)
         allCannons.push(newSmallCan)
@@ -505,6 +526,7 @@ function makeship(shiptype, newshipX, newshipY) {
 
         let newSmallCan2 = new Sprite(newshipX, newshipY, 20, 20)
         newSmallCan2.idNum = fighter.idNum
+        newSmallCan2.shoot = true;
         newSmallCan2.overlaps(ships)
         smallCan2.push(newSmallCan2)
         allCannons.push(newSmallCan2)
@@ -514,6 +536,7 @@ function makeship(shiptype, newshipX, newshipY) {
 
         let newSmallCan3 = new Sprite(newshipX, newshipY, 20, 20)
         newSmallCan3.idNum = fighter.idNum
+        newSmallCan3.shoot = true;
         newSmallCan3.overlaps(ships)
         smallCan2.push(newSmallCan3)
         allCannons.push(newSmallCan3)
@@ -600,37 +623,39 @@ function Weapons() {
                 //console.log(ship.hp)
                 if (ship.hp <= 1) {
                     cannon.remove();
+                    cannon.shoot = false;
 
+
+                }
+                let MonsterEnemyDistance = dist(ship.x, ship.y, SeaMon.x, SeaMon.y)
+                if (MonsterEnemyDistance < 1600 && cannon.shoot === true) {
+                    cannon.rotateTowards(SeaMon, 1, 0);
+                    let x = cannon.x;
+                    let y = cannon.y;
+                    let direction = cannon.direction;
+                    let selectedAmmo = basicShot;
+
+                    let timer = cannon.bulletTimer;
+
+
+                    ammo(x, y, direction, selectedAmmo, timer);
+
+
+                    cannon.bulletTimer += 1;
+
+                }
+
+                if (cannon.bulletTimer >= 200) {
+                    cannon.bulletTimer = -1;
+                }
+
+                if (ship.hp <= 2) {
+                    cannon.remove();
 
                 }
             }
 
-            let MonsterEnemyDistance = dist(ship.x, ship.y, SeaMon.x, SeaMon.y)
-            if (MonsterEnemyDistance < 1600) {
-                cannon.rotateTowards(SeaMon, 1, 0);
-                let x = cannon.x;
-                let y = cannon.y;
-                let direction = cannon.direction;
-                let selectedAmmo = basicShot;
 
-                let timer = cannon.bulletTimer;
-
-
-                ammo(x, y, direction, selectedAmmo, timer);
-
-
-                cannon.bulletTimer += 1;
-
-            }
-
-            if (cannon.bulletTimer >= 200) {
-                cannon.bulletTimer = -1;
-            }
-
-            if (ship.hp <= 2) {
-                cannon.remove();
-
-            }
 
 
 
@@ -674,7 +699,7 @@ function Weapons() {
                 let MonsterEnemyDistance = dist(ship.x, ship.y, SeaMon.x, SeaMon.y)
 
 
-                if (MonsterEnemyDistance < 1600) {
+                if (MonsterEnemyDistance < 1600 && cannon.shoot === true) {
                     cannon.rotateTowards(SeaMon, 1, 0);
                     let x = cannon.x;
                     let y = cannon.y;
@@ -1225,46 +1250,47 @@ function creatpointsforselection() {
 
 
 function resourceCollected() {
-for(let resourceStation of resourceStations  ){
-    if (resourceStationSpawned === true) {
-        //ScrapMetal
-        for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
-            let c = dist(resourceStation.x, resourceStation.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
-            if (c < 200) {
-                if (frameCount % 60 === 0) {
-                    scrapMetalCounter.text++
+
+    for (let resourceStation of resourceStations) {
+        if (resourceStationSpawned === true) {
+            //ScrapMetal
+            for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
+                let c = dist(resourceStation.x, resourceStation.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
+                if (c < 200) {
+                    if (frameCount % 60 === 0) {
+                        scrapMetalCounter.text++
+                    }
+
                 }
-
             }
-        }
 
-        //Oil
-        for (let i = 0; i < oilResourceNodes.length; i++) {
-            let c = dist(resourceStation.x, resourceStation.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
-            if (c < 200) {
-                if (frameCount % 60 === 0) {
-                    oilCounter.text++
+            //Oil
+            for (let i = 0; i < oilResourceNodes.length; i++) {
+                let c = dist(resourceStation.x, resourceStation.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
+                if (c < 200) {
+                    if (frameCount % 60 === 0) {
+                        oilCounter.text++
+                    }
+
                 }
-
             }
-        }
 
-        //Crystal
-        for (let i = 0; i < crystalResourceNodes.length; i++) {
-            let c = dist(resourceStation.x, resourceStation.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
-            if (c < 200) {
-                if (frameCount % 60 === 0) {
-                    crystalCounter.text++
+            //Crystal
+            for (let i = 0; i < crystalResourceNodes.length; i++) {
+                let c = dist(resourceStation.x, resourceStation.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
+                if (c < 200) {
+                    if (frameCount % 60 === 0) {
+                        crystalCounter.text++
+                    }
+
                 }
-
             }
-        }
 
+        }
     }
 
-}
-}
 
+}
 
 async function resourceCollection() {
 
@@ -1279,6 +1305,7 @@ async function resourceCollection() {
                 for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
+                    if (d < 200 && kb.presses('p')) {
                     if (d < 200 && kb.presses('p')) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
@@ -1313,7 +1340,7 @@ async function resourceCollection() {
                 for (let i = 0; i < crystalResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
-                    if (d < 200 && kb.presses('p') ) {
+                    if (d < 200 && kb.presses('p')) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
                         resourceStationSpawned= true
@@ -1466,3 +1493,4 @@ function Zones() {
 
 }
 
+}
