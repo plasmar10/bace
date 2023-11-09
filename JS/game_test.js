@@ -1306,15 +1306,14 @@ async function resourceCollection() {
 
                     let d = dist(selectedship.x, selectedship.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
                     if (d < 200 && kb.presses('p')) {
-                    if (d < 200 && kb.presses('p')) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'd'
                         resourceStationSpawned = true;
 
                         selectedship.hp = 0;
+                        selectedship.remove();
 
 
-                        
                         resourceStations.push(resourceStation)
                     }
 
@@ -1330,7 +1329,7 @@ async function resourceCollection() {
                     if (d < 200 && kb.presses('p')) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
-                        resourceStationSpawned= true
+                        resourceStationSpawned = true
                         selectedship.remove()
                         resourceStations.push(resourceStation)
                     }
@@ -1347,7 +1346,7 @@ async function resourceCollection() {
                     if (d < 200 && kb.presses('p')) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
-                        resourceStationSpawned= true
+                        resourceStationSpawned = true
                         selectedship.remove()
                         resourceStations.push(resourceStation)
                     }
@@ -1362,7 +1361,7 @@ async function resourceCollection() {
         }
     }
 }
-}
+
 
 function hpsystem() {
 
