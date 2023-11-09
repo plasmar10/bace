@@ -40,6 +40,8 @@ let movepoint
 let movepoints = []
 let moveBackPoint;
 let movePointDistance;
+let menuebuttionsgroup
+let menuebuttionsgroupimg
 
 let smallCan = [];
 let smallCan2 = [];
@@ -72,12 +74,13 @@ let buyScreen;
 let buyConstructor;
 let surfusnaticaVideo
 
-
+let dificltybuttion, creditsbuttion;
 let makeMenubuttions = false
 
 function preload() {
     //Background//
     menuBackground = loadImage("./assets/menuImage.jpg");
+    menuebuttionsgroupimg = loadImage("./assets/menue_buttion.png");
     oceanBackground = loadImage("./assets/small_backround_low_rez.jpg");
     // oceanBackground = loadImage("./assets/backround_with_zones.jpg");
 
@@ -197,7 +200,6 @@ function draw() {
 }
 
 
-
 function menuScreen() {
     background(0);
     image(surfusnaticaVideo, 0, 0, 1920, 1076);
@@ -208,10 +210,13 @@ function menuScreen() {
         mainMusic.loop();
         mainMusic.setVolume(0.1);
     }
-    if (!makeMenubuttions) {
-        startgamebuttion = new Sprite(300, 700, 300, 100)
-        startgamebuttion = new Sprite(300, 810, 300, 100)
-        startgamebuttion = new Sprite(300, 920, 300, 100)
+    if (!makeMenubuttions){
+        menuebuttionsgroup = new Group()
+        menuebuttionsgroupimg.resize(428, 80);
+    startgamebuttion = new menuebuttionsgroup.Sprite(300, 700, 428, 80)
+    creditsbuttion = new menuebuttionsgroup.Sprite(300, 810, 428, 80)
+    dificltybuttion = new menuebuttionsgroup.Sprite(300, 920, 428, 80)
+    menuebuttionsgroup.img = menuebuttionsgroupimg
 
 
 
