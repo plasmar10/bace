@@ -101,7 +101,6 @@ function setup() {
     createCanvas(1920, 1076);
 
 
-
 }
 
 function draw() {
@@ -779,7 +778,7 @@ function mouseWheel(event) {
     }
 
 }
-
+let createmenue = true
 function GUIE() {
     camera.off();
     ui.color = 'orange';
@@ -797,21 +796,25 @@ function GUIE() {
         }
     }
 
+if(createmenue){
+     buyScreen = new ui.Sprite (9000, 35, 400, 600, 'n')
+    // buyConstructor = createButton('Constructor')
+    // buyConstructor.position(1800,40)
+    createmenue = false
 
+}
 
     if (mothershipBase.mouse.pressed()) {
-    buyScreen = new ui.Sprite (1750, 35, 400, 600, 'n')
-    buyConstructor = createButton('Constructor')
-    buyConstructor.position(1800,40)
+        buyScreen.x = 1750
     }
-    else if(mouse.pressed()&&!mothershipBase.mouse.pressed()){ 
-        if(buyScreen){
+    // else if(mouse.pressed()&&!mothershipBase.mouse.pressed()){ 
+    //     if(buyScreen){
 
-            buyScreen.x = 40000
+    //         buyScreen.x = 40000
             
-        }
+    //     }
     
-    }
+    // }
     
     
     ui.draw();
