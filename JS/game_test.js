@@ -799,12 +799,14 @@ function GUIE() {
 
     if (mothershipBase.mouse.pressed()) {
     buyScreen = new ui.Sprite (1750, 35, 400, 600, 'n')
-    buyConstructor = createButton()
+    buyConstructor = createButton('Constructor')
+    buyConstructor.position(1800,40)
     }
     else if(mouse.pressed()){ 
         if(buyScreen){
 
             buyScreen.remove();
+            buyConstructor.remove();
         }
         
 
