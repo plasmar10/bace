@@ -54,7 +54,7 @@ let oceanCreatures = [];
 let resourceStationSpawned = false;
 
 
-let currentScreen = 2
+let currentScreen = 1
 let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
@@ -76,11 +76,13 @@ let surfusnaticaVideo
 
 let dificltybuttion, creditsbuttion;
 let makeMenubuttions = false
-let menuimg
+let menuimg1, menuimg2, menuimg3
+let menubuttionsblankimg
 
 function preload() {
     //Background//
     menuBackground = loadImage("./assets/menuImage.jpg");
+    menubuttionsblankimg = loadImage("./assets/blank_img.png");
     menuebuttionsgroupimg = loadImage("./assets/menue_buttion.png");
     oceanBackground = loadImage("./assets/small_backround_low_rez.jpg");
     // oceanBackground = loadImage("./assets/backround_with_zones.jpg");
@@ -214,14 +216,17 @@ function menuScreen() {
     if (!makeMenubuttions){
         menuebuttionsgroup = new Group()
         menuebuttionsgroupimg.resize(354, 80);
-        startgamebuttion = new Sprite(420, 700, 414, 80, 'n');
-        creditsbuttion = new Sprite(420, 810, 414, 80, 'n')
-        dificltybuttion = new Sprite(420, 920, 414, 80, 'n')
+        startgamebuttion = new Sprite(420, 700, 414, 80, 's');
+        startgamebuttion.img = menubuttionsblankimg
+        creditsbuttion = new Sprite(420, 810, 414, 80, 's')
+        creditsbuttion.img = menubuttionsblankimg
+        dificltybuttion = new Sprite(420, 920, 414, 80, 's')
+        dificltybuttion.img = menubuttionsblankimg
 
 
-    menuimg = new menuebuttionsgroup.Sprite(450, 700, 354, 80, 'n');
-    menuimg = new menuebuttionsgroup.Sprite(450, 810, 354, 80, 'n')
-    menuimg = new menuebuttionsgroup.Sprite(450, 920, 354, 80, 'n')
+    menuimg1 = new menuebuttionsgroup.Sprite(450, 700, 354, 80, 'n');
+    menuimg2 = new menuebuttionsgroup.Sprite(450, 810, 354, 80, 'n')
+    menuimg3 = new menuebuttionsgroup.Sprite(450, 920, 354, 80, 'n')
     menuebuttionsgroup.img = menuebuttionsgroupimg
 
 
@@ -239,23 +244,70 @@ circle(250, 920, 62);
 //hovver
 noStroke();
 fill(251, 192, 45)
-circle(250, 700, 45);
+
+
+
+
+console.log(menuimg1.x)
+circle(250, 700, ((menuimg1.x-450)*1.54));
+circle(250, 810, ((menuimg2.x-450)*1.54));
+circle(250, 920, ((menuimg3.x-450)*1.54));
+if (menuimg1.x < 450) {
+    menuimg1.x = 450
+}
+if (menuimg2.x < 450) {
+    menuimg2.x = 450
+}
+if (menuimg3.x < 450) {
+    menuimg3.x = 450
+}
+if (startgamebuttion.mouse.hovering()) {
+    
+   
+    if (menuimg1.x < 451)
+    menuimg1.move(30, 'right', 3);
+    
+  }
+  else {
+    if (menuimg1.x > 450)
+    menuimg1.move(5, 'left', 3);
+  }
+
+  if (creditsbuttion.mouse.hovering()) {
+
+    if (menuimg2.x < 451)
+    menuimg2.move(30, 'right', 3);
+  }
+  else {
+    if (menuimg2.x > 450)
+    menuimg2.move(5, 'left', 3);
+  }
+
+  if (dificltybuttion.mouse.hovering()) {
+
+    if (menuimg3.x < 451)
+    menuimg3.move(30, 'right', 3);
+  }
+  else {
+    if (menuimg3.x > 450)
+    menuimg3.move(5, 'left', 3);
+  }
+
+  if (menuimg1.mouse.pressed()) {
+    currentScreen = 2
+    console.log("uifheoisf") // need to fix
+  }
+
+
+
+
+
+}
 
 
     
-}
 
-function button1Action() {
-    // Define the action for Button 1 here
-}
 
-function button2Action() {
-    // Define the action for Button 2 here
-}
-
-function button3Action() {
-    // Define the action for Button 3 here
-}
 
 
 
