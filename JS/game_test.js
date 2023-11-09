@@ -58,10 +58,11 @@ let playEasterEggVideo = false;
 let MenuSprites, newGameButton, menuBackground;
 let introVideo, easterEggVideo;
 let zoneSpawned = false
-let lavaZone
-let radiationZone
-let index
-let buyScreen 
+let lavaZone;
+let radiationZone;
+let index;
+let buyScreen ;
+let buyConstructor;
 
 function preload() {
     //Background//
@@ -798,10 +799,14 @@ function GUIE() {
 
     if (mothershipBase.mouse.pressed()) {
     buyScreen = new ui.Sprite (1750, 35, 400, 600, 'n')
-    
+    buyConstructor = createButton()
     }
     else if(mouse.pressed()){ 
-        buyScreen.remove();
+        if(buyScreen){
+
+            buyScreen.remove();
+        }
+        
 
     }
     
