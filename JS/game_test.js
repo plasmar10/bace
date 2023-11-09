@@ -1314,7 +1314,6 @@ async function resourceCollection() {
 
 
                         
-                        selectedship.remove()
                         resourceStations.push(resourceStation)
                     }
 
