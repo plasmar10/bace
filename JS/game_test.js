@@ -54,7 +54,7 @@ let oceanCreatures = [];
 let resourceStationSpawned = false;
 
 
-let currentScreen = 0
+let currentScreen = 2
 let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
@@ -493,6 +493,7 @@ function makeship(shiptype, newshipX, newshipY) {
         let newSmallCan = new Sprite(newshipX, newshipY, 20, 20)
         newSmallCan.img = cannonImage
         newSmallCan.idNum = scout.idNum
+        newSmallCan.shoot = true;
         newSmallCan.overlaps(ships)
         smallCan.push(newSmallCan)
         allCannons.push(newSmallCan)
@@ -525,6 +526,7 @@ function makeship(shiptype, newshipX, newshipY) {
 
         let newSmallCan2 = new Sprite(newshipX, newshipY, 20, 20)
         newSmallCan2.idNum = fighter.idNum
+        newSmallCan2.shoot = true;
         newSmallCan2.overlaps(ships)
         smallCan2.push(newSmallCan2)
         allCannons.push(newSmallCan2)
@@ -534,6 +536,7 @@ function makeship(shiptype, newshipX, newshipY) {
 
         let newSmallCan3 = new Sprite(newshipX, newshipY, 20, 20)
         newSmallCan3.idNum = fighter.idNum
+        newSmallCan3.shoot = true;
         newSmallCan3.overlaps(ships)
         smallCan2.push(newSmallCan3)
         allCannons.push(newSmallCan3)
@@ -620,37 +623,39 @@ function Weapons() {
                 //console.log(ship.hp)
                 if (ship.hp <= 1) {
                     cannon.remove();
+                    cannon.shoot = false;
 
+
+                }
+                let MonsterEnemyDistance = dist(ship.x, ship.y, SeaMon.x, SeaMon.y)
+                if (MonsterEnemyDistance < 1600 && cannon.shoot === true) {
+                    cannon.rotateTowards(SeaMon, 1, 0);
+                    let x = cannon.x;
+                    let y = cannon.y;
+                    let direction = cannon.direction;
+                    let selectedAmmo = basicShot;
+
+                    let timer = cannon.bulletTimer;
+
+
+                    ammo(x, y, direction, selectedAmmo, timer);
+
+
+                    cannon.bulletTimer += 1;
+
+                }
+
+                if (cannon.bulletTimer >= 200) {
+                    cannon.bulletTimer = -1;
+                }
+
+                if (ship.hp <= 2) {
+                    cannon.remove();
 
                 }
             }
 
-            let MonsterEnemyDistance = dist(ship.x, ship.y, SeaMon.x, SeaMon.y)
-            if (MonsterEnemyDistance < 1600) {
-                cannon.rotateTowards(SeaMon, 1, 0);
-                let x = cannon.x;
-                let y = cannon.y;
-                let direction = cannon.direction;
-                let selectedAmmo = basicShot;
 
-                let timer = cannon.bulletTimer;
-
-
-                ammo(x, y, direction, selectedAmmo, timer);
-
-
-                cannon.bulletTimer += 1;
-
-            }
-
-            if (cannon.bulletTimer >= 200) {
-                cannon.bulletTimer = -1;
-            }
-
-            if (ship.hp <= 2) {
-                cannon.remove();
-
-            }
 
 
 
@@ -694,7 +699,7 @@ function Weapons() {
                 let MonsterEnemyDistance = dist(ship.x, ship.y, SeaMon.x, SeaMon.y)
 
 
-                if (MonsterEnemyDistance < 1600) {
+                if (MonsterEnemyDistance < 1600 && cannon.shoot === true) {
                     cannon.rotateTowards(SeaMon, 1, 0);
                     let x = cannon.x;
                     let y = cannon.y;
