@@ -12,6 +12,7 @@ let SeaMon;
 let SeaMonShadowImage;
 let basicShot;
 let ui;
+let constructorimg
 
 let shotOnce = false;
 let shots = [];
@@ -73,7 +74,8 @@ let buyConstructor;
 function preload() {
     //Background//
     menuBackground = loadImage("./assets/menuImage.jpg");
-    oceanBackground = loadImage("./assets/backround_with_zones.jpg");
+    oceanBackground = loadImage("./assets/small_backround_low_rez.jpg");
+   // oceanBackground = loadImage("./assets/backround_with_zones.jpg");
 
     //Resources//
     scrapMetalImage = loadImage("./assets/metalplate.png");
@@ -85,6 +87,7 @@ function preload() {
     scoutShipImage = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png");
     fighterShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_medium_body.png");
     destroyerimg = loadImage("./assets/ship_sptites/shipz/images/ship_large_body.png");
+    constructorimg = loadImage("./assets/ship_sptites/shipz/images/constructer_ship.png");
     cannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun.png");
     //Monsters//
     SeaMonShadowImage = loadImage("./assets/enemy_sprites/reaper.gif")
@@ -255,8 +258,8 @@ function IntroEnded() {
 
 
 function ocean() {
-    oceanBackground.resize(width * 5, height * 5)
-    oceanSprite = new Sprite(width / 2, height / 2, width * 5, height * 5, "n")
+   // oceanBackground.resize(width * 10, height * 10)
+    oceanSprite = new Sprite(width / 2, height / 2, width * 10, height * 10, "n")
     oceanSprite.image = oceanBackground
     oceanSprite.layer = -10
 }
@@ -530,8 +533,8 @@ function makeship(shiptype, newshipX, newshipY) {
 
     }
     if (shiptype == "constructor") {
-        constructor = new constructorShipsClass.Sprite(newshipX, newshipY, 179, 62, "d")
-        constructor.img = fighterShipimg
+        constructor = new constructorShipsClass.Sprite(newshipX, newshipY, 368, 224, "d")
+        constructor.img = constructorimg
         constructor.needstobemoved = false
         constructor.shipclass = "constructor"
         constructor.maxHP = 100
@@ -977,7 +980,7 @@ function mouseWheel(event) {
 let createmenue = true
 function GUIE() {
     camera.off();
-    ui.color = 'orange';
+    // ui.color = 'orange';
 
     scrapMetalCounter.color = '#d8d8d8';
 
@@ -992,21 +995,29 @@ function GUIE() {
         }
     }
 
-    if (createmenue) {
-        buyScreen = new ui.Sprite(9000, 35, 400, 600, 'n')
-        // buyConstructor = createButton('Constructor')
-        // buyConstructor.position(1800,40)
-        createmenue = false
-
+if(createmenue){
+     buyScreen = new ui.Sprite (9000, 35, 400, 600, 'n')
+     createmenue = false
+     buyConstructor = new ui.Sprite(9000,35,200,60)
+     buyConstructor.colour = 'white'
+     buyConstructor.text = 'constructor'
+     buyConstructor.textSize = 30
+      
     }
-
+    
     if (mothershipBase.mouse.pressed()) {
         buyScreen.x = 1750
+        buyConstructor.x = 1800
     }
     if (mouse.pressed()) {
-        if (!mothershipBase.mouse.pressed()) {
-            buyScreen.x = 9000
-        }
+     if (!mothershipBase.mouse.pressed()){
+        buyScreen.x = 9000
+        buyConstructor.x = 9000
+    
+     }
+    }
+    if(buyConstructor.mouse.pressed()){
+        makeship('constructor', 1500, 750)
     }
 
 
@@ -1379,9 +1390,11 @@ function hpsystem() {
 
 function Zones() {
     if (zoneSpawned === false) {
-        lavaZone = new Sprite(4000, 200, 2000, 3000)
-        lavaZone.color = color(255, 0, 0, 150)
-        radiationZone = new Sprite(-2000, 200, 2000, 3000)
+        lavaZone = new Sprite(-6050, -1450, 6000, 6000)
+        lavaZone.color = color (255, 0, 0, 50)
+        lavaZone.visible = false
+   radiationZone = new Sprite(-5680, 4250, 6000, 5000)
+       radiationZone.visible = false
         zoneSpawned = true
     }
 
