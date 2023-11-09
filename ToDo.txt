@@ -38,6 +38,7 @@
  - Factories to create new materials?
 
 
+- Seamonster ship attack priority: closest, highest health
 
 
 
