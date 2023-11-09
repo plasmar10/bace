@@ -46,7 +46,7 @@ let healthBarComponents = [];
 let resourceStationSpawned = false;
 
 
-let currentScreen = 0
+let currentScreen = 2
 let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
@@ -1262,9 +1262,9 @@ function hpsystem() {
 
 function Zones() {
     if (zoneSpawned === false) {
-        lavaZone = new Sprite(4000, 200, 2000, 3000)
-        lavaZone.color = color (255, 0, 0, 150)
-        radiationZone = new Sprite(-2000, 200, 2000, 3000)
+        lavaZone = new Sprite(-6050, -1450, 6000, 6000)
+        lavaZone.color = color (255, 0, 0, 50)
+       radiationZone = new Sprite(-2000, 200, 1, 1)
         zoneSpawned = true
     }
 
