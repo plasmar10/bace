@@ -44,7 +44,7 @@ let smallCan2 = [];
 let resourceStationSpawned = false;
 
 
-let currentScreen = 0
+let currentScreen = 2
 let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
@@ -57,8 +57,9 @@ let playEasterEggVideo = false;
 
 let MenuSprites, newGameButton, menuBackground;
 let introVideo, easterEggVideo;
-
-
+let zoneSpawned = false
+let lavaZone
+let index
 
 
 function preload() {
@@ -77,7 +78,6 @@ function preload() {
     fighterShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_medium_body.png");
     destroyerimg = loadImage("./assets/ship_sptites/shipz/images/ship_large_body.png");
     cannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun.png");
-
     //Monsters//
     SeaMonShadowImage = loadImage("./assets/enemy_sprites/reaper.gif")
 
@@ -99,6 +99,7 @@ function setup() {
     createCanvas(1920, 1076);
 
 
+
 }
 
 function draw() {
@@ -114,6 +115,7 @@ function draw() {
             newGameButton.text = 'Start';
             MenuSprites.push(newGameButton)
             newGameButton.color = 'white';
+
 
             menuLoadOnce = true;
         }
@@ -161,19 +163,23 @@ function draw() {
     }
     else if (currentScreen === 2) { //Game
 
+        for (let i = 0; i < actualships.length; i++) {
+            index = i
+             actualships[i].overlap(lavaZone,health) 
+        }
         clear();
         //GameSetup//
         if (gameLoadOnce === false) {
             new Group();
 
             ocean();
+            Zones();
             creatpointsforselection();
             mothership();
             resourceSpawner();
             makeships();
             enemies();//may have to go in draw for animation and stuff
             resourceStations = new Group();
-
             gameInterface(); // this must alwas be done last
 
 
@@ -182,7 +188,7 @@ function draw() {
 
 
 
-
+    }
 
 
 
@@ -195,7 +201,8 @@ function draw() {
         monsterAni();
         selection_system();
         resourceCollection();
-        resourceCollected();     //idl why but it was breaking game
+        resourceCollected();
+       
 
         GUIE(); //this must alwas be done last 
 
@@ -226,12 +233,9 @@ function draw() {
             image(easterEggVideo, 0, 0, width, height);
         }
 
+
     }
 
-
-
-
-}
 
 function IntroEnded() {
     if (videoPlayOnce === true) {
@@ -315,9 +319,6 @@ function resourceSpawner() {
 
 
 }
-
-
-
 
 
 function resourceNodes(resourceZoneWidth, resourceZoneHeight, resourceZoneX1, resourceZoneY1, resourceZoneX2, resourceZoneY2, selectedResource) {
@@ -604,11 +605,6 @@ function Weapons() {
 }
 
 
-
-
-
-
-
 function moveShips() {
     //console.log(selectedShips)
     if (shipSelected && selectionrectangle.width < 100) {
@@ -643,13 +639,6 @@ function moveShips() {
         }
     }
 }
-
-
-
-
-
-
-
 
 function moveselectedships() {
 
@@ -798,15 +787,27 @@ function GUIE() {
     crystalCounter.color = '#e6e1f9';
 
     for (let i = 0; i < 9; i++) {
-        if (kb[i + 1]) ui[i].color = 'red';
+        if (kb[i + 1]) {
+            ui[i].color = 'red';
+        }
     }
+
+    if (mothershipBase.mouse.pressed()) {
+        ui[0].img = fighterShipimg
+
+
+    } else if (mouse.pressed()) {
+        ui[0].img = destroyerimg
+
+    }
+
     ui.draw();
 }
 
 function gameInterface() {
     ui = new Group();
     for (let i = 0; i < 9; i++) {
-        new ui.Sprite(100 + i * 40, 1000, 35, 35, 'n');
+        new ui.Sprite(100 + i * 60, 1000, 50, 50, 'n');
     }
     scrapMetalCounter = new ui.Sprite(80, 35, 150, 60, 'n');
     scrapMetalCounter.textSize = 50
@@ -1088,7 +1089,28 @@ async function resourceCollection() {
 function hpsystem() {
 
     for (let selectedship of actualships) {
-        //console.log(selectedship.hp)
+       // console.log(selectedship.hp)
 
     }
 }
+
+function Zones() {
+    if (zoneSpawned === false) {
+        lavaZone = new Sprite(4000, 200, 2000, 3000)
+        zoneSpawned = true
+    }
+   
+    lavaZone.collider = 'n'
+  
+}
+function health (){
+    
+    //if (frameCount % 60 === 0) {
+      actualships[index].hp -= 2; 
+
+
+            
+console.log(actualships[index].hp)
+}
+
+// remonder for omrhi // use angleto for better prefromens for shiops and points so they resolve the promice cliding problem

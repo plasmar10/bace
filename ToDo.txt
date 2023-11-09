@@ -4,17 +4,17 @@
 - Buy ships GUI
  - able to sell ships/collectors?
 
--fog
- -unable to see area untill explored
+-Fog
+ - unable to see area until explored
 
 - Sort out ship collision
  - figure out how to layout multiple ships moving at the same time, 
-   so they dont collide
+   so they dont collide - kinda works rn 
  - ship health
 
+  
+- Put working cannons onto every ship
 
-- Move the shooting scout ships creation into the makeships function  
- - Put working cannons onto every ship
 
 - Enemies attack Resource collectors
 - More Enemies 
