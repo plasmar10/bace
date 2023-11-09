@@ -112,7 +112,7 @@ function setup() {
 }
 
 function draw() {
-
+    console.log(actualships)
     if (currentScreen === 0) { //MainMenu
         image(menuBackground, 0, 0, width, height)
 
@@ -405,6 +405,7 @@ function resourceNodes(resourceZoneWidth, resourceZoneHeight, resourceZoneX1, re
 
     //add purchasable placeable mines
 
+ 
 }
 
 
@@ -418,7 +419,6 @@ function makeships() {
     makeship("fighter", 500, 700)
     makeship("destroyer", 800, 1000)
     makeship('constructor', 1500, 700)
-
 
 }
 
@@ -988,14 +988,14 @@ function GUIE() {
         }
     }
 
-    if (createmenue) {
-        buyScreen = new ui.Sprite(9000, 35, 400, 600, 'n')
-        createmenue = false
-        buyConstructor = new ui.Sprite(9000, 35, 200, 60)
-        buyConstructor.colour = 'white'
-        buyConstructor.text = 'constructor'
-        buyConstructor.textSize = 30
-
+if(createmenue){
+     buyScreen = new ui.Sprite (9000, 35, 400, 600, 'n')
+     buyConstructor = new ui.Sprite(9000,35,200,60)
+     buyConstructor.colour = 'white'
+     buyConstructor.text = 'constructor'
+     buyConstructor.textSize = 30
+     createmenue = false
+     
     }
 
     if (mothershipBase.mouse.pressed()) {
