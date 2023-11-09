@@ -802,14 +802,13 @@ function GUIE() {
     buyConstructor = createButton('Constructor')
     buyConstructor.position(1800,40)
     }
-    else if(mouse.pressed()){ 
+    else if(mouse.pressed()&&!mothershipBase.mouse.pressed()){ 
         if(buyScreen){
 
-            buyScreen.remove();
-            buyConstructor.remove();
+            buyScreen.x = 40000
+            
         }
-        
-
+    
     }
     
     
