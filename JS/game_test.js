@@ -87,7 +87,7 @@ let SeaMonImage
 let oilRig
 function preload() {
     //Background//
-    menuBackground = loadImage("./assets/menuImage.jpg");
+    menuBackground = loadImage("./assets/menuImage.png");
     menubuttionsblankimg = loadImage("./assets/blank_img.png");
     menuebuttionsgroupimg = loadImage("./assets/menue_buttion.png");
     oceanBackground = loadImage("./assets/small_backround_low_rez.jpg");
@@ -225,8 +225,8 @@ function menuScreen() {
         noStroke();
     } else {
         mainMusic.loop();
-        mainMusic.setVolume(0.0);
-        //mainMusic.setVolume(0.1);
+    
+        mainMusic.setVolume(0.1);
     }
     if (!makeMenubuttions) {
         menuebuttionsgroup = new Group()
