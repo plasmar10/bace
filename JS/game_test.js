@@ -1135,19 +1135,23 @@ function GUIE() {
     if (createmenue) {
         buyScreen = new ui.Sprite(9000, 225, 400, 600, 'n')
         buyScreen.img = buyImg
+        buyScreen.collider = 's'
         buyImg.resize (599,1000 )
         buyConstructor = new ui.Sprite(9000, 65, 200, 60)
         buyConstructor.colour = 'white '
         buyConstructor.text = 'constructor'
+        buyConstructor.collider= 's'
         buyConstructor.textSize = 30
         buyRC = new ui.Sprite (9000, 65, 200, 60)
         buyRC.colour= 'white'
         buyRC.text ='Resource Collector'
         buyRC.textSize = 20
+        buyRC.collider = 's'
         buyBarracks = new ui.Sprite (9000, 205, 200, 60)
         buyBarracks.colour = 'white'
         buyBarracks.text = 'Barracks'
         buyBarracks.textSize = 30
+        buyBarracks.collider='s'
 
 
         createmenue = false
