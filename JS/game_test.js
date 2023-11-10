@@ -53,6 +53,7 @@ let oceanCreatures = [];
 
 let resourceStationSpawned = false;
 
+let menuselectionsoundefect
 
 let currentScreen = 0
 let mainMenuScreen = 0
@@ -73,6 +74,9 @@ let radiationZone;
 let buyScreen;
 let buyConstructor;
 let surfusnaticaVideo
+let soundPlayed1 = false;
+let soundPlayed2 = false;
+let soundPlayed3 = false;
 
 let dificltybuttion, creditsbuttion;
 let makeMenubuttions = false
@@ -108,6 +112,7 @@ function preload() {
     // SeaMonImage = loadImage ("./assets/enemy_sprites/seamonster.gif")
     //Music//
     mainMusic = loadSound("./assets/music/Salutations.mp3")
+    menuselectionsoundefect = loadSound ("./assets/sound_effects/menu selection sound.mp3")
 
 
     //buildings
@@ -219,7 +224,8 @@ function menuScreen() {
         noStroke();
     } else {
         mainMusic.loop();
-        mainMusic.setVolume(0.1);
+        mainMusic.setVolume(0.0);
+        //mainMusic.setVolume(0.1);
     }
     if (!makeMenubuttions) {
         menuebuttionsgroup = new Group()
@@ -256,50 +262,66 @@ function menuScreen() {
 
 
 
-    console.log(menuimg1.x)
-    circle(250, 700, ((menuimg1.x - 450) * 1.54));
-    circle(250, 810, ((menuimg2.x - 450) * 1.54));
-    circle(250, 920, ((menuimg3.x - 450) * 1.54));
-    if (menuimg1.x < 450) {
-        menuimg1.x = 450
-    }
-    if (menuimg2.x < 450) {
-        menuimg2.x = 450
-    }
-    if (menuimg3.x < 450) {
-        menuimg3.x = 450
-    }
-    if (startgamebuttion.mouse.hovering()) {
+console.log(menuimg1.x)
+circle(250, 700, ((menuimg1.x-450)*1.54));
+circle(250, 810, ((menuimg2.x-450)*1.54));
+circle(250, 920, ((menuimg3.x-450)*1.54));
+if (menuimg1.x < 450) {
+    menuimg1.x = 450
+}
+if (menuimg2.x < 450) {
+    menuimg2.x = 450
+}
+if (menuimg3.x < 450) {
+    menuimg3.x = 450
+}
+console.log(soundPlayed1)
+if (startgamebuttion.mouse.hovering()) {
+    if (!soundPlayed1) {
+        menuselectionsoundefect.play();
+        menuselectionsoundefect.setVolume(0.1);
+        soundPlayed1 = true;
+        }
+   
+    if (menuimg1.x < 451)
+    menuimg1.move(30, 'right', 3);
+    
+  }
+  else {
+    soundPlayed1 = false;
+    if (menuimg1.x > 450)
+    menuimg1.move(5, 'left', 3);
+  }
 
+  if (creditsbuttion.mouse.hovering()) {
+    if (!soundPlayed2) {
+        menuselectionsoundefect.play();
+        menuselectionsoundefect.setVolume(0.1);
+        soundPlayed2 = true;
+        }
+    if (menuimg2.x < 451)
+    menuimg2.move(30, 'right', 3);
+  }
+  else {
+    soundPlayed2 = false;
+    if (menuimg2.x > 450)
+    menuimg2.move(5, 'left', 3);
+  }
 
-        if (menuimg1.x < 451)
-            menuimg1.move(30, 'right', 3);
-
-    }
-    else {
-        if (menuimg1.x > 450)
-            menuimg1.move(5, 'left', 3);
-    }
-
-    if (creditsbuttion.mouse.hovering()) {
-
-        if (menuimg2.x < 451)
-            menuimg2.move(30, 'right', 3);
-    }
-    else {
-        if (menuimg2.x > 450)
-            menuimg2.move(5, 'left', 3);
-    }
-
-    if (dificltybuttion.mouse.hovering()) {
-
-        if (menuimg3.x < 451)
-            menuimg3.move(30, 'right', 3);
-    }
-    else {
-        if (menuimg3.x > 450)
-            menuimg3.move(5, 'left', 3);
-    }
+  if (dificltybuttion.mouse.hovering()) {
+    if (!soundPlayed3) {
+        menuselectionsoundefect.play();
+        menuselectionsoundefect.setVolume(0.1);
+        soundPlayed3 = true;
+        }
+    if (menuimg3.x < 451)
+    menuimg3.move(30, 'right', 3);
+  }
+  else {
+    soundPlayed3 = false;
+    if (menuimg3.x > 450)
+    menuimg3.move(5, 'left', 3);
+  }
 
     if (startgamebuttion.mouse.pressed()) {
         currentScreen = 2
@@ -312,7 +334,24 @@ function menuScreen() {
 }
 
 
-
+function playMenuSelectionSound() {
+    // Play the menu selection sound
+    if (!soundPlayed1) {
+   menuselectionsoundefect.play();
+   menuselectionsoundefect.setVolume(0.1);
+   soundPlayed1 = true;
+    }
+    if (!soundPlayed2) {
+        menuselectionsoundefect.play();
+        menuselectionsoundefect.setVolume(0.1);
+        soundPlayed2 = true;
+         }
+         if (!soundPlayed3) {
+            menuselectionsoundefect.play();
+            menuselectionsoundefect.setVolume(0.1);
+            soundPlayed3 = true;
+             }
+  }   
 
 
 
