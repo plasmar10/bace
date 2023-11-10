@@ -14,6 +14,7 @@ let basicShot;
 let ui;
 let constructorimg
 let startgamebuttion
+let loadingscreen
 
 let shotOnce = false;
 let shots = [];
@@ -55,7 +56,7 @@ let resourceStationSpawned = false;
 
 let menuselectionsoundefect
 
-let currentScreen = 2
+let currentScreen = 0
 let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
@@ -324,7 +325,9 @@ if (startgamebuttion.mouse.hovering()) {
   }
 
     if (startgamebuttion.mouse.pressed()) {
-        currentScreen = 2
+    loadingscreen = new Sprite(width/2, height/2,width,height)
+    loadingscreen.img = menuBackground
+    currentScreen = 2
     }
 
 
@@ -332,34 +335,6 @@ if (startgamebuttion.mouse.hovering()) {
 
 
 }
-
-
-function playMenuSelectionSound() {
-    // Play the menu selection sound
-    if (!soundPlayed1) {
-   menuselectionsoundefect.play();
-   menuselectionsoundefect.setVolume(0.1);
-   soundPlayed1 = true;
-    }
-    if (!soundPlayed2) {
-        menuselectionsoundefect.play();
-        menuselectionsoundefect.setVolume(0.1);
-        soundPlayed2 = true;
-         }
-         if (!soundPlayed3) {
-            menuselectionsoundefect.play();
-            menuselectionsoundefect.setVolume(0.1);
-            soundPlayed3 = true;
-             }
-  }   
-
-
-
-
-
-
-
-
 
 
 
