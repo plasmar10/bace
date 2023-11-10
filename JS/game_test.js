@@ -197,9 +197,10 @@ function draw() {
         }
 
 
-
-
     }
+
+
+    
 }
 
 
@@ -293,9 +294,8 @@ if (startgamebuttion.mouse.hovering()) {
     menuimg3.move(5, 'left', 3);
   }
 
-  if (menuimg1.mouse.pressed()) {
-    currentScreen = 2
-    console.log("uifheoisf") // need to fix
+  if (startgamebuttion.mouse.pressed()) {
+   currentScreen = 2
   }
 
 
