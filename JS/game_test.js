@@ -105,13 +105,13 @@ function preload() {
 
     //Monsters//
     SeaMonShadowImage = loadImage("./assets/enemy_sprites/reaper.gif")
-   // SeaMonImage = loadImage ("./assets/enemy_sprites/seamonster.gif")
+    // SeaMonImage = loadImage ("./assets/enemy_sprites/seamonster.gif")
     //Music//
     mainMusic = loadSound("./assets/music/Salutations.mp3")
 
 
-//buildings
-oilRig= loadImage("./assets/buildings/Oil_Rig.webp")
+    //buildings
+    oilRig = loadImage("./assets/buildings/Oil_Rig.webp")
 
 
 
@@ -207,7 +207,7 @@ function draw() {
     }
 
 
-    
+
 }
 
 
@@ -232,10 +232,10 @@ function menuScreen() {
         dificltybuttion.img = menubuttionsblankimg
 
 
-    menuimg1 = new menuebuttionsgroup.Sprite(450, 700, 354, 80, 'n');
-    menuimg2 = new menuebuttionsgroup.Sprite(450, 810, 354, 80, 'n')
-    menuimg3 = new menuebuttionsgroup.Sprite(450, 920, 354, 80, 'n')
-    menuebuttionsgroup.img = menuebuttionsgroupimg
+        menuimg1 = new menuebuttionsgroup.Sprite(450, 700, 354, 80, 'n');
+        menuimg2 = new menuebuttionsgroup.Sprite(450, 810, 354, 80, 'n')
+        menuimg3 = new menuebuttionsgroup.Sprite(450, 920, 354, 80, 'n')
+        menuebuttionsgroup.img = menuebuttionsgroupimg
 
 
 
@@ -243,76 +243,76 @@ function menuScreen() {
         makeMenubuttions = true
     }
 
-noFill();
-stroke(88, 176, 229);
-strokeWeight(7)
-circle(250, 700, 62);
-circle(250, 810, 62);
-circle(250, 920, 62);
-//hovver
-noStroke();
-fill(251, 192, 45)
+    noFill();
+    stroke(88, 176, 229);
+    strokeWeight(7)
+    circle(250, 700, 62);
+    circle(250, 810, 62);
+    circle(250, 920, 62);
+    //hovver
+    noStroke();
+    fill(251, 192, 45)
 
 
 
 
-console.log(menuimg1.x)
-circle(250, 700, ((menuimg1.x-450)*1.54));
-circle(250, 810, ((menuimg2.x-450)*1.54));
-circle(250, 920, ((menuimg3.x-450)*1.54));
-if (menuimg1.x < 450) {
-    menuimg1.x = 450
+    console.log(menuimg1.x)
+    circle(250, 700, ((menuimg1.x - 450) * 1.54));
+    circle(250, 810, ((menuimg2.x - 450) * 1.54));
+    circle(250, 920, ((menuimg3.x - 450) * 1.54));
+    if (menuimg1.x < 450) {
+        menuimg1.x = 450
+    }
+    if (menuimg2.x < 450) {
+        menuimg2.x = 450
+    }
+    if (menuimg3.x < 450) {
+        menuimg3.x = 450
+    }
+    if (startgamebuttion.mouse.hovering()) {
+
+
+        if (menuimg1.x < 451)
+            menuimg1.move(30, 'right', 3);
+
+    }
+    else {
+        if (menuimg1.x > 450)
+            menuimg1.move(5, 'left', 3);
+    }
+
+    if (creditsbuttion.mouse.hovering()) {
+
+        if (menuimg2.x < 451)
+            menuimg2.move(30, 'right', 3);
+    }
+    else {
+        if (menuimg2.x > 450)
+            menuimg2.move(5, 'left', 3);
+    }
+
+    if (dificltybuttion.mouse.hovering()) {
+
+        if (menuimg3.x < 451)
+            menuimg3.move(30, 'right', 3);
+    }
+    else {
+        if (menuimg3.x > 450)
+            menuimg3.move(5, 'left', 3);
+    }
+
+    if (startgamebuttion.mouse.pressed()) {
+        currentScreen = 2
+    }
+
+
+
+
+
 }
-if (menuimg2.x < 450) {
-    menuimg2.x = 450
-}
-if (menuimg3.x < 450) {
-    menuimg3.x = 450
-}
-if (startgamebuttion.mouse.hovering()) {
-    
-   
-    if (menuimg1.x < 451)
-    menuimg1.move(30, 'right', 3);
-    
-  }
-  else {
-    if (menuimg1.x > 450)
-    menuimg1.move(5, 'left', 3);
-  }
-
-  if (creditsbuttion.mouse.hovering()) {
-
-    if (menuimg2.x < 451)
-    menuimg2.move(30, 'right', 3);
-  }
-  else {
-    if (menuimg2.x > 450)
-    menuimg2.move(5, 'left', 3);
-  }
-
-  if (dificltybuttion.mouse.hovering()) {
-
-    if (menuimg3.x < 451)
-    menuimg3.move(30, 'right', 3);
-  }
-  else {
-    if (menuimg3.x > 450)
-    menuimg3.move(5, 'left', 3);
-  }
-
-  if (startgamebuttion.mouse.pressed()) {
-   currentScreen = 2
-  }
 
 
 
-
-
-}
-
-
-    
 
 
 
@@ -961,7 +961,7 @@ function monsterAni() {
         if (MonsterShipDist < 1000) {
             SeaMon.rotation -= 0
             SeaMon.rotateTowards(actualships[i])
-           // SeaMon.img = SeaMonImage
+            // SeaMon.img = SeaMonImage
 
 
         }
@@ -1368,13 +1368,16 @@ async function resourceCollection() {
                     if (d < 200 && kb.presses('p')) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'd'
-                        resourceStation.img= oilRig
+                        resourceStation.img = oilRig
                         resourceStationSpawned = true;
 
                         selectedship.hp = 0;
+                        for (let health of healthBarComponents) {
+                            if (health.componentId === 'bar' && health.idNum === selectedship.idNum) {
+                                health.width = 0;
+                            }
+                        }
                         selectedship.remove();
-
-
                         resourceStations.push(resourceStation)
                     }
 
@@ -1390,10 +1393,15 @@ async function resourceCollection() {
                     if (d < 200 && kb.presses('p')) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
-                        resourceStation.img= oilRig
+                        resourceStation.img = oilRig
                         resourceStationSpawned = true
 
-                        
+                        selectedship.hp = 0;
+                        for (let health of healthBarComponents) {
+                            if (health.componentId === 'bar' && health.idNum === selectedship.idNum) {
+                                health.width = 0;
+                            }
+                        }
                         selectedship.remove()
                         resourceStations.push(resourceStation)
                     }
@@ -1410,8 +1418,15 @@ async function resourceCollection() {
                     if (d < 200 && kb.presses('p')) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
-                        resourceStation.img= oilRig
+                        resourceStation.img = oilRig
                         resourceStationSpawned = true
+
+                        selectedship.hp = 0;
+                        for (let health of healthBarComponents) {
+                            if (health.componentId === 'bar' && health.idNum === selectedship.idNum) {
+                                health.width = 0;
+                            }
+                        }
                         selectedship.remove()
                         resourceStations.push(resourceStation)
                     }
@@ -1485,7 +1500,7 @@ function hpsystem() {
 
 
             for (let i = 0; i < actualships.length; i++) {
-                if (actualships[i].hp <= 0.5) {
+                if (actualships[i].hp < 0.6) {
                     removeShip = true;
                     if (health.componentId === 'bar' && health.idNum === selectedship.idNum) {
                         health.width = 0;
@@ -1501,7 +1516,7 @@ function hpsystem() {
 
         for (let i = 0; i < healthBarComponents.length; i++) {
 
-            if (healthBarComponents[i].width <= 2 && removeShip === true) {
+            if (healthBarComponents[i].width < 2.1 && removeShip === true) {
                 healthBarComponents[i].remove();
                 healthBarComponents[i - 1].remove();
                 healthBarComponents.splice(i - 1, 2)
