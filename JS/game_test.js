@@ -54,7 +54,7 @@ let oceanCreatures = [];
 let resourceStationSpawned = false;
 
 
-let currentScreen = 2
+let currentScreen = 0
 let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
