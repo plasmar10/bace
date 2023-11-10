@@ -14,6 +14,7 @@ let basicShot;
 let ui;
 let constructorimg
 let startgamebuttion
+let loadingscreen
 
 let shotOnce = false;
 let shots = [];
@@ -53,8 +54,9 @@ let oceanCreatures = [];
 
 let resourceStationSpawned = false;
 
+let menuselectionsoundefect
 
-let currentScreen = 2
+let currentScreen = 0
 let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
@@ -73,6 +75,9 @@ let radiationZone;
 let buyScreen;
 let buyConstructor;
 let surfusnaticaVideo
+let soundPlayed1 = false;
+let soundPlayed2 = false;
+let soundPlayed3 = false;
 let buyRC 
 let buyBarracks
 
@@ -87,7 +92,7 @@ let shipYards
 let shipYard;
 function preload() {
     //Background//
-    menuBackground = loadImage("./assets/menuImage.jpg");
+    menuBackground = loadImage("./assets/menuImage.png");
     menubuttionsblankimg = loadImage("./assets/blank_img.png");
     menuebuttionsgroupimg = loadImage("./assets/menue_buttion.png");
     oceanBackground = loadImage("./assets/small_backround_low_rez.jpg");
@@ -113,6 +118,7 @@ function preload() {
     // SeaMonImage = loadImage ("./assets/enemy_sprites/seamonster.gif")
     //Music//
     mainMusic = loadSound("./assets/music/Salutations.mp3")
+    menuselectionsoundefect = loadSound ("./assets/sound_effects/menu selection sound.mp3")
 
 
     //buildings
@@ -218,6 +224,7 @@ function draw() {
 
 
 
+
 }
 
 
@@ -229,6 +236,7 @@ function menuScreen() {
         noStroke();
     } else {
         mainMusic.loop();
+    
         mainMusic.setVolume(0.1);
     }
     if (!makeMenubuttions) {
@@ -246,6 +254,7 @@ function menuScreen() {
         menuimg2 = new menuebuttionsgroup.Sprite(450, 810, 354, 80, 'n')
         menuimg3 = new menuebuttionsgroup.Sprite(450, 920, 354, 80, 'n')
         menuebuttionsgroup.img = menuebuttionsgroupimg
+       
 
 
 
@@ -266,53 +275,71 @@ function menuScreen() {
 
 
 
-    console.log(menuimg1.x)
-    circle(250, 700, ((menuimg1.x - 450) * 1.54));
-    circle(250, 810, ((menuimg2.x - 450) * 1.54));
-    circle(250, 920, ((menuimg3.x - 450) * 1.54));
-    if (menuimg1.x < 450) {
-        menuimg1.x = 450
-    }
-    if (menuimg2.x < 450) {
-        menuimg2.x = 450
-    }
-    if (menuimg3.x < 450) {
-        menuimg3.x = 450
-    }
-    if (startgamebuttion.mouse.hovering()) {
+console.log(menuimg1.x)
+circle(250, 700, ((menuimg1.x-450)*1.54));
+circle(250, 810, ((menuimg2.x-450)*1.54));
+circle(250, 920, ((menuimg3.x-450)*1.54));
+if (menuimg1.x < 450) {
+    menuimg1.x = 450
+}
+if (menuimg2.x < 450) {
+    menuimg2.x = 450
+}
+if (menuimg3.x < 450) {
+    menuimg3.x = 450
+}
+console.log(soundPlayed1)
+if (startgamebuttion.mouse.hovering()) {
+    if (!soundPlayed1) {
+        menuselectionsoundefect.play();
+        menuselectionsoundefect.setVolume(0.1);
+        soundPlayed1 = true;
+        }
+   
+    if (menuimg1.x < 451)
+    menuimg1.move(30, 'right', 3);
+    
+  }
+  else {
+    soundPlayed1 = false;
+    if (menuimg1.x > 450)
+    menuimg1.move(5, 'left', 3);
+  }
 
+  if (creditsbuttion.mouse.hovering()) {
+    if (!soundPlayed2) {
+        menuselectionsoundefect.play();
+        menuselectionsoundefect.setVolume(0.1);
+        soundPlayed2 = true;
+        }
+    if (menuimg2.x < 451)
+    menuimg2.move(30, 'right', 3);
+  }
+  else {
+    soundPlayed2 = false;
+    if (menuimg2.x > 450)
+    menuimg2.move(5, 'left', 3);
+  }
 
-        if (menuimg1.x < 451)
-            menuimg1.move(30, 'right', 3);
-
-    }
-    else {
-        if (menuimg1.x > 450)
-            menuimg1.move(5, 'left', 3);
-    }
-
-    if (creditsbuttion.mouse.hovering()) {
-
-        if (menuimg2.x < 451)
-            menuimg2.move(30, 'right', 3);
-    }
-    else {
-        if (menuimg2.x > 450)
-            menuimg2.move(5, 'left', 3);
-    }
-
-    if (dificltybuttion.mouse.hovering()) {
-
-        if (menuimg3.x < 451)
-            menuimg3.move(30, 'right', 3);
-    }
-    else {
-        if (menuimg3.x > 450)
-            menuimg3.move(5, 'left', 3);
-    }
+  if (dificltybuttion.mouse.hovering()) {
+    if (!soundPlayed3) {
+        menuselectionsoundefect.play();
+        menuselectionsoundefect.setVolume(0.1);
+        soundPlayed3 = true;
+        }
+    if (menuimg3.x < 451)
+    menuimg3.move(30, 'right', 3);
+  }
+  else {
+    soundPlayed3 = false;
+    if (menuimg3.x > 450)
+    menuimg3.move(5, 'left', 3);
+  }
 
     if (startgamebuttion.mouse.pressed()) {
-        currentScreen = 2
+    loadingscreen = new Sprite(width/2, height/2,width,height)
+    loadingscreen.img = menuBackground
+    currentScreen = 2
     }
 
 
@@ -1394,9 +1421,12 @@ async function resourceCollection() {
                         resourceStationSpawned = true;
 
                         selectedship.hp = 0;
+                        for (let health of healthBarComponents) {
+                            if (health.componentId === 'bar' && health.idNum === selectedship.idNum) {
+                                health.width = 0;
+                            }
+                        }
                         selectedship.remove();
-
-
                         resourceStations.push(resourceStation)
                     }
 
@@ -1416,6 +1446,13 @@ async function resourceCollection() {
                         resourceStation.debug = true
                         oilRig.resize(248, 338)
                         resourceStationSpawned = true
+
+                        selectedship.hp = 0;
+                        for (let health of healthBarComponents) {
+                            if (health.componentId === 'bar' && health.idNum === selectedship.idNum) {
+                                health.width = 0;
+                            }
+                        }
                         selectedship.remove()
                         resourceStations.push(resourceStation)
                     }
@@ -1436,6 +1473,13 @@ async function resourceCollection() {
                         oilRig.resize(248, 338)
                         resourceStation.debug = true
                         resourceStationSpawned = true
+
+                        selectedship.hp = 0;
+                        for (let health of healthBarComponents) {
+                            if (health.componentId === 'bar' && health.idNum === selectedship.idNum) {
+                                health.width = 0;
+                            }
+                        }
                         selectedship.remove()
                         resourceStations.push(resourceStation)
                     }
@@ -1515,7 +1559,7 @@ function hpsystem() {
 
 
             for (let i = 0; i < actualships.length; i++) {
-                if (actualships[i].hp <= 0.5) {
+                if (actualships[i].hp < 0.6) {
                     removeShip = true;
                     if (health.componentId === 'bar' && health.idNum === selectedship.idNum) {
                         health.width = 0;
@@ -1531,7 +1575,7 @@ function hpsystem() {
 
         for (let i = 0; i < healthBarComponents.length; i++) {
 
-            if (healthBarComponents[i].width <= 2 && removeShip === true) {
+            if (healthBarComponents[i].width < 2.1 && removeShip === true) {
                 healthBarComponents[i].remove();
                 healthBarComponents[i - 1].remove();
                 healthBarComponents.splice(i - 1, 2)
