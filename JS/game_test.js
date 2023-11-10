@@ -78,7 +78,8 @@ let dificltybuttion, creditsbuttion;
 let makeMenubuttions = false
 let menuimg1, menuimg2, menuimg3
 let menubuttionsblankimg
-
+let SeaMonImage
+let oilRig
 function preload() {
     //Background//
     menuBackground = loadImage("./assets/menuImage.jpg");
@@ -104,9 +105,15 @@ function preload() {
 
     //Monsters//
     SeaMonShadowImage = loadImage("./assets/enemy_sprites/reaper.gif")
-
+   // SeaMonImage = loadImage ("./assets/enemy_sprites/seamonster.gif")
     //Music//
     mainMusic = loadSound("./assets/music/Salutations.mp3")
+
+
+//buildings
+oilRig= loadImage("./assets/buildings/Oil_Rig.webp")
+
+
 
     //Videos//
     introVideo = createVideo("./assets/videos/IntroVideo.mp4")
@@ -197,9 +204,10 @@ function draw() {
         }
 
 
-
-
     }
+
+
+    
 }
 
 
@@ -293,9 +301,8 @@ if (startgamebuttion.mouse.hovering()) {
     menuimg3.move(5, 'left', 3);
   }
 
-  if (menuimg1.mouse.pressed()) {
-    currentScreen = 2
-    console.log("uifheoisf") // need to fix
+  if (startgamebuttion.mouse.pressed()) {
+   currentScreen = 2
   }
 
 
@@ -954,6 +961,7 @@ function monsterAni() {
         if (MonsterShipDist < 1000) {
             SeaMon.rotation -= 0
             SeaMon.rotateTowards(actualships[i])
+           // SeaMon.img = SeaMonImage
 
 
         }
@@ -1360,6 +1368,7 @@ async function resourceCollection() {
                     if (d < 200 && kb.presses('p')) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'd'
+                        resourceStation.img= oilRig
                         resourceStationSpawned = true;
 
                         selectedship.hp = 0;
@@ -1381,6 +1390,7 @@ async function resourceCollection() {
                     if (d < 200 && kb.presses('p')) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
+                        resourceStation.img= oilRig
                         resourceStationSpawned = true
 
                         
@@ -1400,6 +1410,7 @@ async function resourceCollection() {
                     if (d < 200 && kb.presses('p')) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
+                        resourceStation.img= oilRig
                         resourceStationSpawned = true
                         selectedship.remove()
                         resourceStations.push(resourceStation)
