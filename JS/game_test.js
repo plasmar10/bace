@@ -56,7 +56,7 @@ let resourceStationSpawned = false;
 
 let menuselectionsoundefect
 
-let currentScreen = 0
+let currentScreen = 2
 let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
@@ -90,6 +90,12 @@ let oilRig;
 let buyImg;
 let shipYards
 let shipYard;
+let buyFigther 
+let buyScout
+let buyDestroyer 
+
+
+
 function preload() {
     //Background//
     menuBackground = loadImage("./assets/menuImage.png");
