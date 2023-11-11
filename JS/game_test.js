@@ -1410,6 +1410,8 @@ function GUIE() {
         rocket = new Sprite(mothership.x,mothership.y)
         rocket.collider = 'n'
         rocket.img = rocketImg
+        
+        
     }
 
 
@@ -1932,7 +1934,11 @@ function Zones() {
 }
 
 function blastOff() {
-
+    
+    if(rocket){
+        rocket.vel.y -=100
+        console.log(rocket.y)
+    }
 
 
 }
@@ -1940,9 +1946,6 @@ function blastOff() {
 
 
 function enimys() {
-
-
-
 }
 
 
