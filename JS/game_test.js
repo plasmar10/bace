@@ -55,7 +55,7 @@ let resourceStationSpawned = false;
 
 let menuselectionsoundefect
 
-let currentScreen = 0
+let currentScreen = 2
 let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
@@ -73,17 +73,20 @@ let lavaZone;
 let radiationZone;
 let buyScreen;
 let buyConstructor;
-let surfusnaticaVideo
+let surfaceNauticaVideo;
 let soundPlayed1 = false;
 let soundPlayed2 = false;
 let soundPlayed3 = false;
 
-let dificltybuttion, creditsbuttion;
-let makeMenubuttions = false
+let difficultyButton, creditsButton;
+let makeMenuButtons = false
 let menuimg1, menuimg2, menuimg3
 let menubuttionsblankimg
 let SeaMonImage
-let oilRig
+let oilRigImage
+
+
+
 function preload() {
     //Background//
     menuBackground = loadImage("./assets/menuImage.jpg");
@@ -112,11 +115,11 @@ function preload() {
     // SeaMonImage = loadImage ("./assets/enemy_sprites/seamonster.gif")
     //Music//
     mainMusic = loadSound("./assets/music/Salutations.mp3")
-    menuselectionsoundefect = loadSound ("./assets/sound_effects/menu selection sound.mp3")
+    menuselectionsoundefect = loadSound("./assets/sound_effects/menu selection sound.mp3")
 
 
     //buildings
-    oilRig = loadImage("./assets/buildings/Oil_Rig.webp")
+    oilRigImage = loadImage("./assets/buildings/Oil_Rig.webp")
 
 
 
@@ -127,8 +130,8 @@ function preload() {
     easterEggVideo.hide();
     introVideo.volume(0.1);
     easterEggVideo.volume(0.5);
-    surfusnaticaVideo = createVideo("./assets/videos/surfusnatica_1.mp4", videoLoaded);
-    surfusnaticaVideo.hide();
+    surfaceNauticaVideo = createVideo("./assets/videos/surfusnatica_1.mp4", videoLoaded);
+    surfaceNauticaVideo.hide();
 
 
 }
@@ -140,7 +143,7 @@ function setup() {
 }
 
 function videoLoaded() {
-    surfusnaticaVideo.loop();
+    surfaceNauticaVideo.loop();
 }
 
 function draw() {
@@ -218,7 +221,7 @@ function draw() {
 
 function menuScreen() {
     background(0);
-    image(surfusnaticaVideo, 0, 0, 1920, 1076);
+    image(surfaceNauticaVideo, 0, 0, 1920, 1076);
     // Display your video or any other content for the menu screen here
     if (mainMusic.isPlaying()) {
         noStroke();
@@ -227,15 +230,15 @@ function menuScreen() {
         mainMusic.setVolume(0.0);
         //mainMusic.setVolume(0.1);
     }
-    if (!makeMenubuttions) {
+    if (!makeMenuButtons) {
         menuebuttionsgroup = new Group()
         menuebuttionsgroupimg.resize(354, 80);
         startgamebuttion = new Sprite(420, 700, 414, 80, 's');
         startgamebuttion.img = menubuttionsblankimg
-        creditsbuttion = new Sprite(420, 810, 414, 80, 's')
-        creditsbuttion.img = menubuttionsblankimg
-        dificltybuttion = new Sprite(420, 920, 414, 80, 's')
-        dificltybuttion.img = menubuttionsblankimg
+        creditsButton = new Sprite(420, 810, 414, 80, 's')
+        creditsButton.img = menubuttionsblankimg
+        difficultyButton = new Sprite(420, 920, 414, 80, 's')
+        difficultyButton.img = menubuttionsblankimg
 
 
         menuimg1 = new menuebuttionsgroup.Sprite(450, 700, 354, 80, 'n');
@@ -246,7 +249,7 @@ function menuScreen() {
 
 
 
-        makeMenubuttions = true
+        makeMenuButtons = true
     }
 
     noFill();
@@ -262,66 +265,66 @@ function menuScreen() {
 
 
 
-console.log(menuimg1.x)
-circle(250, 700, ((menuimg1.x-450)*1.54));
-circle(250, 810, ((menuimg2.x-450)*1.54));
-circle(250, 920, ((menuimg3.x-450)*1.54));
-if (menuimg1.x < 450) {
-    menuimg1.x = 450
-}
-if (menuimg2.x < 450) {
-    menuimg2.x = 450
-}
-if (menuimg3.x < 450) {
-    menuimg3.x = 450
-}
-console.log(soundPlayed1)
-if (startgamebuttion.mouse.hovering()) {
-    if (!soundPlayed1) {
-        menuselectionsoundefect.play();
-        menuselectionsoundefect.setVolume(0.1);
-        soundPlayed1 = true;
+    console.log(menuimg1.x)
+    circle(250, 700, ((menuimg1.x - 450) * 1.54));
+    circle(250, 810, ((menuimg2.x - 450) * 1.54));
+    circle(250, 920, ((menuimg3.x - 450) * 1.54));
+    if (menuimg1.x < 450) {
+        menuimg1.x = 450
+    }
+    if (menuimg2.x < 450) {
+        menuimg2.x = 450
+    }
+    if (menuimg3.x < 450) {
+        menuimg3.x = 450
+    }
+    console.log(soundPlayed1)
+    if (startgamebuttion.mouse.hovering()) {
+        if (!soundPlayed1) {
+            menuselectionsoundefect.play();
+            menuselectionsoundefect.setVolume(0.1);
+            soundPlayed1 = true;
         }
-   
-    if (menuimg1.x < 451)
-    menuimg1.move(30, 'right', 3);
-    
-  }
-  else {
-    soundPlayed1 = false;
-    if (menuimg1.x > 450)
-    menuimg1.move(5, 'left', 3);
-  }
 
-  if (creditsbuttion.mouse.hovering()) {
-    if (!soundPlayed2) {
-        menuselectionsoundefect.play();
-        menuselectionsoundefect.setVolume(0.1);
-        soundPlayed2 = true;
-        }
-    if (menuimg2.x < 451)
-    menuimg2.move(30, 'right', 3);
-  }
-  else {
-    soundPlayed2 = false;
-    if (menuimg2.x > 450)
-    menuimg2.move(5, 'left', 3);
-  }
+        if (menuimg1.x < 451)
+            menuimg1.move(30, 'right', 3);
 
-  if (dificltybuttion.mouse.hovering()) {
-    if (!soundPlayed3) {
-        menuselectionsoundefect.play();
-        menuselectionsoundefect.setVolume(0.1);
-        soundPlayed3 = true;
+    }
+    else {
+        soundPlayed1 = false;
+        if (menuimg1.x > 450)
+            menuimg1.move(5, 'left', 3);
+    }
+
+    if (creditsButton.mouse.hovering()) {
+        if (!soundPlayed2) {
+            menuselectionsoundefect.play();
+            menuselectionsoundefect.setVolume(0.1);
+            soundPlayed2 = true;
         }
-    if (menuimg3.x < 451)
-    menuimg3.move(30, 'right', 3);
-  }
-  else {
-    soundPlayed3 = false;
-    if (menuimg3.x > 450)
-    menuimg3.move(5, 'left', 3);
-  }
+        if (menuimg2.x < 451)
+            menuimg2.move(30, 'right', 3);
+    }
+    else {
+        soundPlayed2 = false;
+        if (menuimg2.x > 450)
+            menuimg2.move(5, 'left', 3);
+    }
+
+    if (difficultyButton.mouse.hovering()) {
+        if (!soundPlayed3) {
+            menuselectionsoundefect.play();
+            menuselectionsoundefect.setVolume(0.1);
+            soundPlayed3 = true;
+        }
+        if (menuimg3.x < 451)
+            menuimg3.move(30, 'right', 3);
+    }
+    else {
+        soundPlayed3 = false;
+        if (menuimg3.x > 450)
+            menuimg3.move(5, 'left', 3);
+    }
 
     if (startgamebuttion.mouse.pressed()) {
         currentScreen = 2
@@ -337,21 +340,21 @@ if (startgamebuttion.mouse.hovering()) {
 function playMenuSelectionSound() {
     // Play the menu selection sound
     if (!soundPlayed1) {
-   menuselectionsoundefect.play();
-   menuselectionsoundefect.setVolume(0.1);
-   soundPlayed1 = true;
+        menuselectionsoundefect.play();
+        menuselectionsoundefect.setVolume(0.1);
+        soundPlayed1 = true;
     }
     if (!soundPlayed2) {
         menuselectionsoundefect.play();
         menuselectionsoundefect.setVolume(0.1);
         soundPlayed2 = true;
-         }
-         if (!soundPlayed3) {
-            menuselectionsoundefect.play();
-            menuselectionsoundefect.setVolume(0.1);
-            soundPlayed3 = true;
-             }
-  }   
+    }
+    if (!soundPlayed3) {
+        menuselectionsoundefect.play();
+        menuselectionsoundefect.setVolume(0.1);
+        soundPlayed3 = true;
+    }
+}
 
 
 
@@ -1407,7 +1410,7 @@ async function resourceCollection() {
                     if (d < 200 && kb.presses('p')) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'd'
-                        resourceStation.img = oilRig
+                        resourceStation.img = oilRigImage
                         resourceStationSpawned = true;
 
                         selectedship.hp = 0;
@@ -1432,7 +1435,7 @@ async function resourceCollection() {
                     if (d < 200 && kb.presses('p')) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
-                        resourceStation.img = oilRig
+                        resourceStation.img = oilRigImage
                         resourceStationSpawned = true
 
                         selectedship.hp = 0;
@@ -1457,7 +1460,7 @@ async function resourceCollection() {
                     if (d < 200 && kb.presses('p')) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
-                        resourceStation.img = oilRig
+                        resourceStation.img = oilRigImage
                         resourceStationSpawned = true
 
                         selectedship.hp = 0;
