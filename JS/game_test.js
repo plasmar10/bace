@@ -8,8 +8,8 @@ let ships, scoutShipsClass, resourceStation;
 let scoutShipImage;
 let scrapMetalImage, oilImage, crystalImage, resourcesBackgroundImage, metalImage, damagedScoutShipimg;
 let cannonImage, destroyerimg, fighterShipimg, damagedFighterShipimg, damagedCannonImage, damagedDestroyerShipimg;
-let SeaMon;
-let SeaMonShadowImage;
+let SeaMon, lavaKraken, radiationSquid;
+let SeaMonShadowImage, lavaKrakenImage;
 let basicShot;
 let ui;
 let constructorimg
@@ -135,6 +135,10 @@ function preload() {
     //Monsters//
     SeaMonShadowImage = loadImage("./assets/enemy_sprites/reaper.gif")
     // SeaMonImage = loadImage ("./assets/enemy_sprites/seamonster.gif")
+
+    lavaKrakenImage = loadImage("./assets/enemy_sprites/LavaKraken.gif")
+
+
     //Music//
     mainMusic = loadSound("./assets/music/Salutations.mp3")
     menuselectionsoundefect = loadSound("./assets/sound_effects/menu selection sound.mp3")
@@ -602,7 +606,7 @@ function makeships() {
     fighterShipsClass = new ships.Group();
     destroyerShipsClass = new ships.Group();
     constructorShipsClass = new ships.Group();
-    
+
 
 }
 
@@ -1005,6 +1009,15 @@ function enemies() {
     SeaMon.debug = true;
     oceanCreatures.push(SeaMon)
 
+    lavaKraken = new Sprite(-500, 500, 355, 150)
+    lavaKraken.offset.x = -145;
+    lavaKraken.img = lavaKrakenImage
+    lavaKraken.maxHP = 10000;
+    lavaKraken.hp = 10000;
+    lavaKraken.idNum = 0;
+    lavaKraken.debug = true;
+    oceanCreatures.push(lavaKraken)
+
 
     let monsterHealthBarBackground = new Sprite(-1000, 100, 300, 15, 'none');
     monsterHealthBarBackground.componentId = 'background';
@@ -1235,9 +1248,9 @@ function GUIE() {
             buyConstructor.x = 9000
             buyBarracks.x = 9000
             buyRC.x = 9000
-            buyScout.x=9000
-            buyFigther.x=9000
-            buyDestroyer.x=9000
+            buyScout.x = 9000
+            buyFigther.x = 9000
+            buyDestroyer.x = 9000
 
         }
     }
@@ -1252,23 +1265,23 @@ function GUIE() {
 
     }
 
-    if(shipYard){
-        if(shipYard.mouse.pressed()){
+    if (shipYard) {
+        if (shipYard.mouse.pressed()) {
             buyScreen.x = 1750
-            buyScout.x=1700
-            buyFigther.x=1700
-            buyDestroyer.x=1700
+            buyScout.x = 1700
+            buyFigther.x = 1700
+            buyDestroyer.x = 1700
         }
-    
+
     }
-    if(buyScout.mouse.presses()){
-     makeship('scout', 1500,750)
+    if (buyScout.mouse.presses()) {
+        makeship('scout', 1500, 750)
     }
-    if(buyFigther.mouse.presses()){
-        makeship('fighter', 1500,750)
+    if (buyFigther.mouse.presses()) {
+        makeship('fighter', 1500, 750)
     }
-    if(buyDestroyer.mouse.presses()){
-        makeship('destroyer', 1500,750)
+    if (buyDestroyer.mouse.presses()) {
+        makeship('destroyer', 1500, 750)
     }
 
 
@@ -1681,7 +1694,7 @@ function hpsystem() {
 
                     if (selectedship.shipclass === 'destroyer') {
                         selectedship.img = damagedDestroyerShipimg
-                        
+
 
                     }
 
