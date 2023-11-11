@@ -6,8 +6,8 @@ let scrollNumber = 0
 let scrollZoomLevel = 0.25
 let ships, scoutShipsClass, resourceStation;
 let scoutShipImage;
-let scrapMetalImage, oilImage, crystalImage, resourcesBackgroundImage, metalImage;
-let cannonImage, destroyerimg, fighterShipimg, damagedFighterShipimg, damagedCannonImage;
+let scrapMetalImage, oilImage, crystalImage, resourcesBackgroundImage, metalImage, damagedScoutShipimg;
+let cannonImage, destroyerimg, fighterShipimg, damagedFighterShipimg, damagedCannonImage, damagedDestroyerShipimg;
 let SeaMon;
 let SeaMonShadowImage;
 let basicShot;
@@ -95,7 +95,6 @@ let buyScout
 let buyDestroyer
 let menuestiffgroup
 let gameHasLoaded = false;
-
 let scrapMetalCounterImage
 let oilCounterImage
 let crystalCounterImage
@@ -118,11 +117,18 @@ function preload() {
 
     //Ships//
     mothershipImage = loadImage("./assets/Mothership.gif");
+
     scoutShipImage = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png");
+    damagedScoutShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_small_body_destroyed.png");
+
     fighterShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_medium_body.png");
     damagedFighterShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_medium_body_destroyed.png");
+
     destroyerimg = loadImage("./assets/ship_sptites/shipz/images/ship_large_body.png");
+    damagedDestroyerShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_large_body_destroyed.png");
+
     constructorimg = loadImage("./assets/ship_sptites/shipz/images/constructer_ship.png");
+
     cannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun.png");
     damagedCannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun_destroyed.png");
 
@@ -254,17 +260,17 @@ function menuScreen() {
     } else {
         mainMusic.loop();
 
-            mainMusic.setVolume(0.1);
-        }
-        if (!makeMenuButtons) {
-            menuebuttionsgroup = new menuestiffgroup.Group()
-            menuebuttionsgroupimg.resize(354, 80);
-            startgamebuttion = new menuestiffgroup.Sprite(420, 700, 414, 80, 's');
-            startgamebuttion.img = menubuttionsblankimg
-            creditsButton = new menuestiffgroup.Sprite(420, 810, 414, 80, 's')
-            creditsButton.img = menubuttionsblankimg
-            difficultyButton = new menuestiffgroup.Sprite(420, 920, 414, 80, 's')
-            difficultyButton.img = menubuttionsblankimg
+        mainMusic.setVolume(0.1);
+    }
+    if (!makeMenuButtons) {
+        menuebuttionsgroup = new menuestiffgroup.Group()
+        menuebuttionsgroupimg.resize(354, 80);
+        startgamebuttion = new menuestiffgroup.Sprite(420, 700, 414, 80, 's');
+        startgamebuttion.img = menubuttionsblankimg
+        creditsButton = new menuestiffgroup.Sprite(420, 810, 414, 80, 's')
+        creditsButton.img = menubuttionsblankimg
+        difficultyButton = new menuestiffgroup.Sprite(420, 920, 414, 80, 's')
+        difficultyButton.img = menubuttionsblankimg
 
 
         menuimg1 = new menuebuttionsgroup.Sprite(450, 700, 354, 80, 'n');
@@ -276,62 +282,62 @@ function menuScreen() {
         makeMenuButtons = true
     }
 
-        noFill();
-        stroke(88, 176, 229);
-        strokeWeight(7)
-        circle(250, 700, 62);
-        circle(250, 810, 62);
-        circle(250, 920, 62);
-        //hovver
-        noStroke();
-        strokeWeight(0)
-        fill(251, 192, 45)
+    noFill();
+    stroke(88, 176, 229);
+    strokeWeight(7)
+    circle(250, 700, 62);
+    circle(250, 810, 62);
+    circle(250, 920, 62);
+    //hovver
+    noStroke();
+    strokeWeight(0)
+    fill(251, 192, 45)
 
 
 
 
-        console.log(menuimg1.x)
-        circle(250, 700, ((menuimg1.x - 450) * 1.54));
-        circle(250, 810, ((menuimg2.x - 450) * 1.54));
-        circle(250, 920, ((menuimg3.x - 450) * 1.54));
-        if (menuimg1.x < 450) {
-            menuimg1.x = 450
+    console.log(menuimg1.x)
+    circle(250, 700, ((menuimg1.x - 450) * 1.54));
+    circle(250, 810, ((menuimg2.x - 450) * 1.54));
+    circle(250, 920, ((menuimg3.x - 450) * 1.54));
+    if (menuimg1.x < 450) {
+        menuimg1.x = 450
+    }
+    if (menuimg2.x < 450) {
+        menuimg2.x = 450
+    }
+    if (menuimg3.x < 450) {
+        menuimg3.x = 450
+    }
+    console.log(soundPlayed1)
+    if (startgamebuttion.mouse.hovering()) {
+        if (!soundPlayed1) {
+            menuselectionsoundefect.play();
+            menuselectionsoundefect.setVolume(0.1);
+            soundPlayed1 = true;
         }
-        if (menuimg2.x < 450) {
-            menuimg2.x = 450
+        if (menuimg1.x < 451)
+            menuimg1.move(30, 'right', 3);
+    }
+    else {
+        soundPlayed1 = false;
+        if (menuimg1.x > 450)
+            menuimg1.move(5, 'left', 3);
+    }
+    if (creditsButton.mouse.hovering()) {
+        if (!soundPlayed2) {
+            menuselectionsoundefect.play();
+            menuselectionsoundefect.setVolume(0.1);
+            soundPlayed2 = true;
         }
-        if (menuimg3.x < 450) {
-            menuimg3.x = 450
-        }
-        console.log(soundPlayed1)
-        if (startgamebuttion.mouse.hovering()) {
-            if (!soundPlayed1) {
-                menuselectionsoundefect.play();
-                menuselectionsoundefect.setVolume(0.1);
-                soundPlayed1 = true;
-            }
-            if (menuimg1.x < 451)
-                menuimg1.move(30, 'right', 3);
-        }
-        else {
-            soundPlayed1 = false;
-            if (menuimg1.x > 450)
-                menuimg1.move(5, 'left', 3);
-        }
-        if (creditsButton.mouse.hovering()) {
-            if (!soundPlayed2) {
-                menuselectionsoundefect.play();
-                menuselectionsoundefect.setVolume(0.1);
-                soundPlayed2 = true;
-            }
-            if (menuimg2.x < 451)
-                menuimg2.move(30, 'right', 3);
-        }
-        else {
-            soundPlayed2 = false;
-            if (menuimg2.x > 450)
-                menuimg2.move(5, 'left', 3);
-        }
+        if (menuimg2.x < 451)
+            menuimg2.move(30, 'right', 3);
+    }
+    else {
+        soundPlayed2 = false;
+        if (menuimg2.x > 450)
+            menuimg2.move(5, 'left', 3);
+    }
 
     if (difficultyButton.mouse.hovering()) {
         if (!soundPlayed3) {
@@ -348,14 +354,14 @@ function menuScreen() {
             menuimg3.move(5, 'left', 3);
     }
 
-        if (startgamebuttion.mouse.pressed()) {
-            loadingscreen = new menuestiffgroup.Sprite(width / 2, height / 2, width, height)
-            loadingscreen.img = menuBackground
-            currentScreen = 2
-            menuestiffgroup.remove()
+    if (startgamebuttion.mouse.pressed()) {
+        loadingscreen = new menuestiffgroup.Sprite(width / 2, height / 2, width, height)
+        loadingscreen.img = menuBackground
+        currentScreen = 2
+        menuestiffgroup.remove()
 
 
-        }
+    }
 
 
 
@@ -596,11 +602,7 @@ function makeships() {
     fighterShipsClass = new ships.Group();
     destroyerShipsClass = new ships.Group();
     constructorShipsClass = new ships.Group();
-    makeship("scout", 200, 400)
-    makeship("fighter", 500, 700)
-    makeship("fighter", 0, 800)
-    makeship("destroyer", 800, 1000)
-  
+    
 
 }
 
@@ -1201,6 +1203,21 @@ function GUIE() {
         buyBarracks.text = 'Barracks'
         buyBarracks.textSize = 30
         buyBarracks.collider = 's'
+        buyScout = new ui.Sprite(9000, 65, 200, 60)
+        buyScout.colour = 'white'
+        buyScout.text = 'Scout'
+        buyScout.textSize = 30
+        buyScout.collider = 's'
+        buyFigther = new ui.Sprite(9000, 205, 200, 60)
+        buyFigther.colour = 'white'
+        buyFigther.text = 'Fighter'
+        buyFigther.textSize = 30
+        buyFigther.collider = 's'
+        buyDestroyer = new ui.Sprite(9000, 365, 200, 60)
+        buyDestroyer.colour = 'white'
+        buyDestroyer.text = 'Destroyer'
+        buyDestroyer.textSize = 30
+        buyDestroyer.collider = 's'
 
 
         createMenu = false
@@ -1218,6 +1235,9 @@ function GUIE() {
             buyConstructor.x = 9000
             buyBarracks.x = 9000
             buyRC.x = 9000
+            buyScout.x=9000
+            buyFigther.x=9000
+            buyDestroyer.x=9000
 
         }
     }
@@ -1232,6 +1252,25 @@ function GUIE() {
 
     }
 
+    if(shipYard){
+        if(shipYard.mouse.pressed()){
+            buyScreen.x = 1750
+            buyScout.x=1700
+            buyFigther.x=1700
+            buyDestroyer.x=1700
+        }
+    
+    }
+    if(buyScout.mouse.presses()){
+     makeship('scout', 1500,750)
+    }
+    if(buyFigther.mouse.presses()){
+        makeship('fighter', 1500,750)
+    }
+    if(buyDestroyer.mouse.presses()){
+        makeship('destroyer', 1500,750)
+    }
+
 
     ui.draw();
 }
@@ -1240,10 +1279,10 @@ function GUIE() {
 
 function gameInterface() {
     ui = new Group();
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < 1; i++) {
         new ui.Sprite(100 + i * 60, 1000, 50, 50, 'n');
     }
-    resourceBackground = new ui.Sprite(-70, 200, 100, 400, 'n');
+    resourceBackground = new ui.Sprite(-100, 200, 100, 400, 'n');
     resourceBackground.img = buyImg;
 
     //ScrapMetal//
@@ -1574,7 +1613,7 @@ async function resourceCollection() {
             }
 
             if (selectedship.clicked) {
-                if (buyBarracks.mouse.hovering()) {
+                if (buyBarracks.mouse.presses()) {
                     console.log(selectedship)
                     shipYard = new Sprite(selectedship.x, selectedship.y, 50, 50)
                     shipYard.collider = 's'
@@ -1622,7 +1661,14 @@ function hpsystem() {
                 if (selectedship.maxHP / 4 > selectedship.hp && health.idNum === selectedship.idNum) {
                     health.color = 'red';
 
-
+                    if (selectedship.shipclass === 'scout') {
+                        selectedship.img = damagedScoutShipimg
+                        for (let cannon of smallCan) {
+                            if (cannon.idNum === selectedship.idNum) {
+                                cannon.img = damagedCannonImage
+                            }
+                        }
+                    }
 
                     if (selectedship.shipclass === 'fighter') {
                         selectedship.img = damagedFighterShipimg
@@ -1632,6 +1678,14 @@ function hpsystem() {
                             }
                         }
                     }
+
+                    if (selectedship.shipclass === 'destroyer') {
+                        selectedship.img = damagedDestroyerShipimg
+                        
+
+                    }
+
+
 
 
 
