@@ -607,6 +607,8 @@ function makeships() {
     destroyerShipsClass = new ships.Group();
     constructorShipsClass = new ships.Group();
 
+    makeship('scout', 500, 500)
+
 
 }
 
@@ -1009,12 +1011,11 @@ function enemies() {
     SeaMon.debug = true;
     oceanCreatures.push(SeaMon)
 
-    lavaKraken = new Sprite(-500, 500, 355, 150)
-    lavaKraken.offset.x = -145;
+    lavaKraken = new Sprite(-500, 500, 720, 550, 'k')
     lavaKraken.img = lavaKrakenImage
     lavaKraken.maxHP = 10000;
     lavaKraken.hp = 10000;
-    lavaKraken.idNum = 0;
+    lavaKraken.idNum = 1;
     lavaKraken.debug = true;
     oceanCreatures.push(lavaKraken)
 
@@ -1051,7 +1052,7 @@ function monsterAni() {
 
         }
         else {
-            SeaMon.rotation -= 0.2;
+            SeaMon.rotation -= 0.5;
         }
 
 
