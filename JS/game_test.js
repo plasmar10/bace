@@ -56,7 +56,7 @@ let resourceStationSpawned = false;
 
 let menuselectionsoundefect
 
-let currentScreen = 2
+let currentScreen = 0
 let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
@@ -144,7 +144,7 @@ function preload() {
     easterEggVideo.hide();
     introVideo.volume(0.1);
     easterEggVideo.volume(0.5);
-    surfaceNauticaVideo = createVideo("./assets/videos/surfusnatica_1.mp4", videoLoaded);
+    surfaceNauticaVideo = createVideo("./assets/videos/surfusnatica_1.mp4");
     surfaceNauticaVideo.hide();
 
 
@@ -156,10 +156,6 @@ function setup() {
 
 }
 
-function videoLoaded() {
-    surfaceNauticaVideo.loop();
-}
-
 function draw() {
 
     if (currentScreen === 0) { //Start Screen
@@ -167,6 +163,7 @@ function draw() {
     }
     else if (currentScreen === 1) { //Menu Screen
         menuScreen()
+        
 
     }
     else if (currentScreen === 2) { //Game
@@ -235,6 +232,7 @@ function draw() {
 
 function menuScreen() {
     background(0);
+    surfaceNauticaVideo.loop();
     image(surfaceNauticaVideo, 0, 0, 1920, 1076);
     // Display your video or any other content for the menu screen here
     if (mainMusic.isPlaying()) {
@@ -263,7 +261,7 @@ function menuScreen() {
 
 
 
-        makeMenubuttions = true
+        makeMenuButtons = true
     }
 
     noFill();
