@@ -95,7 +95,6 @@ let buyScout
 let buyDestroyer
 let menuestiffgroup
 let gameHasLoaded = false;
-
 let scrapMetalCounterImage
 let oilCounterImage
 let crystalCounterImage
@@ -603,11 +602,7 @@ function makeships() {
     fighterShipsClass = new ships.Group();
     destroyerShipsClass = new ships.Group();
     constructorShipsClass = new ships.Group();
-    makeship("scout", 200, 400)
-    makeship("fighter", 500, 700)
-    makeship("fighter", 0, 800)
-    makeship("destroyer", 800, 1000)
-    makeship('constructor', 1500, 700)
+    
 
 }
 
@@ -1208,6 +1203,21 @@ function GUIE() {
         buyBarracks.text = 'Barracks'
         buyBarracks.textSize = 30
         buyBarracks.collider = 's'
+        buyScout = new ui.Sprite(9000, 65, 200, 60)
+        buyScout.colour = 'white'
+        buyScout.text = 'Scout'
+        buyScout.textSize = 30
+        buyScout.collider = 's'
+        buyFigther = new ui.Sprite(9000, 205, 200, 60)
+        buyFigther.colour = 'white'
+        buyFigther.text = 'Fighter'
+        buyFigther.textSize = 30
+        buyFigther.collider = 's'
+        buyDestroyer = new ui.Sprite(9000, 365, 200, 60)
+        buyDestroyer.colour = 'white'
+        buyDestroyer.text = 'Destroyer'
+        buyDestroyer.textSize = 30
+        buyDestroyer.collider = 's'
 
 
         createMenu = false
@@ -1225,6 +1235,9 @@ function GUIE() {
             buyConstructor.x = 9000
             buyBarracks.x = 9000
             buyRC.x = 9000
+            buyScout.x=9000
+            buyFigther.x=9000
+            buyDestroyer.x=9000
 
         }
     }
@@ -1239,6 +1252,25 @@ function GUIE() {
 
     }
 
+    if(shipYard){
+        if(shipYard.mouse.pressed()){
+            buyScreen.x = 1750
+            buyScout.x=1700
+            buyFigther.x=1700
+            buyDestroyer.x=1700
+        }
+    
+    }
+    if(buyScout.mouse.presses()){
+     makeship('scout', 1500,750)
+    }
+    if(buyFigther.mouse.presses()){
+        makeship('fighter', 1500,750)
+    }
+    if(buyDestroyer.mouse.presses()){
+        makeship('destroyer', 1500,750)
+    }
+
 
     ui.draw();
 }
@@ -1247,7 +1279,7 @@ function GUIE() {
 
 function gameInterface() {
     ui = new Group();
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < 1; i++) {
         new ui.Sprite(100 + i * 60, 1000, 50, 50, 'n');
     }
     resourceBackground = new ui.Sprite(-100, 200, 100, 400, 'n');
@@ -1581,7 +1613,7 @@ async function resourceCollection() {
             }
 
             if (selectedship.clicked) {
-                if (buyBarracks.mouse.hovering()) {
+                if (buyBarracks.mouse.presses()) {
                     console.log(selectedship)
                     shipYard = new Sprite(selectedship.x, selectedship.y, 50, 50)
                     shipYard.collider = 's'
