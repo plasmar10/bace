@@ -95,10 +95,17 @@ let buyScout
 let buyDestroyer
 let menuestiffgroup
 let gameHasLoaded = false;
-let scrapMetalCounterImage
-let oilCounterImage
-let crystalCounterImage
+let scrapMetalCounterImage;
+let oilCounterImage;
+let crystalCounterImage;
 let barrackImg;
+let buyRad;
+let buyLava;
+let lavaUp = false
+let radUp = false
+let launch 
+let rocket 
+let rocketImg
 
 function preload() {
     //Background//
@@ -148,6 +155,7 @@ function preload() {
     //buildings
     oilRig = loadImage("./assets/backround_removed_oilrig.png")
     barrackImg = loadImage("./assets/barracks.webp")
+    rocketImg = loadImage("./assets/rocket.png")
 
     //
     buyImg = loadImage("./assets/buyScreen.png")
@@ -222,7 +230,7 @@ function draw() {
         selection_system();
         resourceCollection();
         resourceCollected();
-        Barracks();
+        blastOff();
         enimys()
 
 
@@ -1337,6 +1345,21 @@ function GUIE() {
         buyDestroyer.text = 'Destroyer'
         buyDestroyer.textSize = 30
         buyDestroyer.collider = 's'
+        buyRad = new ui.Sprite(9000, 65, 200, 60)
+        buyRad.colour = 'white'
+        buyRad.text = 'Rad Up'
+        buyRad.textSize = 30
+        buyRad.collider = 's'
+        buyLava = new ui.Sprite(9000, 205, 200, 60)
+        buyLava.colour = 'white'
+        buyLava.text = 'Lava Up'
+        buyLava.textSize = 30
+        buyLava.collider = 's'
+        launch = new ui.Sprite(9000, 205, 200, 60)
+        launch.colour = 'white'
+        launch.text = 'Rocket'
+        launch.textSize = 30
+        launch.collider = 's'
 
 
         createMenu = false
@@ -1346,6 +1369,7 @@ function GUIE() {
     if (mothershipBase.mouse.pressed()) {
         buyScreen.x = 1750
         buyConstructor.x = 1750
+        launch.x = 1750
 
     }
     if (mouse.pressed()) {
@@ -1357,7 +1381,9 @@ function GUIE() {
             buyScout.x = 9000
             buyFigther.x = 9000
             buyDestroyer.x = 9000
-
+            buyRad.x = 9000
+            buyLava.x =9000
+            launch.x = 9000
         }
     }
     if (buyConstructor.mouse.pressed() && scrapMetalCounter.text > 99 && oilCounter.text > 49 && crystalCounter.text > 49) {
@@ -1372,6 +1398,20 @@ function GUIE() {
         buyBarracks.x = 1700
         buyRC.x = 1700
 
+    }
+    if(fighterShipsClass.mouse.pressed()|| scoutShipsClass.mouse.pressed()|| destroyerShipsClass.mouse.pressed()){
+        buyScreen.x = 1750
+        buyRad.x = 1700
+        buyLava.x = 1700
+    }
+    if(buyRad.mouse.presses() && crystalCounter.text > 299){
+        radUp = true
+        crystalCounter.text -= 300
+
+    }
+    if(buyLava.mouse.presses()&& scrapMetalCounter.text> 299){
+        lavaUp = true 
+        scrapMetalCounter.text -= 300
     }
 
     if (shipYard) {
@@ -1399,6 +1439,13 @@ function GUIE() {
         oilCounter.text -= 100
         crystalCounter.text -= 25
 
+    }
+    if(launch.mouse.pressed()){
+        rocket = new Sprite(mothership.x,mothership.y)
+        rocket.collider = 'n'
+        rocket.img = rocketImg
+        
+        
     }
 
 
@@ -1878,12 +1925,12 @@ function hpsystem() {
             selectedship.hp = 0;
         }
 
-        if (selectedship.overlapping(radiationZone)) {
+        if (selectedship.overlapping(radiationZone) && radUp === false) {
             selectedship.hp -= 0.5;
             console.log(selectedship.hp)
         }
-        if (selectedship.overlapping(lavaZone) || selectedship.overlapping(lavaZone2)) {
-            selectedship.hp -= 0.25;
+        if (selectedship.overlapping(lavaZone) || selectedship.overlapping(lavaZone2) && lavaUp === false) {
+            selectedship.hp -= 0.5;
             console.log(selectedship.hp)
         }
 
@@ -1923,8 +1970,12 @@ function Zones() {
 
 }
 
-function Barracks() {
-
+function blastOff() {
+    
+    if(rocket){
+        rocket.vel.y -=100
+        console.log(rocket.y)
+    }
 
 
 }
@@ -1932,9 +1983,6 @@ function Barracks() {
 
 
 function enimys() {
-
-
-
 }
 
 
