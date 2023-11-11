@@ -98,7 +98,7 @@ let gameHasLoaded = false;
 let scrapMetalCounterImage
 let oilCounterImage
 let crystalCounterImage
-
+let barrackImg;
 
 function preload() {
     //Background//
@@ -141,7 +141,7 @@ function preload() {
 
     //buildings
     oilRig = loadImage("./assets/backround_removed_oilrig.png")
-
+    barrackImg = loadImage("./assets/barracks.webp")
     //
     buyImg = loadImage("./assets/buyScreen.png")
     resourcesBackgroundImage = loadImage("./assets/resourceBackground.gif")
@@ -1241,8 +1241,11 @@ function GUIE() {
 
         }
     }
-    if (buyConstructor.mouse.pressed()) {
+    if (buyConstructor.mouse.pressed()&&scrapMetalCounter.text >99 && oilCounter.text > 49 && crystalCounter.text >49) {
         makeship('constructor', 1500, 750)
+        scrapMetalCounter.text -=100
+        oilCounter.text -=50
+        crystalCounter.text -= 50
     }
 
     if (constructorShipsClass.mouse.pressed()) {
@@ -1261,14 +1264,22 @@ function GUIE() {
         }
     
     }
-    if(buyScout.mouse.presses()){
+    if(buyScout.mouse.presses()&&scrapMetalCounter.text > 49 && oilCounter.text > 24){
      makeship('scout', 1500,750)
+     scrapMetalCounter.text -=50
+     oilCounter.text -=25
     }
-    if(buyFigther.mouse.presses()){
+    if(buyFigther.mouse.presses() && scrapMetalCounter.text >99 && oilCounter.text > 49){
         makeship('fighter', 1500,750)
+        scrapMetalCounter.text -=100
+        oilCounter.text -=50
     }
-    if(buyDestroyer.mouse.presses()){
+    if(buyDestroyer.mouse.presses()&&scrapMetalCounter.text >199 && oilCounter.text > 99 && crystalCounter.text >24){
         makeship('destroyer', 1500,750)
+        scrapMetalCounter.text -=200
+        oilCounter.text -=100
+        crystalCounter.text -= 25
+
     }
 
 
@@ -1291,7 +1302,7 @@ function gameInterface() {
 
     scrapMetalCounter = new ui.Sprite(85, 40, 30, 40, 'n');
     scrapMetalCounter.textSize = 25
-    scrapMetalCounter.text = 0
+    scrapMetalCounter.text = 400
 
     //Oil//
     oilCounterImage = new ui.Sprite(35, 105, 30, 40, 'n');
@@ -1299,7 +1310,7 @@ function gameInterface() {
 
     oilCounter = new ui.Sprite(85, 105, 30, 40, 'n');
     oilCounter.textSize = 25
-    oilCounter.text = 0
+    oilCounter.text = 200
 
     //Crystal//
     crystalCounterImage = new ui.Sprite(35, 170, 30, 40, 'n');
@@ -1307,7 +1318,7 @@ function gameInterface() {
 
     crystalCounter = new ui.Sprite(85, 172, 30, 40, 'n');
     crystalCounter.textSize = 25
-    crystalCounter.text = 0
+    crystalCounter.text = 150
 
 
 
@@ -1536,13 +1547,13 @@ async function resourceCollection() {
                 for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
-                    if (d < 400 && buyRC.mouse.pressed()) {
+                    if (d < 400 && buyRC.mouse.pressed()&&scrapMetalCounter.text > 199) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y, 50, 50)
                         resourceStation.collider = 'd'
                         resourceStation.img = oilRig
                         oilRig.resize(248, 338)
-                        resourceStation.debug = true
                         resourceStationSpawned = true;
+                        scrapMetalCounter.text -= 200 
 
                         selectedship.hp = 0;
                         for (let health of healthBarComponents) {
@@ -1563,13 +1574,14 @@ async function resourceCollection() {
                 for (let i = 0; i < oilResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
-                    if (d < 400 && buyRC.mouse.pressed()) {
+                    if (d < 400 && buyRC.mouse.pressed()&&scrapMetalCounter.text > 199) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
                         resourceStation.img = oilRig
                         resourceStation.debug = true
                         oilRig.resize(248, 338)
                         resourceStationSpawned = true
+                        scrapMetalCounter.text -= 200 
 
                         selectedship.hp = 0;
                         for (let health of healthBarComponents) {
@@ -1590,13 +1602,13 @@ async function resourceCollection() {
                 for (let i = 0; i < crystalResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
-                    if (d < 400 && buyRC.mouse.pressed()) {
+                    if (d < 400 && buyRC.mouse.pressed()&&scrapMetalCounter.text > 199) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
                         resourceStation.img = oilRig
                         oilRig.resize(248, 338)
-                        resourceStation.debug = true
                         resourceStationSpawned = true
+                        scrapMetalCounter.text -= 200 
 
                         selectedship.hp = 0;
                         for (let health of healthBarComponents) {
@@ -1613,12 +1625,14 @@ async function resourceCollection() {
             }
 
             if (selectedship.clicked) {
-                if (buyBarracks.mouse.presses()) {
+                if (buyBarracks.mouse.presses()&&scrapMetalCounter.text >249) {
                     console.log(selectedship)
                     shipYard = new Sprite(selectedship.x, selectedship.y, 50, 50)
                     shipYard.collider = 's'
+                    shipYard.img=barrackImg
                     selectedship.remove();
                     shipYards.push(shipYard)
+                    scrapMetalCounter.text -=250
                     selectedship.clicked = false
                 }
             }
