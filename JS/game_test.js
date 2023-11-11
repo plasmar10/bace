@@ -6,8 +6,8 @@ let scrollNumber = 0
 let scrollZoomLevel = 0.25
 let ships, scoutShipsClass, resourceStation;
 let scoutShipImage;
-let scrapMetalImage, oilImage, crystalImage, resourcesBackgroundImage, metalImage;
-let cannonImage, destroyerimg, fighterShipimg, damagedFighterShipimg, damagedCannonImage;
+let scrapMetalImage, oilImage, crystalImage, resourcesBackgroundImage, metalImage, damagedScoutShipimg;
+let cannonImage, destroyerimg, fighterShipimg, damagedFighterShipimg, damagedCannonImage, damagedDestroyerShipimg;
 let SeaMon;
 let SeaMonShadowImage;
 let basicShot;
@@ -93,9 +93,11 @@ let shipYard;
 let buyFigther
 let buyScout
 let buyDestroyer
-
-let gameHasLoaded;
-
+let menuestiffgroup
+let gameHasLoaded = false;
+let scrapMetalCounterImage
+let oilCounterImage
+let crystalCounterImage
 
 
 function preload() {
@@ -115,11 +117,18 @@ function preload() {
 
     //Ships//
     mothershipImage = loadImage("./assets/Mothership.gif");
+
     scoutShipImage = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png");
+    damagedScoutShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_small_body_destroyed.png");
+
     fighterShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_medium_body.png");
     damagedFighterShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_medium_body_destroyed.png");
+
     destroyerimg = loadImage("./assets/ship_sptites/shipz/images/ship_large_body.png");
+    damagedDestroyerShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_large_body_destroyed.png");
+
     constructorimg = loadImage("./assets/ship_sptites/shipz/images/constructer_ship.png");
+
     cannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun.png");
     damagedCannonImage = loadImage("./assets/ship_sptites/shipz/images/ship_big_gun_destroyed.png");
 
@@ -129,7 +138,6 @@ function preload() {
     //Music//
     mainMusic = loadSound("./assets/music/Salutations.mp3")
     menuselectionsoundefect = loadSound("./assets/sound_effects/menu selection sound.mp3")
-
 
     //buildings
     oilRig = loadImage("./assets/backround_removed_oilrig.png")
@@ -149,14 +157,11 @@ function preload() {
     surfaceNauticaVideo = createVideo("./assets/videos/surfusnatica_1.mp4");
     surfaceNauticaVideo.hide();
 
-
-
-
 }
 
 function setup() {
     createCanvas(1920, 1076);
-
+    menuestiffgroup = new Group()
 
 }
 
@@ -179,8 +184,6 @@ function draw() {
 
     }
     else if (currentScreen === 2) { //Game
-
-
         clear();
         //GameSetup//
         if (gameLoadOnce === false) {
@@ -244,8 +247,9 @@ function draw() {
 
 
     }
-
 }
+
+
 function menuScreen() {
     background(0);
     surfaceNauticaVideo.loop();
@@ -259,13 +263,13 @@ function menuScreen() {
         mainMusic.setVolume(0.1);
     }
     if (!makeMenuButtons) {
-        menuebuttionsgroup = new Group()
+        menuebuttionsgroup = new menuestiffgroup.Group()
         menuebuttionsgroupimg.resize(354, 80);
-        startgamebuttion = new Sprite(420, 700, 414, 80, 's');
+        startgamebuttion = new menuestiffgroup.Sprite(420, 700, 414, 80, 's');
         startgamebuttion.img = menubuttionsblankimg
-        creditsButton = new Sprite(420, 810, 414, 80, 's')
+        creditsButton = new menuestiffgroup.Sprite(420, 810, 414, 80, 's')
         creditsButton.img = menubuttionsblankimg
-        difficultyButton = new Sprite(420, 920, 414, 80, 's')
+        difficultyButton = new menuestiffgroup.Sprite(420, 920, 414, 80, 's')
         difficultyButton.img = menubuttionsblankimg
 
 
@@ -286,6 +290,7 @@ function menuScreen() {
     circle(250, 920, 62);
     //hovver
     noStroke();
+    strokeWeight(0)
     fill(251, 192, 45)
 
 
@@ -311,17 +316,14 @@ function menuScreen() {
             menuselectionsoundefect.setVolume(0.1);
             soundPlayed1 = true;
         }
-
         if (menuimg1.x < 451)
             menuimg1.move(30, 'right', 3);
-
     }
     else {
         soundPlayed1 = false;
         if (menuimg1.x > 450)
             menuimg1.move(5, 'left', 3);
     }
-
     if (creditsButton.mouse.hovering()) {
         if (!soundPlayed2) {
             menuselectionsoundefect.play();
@@ -353,9 +355,12 @@ function menuScreen() {
     }
 
     if (startgamebuttion.mouse.pressed()) {
-        loadingscreen = new Sprite(width / 2, height / 2, width, height)
+        loadingscreen = new menuestiffgroup.Sprite(width / 2, height / 2, width, height)
         loadingscreen.img = menuBackground
         currentScreen = 2
+        menuestiffgroup.remove()
+
+
     }
 
 
@@ -1270,9 +1275,7 @@ function GUIE() {
     ui.draw();
 }
 
-let scrapMetalCounterImage
-let oilCounterImage
-let crystalCounterImage
+
 
 function gameInterface() {
     ui = new Group();
@@ -1472,7 +1475,7 @@ function resourceCollected() {
             //ScrapMetal
             for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
                 let c = dist(resourceStation.x, resourceStation.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
-                if (c < 200) {
+                if (c < 400) {
                     if (frameCount % 60 === 0) {
                         scrapMetalCounter.text++
                     }
@@ -1483,7 +1486,7 @@ function resourceCollected() {
             //Oil
             for (let i = 0; i < oilResourceNodes.length; i++) {
                 let c = dist(resourceStation.x, resourceStation.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
-                if (c < 200) {
+                if (c < 400) {
                     if (frameCount % 60 === 0) {
                         oilCounter.text++
                     }
@@ -1494,7 +1497,7 @@ function resourceCollected() {
             //Crystal
             for (let i = 0; i < crystalResourceNodes.length; i++) {
                 let c = dist(resourceStation.x, resourceStation.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
-                if (c < 200) {
+                if (c < 400) {
                     if (frameCount % 60 === 0) {
                         crystalCounter.text++
                     }
@@ -1533,7 +1536,7 @@ async function resourceCollection() {
                 for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
-                    if (d < 200 && buyRC.mouse.pressed()) {
+                    if (d < 400 && buyRC.mouse.pressed()) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y, 50, 50)
                         resourceStation.collider = 'd'
                         resourceStation.img = oilRig
@@ -1560,7 +1563,7 @@ async function resourceCollection() {
                 for (let i = 0; i < oilResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
-                    if (d < 200 && buyRC.mouse.pressed()) {
+                    if (d < 400 && buyRC.mouse.pressed()) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
                         resourceStation.img = oilRig
@@ -1587,7 +1590,7 @@ async function resourceCollection() {
                 for (let i = 0; i < crystalResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
-                    if (d < 200 && buyRC.mouse.pressed()) {
+                    if (d < 400 && buyRC.mouse.pressed()) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
                         resourceStation.img = oilRig
@@ -1624,9 +1627,8 @@ async function resourceCollection() {
         }
     }
 
-    delay(200000000)
+    await delay(999999999999999)
     gameLoaded();
-
 
 }
 
@@ -1659,7 +1661,14 @@ function hpsystem() {
                 if (selectedship.maxHP / 4 > selectedship.hp && health.idNum === selectedship.idNum) {
                     health.color = 'red';
 
-
+                    if (selectedship.shipclass === 'scout') {
+                        selectedship.img = damagedScoutShipimg
+                        for (let cannon of smallCan) {
+                            if (cannon.idNum === selectedship.idNum) {
+                                cannon.img = damagedCannonImage
+                            }
+                        }
+                    }
 
                     if (selectedship.shipclass === 'fighter') {
                         selectedship.img = damagedFighterShipimg
@@ -1669,6 +1678,14 @@ function hpsystem() {
                             }
                         }
                     }
+
+                    if (selectedship.shipclass === 'destroyer') {
+                        selectedship.img = damagedDestroyerShipimg
+                        
+                        
+                    }
+
+
 
 
 
@@ -1770,29 +1787,6 @@ function Barracks() {
 
 function enimys() {
 
-    // SeaMon = new Sprite(-1500, 2000, 355, 150)
-    // SeaMonShadowImage.resize(350, 230)
-    // SeaMon.offset.x = -145;
-    // SeaMon.img = SeaMonShadowImage
-    // SeaMon.maxHP = 10000;
-    // SeaMon.hp = 10000;
-    // SeaMon.idNum = 0;
-    // SeaMon.debug = true;
-    // oceanCreatures.push(SeaMon)
-
-
-    // let monsterHealthBarBackground = new Sprite(-1000, 100, 300, 15, 'none');
-    // monsterHealthBarBackground.componentId = 'background';
-    // monsterHealthBarBackground.color = 'black';
-    // monsterHealthBarBackground.idNum = SeaMon.idNum;
-    // monsterHealthBarComponents.push(monsterHealthBarBackground)
-
-
-    // let monsterHealthBarLife = new Sprite(-1000, 100, 300, 14, 'none');
-    // monsterHealthBarLife.componentId = 'bar';
-    // monsterHealthBarLife.color = 'lightgreen';
-    // monsterHealthBarLife.idNum = SeaMon.idNum;
-    // monsterHealthBarComponents.push(monsterHealthBarLife)
 
 
 }
