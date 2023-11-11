@@ -115,6 +115,7 @@ function preload() {
 
     metalImage = loadImage("./assets/MetalIngot.png");
 
+    
     //Ships//
     mothershipImage = loadImage("./assets/mothership.gif");
 
