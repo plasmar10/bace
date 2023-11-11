@@ -8,8 +8,8 @@ let ships, scoutShipsClass, resourceStation;
 let scoutShipImage;
 let scrapMetalImage, oilImage, crystalImage, resourcesBackgroundImage, metalImage, damagedScoutShipimg;
 let cannonImage, destroyerimg, fighterShipimg, damagedFighterShipimg, damagedCannonImage, damagedDestroyerShipimg;
-let SeaMon;
-let SeaMonShadowImage;
+let SeaMon, lavaKraken, radiationSquid;
+let SeaMonShadowImage, lavaKrakenImage;
 let basicShot;
 let ui;
 let constructorimg
@@ -135,6 +135,10 @@ function preload() {
     //Monsters//
     SeaMonShadowImage = loadImage("./assets/enemy_sprites/reaper.gif")
     // SeaMonImage = loadImage ("./assets/enemy_sprites/seamonster.gif")
+
+    lavaKrakenImage = loadImage("./assets/enemy_sprites/LavaKraken.gif")
+
+
     //Music//
     mainMusic = loadSound("./assets/music/Salutations.mp3")
     menuselectionsoundefect = loadSound("./assets/sound_effects/menu selection sound.mp3")
@@ -217,35 +221,35 @@ function draw() {
         Barracks();
         enimys()
 
-        GUIE(); //this must alwas be done last 
-
-
-
-
+        
+        
+        
+        
         //EasterEggVideo//
         if (playEasterEggVideo === false && kb.presses('l')) {
 
             easterEggVideo.play();
 
             playEasterEggVideo = true;
-
+            
         } else if (playEasterEggVideo === true && kb.presses('l')) {
             easterEggVideo.stop();
             playEasterEggVideo = false;
 
         }
-
+        
         if (playEasterEggVideo === true) {
             image(easterEggVideo, 0, 0, width, height);
         }
-
-
-
-
-
-
-
-
+        
+        
+        
+        
+        
+        
+        
+        
+        GUIE(); //this must alwas be done last 
     }
 }
 
@@ -602,7 +606,11 @@ function makeships() {
     fighterShipsClass = new ships.Group();
     destroyerShipsClass = new ships.Group();
     constructorShipsClass = new ships.Group();
-    
+
+    makeship('scout', 500, 500)
+    makeship('fighter', -1000, 500)
+    makeship('fighter', -1000, 500)
+    makeship('fighter', -1000, 500)
 
 }
 
@@ -719,18 +727,22 @@ function makeship(shiptype, newshipX, newshipY) {
         constructor.shipclass = "constructor"
         constructor.maxHP = 100
         constructor.hp = 100
+        constructor.layer = 1
+
         actualships.push(constructor)
 
         let healthBarBackground = new Sprite(-1000, 100, 100, 15, 'none');
         healthBarBackground.idNum = constructor.idNum;
         healthBarBackground.componentId = 'background';
         healthBarBackground.color = 'black';
+        healthBarBackground.layer = 1
         healthBarComponents.push(healthBarBackground)
 
         let healthBarLife = new Sprite(-1000, 100, 100, 14, 'none');
         healthBarLife.idNum = constructor.idNum;
         healthBarLife.componentId = 'bar';
         healthBarLife.color = 'lightgreen';
+        healthBarLife.layer = 1
         healthBarComponents.push(healthBarLife)
 
     }
@@ -758,22 +770,28 @@ function Weapons() {
 
 
                 }
-                let MonsterEnemyDistance = dist(ship.x, ship.y, SeaMon.x, SeaMon.y)
-                if (MonsterEnemyDistance < 1600 && cannon.shoot === true) {
-                    cannon.rotateTowards(SeaMon, 1, 0);
-                    let x = cannon.x;
-                    let y = cannon.y;
-                    let direction = cannon.direction;
-                    let selectedAmmo = basicShot;
-
-                    let timer = cannon.bulletTimer;
 
 
-                    ammo(x, y, direction, selectedAmmo, timer);
+                for (let i = 0; i < oceanCreatures.length; i++) {
+
+                    let MonsterEnemyDistance = dist(ship.x, ship.y, oceanCreatures[i].x, oceanCreatures[i].y)
+
+                    if (MonsterEnemyDistance < 1600 && cannon.shoot === true) {
+                        cannon.rotateTowards(oceanCreatures[i], 1, 0);
+                        let x = cannon.x;
+                        let y = cannon.y;
+                        let direction = cannon.direction;
+                        let selectedAmmo = basicShot;
+
+                        let timer = cannon.bulletTimer;
 
 
-                    cannon.bulletTimer += 1;
+                        ammo(x, y, direction, selectedAmmo, timer);
 
+
+                        cannon.bulletTimer += 1;
+
+                    }
                 }
 
                 if (cannon.bulletTimer >= 200) {
@@ -827,24 +845,26 @@ function Weapons() {
                     cannon.y = ship.y + fighterCannon2Y
                 }
 
-                let MonsterEnemyDistance = dist(ship.x, ship.y, SeaMon.x, SeaMon.y)
+                for (let i = 0; i < oceanCreatures.length; i++) {
+
+                    let MonsterEnemyDistance = dist(ship.x, ship.y, oceanCreatures[i].x, oceanCreatures[i].y)
+
+                    if (MonsterEnemyDistance < 1600 && cannon.shoot === true) {
+                        cannon.rotateTowards(oceanCreatures[i], 1, 0);
+                        let x = cannon.x;
+                        let y = cannon.y;
+                        let direction = cannon.direction;
+                        let selectedAmmo = basicShot;
+
+                        let timer = cannon.bulletTimer;
 
 
-                if (MonsterEnemyDistance < 1600 && cannon.shoot === true) {
-                    cannon.rotateTowards(SeaMon, 1, 0);
-                    let x = cannon.x;
-                    let y = cannon.y;
-                    let direction = cannon.direction;
-                    let selectedAmmo = basicShot;
-
-                    let timer = cannon.bulletTimer;
+                        ammo(x, y, direction, selectedAmmo, timer);
 
 
-                    ammo(x, y, direction, selectedAmmo, timer);
+                        cannon.bulletTimer += 1;
 
-
-                    cannon.bulletTimer += 1;
-
+                    }
                 }
 
                 if (cannon.bulletTimer >= 90) {
@@ -1005,19 +1025,43 @@ function enemies() {
     SeaMon.debug = true;
     oceanCreatures.push(SeaMon)
 
+    let leviathanHealthBarBackground = new Sprite(-1000, 100, 300, 15, 'none');
+    leviathanHealthBarBackground.componentId = 'background';
+    leviathanHealthBarBackground.color = 'black';
+    leviathanHealthBarBackground.idNum = SeaMon.idNum;
+    monsterHealthBarComponents.push(leviathanHealthBarBackground)
 
-    let monsterHealthBarBackground = new Sprite(-1000, 100, 300, 15, 'none');
-    monsterHealthBarBackground.componentId = 'background';
-    monsterHealthBarBackground.color = 'black';
-    monsterHealthBarBackground.idNum = SeaMon.idNum;
-    monsterHealthBarComponents.push(monsterHealthBarBackground)
+
+    let leviathanHealthBarLife = new Sprite(-1000, 100, 300, 14, 'none');
+    leviathanHealthBarLife.componentId = 'bar';
+    leviathanHealthBarLife.color = 'lightgreen';
+    leviathanHealthBarLife.idNum = SeaMon.idNum;
+    monsterHealthBarComponents.push(leviathanHealthBarLife)
 
 
-    let monsterHealthBarLife = new Sprite(-1000, 100, 300, 14, 'none');
-    monsterHealthBarLife.componentId = 'bar';
-    monsterHealthBarLife.color = 'lightgreen';
-    monsterHealthBarLife.idNum = SeaMon.idNum;
-    monsterHealthBarComponents.push(monsterHealthBarLife)
+    lavaKraken = new Sprite(-4500, 500, 720, 550, 'k')
+    lavaKraken.offset.y = 70;
+    lavaKraken.offset.x = -70;
+    lavaKraken.img = lavaKrakenImage
+    lavaKraken.maxHP = 10000;
+    lavaKraken.hp = 10000;
+    lavaKraken.idNum = 1;
+    lavaKraken.debug = false;
+    oceanCreatures.push(lavaKraken)
+
+    let lavaKrakenHealthBarBackground = new Sprite(-1000, 100, 300, 15, 'none');
+    lavaKrakenHealthBarBackground.componentId = 'background';
+    lavaKrakenHealthBarBackground.color = 'black';
+    lavaKrakenHealthBarBackground.idNum = lavaKraken.idNum;
+    monsterHealthBarComponents.push(lavaKrakenHealthBarBackground)
+
+
+    let lavaKrakenHealthBarLife = new Sprite(-1000, 100, 300, 14, 'none');
+    lavaKrakenHealthBarLife.componentId = 'bar';
+    lavaKrakenHealthBarLife.color = 'lightgreen';
+    lavaKrakenHealthBarLife.idNum = lavaKraken.idNum;
+    monsterHealthBarComponents.push(lavaKrakenHealthBarLife)
+
 
 
 }
@@ -1038,7 +1082,7 @@ function monsterAni() {
 
         }
         else {
-            SeaMon.rotation -= 0.2;
+            SeaMon.rotation -= 0.5;
         }
 
 
@@ -1046,14 +1090,43 @@ function monsterAni() {
 
     }
 
+
+    lavaKraken.rotationLock = true;
+
+    //if ship overlapping lavazone and in distance follow
+    for (let i = 0; i < actualships.length; i++) {
+
+        let MonsterShipDist = dist(actualships[i].x, actualships[i].y, lavaKraken.x, lavaKraken.y)
+
+        if (MonsterShipDist < 1000 && actualships[i].overlapping(lavaZone)) {
+            lavaKraken.rotation -= 0
+            lavaKraken.moveTowards(actualships[i], 0.01)
+            // lavaKraken.img = lavaKrakenImage
+
+
+        }else{
+            lavaKraken.speed = 0;
+        }
+
+
+
+
+    }
+
+
+
     monsterHpSystem();
 
 }
 
 function monsterHpSystem() {
-    // console.log(selectedship.hp)
-    //console.log(selectedship.idNum)
+
+
     for (let monster of oceanCreatures) {
+
+        let removeMonster = false;
+
+
         for (let health of monsterHealthBarComponents) {
             //console.log(health.idNum)
 
@@ -1072,10 +1145,9 @@ function monsterHpSystem() {
 
                 if (monster.maxHP / 4 > monster.hp && health.idNum === monster.idNum) {
                     health.color = 'red';
-                    monster.img
+
                 } else if (monster.maxHP / 1.5 > monster.hp && health.idNum === monster.idNum) {
                     health.color = 'yellow';
-                    monster.img
                 }
 
             }
@@ -1087,31 +1159,31 @@ function monsterHpSystem() {
 
 
             for (let i = 0; i < oceanCreatures.length; i++) {
-                //console.log(oceanCreatures[i].hp)
-                if (oceanCreatures[i].hp === 0) {
-                    health.width = 0;
+                if (oceanCreatures[i].hp < 100) {
+                    removeMonster = true;
+
+                    for (let health of monsterHealthBarComponents) {
+                        if (health.componentId === 'bar' && health.idNum === oceanCreatures[i].idNum) {
+                            health.width = 0;
+                        }
+                    }
+
+                    console.log(monsterHealthBarComponents[i].width)
                     oceanCreatures[i].remove();
                     oceanCreatures.splice(i, 1)
 
 
                 }
             }
-
-
-        }
-
-
-        if (monster.hp <= 0) {
-            monster.hp = 0;
         }
 
 
         for (let i = 0; i < monsterHealthBarComponents.length; i++) {
 
-            if (monsterHealthBarComponents[i].width <= 2 && monster.hp === 0) {
-
+            if (monsterHealthBarComponents[i].width < 10 && removeMonster === true) {
+            
                 monsterHealthBarComponents[i].remove();
-                monsterHealthBarComponents[i + 1].remove();
+                monsterHealthBarComponents[i - 1].remove();
                 monsterHealthBarComponents.splice(i - 1, 2)
 
             }
@@ -1124,6 +1196,16 @@ function monsterHpSystem() {
             }
 
         }
+
+
+        if (monster.hp <= 0) {
+            monster.hp = 0;
+        }
+
+
+
+
+
     }
 }
 
@@ -1235,9 +1317,9 @@ function GUIE() {
             buyConstructor.x = 9000
             buyBarracks.x = 9000
             buyRC.x = 9000
-            buyScout.x=9000
-            buyFigther.x=9000
-            buyDestroyer.x=9000
+            buyScout.x = 9000
+            buyFigther.x = 9000
+            buyDestroyer.x = 9000
 
         }
     }
@@ -1255,14 +1337,14 @@ function GUIE() {
 
     }
 
-    if(shipYard){
-        if(shipYard.mouse.pressed()){
+    if (shipYard) {
+        if (shipYard.mouse.pressed()) {
             buyScreen.x = 1750
-            buyScout.x=1700
-            buyFigther.x=1700
-            buyDestroyer.x=1700
+            buyScout.x = 1700
+            buyFigther.x = 1700
+            buyDestroyer.x = 1700
         }
-    
+
     }
     if(buyScout.mouse.presses()&&scrapMetalCounter.text > 49 && oilCounter.text > 24){
      makeship('scout', 1500,750)
@@ -1695,7 +1777,7 @@ function hpsystem() {
 
                     if (selectedship.shipclass === 'destroyer') {
                         selectedship.img = damagedDestroyerShipimg
-                        
+
 
                     }
 
