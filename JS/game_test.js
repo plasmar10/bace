@@ -159,7 +159,7 @@ function preload() {
 
 function setup() {
     createCanvas(1920, 1076);
-
+  
 
 }
 
@@ -1481,8 +1481,20 @@ async function resourceCollection() {
 
 
     for (let selectedship of actualships) {
-
+        
         if (selectedship.shipclass === 'constructor') {
+           if ( selectedship.mouse.pressed()){
+            selectedship.clicked = true 
+          
+           }
+           else if (!selectedship.mouse.pressed()&& !selectedship.clicked){
+            selectedship.clicked = false
+           
+           }
+           if(mouse.pressed()&&!selectedship.mouse.pressed()){
+            selectedship.clicked = false
+           
+           }
 
 
             //ScrapMetal
@@ -1566,13 +1578,16 @@ async function resourceCollection() {
                 }
             }
 
-
-            if (buyBarracks.mouse.pressed()) {
-                shipYard = new Sprite(selectedship.x, selectedship.y, 50, 50)
-                shipYard.collider = 's'
-                selectedship.remove();
-                shipYards.push(shipYard)
-            }
+                if(selectedship.clicked){
+                    if(buyBarracks.mouse.hovering()){
+                        console.log(selectedship)
+                        shipYard = new Sprite(selectedship.x, selectedship.y,50,50 )
+                        shipYard.collider = 's'
+                        selectedship.remove();
+                        shipYards.push(shipYard)
+                        selectedship.clicked=false
+                    }
+                }
 
 
         }
@@ -1724,29 +1739,29 @@ function Barracks() {
 
 function enimys() {
 
-    SeaMon = new Sprite(-1500, 2000, 355, 150)
-    SeaMonShadowImage.resize(350, 230)
-    SeaMon.offset.x = -145;
-    SeaMon.img = SeaMonShadowImage
-    SeaMon.maxHP = 10000;
-    SeaMon.hp = 10000;
-    SeaMon.idNum = 0;
-    SeaMon.debug = true;
-    oceanCreatures.push(SeaMon)
+        // SeaMon = new Sprite(-1500, 2000, 355, 150)
+        // SeaMonShadowImage.resize(350, 230)
+        // SeaMon.offset.x = -145;
+        // SeaMon.img = SeaMonShadowImage
+        // SeaMon.maxHP = 10000;
+        // SeaMon.hp = 10000;
+        // SeaMon.idNum = 0;
+        // SeaMon.debug = true;
+        // oceanCreatures.push(SeaMon)
 
 
-    let monsterHealthBarBackground = new Sprite(-1000, 100, 300, 15, 'none');
-    monsterHealthBarBackground.componentId = 'background';
-    monsterHealthBarBackground.color = 'black';
-    monsterHealthBarBackground.idNum = SeaMon.idNum;
-    monsterHealthBarComponents.push(monsterHealthBarBackground)
+        // let monsterHealthBarBackground = new Sprite(-1000, 100, 300, 15, 'none');
+        // monsterHealthBarBackground.componentId = 'background';
+        // monsterHealthBarBackground.color = 'black';
+        // monsterHealthBarBackground.idNum = SeaMon.idNum;
+        // monsterHealthBarComponents.push(monsterHealthBarBackground)
 
 
-    let monsterHealthBarLife = new Sprite(-1000, 100, 300, 14, 'none');
-    monsterHealthBarLife.componentId = 'bar';
-    monsterHealthBarLife.color = 'lightgreen';
-    monsterHealthBarLife.idNum = SeaMon.idNum;
-    monsterHealthBarComponents.push(monsterHealthBarLife)
+        // let monsterHealthBarLife = new Sprite(-1000, 100, 300, 14, 'none');
+        // monsterHealthBarLife.componentId = 'bar';
+        // monsterHealthBarLife.color = 'lightgreen';
+        // monsterHealthBarLife.idNum = SeaMon.idNum;
+        // monsterHealthBarComponents.push(monsterHealthBarLife)
 
 
 }
