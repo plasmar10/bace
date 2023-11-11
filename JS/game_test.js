@@ -8,8 +8,8 @@ let ships, scoutShipsClass, resourceStation;
 let scoutShipImage;
 let scrapMetalImage, oilImage, crystalImage, resourcesBackgroundImage, metalImage, damagedScoutShipimg;
 let cannonImage, destroyerimg, fighterShipimg, damagedFighterShipimg, damagedCannonImage, damagedDestroyerShipimg;
-let SeaMon, lavaKraken, radiationSquid;
-let SeaMonShadowImage, lavaKrakenImage;
+let SeaMon, lavaKraken, radiationSquid, dukeFishron;
+let SeaMonShadowImage, lavaKrakenImage, dukeFishronImage;
 let basicShot;
 let ui;
 let constructorimg
@@ -105,8 +105,8 @@ function preload() {
     menuBackground = loadImage("./assets/menuImage.png");
     menubuttionsblankimg = loadImage("./assets/blank_img.png");
     menuebuttionsgroupimg = loadImage("./assets/menue_buttion.png");
-    oceanBackground = loadImage("./assets/small_backround_low_rez.jpg");
-    // oceanBackground = loadImage("./assets/backround_with_zones.jpg");
+    //oceanBackground = loadImage("./assets/small_backround_low_rez.jpg");
+    oceanBackground = loadImage("./assets/backround_with_zones.jpg");
 
     //Resources//
     scrapMetalImage = loadImage("./assets/metalplate.png");
@@ -138,6 +138,7 @@ function preload() {
     // SeaMonImage = loadImage ("./assets/enemy_sprites/seamonster.gif")
 
     lavaKrakenImage = loadImage("./assets/enemy_sprites/LavaKraken.gif")
+    dukeFishronImage = loadImage("./assets/enemy_sprites/DukeFishronFirstForm.gif")
 
 
     //Music//
@@ -162,7 +163,8 @@ function preload() {
     easterEggVideo.volume(0.5);
     surfaceNauticaVideo = createVideo("./assets/videos/surfusnatica_1.mp4");
     surfaceNauticaVideo.hide();
-
+    allSprites.autoCull = false;
+    allSprites.debug = false;
 }
 
 function setup() {
@@ -446,6 +448,7 @@ function ocean() {
     oceanBackground.resize(width * 10, height * 10)
     oceanSprite = new Sprite(width / 2, height / 2, width * 10, height * 10, "n")
     oceanSprite.image = oceanBackground
+    oceanSprite.color = 'blue'
     oceanSprite.layer = -10
 }
 
@@ -610,8 +613,6 @@ function makeships() {
     constructorShipsClass = new ships.Group();
 
     makeship('scout', 500, 500)
-    makeship('fighter', -1000, 500)
-    makeship('fighter', -1000, 500)
     makeship('fighter', -1000, 500)
 
 }
@@ -1017,14 +1018,15 @@ function ammo(x, y, direction, selectedAmmo, timer) {
 
 function enemies() {
 
-    SeaMon = new Sprite(-1500, 2000, 355, 150)
-    SeaMonShadowImage.resize(350, 230)
-    SeaMon.offset.x = -145;
+    //Leviathan//
+    SeaMon = new Sprite(-1500, 2000, 480, 200)
+    SeaMonShadowImage.resize(480, 330)
+    SeaMon.offset.x = -230;
+    SeaMon.offset.y = 0;
     SeaMon.img = SeaMonShadowImage
     SeaMon.maxHP = 10000;
     SeaMon.hp = 10000;
     SeaMon.idNum = 0;
-    SeaMon.debug = true;
     oceanCreatures.push(SeaMon)
 
     let leviathanHealthBarBackground = new Sprite(-1000, 100, 300, 15, 'none');
@@ -1041,14 +1043,15 @@ function enemies() {
     monsterHealthBarComponents.push(leviathanHealthBarLife)
 
 
+
+    //LavaKraken//
     lavaKraken = new Sprite(-4500, 500, 720, 550, 'k')
-    lavaKraken.offset.y = 70;
+    lavaKraken.offset.y = 100;
     lavaKraken.offset.x = -70;
     lavaKraken.img = lavaKrakenImage
     lavaKraken.maxHP = 10000;
     lavaKraken.hp = 10000;
     lavaKraken.idNum = 1;
-    lavaKraken.debug = false;
     oceanCreatures.push(lavaKraken)
 
     let lavaKrakenHealthBarBackground = new Sprite(-1000, 100, 300, 15, 'none');
@@ -1065,6 +1068,36 @@ function enemies() {
     monsterHealthBarComponents.push(lavaKrakenHealthBarLife)
 
 
+
+    //DukeFishron//
+    dukeFishron = new Sprite(-5000, 3000, 550, 380, 'k')
+    dukeFishron.offset.y = 170;
+    dukeFishron.offset.x = 20;
+    dukeFishronImage.resize(600, 450);
+    dukeFishron.img = dukeFishronImage;
+    dukeFishron.maxHP = 10000;
+    dukeFishron.hp = 10000;
+    dukeFishron.idNum = 2;
+    oceanCreatures.push(dukeFishron);
+
+    let dukeFishronHealthBarBackground = new Sprite(-1000, 100, 300, 15, 'none');
+    dukeFishronHealthBarBackground.componentId = 'background';
+    dukeFishronHealthBarBackground.color = 'black';
+    dukeFishronHealthBarBackground.idNum = dukeFishron.idNum;
+    monsterHealthBarComponents.push(dukeFishronHealthBarBackground)
+
+
+    let dukeFishronHealthBarLife = new Sprite(-1000, 100, 300, 14, 'none');
+    dukeFishronHealthBarLife.componentId = 'bar';
+    dukeFishronHealthBarLife.color = 'lightgreen';
+    dukeFishronHealthBarLife.idNum = dukeFishron.idNum;
+    monsterHealthBarComponents.push(dukeFishronHealthBarLife)
+
+
+    for (let monster of oceanCreatures) {
+        monster.debug = true;
+
+    }
 
 }
 
@@ -1094,6 +1127,7 @@ function monsterAni() {
 
 
     lavaKraken.rotationLock = true;
+    dukeFishron.rotationLock = true;
 
     //if ship overlapping lavazone and in distance follow
     for (let i = 0; i < actualships.length; i++) {
@@ -1137,7 +1171,7 @@ function monsterHpSystem() {
             if (health.idNum === monster.idNum) {
                 health.collider = 'none';
                 health.x = monster.x
-                health.y = monster.y - 110
+                health.y = monster.y - 50
             }
 
             if (health.componentId === 'bar' && health.idNum === monster.idNum) {
@@ -1195,7 +1229,7 @@ function monsterHpSystem() {
         for (let i = 0; i < shots.length; i++) {
             if (shots[i].collides(monster)) {
                 shots[i].remove();
-                monster.hp -= 500;
+                monster.hp -= 50;
             }
 
         }
@@ -1829,13 +1863,16 @@ function hpsystem() {
         }
 
 
+        for (let monster of oceanCreatures) {
+            if (selectedship.collides(monster)) {
 
-        if (selectedship.collides(SeaMon)) {
+                console.log('WERE HIT ', selectedship.hp)
 
-            console.log('WERE HIT ', selectedship.hp)
-
-            selectedship.hp -= 2;
+                selectedship.hp -= 2;
+            }
         }
+
+
 
         if (selectedship.hp <= 0) {
             selectedship.hp = 0;
