@@ -128,7 +128,7 @@ function preload() {
 
 
     //buildings
-    oilRigImage = loadImage("./assets/backround_removed_oilrig.png")
+    oilRig = loadImage("./assets/backround_removed_oilrig.png")
 
     //
     buyImg = loadImage("./assets/buyScreen.png")
@@ -1452,7 +1452,7 @@ async function resourceCollection() {
                     if (d < 200 && buyRC.mouse.pressed()) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y,50,50 )
                         resourceStation.collider = 'd'
-                        resourceStation.img = oilRigImage
+                        resourceStation.img = oilRig
                         oilRig.resize(248, 338)
                         resourceStation.debug = true
                         resourceStationSpawned = true;
@@ -1479,7 +1479,7 @@ async function resourceCollection() {
                     if (d < 200 && buyRC.mouse.pressed()) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
-                        resourceStation.img = oilRigImage
+                        resourceStation.img = oilRig
                         resourceStation.debug = true
                         oilRig.resize(248, 338)
                         resourceStationSpawned = true
@@ -1506,7 +1506,7 @@ async function resourceCollection() {
                     if (d < 200 && buyRC.mouse.pressed()) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
-                        resourceStation.img = oilRigImage
+                        resourceStation.img = oilRig
                         oilRig.resize(248, 338)
                         resourceStation.debug = true
                         resourceStationSpawned = true
