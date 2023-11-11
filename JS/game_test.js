@@ -94,6 +94,8 @@ let buyFigther
 let buyScout
 let buyDestroyer
 
+let gameHasLoaded;
+
 
 
 function preload() {
@@ -148,12 +150,18 @@ function preload() {
     surfaceNauticaVideo.hide();
 
 
+
+
 }
 
 function setup() {
     createCanvas(1920, 1076);
 
 
+}
+
+function gameLoaded() {
+    gameHasLoaded = true;
 }
 
 function videoLoaded() {
@@ -226,6 +234,8 @@ function draw() {
         if (playEasterEggVideo === true) {
             image(easterEggVideo, 0, 0, width, height);
         }
+
+
 
 
     }
@@ -1241,7 +1251,7 @@ function gameInterface() {
     resourceBackground.img = buyImg;
 
     //ScrapMetal//
-    scrapMetalCounterImage = new ui.Sprite(30, 35, 30, 40, 'n');
+    scrapMetalCounterImage = new ui.Sprite(35, 35, 30, 40, 'n');
     scrapMetalCounterImage.img = metalImage;
 
     scrapMetalCounter = new ui.Sprite(85, 40, 30, 40, 'n');
@@ -1249,7 +1259,7 @@ function gameInterface() {
     scrapMetalCounter.text = 0
 
     //Oil//
-    oilCounterImage = new ui.Sprite(30, 105, 30, 40, 'n');
+    oilCounterImage = new ui.Sprite(35, 105, 30, 40, 'n');
     oilCounterImage.img = oilImage;
 
     oilCounter = new ui.Sprite(85, 105, 30, 40, 'n');
@@ -1257,10 +1267,10 @@ function gameInterface() {
     oilCounter.text = 0
 
     //Crystal//
-    crystalCounterImage = new ui.Sprite(30, 175, 30, 40, 'n');
+    crystalCounterImage = new ui.Sprite(35, 170, 30, 40, 'n');
     crystalCounterImage.img = crystalImage;
 
-    crystalCounter = new ui.Sprite(85, 175, 30, 40, 'n');
+    crystalCounter = new ui.Sprite(85, 172, 30, 40, 'n');
     crystalCounter.textSize = 25
     crystalCounter.text = 0
 
@@ -1323,7 +1333,7 @@ function selection_system() {
     }
 
 
-    if (mouse.released())
+    if (mouse.released() && gameHasLoaded === true)
         if (selectionrectangle.width >= 60) {
             for (let i = 0; i < actualships.length; i++) {
                 actualships[i].selected = false;
@@ -1566,6 +1576,11 @@ async function resourceCollection() {
 
         }
     }
+
+    delay(200000000)
+    gameLoaded();
+
+
 }
 
 
