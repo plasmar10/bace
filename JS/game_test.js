@@ -1250,7 +1250,7 @@ function gameInterface() {
     for (let i = 0; i < 9; i++) {
         new ui.Sprite(100 + i * 60, 1000, 50, 50, 'n');
     }
-    resourceBackground = new ui.Sprite(-70, 200, 100, 400, 'n');
+    resourceBackground = new ui.Sprite(-100, 200, 100, 400, 'n');
     resourceBackground.img = buyImg;
 
     //ScrapMetal//
@@ -1650,7 +1650,7 @@ function hpsystem() {
                     if (selectedship.shipclass === 'destroyer') {
                         selectedship.img = damagedDestroyerShipimg
                         
-                        
+
                     }
 
 
