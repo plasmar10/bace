@@ -201,7 +201,7 @@ function draw() {
         resourceCollection();
         resourceCollected();
         Barracks();
-
+        enimys()
 
         GUIE(); //this must alwas be done last 
 
@@ -227,9 +227,6 @@ function draw() {
 
 
     }
-
-
-
 
 }
 
@@ -428,7 +425,7 @@ function ocean() {
 }
 
 function mothership() {
-    mothershipBase = new Sprite(width / 2, height / 2, 400, 400, 's')
+    mothershipBase = new Sprite(width / 2, height / 2, 400, 190, 's')
     mothershipBase.color = 'black'
     mothershipImage.resize(400, 400)
     mothershipBase.img = mothershipImage
@@ -1674,6 +1671,36 @@ function Barracks(){
 
 }
 
+
+
+function enimys() {
+
+    SeaMon = new Sprite(-1500, 2000, 355, 150)
+    SeaMonShadowImage.resize(350, 230)
+    SeaMon.offset.x = -145;
+    SeaMon.img = SeaMonShadowImage
+    SeaMon.maxHP = 10000;
+    SeaMon.hp = 10000;
+    SeaMon.idNum = 0;
+    SeaMon.debug = true;
+    oceanCreatures.push(SeaMon)
+
+
+    let monsterHealthBarBackground = new Sprite(-1000, 100, 300, 15, 'none');
+    monsterHealthBarBackground.componentId = 'background';
+    monsterHealthBarBackground.color = 'black';
+    monsterHealthBarBackground.idNum = SeaMon.idNum;
+    monsterHealthBarComponents.push(monsterHealthBarBackground)
+
+
+    let monsterHealthBarLife = new Sprite(-1000, 100, 300, 14, 'none');
+    monsterHealthBarLife.componentId = 'bar';
+    monsterHealthBarLife.color = 'lightgreen';
+    monsterHealthBarLife.idNum = SeaMon.idNum;
+    monsterHealthBarComponents.push(monsterHealthBarLife)
+
+
+}
 
 
 
