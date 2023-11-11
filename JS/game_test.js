@@ -110,13 +110,13 @@ function preload() {
 
     //Resources//
     scrapMetalImage = loadImage("./assets/metalplate.png");
-    oilImage = loadImage("./assets/oil.png");
+    oilImage = loadImage("./assets/Oil.png");
     crystalImage = loadImage("./assets/Crystal.png");
 
     metalImage = loadImage("./assets/MetalIngot.png");
 
     //Ships//
-    mothershipImage = loadImage("./assets/Mothership.gif");
+    mothershipImage = loadImage("./assets/mothership.gif");
 
     scoutShipImage = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png");
     damagedScoutShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_small_body_destroyed.png");
