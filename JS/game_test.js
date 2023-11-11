@@ -249,7 +249,6 @@ function draw() {
 
 
 
-
     }
 }
 
@@ -608,7 +607,9 @@ function makeships() {
     constructorShipsClass = new ships.Group();
 
     makeship('scout', 500, 500)
-
+    makeship('fighter', -1000, 500)
+    makeship('fighter', -1000, 500)
+    makeship('fighter', -1000, 500)
 
 }
 
@@ -764,22 +765,28 @@ function Weapons() {
 
 
                 }
-                let MonsterEnemyDistance = dist(ship.x, ship.y, SeaMon.x, SeaMon.y)
-                if (MonsterEnemyDistance < 1600 && cannon.shoot === true) {
-                    cannon.rotateTowards(SeaMon, 1, 0);
-                    let x = cannon.x;
-                    let y = cannon.y;
-                    let direction = cannon.direction;
-                    let selectedAmmo = basicShot;
-
-                    let timer = cannon.bulletTimer;
 
 
-                    ammo(x, y, direction, selectedAmmo, timer);
+                for (let i = 0; i < oceanCreatures.length; i++) {
+
+                    let MonsterEnemyDistance = dist(ship.x, ship.y, oceanCreatures[i].x, oceanCreatures[i].y)
+
+                    if (MonsterEnemyDistance < 1600 && cannon.shoot === true) {
+                        cannon.rotateTowards(oceanCreatures[i], 1, 0);
+                        let x = cannon.x;
+                        let y = cannon.y;
+                        let direction = cannon.direction;
+                        let selectedAmmo = basicShot;
+
+                        let timer = cannon.bulletTimer;
 
 
-                    cannon.bulletTimer += 1;
+                        ammo(x, y, direction, selectedAmmo, timer);
 
+
+                        cannon.bulletTimer += 1;
+
+                    }
                 }
 
                 if (cannon.bulletTimer >= 200) {
@@ -833,24 +840,26 @@ function Weapons() {
                     cannon.y = ship.y + fighterCannon2Y
                 }
 
-                let MonsterEnemyDistance = dist(ship.x, ship.y, SeaMon.x, SeaMon.y)
+                for (let i = 0; i < oceanCreatures.length; i++) {
+
+                    let MonsterEnemyDistance = dist(ship.x, ship.y, oceanCreatures[i].x, oceanCreatures[i].y)
+
+                    if (MonsterEnemyDistance < 1600 && cannon.shoot === true) {
+                        cannon.rotateTowards(oceanCreatures[i], 1, 0);
+                        let x = cannon.x;
+                        let y = cannon.y;
+                        let direction = cannon.direction;
+                        let selectedAmmo = basicShot;
+
+                        let timer = cannon.bulletTimer;
 
 
-                if (MonsterEnemyDistance < 1600 && cannon.shoot === true) {
-                    cannon.rotateTowards(SeaMon, 1, 0);
-                    let x = cannon.x;
-                    let y = cannon.y;
-                    let direction = cannon.direction;
-                    let selectedAmmo = basicShot;
-
-                    let timer = cannon.bulletTimer;
+                        ammo(x, y, direction, selectedAmmo, timer);
 
 
-                    ammo(x, y, direction, selectedAmmo, timer);
+                        cannon.bulletTimer += 1;
 
-
-                    cannon.bulletTimer += 1;
-
+                    }
                 }
 
                 if (cannon.bulletTimer >= 90) {
@@ -1011,27 +1020,43 @@ function enemies() {
     SeaMon.debug = true;
     oceanCreatures.push(SeaMon)
 
-    lavaKraken = new Sprite(-500, 500, 720, 550, 'k')
+    let leviathanHealthBarBackground = new Sprite(-1000, 100, 300, 15, 'none');
+    leviathanHealthBarBackground.componentId = 'background';
+    leviathanHealthBarBackground.color = 'black';
+    leviathanHealthBarBackground.idNum = SeaMon.idNum;
+    monsterHealthBarComponents.push(leviathanHealthBarBackground)
+
+
+    let leviathanHealthBarLife = new Sprite(-1000, 100, 300, 14, 'none');
+    leviathanHealthBarLife.componentId = 'bar';
+    leviathanHealthBarLife.color = 'lightgreen';
+    leviathanHealthBarLife.idNum = SeaMon.idNum;
+    monsterHealthBarComponents.push(leviathanHealthBarLife)
+
+
+    lavaKraken = new Sprite(-4500, 500, 720, 550, 'k')
+    lavaKraken.offset.y = 70;
+    lavaKraken.offset.x = -70;
     lavaKraken.img = lavaKrakenImage
     lavaKraken.maxHP = 10000;
     lavaKraken.hp = 10000;
     lavaKraken.idNum = 1;
-    lavaKraken.debug = true;
+    lavaKraken.debug = false;
     oceanCreatures.push(lavaKraken)
 
+    let lavaKrakenHealthBarBackground = new Sprite(-1000, 100, 300, 15, 'none');
+    lavaKrakenHealthBarBackground.componentId = 'background';
+    lavaKrakenHealthBarBackground.color = 'black';
+    lavaKrakenHealthBarBackground.idNum = lavaKraken.idNum;
+    monsterHealthBarComponents.push(lavaKrakenHealthBarBackground)
 
-    let monsterHealthBarBackground = new Sprite(-1000, 100, 300, 15, 'none');
-    monsterHealthBarBackground.componentId = 'background';
-    monsterHealthBarBackground.color = 'black';
-    monsterHealthBarBackground.idNum = SeaMon.idNum;
-    monsterHealthBarComponents.push(monsterHealthBarBackground)
 
+    let lavaKrakenHealthBarLife = new Sprite(-1000, 100, 300, 14, 'none');
+    lavaKrakenHealthBarLife.componentId = 'bar';
+    lavaKrakenHealthBarLife.color = 'lightgreen';
+    lavaKrakenHealthBarLife.idNum = lavaKraken.idNum;
+    monsterHealthBarComponents.push(lavaKrakenHealthBarLife)
 
-    let monsterHealthBarLife = new Sprite(-1000, 100, 300, 14, 'none');
-    monsterHealthBarLife.componentId = 'bar';
-    monsterHealthBarLife.color = 'lightgreen';
-    monsterHealthBarLife.idNum = SeaMon.idNum;
-    monsterHealthBarComponents.push(monsterHealthBarLife)
 
 
 }
@@ -1060,14 +1085,43 @@ function monsterAni() {
 
     }
 
+
+    lavaKraken.rotationLock = true;
+
+    //if ship overlapping lavazone and in distance follow
+    for (let i = 0; i < actualships.length; i++) {
+
+        let MonsterShipDist = dist(actualships[i].x, actualships[i].y, lavaKraken.x, lavaKraken.y)
+
+        if (MonsterShipDist < 1000 && actualships[i].overlapping(lavaZone)) {
+            lavaKraken.rotation -= 0
+            lavaKraken.moveTowards(actualships[i], 0.01)
+            // lavaKraken.img = lavaKrakenImage
+
+
+        }else{
+            lavaKraken.speed = 0;
+        }
+
+
+
+
+    }
+
+
+
     monsterHpSystem();
 
 }
 
 function monsterHpSystem() {
-    // console.log(selectedship.hp)
-    //console.log(selectedship.idNum)
+
+
     for (let monster of oceanCreatures) {
+
+        let removeMonster = false;
+
+
         for (let health of monsterHealthBarComponents) {
             //console.log(health.idNum)
 
@@ -1086,10 +1140,9 @@ function monsterHpSystem() {
 
                 if (monster.maxHP / 4 > monster.hp && health.idNum === monster.idNum) {
                     health.color = 'red';
-                    monster.img
+
                 } else if (monster.maxHP / 1.5 > monster.hp && health.idNum === monster.idNum) {
                     health.color = 'yellow';
-                    monster.img
                 }
 
             }
@@ -1101,31 +1154,31 @@ function monsterHpSystem() {
 
 
             for (let i = 0; i < oceanCreatures.length; i++) {
-                //console.log(oceanCreatures[i].hp)
-                if (oceanCreatures[i].hp === 0) {
-                    health.width = 0;
+                if (oceanCreatures[i].hp < 100) {
+                    removeMonster = true;
+
+                    for (let health of monsterHealthBarComponents) {
+                        if (health.componentId === 'bar' && health.idNum === oceanCreatures[i].idNum) {
+                            health.width = 0;
+                        }
+                    }
+
+                    console.log(monsterHealthBarComponents[i].width)
                     oceanCreatures[i].remove();
                     oceanCreatures.splice(i, 1)
 
 
                 }
             }
-
-
-        }
-
-
-        if (monster.hp <= 0) {
-            monster.hp = 0;
         }
 
 
         for (let i = 0; i < monsterHealthBarComponents.length; i++) {
 
-            if (monsterHealthBarComponents[i].width <= 2 && monster.hp === 0) {
-
+            if (monsterHealthBarComponents[i].width < 10 && removeMonster === true) {
+            
                 monsterHealthBarComponents[i].remove();
-                monsterHealthBarComponents[i + 1].remove();
+                monsterHealthBarComponents[i - 1].remove();
                 monsterHealthBarComponents.splice(i - 1, 2)
 
             }
@@ -1138,6 +1191,16 @@ function monsterHpSystem() {
             }
 
         }
+
+
+        if (monster.hp <= 0) {
+            monster.hp = 0;
+        }
+
+
+
+
+
     }
 }
 
