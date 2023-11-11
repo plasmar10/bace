@@ -1260,7 +1260,7 @@ function gameInterface() {
     crystalCounterImage = new ui.Sprite(30, 175, 30, 40, 'n');
     crystalCounterImage.img = crystalImage;
 
-    crystalCounter = new ui.Sprite(80, 175, 30, 40, 'n');
+    crystalCounter = new ui.Sprite(85, 175, 30, 40, 'n');
     crystalCounter.textSize = 25
     crystalCounter.text = 0
 
