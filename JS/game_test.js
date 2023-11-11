@@ -221,35 +221,35 @@ function draw() {
         Barracks();
         enimys()
 
-        GUIE(); //this must alwas be done last 
-
-
-
-
+        
+        
+        
+        
         //EasterEggVideo//
         if (playEasterEggVideo === false && kb.presses('l')) {
 
             easterEggVideo.play();
 
             playEasterEggVideo = true;
-
+            
         } else if (playEasterEggVideo === true && kb.presses('l')) {
             easterEggVideo.stop();
             playEasterEggVideo = false;
 
         }
-
+        
         if (playEasterEggVideo === true) {
             image(easterEggVideo, 0, 0, width, height);
         }
-
-
-
-
-
-
-
-
+        
+        
+        
+        
+        
+        
+        
+        
+        GUIE(); //this must alwas be done last 
     }
 }
 
@@ -725,18 +725,22 @@ function makeship(shiptype, newshipX, newshipY) {
         constructor.shipclass = "constructor"
         constructor.maxHP = 100
         constructor.hp = 100
+        constructor.layer = 1
+
         actualships.push(constructor)
 
         let healthBarBackground = new Sprite(-1000, 100, 100, 15, 'none');
         healthBarBackground.idNum = constructor.idNum;
         healthBarBackground.componentId = 'background';
         healthBarBackground.color = 'black';
+        healthBarBackground.layer = 1
         healthBarComponents.push(healthBarBackground)
 
         let healthBarLife = new Sprite(-1000, 100, 100, 14, 'none');
         healthBarLife.idNum = constructor.idNum;
         healthBarLife.componentId = 'bar';
         healthBarLife.color = 'lightgreen';
+        healthBarLife.layer = 1
         healthBarComponents.push(healthBarLife)
 
     }
