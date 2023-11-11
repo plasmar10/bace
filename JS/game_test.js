@@ -95,10 +95,14 @@ let buyScout
 let buyDestroyer
 let menuestiffgroup
 let gameHasLoaded = false;
-let scrapMetalCounterImage
-let oilCounterImage
-let crystalCounterImage
+let scrapMetalCounterImage;
+let oilCounterImage;
+let crystalCounterImage;
 let barrackImg;
+let buyRad;
+let buyLava;
+let lavaUp = false
+let radUp = false
 
 function preload() {
     //Background//
@@ -110,13 +114,13 @@ function preload() {
 
     //Resources//
     scrapMetalImage = loadImage("./assets/metalplate.png");
-    oilImage = loadImage("./assets/oil.png");
+    oilImage = loadImage("./assets/Oil.png");
     crystalImage = loadImage("./assets/Crystal.png");
 
     metalImage = loadImage("./assets/MetalIngot.png");
 
     //Ships//
-    mothershipImage = loadImage("./assets/Mothership.gif");
+    mothershipImage = loadImage("./assets/mothership.gif");
 
     scoutShipImage = loadImage("./assets/ship_sptites/shipz/images/ship_small_body.png");
     damagedScoutShipimg = loadImage("./assets/ship_sptites/shipz/images/ship_small_body_destroyed.png");
@@ -1300,6 +1304,16 @@ function GUIE() {
         buyDestroyer.text = 'Destroyer'
         buyDestroyer.textSize = 30
         buyDestroyer.collider = 's'
+        buyRad = new ui.Sprite(9000, 65, 200, 60)
+        buyRad.colour = 'white'
+        buyRad.text = 'Rad Up'
+        buyRad.textSize = 30
+        buyRad.collider = 's'
+        buyLava = new ui.Sprite(9000, 205, 200, 60)
+        buyLava.colour = 'white'
+        buyLava.text = 'Lava Up'
+        buyLava.textSize = 30
+        buyLava.collider = 's'
 
 
         createMenu = false
@@ -1320,6 +1334,8 @@ function GUIE() {
             buyScout.x = 9000
             buyFigther.x = 9000
             buyDestroyer.x = 9000
+            buyRad.x = 9000
+            buyLava.x =9000
 
         }
     }
@@ -1335,6 +1351,20 @@ function GUIE() {
         buyBarracks.x = 1700
         buyRC.x = 1700
 
+    }
+    if(fighterShipsClass.mouse.pressed()|| scoutShipsClass.mouse.pressed()|| destroyerShipsClass.mouse.pressed()){
+        buyScreen.x = 1750
+        buyRad.x = 1700
+        buyLava.x = 1700
+    }
+    if(buyRad.mouse.presses() && crystalCounter.text > 299){
+        radUp = true
+        crystalCounter.text -= 300
+
+    }
+    if(buyLava.mouse.presses()&& scrapMetalCounter.text> 299){
+        lavaUp = true 
+        scrapMetalCounter.text -= 300
     }
 
     if (shipYard) {
@@ -1838,11 +1868,11 @@ function hpsystem() {
             selectedship.hp = 0;
         }
 
-        if (selectedship.overlapping(radiationZone)) {
+        if (selectedship.overlapping(radiationZone) && radUp === false) {
             selectedship.hp -= 0.5;
             console.log(selectedship.hp)
         }
-        if (selectedship.overlapping(lavaZone)) {
+        if (selectedship.overlapping(lavaZone) && lavaUp === false) {
             selectedship.hp -= 0.5;
             console.log(selectedship.hp)
         }
