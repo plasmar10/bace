@@ -70,7 +70,7 @@ let playEasterEggVideo = false;
 let MenuSprites, newGameButton, menuBackground;
 let introVideo, easterEggVideo;
 let zoneSpawned = false
-let lavaZone;
+let lavaZone, lavaZone2, lavaZone3;
 let radiationZone;
 let buyScreen;
 let buyConstructor;
@@ -119,6 +119,7 @@ function preload() {
 
     metalImage = loadImage("./assets/MetalIngot.png");
 
+
     //Ships//
     mothershipImage = loadImage("./assets/mothership.gif");
 
@@ -150,6 +151,7 @@ function preload() {
     //buildings
     oilRig = loadImage("./assets/backround_removed_oilrig.png")
     barrackImg = loadImage("./assets/barracks.webp")
+
     //
     buyImg = loadImage("./assets/buyScreen.png")
     resourcesBackgroundImage = loadImage("./assets/resourceBackground.gif")
@@ -225,34 +227,34 @@ function draw() {
         Barracks();
         enimys()
 
-        
-        
-        
-        
+
+
+
+
         //EasterEggVideo//
         if (playEasterEggVideo === false && kb.presses('l')) {
 
             easterEggVideo.play();
 
             playEasterEggVideo = true;
-            
+
         } else if (playEasterEggVideo === true && kb.presses('l')) {
             easterEggVideo.stop();
             playEasterEggVideo = false;
 
         }
-        
+
         if (playEasterEggVideo === true) {
             image(easterEggVideo, 0, 0, width, height);
         }
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
+
         GUIE(); //this must alwas be done last 
     }
 }
@@ -1108,8 +1110,9 @@ function monsterAni() {
             // lavaKraken.img = lavaKrakenImage
 
 
-        }else{
+        } else {
             lavaKraken.speed = 0;
+            lavaKraken.moveTowards(-4600, 0, 0.01)
         }
 
 
@@ -1185,7 +1188,7 @@ function monsterHpSystem() {
         for (let i = 0; i < monsterHealthBarComponents.length; i++) {
 
             if (monsterHealthBarComponents[i].width < 10 && removeMonster === true) {
-            
+
                 monsterHealthBarComponents[i].remove();
                 monsterHealthBarComponents[i - 1].remove();
                 monsterHealthBarComponents.splice(i - 1, 2)
@@ -1339,10 +1342,10 @@ function GUIE() {
 
         }
     }
-    if (buyConstructor.mouse.pressed()&&scrapMetalCounter.text >99 && oilCounter.text > 49 && crystalCounter.text >49) {
+    if (buyConstructor.mouse.pressed() && scrapMetalCounter.text > 99 && oilCounter.text > 49 && crystalCounter.text > 49) {
         makeship('constructor', 1500, 750)
-        scrapMetalCounter.text -=100
-        oilCounter.text -=50
+        scrapMetalCounter.text -= 100
+        oilCounter.text -= 50
         crystalCounter.text -= 50
     }
 
@@ -1376,20 +1379,20 @@ function GUIE() {
         }
 
     }
-    if(buyScout.mouse.presses()&&scrapMetalCounter.text > 49 && oilCounter.text > 24){
-     makeship('scout', 1500,750)
-     scrapMetalCounter.text -=50
-     oilCounter.text -=25
+    if (buyScout.mouse.presses() && scrapMetalCounter.text > 49 && oilCounter.text > 24) {
+        makeship('scout', 1500, 750)
+        scrapMetalCounter.text -= 50
+        oilCounter.text -= 25
     }
-    if(buyFigther.mouse.presses() && scrapMetalCounter.text >99 && oilCounter.text > 49){
-        makeship('fighter', 1500,750)
-        scrapMetalCounter.text -=100
-        oilCounter.text -=50
+    if (buyFigther.mouse.presses() && scrapMetalCounter.text > 99 && oilCounter.text > 49) {
+        makeship('fighter', 1500, 750)
+        scrapMetalCounter.text -= 100
+        oilCounter.text -= 50
     }
-    if(buyDestroyer.mouse.presses()&&scrapMetalCounter.text >199 && oilCounter.text > 99 && crystalCounter.text >24){
-        makeship('destroyer', 1500,750)
-        scrapMetalCounter.text -=200
-        oilCounter.text -=100
+    if (buyDestroyer.mouse.presses() && scrapMetalCounter.text > 199 && oilCounter.text > 99 && crystalCounter.text > 24) {
+        makeship('destroyer', 1500, 750)
+        scrapMetalCounter.text -= 200
+        oilCounter.text -= 100
         crystalCounter.text -= 25
 
     }
@@ -1445,16 +1448,16 @@ function zoom() {
     camera.on();
     drawAllSpritesExcept();
     if (kb.pressing('arrowleft')) {
-        camera.x = camera.x - 10
+        camera.x = camera.x - 100
     }
     if (kb.pressing('arrowright')) {
-        camera.x = camera.x + 10
+        camera.x = camera.x + 100
     }
     if (kb.pressing('arrowup')) {
-        camera.y = camera.y - 10
+        camera.y = camera.y - 100
     }
     if (kb.pressing('arrowdown')) {
-        camera.y = camera.y + 10
+        camera.y = camera.y + 100
     }
     camera.off();
     ui.draw();
@@ -1659,13 +1662,13 @@ async function resourceCollection() {
                 for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
-                    if (d < 400 && buyRC.mouse.pressed()&&scrapMetalCounter.text > 199) {
+                    if (d < 400 && buyRC.mouse.pressed() && scrapMetalCounter.text > 199) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y, 50, 50)
                         resourceStation.collider = 'd'
                         resourceStation.img = oilRig
                         oilRig.resize(248, 338)
                         resourceStationSpawned = true;
-                        scrapMetalCounter.text -= 200 
+                        scrapMetalCounter.text -= 200
 
                         selectedship.hp = 0;
                         for (let health of healthBarComponents) {
@@ -1686,14 +1689,14 @@ async function resourceCollection() {
                 for (let i = 0; i < oilResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
-                    if (d < 400 && buyRC.mouse.pressed()&&scrapMetalCounter.text > 199) {
+                    if (d < 400 && buyRC.mouse.pressed() && scrapMetalCounter.text > 199) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
                         resourceStation.img = oilRig
                         resourceStation.debug = true
                         oilRig.resize(248, 338)
                         resourceStationSpawned = true
-                        scrapMetalCounter.text -= 200 
+                        scrapMetalCounter.text -= 200
 
                         selectedship.hp = 0;
                         for (let health of healthBarComponents) {
@@ -1714,13 +1717,13 @@ async function resourceCollection() {
                 for (let i = 0; i < crystalResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
-                    if (d < 400 && buyRC.mouse.pressed()&&scrapMetalCounter.text > 199) {
+                    if (d < 400 && buyRC.mouse.pressed() && scrapMetalCounter.text > 199) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
                         resourceStation.img = oilRig
                         oilRig.resize(248, 338)
                         resourceStationSpawned = true
-                        scrapMetalCounter.text -= 200 
+                        scrapMetalCounter.text -= 200
 
                         selectedship.hp = 0;
                         for (let health of healthBarComponents) {
@@ -1737,14 +1740,14 @@ async function resourceCollection() {
             }
 
             if (selectedship.clicked) {
-                if (buyBarracks.mouse.presses()&&scrapMetalCounter.text >249) {
+                if (buyBarracks.mouse.presses() && scrapMetalCounter.text > 249) {
                     console.log(selectedship)
                     shipYard = new Sprite(selectedship.x, selectedship.y, 50, 50)
                     shipYard.collider = 's'
-                    shipYard.img=barrackImg
+                    shipYard.img = barrackImg
                     selectedship.remove();
                     shipYards.push(shipYard)
-                    scrapMetalCounter.text -=250
+                    scrapMetalCounter.text -= 250
                     selectedship.clicked = false
                 }
             }
@@ -1872,7 +1875,7 @@ function hpsystem() {
             selectedship.hp -= 0.5;
             console.log(selectedship.hp)
         }
-        if (selectedship.overlapping(lavaZone) && lavaUp === false) {
+        if (selectedship.overlapping(lavaZone) || selectedship.overlapping(lavaZone2) && lavaUp === false) {
             selectedship.hp -= 0.5;
             console.log(selectedship.hp)
         }
@@ -1887,19 +1890,29 @@ function hpsystem() {
 
 function Zones() {
     if (zoneSpawned === false) {
-        lavaZone = new Sprite(-6050, -1450, 6000, 6000)
-        lavaZone.color = color(220, 0, 0, 50)
-        lavaZone.visible = false
-        radiationZone = new Sprite(-5680, 4250, 6000, 5000)
-        radiationZone.color = color(0, 0, 0, 50)
-        radiationZone.visible = false
-        zoneSpawned = true
+
+        lavaZone = new Sprite(-5850, -1650, 5575, 6375, 'n');
+        lavaZone.color = color(220, 0, 0, 255);
+        lavaZone.visible = false;
+
+
+
+        lavaZone2 = new Sprite(-165, -3425, 5780, 2805, 'n');
+        lavaZone2.color = color(220, 0, 0, 255);
+        lavaZone2.visible = false;
+
+
+        radiationZone = new Sprite(-5680, 4250, 6000, 5000, 'n');
+        radiationZone.color = color(0, 0, 0, 50);
+        radiationZone.visible = false;
+
+
+        zoneSpawned = true;
+
+
+
+
     }
-
-    lavaZone.collider = 'n'
-    radiationZone.collider = 'n'
-
-
 
 }
 
