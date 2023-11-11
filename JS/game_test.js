@@ -103,6 +103,9 @@ let buyRad;
 let buyLava;
 let lavaUp = false
 let radUp = false
+let launch 
+let rocket 
+let rocketImg
 
 function preload() {
     //Background//
@@ -151,6 +154,7 @@ function preload() {
     //buildings
     oilRig = loadImage("./assets/backround_removed_oilrig.png")
     barrackImg = loadImage("./assets/barracks.webp")
+    rocketImg = loadImage("./assets/rocket.png")
 
     //
     buyImg = loadImage("./assets/buyScreen.png")
@@ -224,7 +228,7 @@ function draw() {
         selection_system();
         resourceCollection();
         resourceCollected();
-        Barracks();
+        blastOff();
         enimys()
 
 
@@ -1317,6 +1321,11 @@ function GUIE() {
         buyLava.text = 'Lava Up'
         buyLava.textSize = 30
         buyLava.collider = 's'
+        launch = new ui.Sprite(9000, 205, 200, 60)
+        launch.colour = 'white'
+        launch.text = 'Rocket'
+        launch.textSize = 30
+        launch.collider = 's'
 
 
         createMenu = false
@@ -1326,6 +1335,7 @@ function GUIE() {
     if (mothershipBase.mouse.pressed()) {
         buyScreen.x = 1750
         buyConstructor.x = 1750
+        launch.x = 1750
 
     }
     if (mouse.pressed()) {
@@ -1339,7 +1349,7 @@ function GUIE() {
             buyDestroyer.x = 9000
             buyRad.x = 9000
             buyLava.x =9000
-
+            launch.x = 9000
         }
     }
     if (buyConstructor.mouse.pressed() && scrapMetalCounter.text > 99 && oilCounter.text > 49 && crystalCounter.text > 49) {
@@ -1395,6 +1405,11 @@ function GUIE() {
         oilCounter.text -= 100
         crystalCounter.text -= 25
 
+    }
+    if(launch.mouse.pressed()){
+        rocket = new Sprite(mothership.x,mothership.y)
+        rocket.collider = 'n'
+        rocket.img = rocketImg
     }
 
 
@@ -1916,7 +1931,7 @@ function Zones() {
 
 }
 
-function Barracks() {
+function blastOff() {
 
 
 
