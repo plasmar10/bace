@@ -600,7 +600,7 @@ function makeships() {
     makeship("fighter", 500, 700)
     makeship("fighter", 0, 800)
     makeship("destroyer", 800, 1000)
-    makeship('constructor', 1500, 700)
+  
 
 }
 
