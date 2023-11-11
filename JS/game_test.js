@@ -1,6 +1,6 @@
 "use strict";
-let mothershipBase, defaultResource, resourceZone, resourceBackground;
-let oceanBackground, mothershipImage, mainMusic;
+let mothershipBase, defaultResource, resourceZone, resourceBackground, offScreenBackground;
+let oceanBackground, mothershipImage, mainMusic, oceanBorderSprite;
 let oceanSprite;
 let scrollNumber = 0
 let scrollZoomLevel = 0.25
@@ -107,6 +107,10 @@ function preload() {
     menuebuttionsgroupimg = loadImage("./assets/menue_buttion.png");
     //oceanBackground = loadImage("./assets/small_backround_low_rez.jpg");
     oceanBackground = loadImage("./assets/backround_with_zones.jpg");
+    offScreenBackground = loadImage("./assets/backgroundJump.jpg");
+
+
+
 
     //Resources//
     scrapMetalImage = loadImage("./assets/metalplate.png");
@@ -193,9 +197,13 @@ function draw() {
     }
     else if (currentScreen === 2) { //Game
         clear();
+       
+        image(offScreenBackground, 0, 0, width, height)
+        
         //GameSetup//
         if (gameLoadOnce === false) {
             new Group();
+
 
             ocean();
             Zones();
@@ -254,6 +262,7 @@ function draw() {
 
 
         GUIE(); //this must alwas be done last 
+        
     }
 }
 
@@ -398,15 +407,6 @@ function playMenuSelectionSound() {
 }
 
 
-
-
-
-
-
-
-
-
-
 function startscreen() {
     image(menuBackground, 0, 0, width, height)
 
@@ -445,11 +445,23 @@ function IntroEnded() {
 
 
 function ocean() {
-    oceanBackground.resize(width * 10, height * 10)
-    oceanSprite = new Sprite(width / 2, height / 2, width * 10, height * 10, "n")
-    oceanSprite.image = oceanBackground
-    oceanSprite.color = 'blue'
-    oceanSprite.layer = -10
+    //Ocean//
+    oceanBackground.resize(width * 10, height * 10);
+    oceanSprite = new Sprite(width / 2, height / 2, width * 10, height * 10, "n");
+    oceanSprite.image = oceanBackground;
+    oceanSprite.color = 'blue';
+    oceanSprite.layer = -10;
+
+
+    //OceanBorder//
+    oceanBorderSprite = new Sprite(width / 2, height / 2, width * 10, height * 10, "s");
+    oceanBorderSprite.shape = 'chain';
+    oceanBorderSprite.layer = -10;
+    oceanBorderSprite.stroke = 'black';
+
+
+
+
 }
 
 function mothership() {
@@ -1045,7 +1057,7 @@ function enemies() {
 
 
     //LavaKraken//
-    lavaKraken = new Sprite(-4500, 500, 720, 550, 'k')
+    lavaKraken = new Sprite(-6300, -100, 720, 550, 'k')
     lavaKraken.offset.y = 100;
     lavaKraken.offset.x = -70;
     lavaKraken.img = lavaKrakenImage
@@ -1101,7 +1113,7 @@ function enemies() {
 
 }
 
-
+let LavaKrakenRouteComplete = false
 function monsterAni() {
     SeaMon.direction = SeaMon.rotation;//sync direction to rotation
     SeaMon.speed = 5;
@@ -1134,16 +1146,36 @@ function monsterAni() {
 
         let MonsterShipDist = dist(actualships[i].x, actualships[i].y, lavaKraken.x, lavaKraken.y)
 
+
         if (MonsterShipDist < 1000 && actualships[i].overlapping(lavaZone)) {
             lavaKraken.rotation -= 0
             lavaKraken.moveTowards(actualships[i], 0.01)
             // lavaKraken.img = lavaKrakenImage
 
 
-        } else {
+        } else if (lavaKraken.x === -6300 && lavaKraken.y === -100) {
             lavaKraken.speed = 0;
-            lavaKraken.moveTowards(-4600, 0, 0.01)
+            lavaKraken.moveTowards(-6300, -4000, 0.004)
+            LavaKrakenRouteComplete = false;
+
+        } else if (lavaKraken.x === -6300 && lavaKraken.y === -4000 && LavaKrakenRouteComplete === false) {
+            lavaKraken.speed = 0;
+            lavaKraken.moveTowards(1000, -4000, 0.002)
+
+        } else if (lavaKraken.x === 1000 && lavaKraken.y === -4000) {
+            lavaKraken.speed = 0;
+            lavaKraken.moveTowards(-6300, -4000, 0.002)
+            LavaKrakenRouteComplete = true;
+
+        } else if (lavaKraken.x === -6300 && lavaKraken.y === -4000 && LavaKrakenRouteComplete === true) {
+            lavaKraken.speed = 0;
+            lavaKraken.moveTowards(-6300, -100, 0.004)
         }
+
+
+
+
+
 
 
 
@@ -1447,7 +1479,6 @@ function gameInterface() {
 function zoom() {
     scrollNumber = 0
     camera.zoomTo(scrollZoomLevel)
-    background(0);
 
     camera.on();
     drawAllSpritesExcept();
@@ -1466,6 +1497,24 @@ function zoom() {
     camera.off();
     ui.draw();
     ui.layer = 9999
+
+    console.log(camera.x, camera.y)
+
+    if (camera.x <= -4950) {
+        camera.x = -4950
+    }
+    if (camera.x >= 6870) {
+        camera.x = 6870
+    }
+
+
+    if (camera.y <= -2800) {
+        camera.y = -2800
+    }
+    if (camera.y >= 3900) {
+        camera.y = 3900
+    }
+    
 }
 
 function drawAllSpritesExcept() {
