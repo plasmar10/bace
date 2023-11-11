@@ -94,7 +94,7 @@ let buyFigther
 let buyScout
 let buyDestroyer
 
-let gameHasLoaded;
+let gameHasLoaded = false;
 
 let scrapMetalCounterImage
 let oilCounterImage
@@ -159,7 +159,7 @@ function preload() {
 
 function setup() {
     createCanvas(1920, 1076);
-  
+
 
 }
 
@@ -1441,7 +1441,7 @@ function resourceCollected() {
             //ScrapMetal
             for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
                 let c = dist(resourceStation.x, resourceStation.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
-                if (c < 200) {
+                if (c < 400) {
                     if (frameCount % 60 === 0) {
                         scrapMetalCounter.text++
                     }
@@ -1452,7 +1452,7 @@ function resourceCollected() {
             //Oil
             for (let i = 0; i < oilResourceNodes.length; i++) {
                 let c = dist(resourceStation.x, resourceStation.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
-                if (c < 200) {
+                if (c < 400) {
                     if (frameCount % 60 === 0) {
                         oilCounter.text++
                     }
@@ -1463,7 +1463,7 @@ function resourceCollected() {
             //Crystal
             for (let i = 0; i < crystalResourceNodes.length; i++) {
                 let c = dist(resourceStation.x, resourceStation.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
-                if (c < 200) {
+                if (c < 400) {
                     if (frameCount % 60 === 0) {
                         crystalCounter.text++
                     }
@@ -1481,20 +1481,20 @@ async function resourceCollection() {
 
 
     for (let selectedship of actualships) {
-        
+
         if (selectedship.shipclass === 'constructor') {
-           if ( selectedship.mouse.pressed()){
-            selectedship.clicked = true 
-          
-           }
-           else if (!selectedship.mouse.pressed()&& !selectedship.clicked){
-            selectedship.clicked = false
-           
-           }
-           if(mouse.pressed()&&!selectedship.mouse.pressed()){
-            selectedship.clicked = false
-           
-           }
+            if (selectedship.mouse.pressed()) {
+                selectedship.clicked = true
+
+            }
+            else if (!selectedship.mouse.pressed() && !selectedship.clicked) {
+                selectedship.clicked = false
+
+            }
+            if (mouse.pressed() && !selectedship.mouse.pressed()) {
+                selectedship.clicked = false
+
+            }
 
 
             //ScrapMetal
@@ -1502,7 +1502,7 @@ async function resourceCollection() {
                 for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
-                    if (d < 200 && buyRC.mouse.pressed()) {
+                    if (d < 400 && buyRC.mouse.pressed()) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y, 50, 50)
                         resourceStation.collider = 'd'
                         resourceStation.img = oilRig
@@ -1529,7 +1529,7 @@ async function resourceCollection() {
                 for (let i = 0; i < oilResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
-                    if (d < 200 && buyRC.mouse.pressed()) {
+                    if (d < 400 && buyRC.mouse.pressed()) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
                         resourceStation.img = oilRig
@@ -1556,7 +1556,7 @@ async function resourceCollection() {
                 for (let i = 0; i < crystalResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
-                    if (d < 200 && buyRC.mouse.pressed()) {
+                    if (d < 400 && buyRC.mouse.pressed()) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
                         resourceStation.img = oilRig
@@ -1578,24 +1578,23 @@ async function resourceCollection() {
                 }
             }
 
-                if(selectedship.clicked){
-                    if(buyBarracks.mouse.hovering()){
-                        console.log(selectedship)
-                        shipYard = new Sprite(selectedship.x, selectedship.y,50,50 )
-                        shipYard.collider = 's'
-                        selectedship.remove();
-                        shipYards.push(shipYard)
-                        selectedship.clicked=false
-                    }
+            if (selectedship.clicked) {
+                if (buyBarracks.mouse.hovering()) {
+                    console.log(selectedship)
+                    shipYard = new Sprite(selectedship.x, selectedship.y, 50, 50)
+                    shipYard.collider = 's'
+                    selectedship.remove();
+                    shipYards.push(shipYard)
+                    selectedship.clicked = false
                 }
+            }
 
 
         }
     }
 
-    delay(200000000)
+    await delay(999999999999999)
     gameLoaded();
-
 
 }
 
@@ -1739,29 +1738,29 @@ function Barracks() {
 
 function enimys() {
 
-        // SeaMon = new Sprite(-1500, 2000, 355, 150)
-        // SeaMonShadowImage.resize(350, 230)
-        // SeaMon.offset.x = -145;
-        // SeaMon.img = SeaMonShadowImage
-        // SeaMon.maxHP = 10000;
-        // SeaMon.hp = 10000;
-        // SeaMon.idNum = 0;
-        // SeaMon.debug = true;
-        // oceanCreatures.push(SeaMon)
+    // SeaMon = new Sprite(-1500, 2000, 355, 150)
+    // SeaMonShadowImage.resize(350, 230)
+    // SeaMon.offset.x = -145;
+    // SeaMon.img = SeaMonShadowImage
+    // SeaMon.maxHP = 10000;
+    // SeaMon.hp = 10000;
+    // SeaMon.idNum = 0;
+    // SeaMon.debug = true;
+    // oceanCreatures.push(SeaMon)
 
 
-        // let monsterHealthBarBackground = new Sprite(-1000, 100, 300, 15, 'none');
-        // monsterHealthBarBackground.componentId = 'background';
-        // monsterHealthBarBackground.color = 'black';
-        // monsterHealthBarBackground.idNum = SeaMon.idNum;
-        // monsterHealthBarComponents.push(monsterHealthBarBackground)
+    // let monsterHealthBarBackground = new Sprite(-1000, 100, 300, 15, 'none');
+    // monsterHealthBarBackground.componentId = 'background';
+    // monsterHealthBarBackground.color = 'black';
+    // monsterHealthBarBackground.idNum = SeaMon.idNum;
+    // monsterHealthBarComponents.push(monsterHealthBarBackground)
 
 
-        // let monsterHealthBarLife = new Sprite(-1000, 100, 300, 14, 'none');
-        // monsterHealthBarLife.componentId = 'bar';
-        // monsterHealthBarLife.color = 'lightgreen';
-        // monsterHealthBarLife.idNum = SeaMon.idNum;
-        // monsterHealthBarComponents.push(monsterHealthBarLife)
+    // let monsterHealthBarLife = new Sprite(-1000, 100, 300, 14, 'none');
+    // monsterHealthBarLife.componentId = 'bar';
+    // monsterHealthBarLife.color = 'lightgreen';
+    // monsterHealthBarLife.idNum = SeaMon.idNum;
+    // monsterHealthBarComponents.push(monsterHealthBarLife)
 
 
 }
