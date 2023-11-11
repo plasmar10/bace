@@ -56,7 +56,7 @@ let resourceStationSpawned = false;
 
 let menuselectionsoundefect
 
-let currentScreen = 2
+let currentScreen = 0
 let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
@@ -146,7 +146,7 @@ function preload() {
     easterEggVideo.hide();
     introVideo.volume(0.1);
     easterEggVideo.volume(0.5);
-    surfaceNauticaVideo = createVideo("./assets/videos/surfusnatica_1.mp4", videoLoaded);
+    surfaceNauticaVideo = createVideo("./assets/videos/surfusnatica_1.mp4");
     surfaceNauticaVideo.hide();
 
 
@@ -175,6 +175,7 @@ function draw() {
     }
     else if (currentScreen === 1) { //Menu Screen
         menuScreen()
+        
 
     }
     else if (currentScreen === 2) { //Game
@@ -211,7 +212,7 @@ function draw() {
         resourceCollection();
         resourceCollected();
         Barracks();
-
+        enimys()
 
         GUIE(); //this must alwas be done last 
 
@@ -238,7 +239,6 @@ function draw() {
 
 
 
-    }
 
 
 
@@ -248,6 +248,7 @@ function draw() {
 
 function menuScreen() {
     background(0);
+    surfaceNauticaVideo.loop();
     image(surfaceNauticaVideo, 0, 0, 1920, 1076);
     // Display your video or any other content for the menu screen here
     if (mainMusic.isPlaying()) {
@@ -276,7 +277,7 @@ function menuScreen() {
 
 
 
-        makeMenubuttions = true
+        makeMenuButtons = true
     }
 
     noFill();
@@ -440,7 +441,7 @@ function ocean() {
 }
 
 function mothership() {
-    mothershipBase = new Sprite(width / 2, height / 2, 400, 400, 's')
+    mothershipBase = new Sprite(width / 2, height / 2, 400, 190, 's')
     mothershipBase.color = 'black'
     mothershipImage.resize(400, 400)
     mothershipBase.img = mothershipImage
@@ -1719,6 +1720,36 @@ function Barracks() {
 
 }
 
+
+
+function enimys() {
+
+    SeaMon = new Sprite(-1500, 2000, 355, 150)
+    SeaMonShadowImage.resize(350, 230)
+    SeaMon.offset.x = -145;
+    SeaMon.img = SeaMonShadowImage
+    SeaMon.maxHP = 10000;
+    SeaMon.hp = 10000;
+    SeaMon.idNum = 0;
+    SeaMon.debug = true;
+    oceanCreatures.push(SeaMon)
+
+
+    let monsterHealthBarBackground = new Sprite(-1000, 100, 300, 15, 'none');
+    monsterHealthBarBackground.componentId = 'background';
+    monsterHealthBarBackground.color = 'black';
+    monsterHealthBarBackground.idNum = SeaMon.idNum;
+    monsterHealthBarComponents.push(monsterHealthBarBackground)
+
+
+    let monsterHealthBarLife = new Sprite(-1000, 100, 300, 14, 'none');
+    monsterHealthBarLife.componentId = 'bar';
+    monsterHealthBarLife.color = 'lightgreen';
+    monsterHealthBarLife.idNum = SeaMon.idNum;
+    monsterHealthBarComponents.push(monsterHealthBarLife)
+
+
+}
 
 
 
