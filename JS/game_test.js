@@ -70,7 +70,7 @@ let playEasterEggVideo = false;
 let MenuSprites, newGameButton, menuBackground;
 let introVideo, easterEggVideo;
 let zoneSpawned = false
-let lavaZone;
+let lavaZone, lavaZone2, lavaZone3;
 let radiationZone;
 let buyScreen;
 let buyConstructor;
@@ -221,34 +221,34 @@ function draw() {
         Barracks();
         enimys()
 
-        
-        
-        
-        
+
+
+
+
         //EasterEggVideo//
         if (playEasterEggVideo === false && kb.presses('l')) {
 
             easterEggVideo.play();
 
             playEasterEggVideo = true;
-            
+
         } else if (playEasterEggVideo === true && kb.presses('l')) {
             easterEggVideo.stop();
             playEasterEggVideo = false;
 
         }
-        
+
         if (playEasterEggVideo === true) {
             image(easterEggVideo, 0, 0, width, height);
         }
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
+
         GUIE(); //this must alwas be done last 
     }
 }
@@ -1104,8 +1104,9 @@ function monsterAni() {
             // lavaKraken.img = lavaKrakenImage
 
 
-        }else{
+        } else {
             lavaKraken.speed = 0;
+            lavaKraken.moveTowards(-4600, 0, 0.01)
         }
 
 
@@ -1181,7 +1182,7 @@ function monsterHpSystem() {
         for (let i = 0; i < monsterHealthBarComponents.length; i++) {
 
             if (monsterHealthBarComponents[i].width < 10 && removeMonster === true) {
-            
+
                 monsterHealthBarComponents[i].remove();
                 monsterHealthBarComponents[i - 1].remove();
                 monsterHealthBarComponents.splice(i - 1, 2)
@@ -1404,16 +1405,16 @@ function zoom() {
     camera.on();
     drawAllSpritesExcept();
     if (kb.pressing('arrowleft')) {
-        camera.x = camera.x - 10
+        camera.x = camera.x - 100
     }
     if (kb.pressing('arrowright')) {
-        camera.x = camera.x + 10
+        camera.x = camera.x + 100
     }
     if (kb.pressing('arrowup')) {
-        camera.y = camera.y - 10
+        camera.y = camera.y - 100
     }
     if (kb.pressing('arrowdown')) {
-        camera.y = camera.y + 10
+        camera.y = camera.y + 100
     }
     camera.off();
     ui.draw();
@@ -1828,8 +1829,8 @@ function hpsystem() {
             selectedship.hp -= 0.5;
             console.log(selectedship.hp)
         }
-        if (selectedship.overlapping(lavaZone)) {
-            selectedship.hp -= 0.5;
+        if (selectedship.overlapping(lavaZone)||selectedship.overlapping(lavaZone2)) {
+            selectedship.hp -= 0.25;
             console.log(selectedship.hp)
         }
 
@@ -1843,19 +1844,29 @@ function hpsystem() {
 
 function Zones() {
     if (zoneSpawned === false) {
-        lavaZone = new Sprite(-6050, -1450, 6000, 6000)
-        lavaZone.color = color(220, 0, 0, 50)
-        lavaZone.visible = false
-        radiationZone = new Sprite(-5680, 4250, 6000, 5000)
-        radiationZone.color = color(0, 0, 0, 50)
-        radiationZone.visible = false
-        zoneSpawned = true
+
+        lavaZone = new Sprite(-5850, -1650, 5575, 6375, 'n');
+        lavaZone.color = color(220, 0, 0, 255);
+        lavaZone.visible = false;
+
+
+
+        lavaZone2 = new Sprite(-165, -3425, 5780, 2805, 'n');
+        lavaZone2.color = color(220, 0, 0, 255);
+        lavaZone2.visible = false;
+
+
+        radiationZone = new Sprite(-5680, 4250, 6000, 5000, 'n');
+        radiationZone.color = color(0, 0, 0, 50);
+        radiationZone.visible = false;
+
+
+        zoneSpawned = true;
+
+
+
+
     }
-
-    lavaZone.collider = 'n'
-    radiationZone.collider = 'n'
-
-
 
 }
 
