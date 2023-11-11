@@ -275,8 +275,6 @@ function draw() {
             menuebuttionsgroup.img = menuebuttionsgroupimg
 
 
-
-
             makeMenuButtons = true
         }
 
