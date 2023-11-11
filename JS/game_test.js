@@ -259,8 +259,6 @@ function menuScreen() {
         menuebuttionsgroup.img = menuebuttionsgroupimg
 
 
-
-
         makeMenuButtons = true
     }
 
