@@ -9,7 +9,7 @@ let scoutShipImage;
 let scrapMetalImage, oilImage, crystalImage, resourcesBackgroundImage, metalImage, damagedScoutShipimg;
 let cannonImage, destroyerimg, fighterShipimg, damagedFighterShipimg, damagedCannonImage, damagedDestroyerShipimg;
 let SeaMon, lavaKraken, radiationSquid, dukeFishron;
-let SeaMonShadowImage, lavaKrakenImage, dukeFishronImage;
+let SeaMonShadowImage, lavaKrakenImage, dukeFishronImageRight, dukeFishronImageLeft, dukeFishron2ImageLeft, dukeFishron2ImageRight;
 let basicShot;
 let ui;
 let constructorimg
@@ -56,7 +56,7 @@ let resourceStationSpawned = false;
 
 let menuselectionsoundefect
 
-let currentScreen = 2
+let currentScreen = 0
 let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
@@ -142,8 +142,11 @@ function preload() {
     // SeaMonImage = loadImage ("./assets/enemy_sprites/seamonster.gif")
 
     lavaKrakenImage = loadImage("./assets/enemy_sprites/LavaKraken.gif")
-    dukeFishronImage = loadImage("./assets/enemy_sprites/DukeFishronFirstForm.gif")
+    dukeFishronImageLeft = loadImage("./assets/enemy_sprites/DukeFishronFirstForm.gif")
+    dukeFishronImageRight = loadImage("./assets/enemy_sprites/DukeFishronFirstFormRight.gif")
 
+    dukeFishron2ImageLeft = loadImage("./assets/enemy_sprites/DukeFishronSecondFormLeft.gif")
+    dukeFishron2ImageRight = loadImage("./assets/enemy_sprites/DukeFishronSecondForm.gif")
 
     //Music//
     mainMusic = loadSound("./assets/music/Salutations.mp3")
@@ -197,9 +200,9 @@ function draw() {
     }
     else if (currentScreen === 2) { //Game
         clear();
-       
+
         image(offScreenBackground, 0, 0, width, height)
-        
+
         //GameSetup//
         if (gameLoadOnce === false) {
             new Group();
@@ -262,7 +265,7 @@ function draw() {
 
 
         GUIE(); //this must alwas be done last 
-        
+
     }
 }
 
@@ -626,7 +629,10 @@ function makeships() {
 
     makeship('scout', 500, 500)
     makeship('fighter', -1000, 500)
-
+    makeship('fighter', -1000, 500)
+    makeship('fighter', -1000, 500)
+    makeship('fighter', -1000, 500)
+    makeship('fighter', -1000, 500)
 }
 
 function makeship(shiptype, newshipX, newshipY) {
@@ -1082,11 +1088,14 @@ function enemies() {
 
 
     //DukeFishron//
-    dukeFishron = new Sprite(-5000, 3000, 550, 380, 'k')
+    dukeFishron = new Sprite(-8000, 5297, 550, 380, 'k')
     dukeFishron.offset.y = 170;
     dukeFishron.offset.x = 20;
-    dukeFishronImage.resize(600, 450);
-    dukeFishron.img = dukeFishronImage;
+    dukeFishronImageLeft.resize(600, 450);
+    dukeFishronImageRight.resize(600, 450);
+    dukeFishron2ImageLeft.resize(600, 450);
+    dukeFishron2ImageRight.resize(600, 450);
+    dukeFishron.img = dukeFishronImageLeft;
     dukeFishron.maxHP = 10000;
     dukeFishron.hp = 10000;
     dukeFishron.idNum = 2;
@@ -1113,8 +1122,14 @@ function enemies() {
 
 }
 
-let LavaKrakenRouteComplete = false
+let LavaKrakenRouteComplete = false;
+let dukeFishronRouteComplete = false;
+let lavaKrakenFollowedShip = false;
+let dukeFishronFollowedShip = false;
 function monsterAni() {
+
+
+    //Leviathan//
     SeaMon.direction = SeaMon.rotation;//sync direction to rotation
     SeaMon.speed = 5;
     for (let i = 0; i < actualships.length; i++) {
@@ -1141,16 +1156,18 @@ function monsterAni() {
     lavaKraken.rotationLock = true;
     dukeFishron.rotationLock = true;
 
-    //if ship overlapping lavazone and in distance follow
+    //Lava Kraken//
     for (let i = 0; i < actualships.length; i++) {
 
         let MonsterShipDist = dist(actualships[i].x, actualships[i].y, lavaKraken.x, lavaKraken.y)
 
 
-        if (MonsterShipDist < 1000 && actualships[i].overlapping(lavaZone)) {
-            lavaKraken.rotation -= 0
+        if (MonsterShipDist < 1500 && actualships[i].overlapping(lavaZone) || actualships[i].overlapping(lavaZone2) || actualships[i].overlapping(lavaZone3)) {
+            lavaKraken.speed = 0;
             lavaKraken.moveTowards(actualships[i], 0.01)
             // lavaKraken.img = lavaKrakenImage
+
+            lavaKrakenFollowedShip = true;
 
 
         } else if (lavaKraken.x === -6300 && lavaKraken.y === -100) {
@@ -1170,11 +1187,54 @@ function monsterAni() {
         } else if (lavaKraken.x === -6300 && lavaKraken.y === -4000 && LavaKrakenRouteComplete === true) {
             lavaKraken.speed = 0;
             lavaKraken.moveTowards(-6300, -100, 0.004)
+
+        } else if (lavaKrakenFollowedShip === true) {
+            lavaKraken.speed = 0;
+            lavaKraken.moveTowards(-6300, -100, 0.004)
+            lavaKrakenFollowedShip = false;
+            LavaKrakenRouteComplete = false;
         }
 
+    }
+
+
+    //Duke Fishron//
+    for (let i = 0; i < actualships.length; i++) {
+
+        let MonsterShipDist = dist(actualships[i].x, actualships[i].y, dukeFishron.x, dukeFishron.y)
+
+
+        if (MonsterShipDist < 2000 && actualships[i].overlapping(radiationZone)) {
+            dukeFishron.rotation -= 0
+            dukeFishronFollowedShip = true;
+            dukeFishron.moveTowards(actualships[i], 0.02)
+
+
+        } else if (dukeFishron.x === -8000 && dukeFishron.y === 5297) {
+            dukeFishron.speed = 0;
+            dukeFishron.moveTowards(-5500, 2000, 0.01)
+
+
+        } else if (dukeFishron.x === -5500 && dukeFishron.y === 2000) {
+            dukeFishron.speed = 0;
+            dukeFishron.moveTowards(-3400, 5297, 0.01)
 
 
 
+        } else if (dukeFishron.x === -3400 && dukeFishron.y === 5297) {
+            dukeFishron.speed = 0;
+            dukeFishron.moveTowards(-8000, 5297, 0.01)
+
+
+
+
+        } else if (dukeFishronFollowedShip === true) {
+            dukeFishron.speed = 0;
+            dukeFishron.moveTowards(-8000, 5297, 0.02)
+            dukeFishronFollowedShip = false;
+
+
+        }
 
 
 
@@ -1182,6 +1242,12 @@ function monsterAni() {
 
     }
 
+    if (dukeFishron.direction < 90 && dukeFishron.direction > -90) {
+
+        dukeFishron.img = dukeFishronImageRight
+    } else {
+        dukeFishron.img = dukeFishronImageLeft
+    }
 
 
     monsterHpSystem();
@@ -1215,8 +1281,28 @@ function monsterHpSystem() {
                 if (monster.maxHP / 4 > monster.hp && health.idNum === monster.idNum) {
                     health.color = 'red';
 
+                    if (monster.idNum === 2) {
+                        if (monster.direction < 90 && monster.direction > -90) {
+
+                            monster.img = dukeFishron2ImageRight
+                        } else {
+                            monster.img = dukeFishron2ImageLeft
+                        }
+                    }
+
                 } else if (monster.maxHP / 1.5 > monster.hp && health.idNum === monster.idNum) {
                     health.color = 'yellow';
+
+
+                    if (monster.idNum === 2) {
+                        if (monster.direction < 90 && monster.direction > -90) {
+
+                            monster.img = dukeFishron2ImageRight
+                        } else {
+                            monster.img = dukeFishron2ImageLeft
+                        }
+                    }
+
                 }
 
             }
@@ -1261,7 +1347,7 @@ function monsterHpSystem() {
         for (let i = 0; i < shots.length; i++) {
             if (shots[i].collides(monster)) {
                 shots[i].remove();
-                monster.hp -= 50;
+                monster.hp -= 500;
             }
 
         }
@@ -1276,6 +1362,7 @@ function monsterHpSystem() {
 
 
     }
+
 }
 
 
@@ -1498,7 +1585,7 @@ function zoom() {
     ui.draw();
     ui.layer = 9999
 
-    console.log(camera.x, camera.y)
+    //console.log(camera.x, camera.y)
 
     if (camera.x <= -4950) {
         camera.x = -4950
@@ -1514,7 +1601,7 @@ function zoom() {
     if (camera.y >= 3900) {
         camera.y = 3900
     }
-    
+
 }
 
 function drawAllSpritesExcept() {
@@ -1928,12 +2015,12 @@ function hpsystem() {
         }
 
         if (selectedship.overlapping(radiationZone)) {
-            selectedship.hp -= 0.5;
-            console.log(selectedship.hp)
+            selectedship.hp -= 0.35;
+            //console.log(selectedship.hp)
         }
-        if (selectedship.overlapping(lavaZone) || selectedship.overlapping(lavaZone2)) {
+        if (selectedship.overlapping(lavaZone) || selectedship.overlapping(lavaZone2) || selectedship.overlapping(lavaZone3)) {
             selectedship.hp -= 0.25;
-            console.log(selectedship.hp)
+            //console.log(selectedship.hp)
         }
 
 
