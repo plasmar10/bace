@@ -56,7 +56,7 @@ let resourceStationSpawned = false;
 
 let menuselectionsoundefect
 
-let currentScreen = 0
+let currentScreen = 2
 let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
@@ -233,8 +233,6 @@ function draw() {
         selection_system();
         resourceCollection();
         resourceCollected();
-        Barracks();
-        enimys()
 
 
 
@@ -500,11 +498,11 @@ function resourceSpawner() {
 
     //Oil//
     if (1 === 1) {
-        let resourceZoneWidth = 3000;
-        let resourceZoneHeight = 1500;
+        let resourceZoneWidth = 3300;
+        let resourceZoneHeight = 2000;
 
-        let resourceZoneX1 = 1750;
-        let resourceZoneY1 = -1500;
+        let resourceZoneX1 = 2800;
+        let resourceZoneY1 = -4500;
 
         let resourceZoneX2 = resourceZoneX1 + resourceZoneWidth;
         let resourceZoneY2 = resourceZoneY1 + resourceZoneHeight;
@@ -578,7 +576,7 @@ function resourceNodes(resourceZoneWidth, resourceZoneHeight, resourceZoneX1, re
 
                 let d = dist(defaultResource.x, defaultResource.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
 
-                if (d < 200) { //edit this to change how far spread apart the resources are
+                if (d < 600) { //edit this to change how far spread apart the resources are
                     defaultResource.remove();
 
                 }
@@ -1124,6 +1122,10 @@ function enemies() {
 
 let LavaKrakenRouteComplete = false;
 let dukeFishronRouteComplete = false;
+
+let leviathanFollowedShip = false;
+let leviathanReachedLocation = false;
+
 let lavaKrakenFollowedShip = false;
 let dukeFishronFollowedShip = false;
 function monsterAni() {
@@ -1131,21 +1133,37 @@ function monsterAni() {
 
     //Leviathan//
     SeaMon.direction = SeaMon.rotation;//sync direction to rotation
-    SeaMon.speed = 5;
+    if (SeaMon.x < -1400 && SeaMon.x > -1600 && SeaMon.y < 2100 && SeaMon.y > 1900) {
+        leviathanFollowedShip = false;
+        leviathanReachedLocation = true;
+    }
+
+    console.log(actualships)
     for (let i = 0; i < actualships.length; i++) {
 
         let MonsterShipDist = dist(actualships[i].x, actualships[i].y, SeaMon.x, SeaMon.y)
 
-        if (MonsterShipDist < 1000) {
-            SeaMon.rotation -= 0
-            SeaMon.rotateTowards(actualships[i])
-            // SeaMon.img = SeaMonImage
+
+        if (MonsterShipDist < 1500) {
+            SeaMon.rotation -= 0;
+            SeaMon.rotateTowards(actualships[i], 0.1);
+            SeaMon.moveTowards(actualships[i], 0.005);
+            leviathanFollowedShip = true;
+            leviathanReachedLocation = false;
 
 
+        } else if (leviathanFollowedShip === true) {
+            SeaMon.rotateTowards(-1500, 2000, 0.1);
+            SeaMon.moveTowards(-1500, 2000, 0.02);
+            
+
+
+        } else if (leviathanReachedLocation = true) {
+            SeaMon.speed = 5;
+            SeaMon.rotation -= 0.2;
         }
-        else {
-            SeaMon.rotation -= 0.5;
-        }
+
+
 
 
 
@@ -1205,32 +1223,32 @@ function monsterAni() {
 
 
         if (MonsterShipDist < 2000 && actualships[i].overlapping(radiationZone)) {
-            dukeFishron.rotation -= 0
+            dukeFishron.rotation -= 0;
             dukeFishronFollowedShip = true;
-            dukeFishron.moveTowards(actualships[i], 0.02)
+            dukeFishron.moveTowards(actualships[i], 0.02);
 
 
         } else if (dukeFishron.x === -8000 && dukeFishron.y === 5297) {
             dukeFishron.speed = 0;
-            dukeFishron.moveTowards(-5500, 2000, 0.01)
+            dukeFishron.moveTowards(-5500, 2000, 0.01);
 
 
         } else if (dukeFishron.x === -5500 && dukeFishron.y === 2000) {
             dukeFishron.speed = 0;
-            dukeFishron.moveTowards(-3400, 5297, 0.01)
+            dukeFishron.moveTowards(-3400, 5297, 0.01);
 
 
 
         } else if (dukeFishron.x === -3400 && dukeFishron.y === 5297) {
             dukeFishron.speed = 0;
-            dukeFishron.moveTowards(-8000, 5297, 0.01)
+            dukeFishron.moveTowards(-8000, 5297, 0.01);
 
 
 
 
         } else if (dukeFishronFollowedShip === true) {
             dukeFishron.speed = 0;
-            dukeFishron.moveTowards(-8000, 5297, 0.02)
+            dukeFishron.moveTowards(-8000, 5297, 0.02);
             dukeFishronFollowedShip = false;
 
 
@@ -1244,9 +1262,9 @@ function monsterAni() {
 
     if (dukeFishron.direction < 90 && dukeFishron.direction > -90) {
 
-        dukeFishron.img = dukeFishronImageRight
+        dukeFishron.img = dukeFishronImageRight;
     } else {
-        dukeFishron.img = dukeFishronImageLeft
+        dukeFishron.img = dukeFishronImageLeft;
     }
 
 
@@ -1261,6 +1279,13 @@ function monsterHpSystem() {
 
         let removeMonster = false;
 
+        //Monster Regeneration//
+        monster.hp += 5;
+
+        if (monster.hp >= 10000){
+            monster.hp = 10000;
+        }
+
 
         for (let health of monsterHealthBarComponents) {
             //console.log(health.idNum)
@@ -1268,8 +1293,8 @@ function monsterHpSystem() {
 
             if (health.idNum === monster.idNum) {
                 health.collider = 'none';
-                health.x = monster.x
-                health.y = monster.y - 50
+                health.x = monster.x;
+                health.y = monster.y - 50;
             }
 
             if (health.componentId === 'bar' && health.idNum === monster.idNum) {
@@ -1284,9 +1309,9 @@ function monsterHpSystem() {
                     if (monster.idNum === 2) {
                         if (monster.direction < 90 && monster.direction > -90) {
 
-                            monster.img = dukeFishron2ImageRight
+                            monster.img = dukeFishron2ImageRight;
                         } else {
-                            monster.img = dukeFishron2ImageLeft
+                            monster.img = dukeFishron2ImageLeft;
                         }
                     }
 
@@ -1347,7 +1372,7 @@ function monsterHpSystem() {
         for (let i = 0; i < shots.length; i++) {
             if (shots[i].collides(monster)) {
                 shots[i].remove();
-                monster.hp -= 500;
+                monster.hp -= 200;
             }
 
         }
@@ -1882,13 +1907,22 @@ async function resourceCollection() {
             if (selectedship.clicked) {
                 if (buyBarracks.mouse.presses() && scrapMetalCounter.text > 249) {
                     console.log(selectedship)
-                    shipYard = new Sprite(selectedship.x, selectedship.y, 50, 50)
+                    shipYard = new Sprite(selectedship.x, selectedship.y, 200, 200)
                     shipYard.collider = 's'
                     shipYard.img = barrackImg
+
+                    selectedship.hp = 0;
+                    for (let health of healthBarComponents) {
+                        if (health.componentId === 'bar' && health.idNum === selectedship.idNum) {
+                            health.width = 0;
+                        }
+                    }
+
                     selectedship.remove();
                     shipYards.push(shipYard)
                     scrapMetalCounter.text -= 250
                     selectedship.clicked = false
+                    shipYard.debug = true
                 }
             }
 
@@ -2015,7 +2049,7 @@ function hpsystem() {
         }
 
         if (selectedship.overlapping(radiationZone)) {
-            selectedship.hp -= 0.35;
+            selectedship.hp -= 0.0001;
             //console.log(selectedship.hp)
         }
         if (selectedship.overlapping(lavaZone) || selectedship.overlapping(lavaZone2) || selectedship.overlapping(lavaZone3)) {
@@ -2070,20 +2104,6 @@ function Zones() {
 
 
     }
-
-}
-
-function Barracks() {
-
-
-
-}
-
-
-
-function enimys() {
-
-
 
 }
 
