@@ -14,6 +14,7 @@ let basicShot;
 let ui;
 let constructorimg
 let startgamebuttion
+let loadingscreen
 
 let shotOnce = false;
 let shots = [];
@@ -77,19 +78,27 @@ let surfaceNauticaVideo;
 let soundPlayed1 = false;
 let soundPlayed2 = false;
 let soundPlayed3 = false;
+let buyRC 
+let buyBarracks
 
 let difficultyButton, creditsButton;
 let makeMenuButtons = false
 let menuimg1, menuimg2, menuimg3
 let menubuttionsblankimg
-let SeaMonImage
-let oilRigImage
+let SeaMonImage;
+let oilRig;
+let buyImg;
+let shipYards
+let shipYard;
+let buyFigther 
+let buyScout
+let buyDestroyer 
 
 
 
 function preload() {
     //Background//
-    menuBackground = loadImage("./assets/menuImage.jpg");
+    menuBackground = loadImage("./assets/menuImage.png");
     menubuttionsblankimg = loadImage("./assets/blank_img.png");
     menuebuttionsgroupimg = loadImage("./assets/menue_buttion.png");
     oceanBackground = loadImage("./assets/small_backround_low_rez.jpg");
@@ -119,7 +128,10 @@ function preload() {
 
 
     //buildings
-    oilRigImage = loadImage("./assets/buildings/Oil_Rig.webp")
+    oilRigImage = loadImage("./assets/backround_removed_oilrig.png")
+
+    //
+    buyImg = loadImage("./assets/buyScreen.png")
 
 
 
@@ -171,6 +183,7 @@ function draw() {
             makeships();
             enemies();//may have to go in draw for animation and stuff
             resourceStations = new Group();
+            shipYards = new Group();
             gameInterface(); // this must alwas be done last
 
 
@@ -187,6 +200,7 @@ function draw() {
         selection_system();
         resourceCollection();
         resourceCollected();
+        Barracks();
 
 
         GUIE(); //this must alwas be done last 
@@ -216,6 +230,7 @@ function draw() {
 
 
 
+
 }
 
 
@@ -227,8 +242,8 @@ function menuScreen() {
         noStroke();
     } else {
         mainMusic.loop();
-        mainMusic.setVolume(0.0);
-        //mainMusic.setVolume(0.1);
+    
+        mainMusic.setVolume(0.1);
     }
     if (!makeMenuButtons) {
         menuebuttionsgroup = new Group()
@@ -245,11 +260,11 @@ function menuScreen() {
         menuimg2 = new menuebuttionsgroup.Sprite(450, 810, 354, 80, 'n')
         menuimg3 = new menuebuttionsgroup.Sprite(450, 920, 354, 80, 'n')
         menuebuttionsgroup.img = menuebuttionsgroupimg
+       
 
 
 
-
-        makeMenuButtons = true
+        makeMenubuttions = true
     }
 
     noFill();
@@ -327,7 +342,9 @@ function menuScreen() {
     }
 
     if (startgamebuttion.mouse.pressed()) {
-        currentScreen = 2
+    loadingscreen = new Sprite(width/2, height/2,width,height)
+    loadingscreen.img = menuBackground
+    currentScreen = 2
     }
 
 
@@ -1149,23 +1166,41 @@ function GUIE() {
     }
 
     if (createmenue) {
-        buyScreen = new ui.Sprite(9000, 35, 400, 600, 'n')
-        buyConstructor = new ui.Sprite(9000, 35, 200, 60)
-        buyConstructor.colour = 'white'
+        buyScreen = new ui.Sprite(9000, 225, 400, 600, 'n')
+        buyScreen.img = buyImg
+        buyScreen.collider = 's'
+        buyImg.resize (599,1000 )
+        buyConstructor = new ui.Sprite(9000, 65, 200, 60)
+        buyConstructor.colour = 'white '
         buyConstructor.text = 'constructor'
+        buyConstructor.collider= 's'
         buyConstructor.textSize = 30
+        buyRC = new ui.Sprite (9000, 65, 200, 60)
+        buyRC.colour= 'white'
+        buyRC.text ='Resource Collector'
+        buyRC.textSize = 20
+        buyRC.collider = 's'
+        buyBarracks = new ui.Sprite (9000, 205, 200, 60)
+        buyBarracks.colour = 'white'
+        buyBarracks.text = 'Barracks'
+        buyBarracks.textSize = 30
+        buyBarracks.collider='s'
+
+
         createmenue = false
 
     }
 
     if (mothershipBase.mouse.pressed()) {
         buyScreen.x = 1750
-        buyConstructor.x = 1800
+        buyConstructor.x = 1750
     }
     if (mouse.pressed()) {
         if (!mothershipBase.mouse.pressed()) {
             buyScreen.x = 9000
             buyConstructor.x = 9000
+            buyBarracks.x = 9000
+            buyRC.x= 9000
 
         }
     }
@@ -1173,6 +1208,13 @@ function GUIE() {
         makeship('constructor', 1500, 750)
     }
 
+    if(constructorShipsClass.mouse.pressed()){
+        buyScreen.x = 1750
+        buyBarracks.x = 1700
+        buyRC.x= 1700
+
+    }
+  
 
     ui.draw();
 }
@@ -1407,10 +1449,12 @@ async function resourceCollection() {
                 for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
-                    if (d < 200 && kb.presses('p')) {
-                        resourceStation = new Sprite(selectedship.x, selectedship.y)
+                    if (d < 200 && buyRC.mouse.pressed()) {
+                        resourceStation = new Sprite(selectedship.x, selectedship.y,50,50 )
                         resourceStation.collider = 'd'
                         resourceStation.img = oilRigImage
+                        oilRig.resize(248, 338)
+                        resourceStation.debug = true
                         resourceStationSpawned = true;
 
                         selectedship.hp = 0;
@@ -1432,10 +1476,12 @@ async function resourceCollection() {
                 for (let i = 0; i < oilResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
-                    if (d < 200 && kb.presses('p')) {
+                    if (d < 200 && buyRC.mouse.pressed()) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
                         resourceStation.img = oilRigImage
+                        resourceStation.debug = true
+                        oilRig.resize(248, 338)
                         resourceStationSpawned = true
 
                         selectedship.hp = 0;
@@ -1457,10 +1503,12 @@ async function resourceCollection() {
                 for (let i = 0; i < crystalResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
-                    if (d < 200 && kb.presses('p')) {
+                    if (d < 200 && buyRC.mouse.pressed()) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
                         resourceStation.img = oilRigImage
+                        oilRig.resize(248, 338)
+                        resourceStation.debug = true
                         resourceStationSpawned = true
 
                         selectedship.hp = 0;
@@ -1478,7 +1526,13 @@ async function resourceCollection() {
             }
 
 
-
+                if(buyBarracks.mouse.pressed()){
+                   shipYard = new Sprite(selectedship.x, selectedship.y,50,50 )
+                   shipYard.collider = 's'
+                   selectedship.remove();
+                   shipYards.push(shipYard)
+                }
+            
 
         }
     }
@@ -1596,10 +1650,6 @@ function hpsystem() {
 }
 
 
-
-
-
-
 function Zones() {
     if (zoneSpawned === false) {
         lavaZone = new Sprite(-6050, -1450, 6000, 6000)
@@ -1617,5 +1667,13 @@ function Zones() {
 
 
 }
+
+function Barracks(){
+
+
+
+}
+
+
 
 
