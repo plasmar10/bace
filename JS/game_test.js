@@ -93,7 +93,7 @@ let shipYard;
 let buyFigther
 let buyScout
 let buyDestroyer
-
+let menuestiffgroup
 let gameHasLoaded;
 
 
@@ -130,7 +130,6 @@ function preload() {
     mainMusic = loadSound("./assets/music/Salutations.mp3")
     menuselectionsoundefect = loadSound("./assets/sound_effects/menu selection sound.mp3")
 
-
     //buildings
     oilRig = loadImage("./assets/backround_removed_oilrig.png")
 
@@ -149,14 +148,11 @@ function preload() {
     surfaceNauticaVideo = createVideo("./assets/videos/surfusnatica_1.mp4");
     surfaceNauticaVideo.hide();
 
-
-
-
 }
 
 function setup() {
     createCanvas(1920, 1076);
-  
+    menuestiffgroup = new Group()
 
 }
 
@@ -179,8 +175,6 @@ function draw() {
 
     }
     else if (currentScreen === 2) { //Game
-
-
         clear();
         //GameSetup//
         if (gameLoadOnce === false) {
@@ -259,13 +253,13 @@ function draw() {
             mainMusic.setVolume(0.1);
         }
         if (!makeMenuButtons) {
-            menuebuttionsgroup = new Group()
+            menuebuttionsgroup = new menuestiffgroup.Group()
             menuebuttionsgroupimg.resize(354, 80);
-            startgamebuttion = new Sprite(420, 700, 414, 80, 's');
+            startgamebuttion = new menuestiffgroup.Sprite(420, 700, 414, 80, 's');
             startgamebuttion.img = menubuttionsblankimg
-            creditsButton = new Sprite(420, 810, 414, 80, 's')
+            creditsButton = new menuestiffgroup.Sprite(420, 810, 414, 80, 's')
             creditsButton.img = menubuttionsblankimg
-            difficultyButton = new Sprite(420, 920, 414, 80, 's')
+            difficultyButton = new menuestiffgroup.Sprite(420, 920, 414, 80, 's')
             difficultyButton.img = menubuttionsblankimg
 
 
@@ -286,6 +280,7 @@ function draw() {
         circle(250, 920, 62);
         //hovver
         noStroke();
+        strokeWeight(0)
         fill(251, 192, 45)
 
 
@@ -311,17 +306,14 @@ function draw() {
                 menuselectionsoundefect.setVolume(0.1);
                 soundPlayed1 = true;
             }
-
             if (menuimg1.x < 451)
                 menuimg1.move(30, 'right', 3);
-
         }
         else {
             soundPlayed1 = false;
             if (menuimg1.x > 450)
                 menuimg1.move(5, 'left', 3);
         }
-
         if (creditsButton.mouse.hovering()) {
             if (!soundPlayed2) {
                 menuselectionsoundefect.play();
@@ -353,9 +345,13 @@ function draw() {
         }
 
         if (startgamebuttion.mouse.pressed()) {
-            loadingscreen = new Sprite(width / 2, height / 2, width, height)
+            loadingscreen = new menuestiffgroup.Sprite(width / 2, height / 2, width, height)
             loadingscreen.img = menuBackground
             currentScreen = 2
+            console.log(menuestiffgroup)
+            menuestiffgroup.remove()
+
+
         }
 
 
@@ -1737,29 +1733,29 @@ function draw() {
 
     function enimys() {
 
-        SeaMon = new Sprite(-1500, 2000, 355, 150)
-        SeaMonShadowImage.resize(350, 230)
-        SeaMon.offset.x = -145;
-        SeaMon.img = SeaMonShadowImage
-        SeaMon.maxHP = 10000;
-        SeaMon.hp = 10000;
-        SeaMon.idNum = 0;
-        SeaMon.debug = true;
-        oceanCreatures.push(SeaMon)
+        // SeaMon = new Sprite(-1500, 2000, 355, 150)
+        // SeaMonShadowImage.resize(350, 230)
+        // SeaMon.offset.x = -145;
+        // SeaMon.img = SeaMonShadowImage
+        // SeaMon.maxHP = 10000;
+        // SeaMon.hp = 10000;
+        // SeaMon.idNum = 0;
+        // SeaMon.debug = true;
+        // oceanCreatures.push(SeaMon)
 
 
-        let monsterHealthBarBackground = new Sprite(-1000, 100, 300, 15, 'none');
-        monsterHealthBarBackground.componentId = 'background';
-        monsterHealthBarBackground.color = 'black';
-        monsterHealthBarBackground.idNum = SeaMon.idNum;
-        monsterHealthBarComponents.push(monsterHealthBarBackground)
+        // let monsterHealthBarBackground = new Sprite(-1000, 100, 300, 15, 'none');
+        // monsterHealthBarBackground.componentId = 'background';
+        // monsterHealthBarBackground.color = 'black';
+        // monsterHealthBarBackground.idNum = SeaMon.idNum;
+        // monsterHealthBarComponents.push(monsterHealthBarBackground)
 
 
-        let monsterHealthBarLife = new Sprite(-1000, 100, 300, 14, 'none');
-        monsterHealthBarLife.componentId = 'bar';
-        monsterHealthBarLife.color = 'lightgreen';
-        monsterHealthBarLife.idNum = SeaMon.idNum;
-        monsterHealthBarComponents.push(monsterHealthBarLife)
+        // let monsterHealthBarLife = new Sprite(-1000, 100, 300, 14, 'none');
+        // monsterHealthBarLife.componentId = 'bar';
+        // monsterHealthBarLife.color = 'lightgreen';
+        // monsterHealthBarLife.idNum = SeaMon.idNum;
+        // monsterHealthBarComponents.push(monsterHealthBarLife)
 
 
     }
