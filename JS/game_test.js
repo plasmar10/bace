@@ -245,7 +245,7 @@ function draw() {
 
     }
 
-
+}
     function menuScreen() {
         background(0);
         surfaceNauticaVideo.loop();
@@ -1765,4 +1765,4 @@ function draw() {
     }
 
 
-}
+
