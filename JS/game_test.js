@@ -150,7 +150,7 @@ function preload() {
 
 function setup() {
     createCanvas(1920, 1076);
-
+  
 
 }
 
@@ -1185,6 +1185,7 @@ function GUIE() {
         buyBarracks.text = 'Barracks'
         buyBarracks.textSize = 30
         buyBarracks.collider='s'
+        
 
 
         createmenue = false
@@ -1440,8 +1441,20 @@ async function resourceCollection() {
 
 
     for (let selectedship of actualships) {
-
+        
         if (selectedship.shipclass === 'constructor') {
+           if ( selectedship.mouse.pressed()){
+            selectedship.clicked = true 
+          
+           }
+           else if (!selectedship.mouse.pressed()&& !selectedship.clicked){
+            selectedship.clicked = false
+           
+           }
+           if(mouse.pressed()&&!selectedship.mouse.pressed()){
+            selectedship.clicked = false
+           
+           }
 
 
             //ScrapMetal
@@ -1525,12 +1538,15 @@ async function resourceCollection() {
                 }
             }
 
-
-                if(buyBarracks.mouse.pressed()){
-                   shipYard = new Sprite(selectedship.x, selectedship.y,50,50 )
-                   shipYard.collider = 's'
-                   selectedship.remove();
-                   shipYards.push(shipYard)
+                if(selectedship.clicked){
+                    if(buyBarracks.mouse.hovering()){
+                        console.log(selectedship)
+                        shipYard = new Sprite(selectedship.x, selectedship.y,50,50 )
+                        shipYard.collider = 's'
+                        selectedship.remove();
+                        shipYards.push(shipYard)
+                        selectedship.clicked=false
+                    }
                 }
             
 
