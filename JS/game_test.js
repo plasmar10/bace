@@ -1182,7 +1182,7 @@ function monsterAni() {
 
         } else if (leviathanReachedLocation = true) {
             SeaMon.speed = 5;
-            SeaMon.rotation -= 0.2;
+            SeaMon.rotation -= 0.5;
 
         } else if (SeaMon.x < -1400 && SeaMon.x > -1600 && SeaMon.y < 2100 && SeaMon.y > 1900) {
             leviathanFollowedShip = false;
@@ -1251,21 +1251,22 @@ function monsterAni() {
             lavaKrakenFollowedShip = true;
 
 
-        } else if (lavaKraken.x === -6300 && lavaKraken.y === -100) {
+        } else if (lavaKraken.x < -6200 && lavaKraken.x > -6400 && lavaKraken.y > -200 && lavaKraken.y < 0) {
             lavaKraken.speed = 0;
-            lavaKraken.moveTowards(-6300, -4000, 0.004)
             LavaKrakenRouteComplete = false;
+            lavaKraken.moveTowards(-6300, -4000, 0.004)
+            
 
-        } else if (lavaKraken.x === -6300 && lavaKraken.y === -4000 && LavaKrakenRouteComplete === false) {
+        } else if (lavaKraken.x < -6200 && lavaKraken.x > -6400 && lavaKraken.y > -4100 && lavaKraken.y < -3900 && LavaKrakenRouteComplete === false) {
             lavaKraken.speed = 0;
-            lavaKraken.moveTowards(1000, -4000, 0.002)
+            lavaKraken.moveTowards(1000, -4000, 0.0025)
 
-        } else if (lavaKraken.x === 1000 && lavaKraken.y === -4000) {
+        } else if (lavaKraken.x < 1100 && lavaKraken.x > 900 && lavaKraken.y > -4100 && lavaKraken.y < -3900) {
             lavaKraken.speed = 0;
-            lavaKraken.moveTowards(-6300, -4000, 0.002)
+            lavaKraken.moveTowards(-6300, -4000, 0.0025)
             LavaKrakenRouteComplete = true;
 
-        } else if (lavaKraken.x === -6300 && lavaKraken.y === -4000 && LavaKrakenRouteComplete === true) {
+        } else if (lavaKraken.x < -6200 && lavaKraken.x > -6400 && lavaKraken.y > -4100 && lavaKraken.y < -3900 && LavaKrakenRouteComplete === true) {
             lavaKraken.speed = 0;
             lavaKraken.moveTowards(-6300, -100, 0.004)
 
