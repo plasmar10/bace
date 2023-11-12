@@ -968,16 +968,16 @@ function moveselectedships() {
             //console.log(selectedship.hp)
 
             if (selectedship.shipclass === "scout") {
-                selectedship.speed = 2
+                selectedship.speed = 2.5
             }
             if (selectedship.shipclass === "fighter") {
-                selectedship.speed = 1.5
+                selectedship.speed = 2
             }
             if (selectedship.shipclass === "destroyer") {
-                selectedship.speed = 1
+                selectedship.speed = 1.5
             }
             if (selectedship.shipclass === "constructor") {
-                selectedship.speed = 0.5
+                selectedship.speed = 1
             }
         }
         //console.log(movepoints[lastmovepoint - 1] + "  testing problem")
