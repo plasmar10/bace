@@ -162,6 +162,7 @@ function preload() {
     //buildings
     oilRig = loadImage("./assets/backround_removed_oilrig.png")
     barrackImg = loadImage("./assets/barracks.webp")
+    rocketImg = loadImage("./assets/rocket.png")
 
     //
     buyImg = loadImage("./assets/buyScreen.png")
@@ -1491,6 +1492,11 @@ function GUIE() {
         buyLava.text = 'Lava Up'
         buyLava.textSize = 30
         buyLava.collider = 's'
+        launch = new ui.Sprite(9000, 205, 200, 60)
+        launch.colour = 'white'
+        launch.text = 'Rocket'
+        launch.textSize = 30
+        launch.collider = 's'
 
         createMenu = false
 
@@ -1569,6 +1575,11 @@ function GUIE() {
     if(buyLava.mouse.presses()&& scrapMetalCounter.text> 299){
         lavaUp = true 
         scrapMetalCounter.text -= 300
+    }
+    if(launch.mouse.pressed( ) && scrapMetalCounter.text > 2){
+        rocket = new Sprite(mothership.x,mothership.y)
+        rocket.collider = 'n'
+        rocket.img = rocketImg
     }
     ui.draw();
 
