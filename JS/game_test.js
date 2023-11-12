@@ -243,7 +243,9 @@ function draw() {
         selection_system();
         resourceCollection();
         resourceCollected();
-
+if (loadingscreen){
+    loadingscreen.remove();
+}
 
 
 
@@ -382,7 +384,7 @@ function menuScreen() {
     }
 
     if (startgamebuttion.mouse.pressed()) {
-        loadingscreen = new menuestiffgroup.Sprite(width / 2, height / 2, width, height)
+        loadingscreen = new Sprite(width / 2, height / 2, width, height)
         loadingscreen.img = menuBackground
         currentScreen = 2
         menuestiffgroup.remove()
