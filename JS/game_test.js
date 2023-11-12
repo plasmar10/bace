@@ -970,16 +970,16 @@ function moveselectedships() {
             //console.log(selectedship.hp)
 
             if (selectedship.shipclass === "scout") {
-                selectedship.speed = 2
+                selectedship.speed = 10
             }
             if (selectedship.shipclass === "fighter") {
-                selectedship.speed = 2
+                selectedship.speed = 10
             }
             if (selectedship.shipclass === "destroyer") {
-                selectedship.speed = 1.5
+                selectedship.speed = 10
             }
             if (selectedship.shipclass === "constructor") {
-                selectedship.speed = 1
+                selectedship.speed = 10
             }
         }
         //console.log(movepoints[lastmovepoint - 1] + "  testing problem")
@@ -1653,7 +1653,7 @@ function gameInterface() {
 
     scrapMetalCounter = new ui.Sprite(85, 40, 30, 40, 'n');
     scrapMetalCounter.textSize = 25
-    scrapMetalCounter.text = 400
+    scrapMetalCounter.text = 20000
 
     //Oil//
     oilCounterImage = new ui.Sprite(35, 105, 30, 40, 'n');
