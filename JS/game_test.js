@@ -245,9 +245,9 @@ function draw() {
         selection_system();
         resourceCollection();
         resourceCollected();
-if (loadingscreen){
-    loadingscreen.remove();
-}
+        if (loadingscreen) {
+            loadingscreen.remove();
+        }
 
 
 
@@ -284,8 +284,6 @@ if (loadingscreen){
 
 function menuScreen() {
     background(0);
-    surfaceNauticaVideo.loop();
-    image(surfaceNauticaVideo, 0, 0, 1920, 1076);
     // Display your video or any other content for the menu screen here
     if (mainMusic.isPlaying()) {
         noStroke();
@@ -294,7 +292,9 @@ function menuScreen() {
 
         mainMusic.setVolume(0.1);
     }
+    image(surfaceNauticaVideo, 0, 0, 1920, 1076);
     if (!makeMenuButtons) {
+        surfaceNauticaVideo.loop();
         menuebuttionsgroup = new menuestiffgroup.Group()
         menuebuttionsgroupimg.resize(354, 80);
         startgamebuttion = new menuestiffgroup.Sprite(420, 700, 414, 80, 's');
@@ -390,8 +390,6 @@ function menuScreen() {
         loadingscreen.img = menuBackground
         currentScreen = 2
         menuestiffgroup.remove()
-
-
     }
 
 
@@ -639,7 +637,7 @@ function makeships() {
     constructorShipsClass = new ships.Group();
 
     makeship('scout', 500, 500)
-    
+
 }
 
 function makeship(shiptype, newshipX, newshipY) {
@@ -972,16 +970,16 @@ function moveselectedships() {
             //console.log(selectedship.hp)
 
             if (selectedship.shipclass === "scout") {
-                selectedship.speed = 2
+                selectedship.speed = 10
             }
             if (selectedship.shipclass === "fighter") {
-                selectedship.speed = 2
+                selectedship.speed = 10
             }
             if (selectedship.shipclass === "destroyer") {
-                selectedship.speed = 1.5
+                selectedship.speed = 10
             }
             if (selectedship.shipclass === "constructor") {
-                selectedship.speed = 1
+                selectedship.speed = 10
             }
         }
         //console.log(movepoints[lastmovepoint - 1] + "  testing problem")
@@ -1184,7 +1182,7 @@ function monsterAni() {
 
         } else if (leviathanReachedLocation = true) {
             SeaMon.speed = 5;
-            SeaMon.rotation -= 0.2;
+            SeaMon.rotation -= 0.5;
 
         } else if (SeaMon.x < -1400 && SeaMon.x > -1600 && SeaMon.y < 2100 && SeaMon.y > 1900) {
             leviathanFollowedShip = false;
@@ -1253,21 +1251,22 @@ function monsterAni() {
             lavaKrakenFollowedShip = true;
 
 
-        } else if (lavaKraken.x === -6300 && lavaKraken.y === -100) {
+        } else if (lavaKraken.x < -6200 && lavaKraken.x > -6400 && lavaKraken.y > -200 && lavaKraken.y < 0) {
             lavaKraken.speed = 0;
-            lavaKraken.moveTowards(-6300, -4000, 0.004)
             LavaKrakenRouteComplete = false;
+            lavaKraken.moveTowards(-6300, -4000, 0.004)
 
-        } else if (lavaKraken.x === -6300 && lavaKraken.y === -4000 && LavaKrakenRouteComplete === false) {
-            lavaKraken.speed = 0;
-            lavaKraken.moveTowards(1000, -4000, 0.002)
 
-        } else if (lavaKraken.x === 1000 && lavaKraken.y === -4000) {
+        } else if (lavaKraken.x < -6200 && lavaKraken.x > -6400 && lavaKraken.y > -4100 && lavaKraken.y < -3900 && LavaKrakenRouteComplete === false) {
             lavaKraken.speed = 0;
-            lavaKraken.moveTowards(-6300, -4000, 0.002)
+            lavaKraken.moveTowards(1000, -4000, 0.0025)
+
+        } else if (lavaKraken.x < 1100 && lavaKraken.x > 900 && lavaKraken.y > -4100 && lavaKraken.y < -3900) {
+            lavaKraken.speed = 0;
+            lavaKraken.moveTowards(-6300, -4000, 0.0025)
             LavaKrakenRouteComplete = true;
 
-        } else if (lavaKraken.x === -6300 && lavaKraken.y === -4000 && LavaKrakenRouteComplete === true) {
+        } else if (lavaKraken.x < -6200 && lavaKraken.x > -6400 && lavaKraken.y > -4100 && lavaKraken.y < -3900 && LavaKrakenRouteComplete === true) {
             lavaKraken.speed = 0;
             lavaKraken.moveTowards(-6300, -100, 0.004)
 
@@ -1280,38 +1279,36 @@ function monsterAni() {
 
     }
 
-
+    let MonsterShipDist
     //Duke Fishron//
     for (let i = 0; i < actualships.length; i++) {
 
-        let MonsterShipDist = dist(actualships[i].x, actualships[i].y, dukeFishron.x, dukeFishron.y)
-
-
+        MonsterShipDist = dist(actualships[i].x, actualships[i].y, dukeFishron.x, dukeFishron.y)
         if (MonsterShipDist < 2000 && actualships[i].overlapping(radiationZone)) {
             dukeFishron.rotation -= 0;
 
             dukeFishron.moveTowards(actualships[i], 0.02);
             dukeFishronFollowedShip = true;
 
-        } else if (dukeFishron.x === -8000 && dukeFishron.y === 5297) {
+        } else if (dukeFishron.x > -8100 && dukeFishron.x < -7900 && dukeFishron.y > 5190 && dukeFishron.y < 5400) {
             dukeFishron.speed = 0;
             dukeFishron.moveTowards(-5500, 2000, 0.01);
 
 
-        } else if (dukeFishron.x === -5500 && dukeFishron.y === 2000) {
+        } else if (dukeFishron.x > -5600 && dukeFishron.x < -5400 && dukeFishron.y > 1900 && dukeFishron.y < 2100) {
             dukeFishron.speed = 0;
             dukeFishron.moveTowards(-3400, 5297, 0.01);
 
 
 
-        } else if (dukeFishron.x > -3500 && dukeFishron.x < -3300 && dukeFishron.y > 5190 && dukeFishron.y < 5400 ) {
+        } else if (dukeFishron.x > -3500 && dukeFishron.x < -3300 && dukeFishron.y > 5190 && dukeFishron.y < 5400) {
             dukeFishron.speed = 0;
             dukeFishron.moveTowards(-8000, 5297, 0.01);
 
 
 
 
-        } else if (dukeFishronFollowedShip === true && !actualships[i].overlapping(radiationZone)) {
+        } else if (dukeFishronFollowedShip === true) {
             dukeFishron.speed = 0;
             dukeFishron.moveTowards(-8000, 5297, 0.02);
             dukeFishronFollowedShip = false;
@@ -1319,11 +1316,8 @@ function monsterAni() {
 
         }
 
-
-
-
-
     }
+
 
     if (dukeFishron.direction < 90 && dukeFishron.direction > -90) {
 
@@ -1637,8 +1631,8 @@ function GUIE() {
         lavaUp = true
         scrapMetalCounter.text -= 300
     }
-    if(launch.mouse.pressed( ) && scrapMetalCounter.text > 2){
-        rocket = new Sprite(mothership.x,mothership.y)
+    if (launch.mouse.pressed() && scrapMetalCounter.text > 2) {
+        rocket = new Sprite(mothership.x, mothership.y)
         rocket.collider = 'n'
         rocket.img = rocketImg 
     }
@@ -1660,7 +1654,7 @@ function gameInterface() {
 
     scrapMetalCounter = new ui.Sprite(85, 40, 30, 40, 'n');
     scrapMetalCounter.textSize = 25
-    scrapMetalCounter.text = 400
+    scrapMetalCounter.text = 20000
 
     //Oil//
     oilCounterImage = new ui.Sprite(35, 105, 30, 40, 'n');
@@ -1668,7 +1662,7 @@ function gameInterface() {
 
     oilCounter = new ui.Sprite(85, 105, 30, 40, 'n');
     oilCounter.textSize = 25
-    oilCounter.text = 200
+    oilCounter.text = 20000
 
     //Crystal//
     crystalCounterImage = new ui.Sprite(35, 170, 30, 40, 'n');
@@ -1676,7 +1670,7 @@ function gameInterface() {
 
     crystalCounter = new ui.Sprite(85, 172, 30, 40, 'n');
     crystalCounter.textSize = 25
-    crystalCounter.text = 150
+    crystalCounter.text = 20000
 
 
 
@@ -1690,16 +1684,16 @@ function zoom() {
     camera.on();
     drawAllSpritesExcept();
     if (kb.pressing('arrowleft') && camera.x > -7100) {
-        camera.x = camera.x - 10
+        camera.x = camera.x - 30
     }
     if (kb.pressing('arrowright') && camera.x < 10200) {
-        camera.x = camera.x + 10
+        camera.x = camera.x + 30
     }
     if (kb.pressing('arrowup') && camera.y > -6961) {
-        camera.y = camera.y - 10
+        camera.y = camera.y - 30
     }
     if (kb.pressing('arrowdown') && camera.y < 6700) {
-        camera.y = camera.y + 10
+        camera.y = camera.y + 30
     }
     camera.off();
     ui.draw();
