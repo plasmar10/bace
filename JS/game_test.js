@@ -56,7 +56,7 @@ let resourceStationSpawned = false;
 
 let menuselectionsoundefect
 
-let currentScreen = 2
+let currentScreen = 3
 let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
@@ -106,6 +106,7 @@ let radUp = false
 let launch
 let rocket
 let rocketImg
+let credditscreen
 
 function preload() {
     //Background//
@@ -167,6 +168,7 @@ function preload() {
     //
     buyImg = loadImage("./assets/buyScreen.png")
     resourcesBackgroundImage = loadImage("./assets/resourceBackground.gif")
+    credditscreen = loadImage("./assets/resourceBackground.gif")
 
 
     //Videos//
@@ -206,7 +208,7 @@ function draw() {
 
     }
     else if (currentScreen === 3) { //creddit screen
-        
+        image(surfaceNauticaVideo, 0, 0, 1920, 1076);
     }
     else if (currentScreen === 2) { //Game
         clear();
