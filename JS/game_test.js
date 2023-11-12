@@ -1,6 +1,6 @@
 "use strict";
-let mothershipBase, defaultResource, resourceZone, resourceBackground;
-let oceanBackground, mothershipImage, mainMusic;
+let mothershipBase, defaultResource, resourceZone, resourceBackground, offScreenBackground;
+let oceanBackground, mothershipImage, mainMusic, oceanBorderSprite;
 let oceanSprite;
 let scrollNumber = 0
 let scrollZoomLevel = 0.25
@@ -8,8 +8,8 @@ let ships, scoutShipsClass, resourceStation;
 let scoutShipImage;
 let scrapMetalImage, oilImage, crystalImage, resourcesBackgroundImage, metalImage, damagedScoutShipimg;
 let cannonImage, destroyerimg, fighterShipimg, damagedFighterShipimg, damagedCannonImage, damagedDestroyerShipimg;
-let SeaMon, lavaKraken, radiationSquid;
-let SeaMonShadowImage, lavaKrakenImage;
+let SeaMon, lavaKraken, radiationSquid, dukeFishron;
+let SeaMonShadowImage, lavaKrakenImage, dukeFishronImageRight, dukeFishronImageLeft, dukeFishron2ImageLeft, dukeFishron2ImageRight;
 let basicShot;
 let ui;
 let constructorimg
@@ -70,7 +70,7 @@ let playEasterEggVideo = false;
 let MenuSprites, newGameButton, menuBackground;
 let introVideo, easterEggVideo;
 let zoneSpawned = false
-let lavaZone;
+let lavaZone, lavaZone2, lavaZone3;
 let radiationZone;
 let buyScreen;
 let buyConstructor;
@@ -105,8 +105,12 @@ function preload() {
     menuBackground = loadImage("./assets/menuImage.png");
     menubuttionsblankimg = loadImage("./assets/blank_img.png");
     menuebuttionsgroupimg = loadImage("./assets/menue_buttion.png");
-    oceanBackground = loadImage("./assets/small_backround_low_rez.jpg");
-    // oceanBackground = loadImage("./assets/backround_with_zones.jpg");
+    //oceanBackground = loadImage("./assets/small_backround_low_rez.jpg");
+    oceanBackground = loadImage("./assets/backround_with_zones.jpg");
+    offScreenBackground = loadImage("./assets/backgroundJump.jpg");
+
+
+
 
     //Resources//
     scrapMetalImage = loadImage("./assets/metalplate.png");
@@ -115,7 +119,7 @@ function preload() {
 
     metalImage = loadImage("./assets/MetalIngot.png");
 
-    
+
     //Ships//
     mothershipImage = loadImage("./assets/mothership.gif");
 
@@ -138,7 +142,11 @@ function preload() {
     // SeaMonImage = loadImage ("./assets/enemy_sprites/seamonster.gif")
 
     lavaKrakenImage = loadImage("./assets/enemy_sprites/LavaKraken.gif")
+    dukeFishronImageLeft = loadImage("./assets/enemy_sprites/DukeFishronFirstForm.gif")
+    dukeFishronImageRight = loadImage("./assets/enemy_sprites/DukeFishronFirstFormRight.gif")
 
+    dukeFishron2ImageLeft = loadImage("./assets/enemy_sprites/DukeFishronSecondFormLeft.gif")
+    dukeFishron2ImageRight = loadImage("./assets/enemy_sprites/DukeFishronSecondForm.gif")
 
     //Music//
     mainMusic = loadSound("./assets/music/Salutations.mp3")
@@ -147,6 +155,7 @@ function preload() {
     //buildings
     oilRig = loadImage("./assets/backround_removed_oilrig.png")
     barrackImg = loadImage("./assets/barracks.webp")
+
     //
     buyImg = loadImage("./assets/buyScreen.png")
     resourcesBackgroundImage = loadImage("./assets/resourceBackground.gif")
@@ -161,7 +170,8 @@ function preload() {
     easterEggVideo.volume(0.5);
     surfaceNauticaVideo = createVideo("./assets/videos/surfusnatica_1.mp4");
     surfaceNauticaVideo.hide();
-
+    allSprites.autoCull = false;
+    allSprites.debug = false;
 }
 
 function setup() {
@@ -190,9 +200,13 @@ function draw() {
     }
     else if (currentScreen === 2) { //Game
         clear();
+
+        image(offScreenBackground, 0, 0, width, height)
+
         //GameSetup//
         if (gameLoadOnce === false) {
             new Group();
+
 
             ocean();
             Zones();
@@ -219,38 +233,37 @@ function draw() {
         selection_system();
         resourceCollection();
         resourceCollected();
-        Barracks();
-        enimys()
 
-        
-        
-        
-        
+
+
+
+
         //EasterEggVideo//
         if (playEasterEggVideo === false && kb.presses('l')) {
 
             easterEggVideo.play();
 
             playEasterEggVideo = true;
-            
+
         } else if (playEasterEggVideo === true && kb.presses('l')) {
             easterEggVideo.stop();
             playEasterEggVideo = false;
 
         }
-        
+
         if (playEasterEggVideo === true) {
             image(easterEggVideo, 0, 0, width, height);
         }
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
+
         GUIE(); //this must alwas be done last 
+
     }
 }
 
@@ -395,15 +408,6 @@ function playMenuSelectionSound() {
 }
 
 
-
-
-
-
-
-
-
-
-
 function startscreen() {
     image(menuBackground, 0, 0, width, height)
 
@@ -442,10 +446,23 @@ function IntroEnded() {
 
 
 function ocean() {
-    oceanBackground.resize(width * 10, height * 10)
-    oceanSprite = new Sprite(width / 2, height / 2, width * 10, height * 10, "n")
-    oceanSprite.image = oceanBackground
-    oceanSprite.layer = -10
+    //Ocean//
+    oceanBackground.resize(width * 10, height * 10);
+    oceanSprite = new Sprite(width / 2, height / 2, width * 10, height * 10, "n");
+    oceanSprite.image = oceanBackground;
+    oceanSprite.color = 'blue';
+    oceanSprite.layer = -10;
+
+
+    //OceanBorder//
+    oceanBorderSprite = new Sprite(width / 2, height / 2, width * 10, height * 10, "s");
+    oceanBorderSprite.shape = 'chain';
+    oceanBorderSprite.layer = -10;
+    oceanBorderSprite.stroke = 'black';
+
+
+
+
 }
 
 function mothership() {
@@ -481,11 +498,11 @@ function resourceSpawner() {
 
     //Oil//
     if (1 === 1) {
-        let resourceZoneWidth = 3000;
-        let resourceZoneHeight = 1500;
+        let resourceZoneWidth = 3300;
+        let resourceZoneHeight = 2000;
 
-        let resourceZoneX1 = 1750;
-        let resourceZoneY1 = -1500;
+        let resourceZoneX1 = 2800;
+        let resourceZoneY1 = -4500;
 
         let resourceZoneX2 = resourceZoneX1 + resourceZoneWidth;
         let resourceZoneY2 = resourceZoneY1 + resourceZoneHeight;
@@ -559,7 +576,7 @@ function resourceNodes(resourceZoneWidth, resourceZoneHeight, resourceZoneX1, re
 
                 let d = dist(defaultResource.x, defaultResource.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
 
-                if (d < 200) { //edit this to change how far spread apart the resources are
+                if (d < 600) { //edit this to change how far spread apart the resources are
                     defaultResource.remove();
 
                 }
@@ -612,7 +629,8 @@ function makeships() {
     makeship('fighter', -1000, 500)
     makeship('fighter', -1000, 500)
     makeship('fighter', -1000, 500)
-
+    makeship('fighter', -1000, 500)
+    makeship('fighter', -1000, 500)
 }
 
 function makeship(shiptype, newshipX, newshipY) {
@@ -1016,14 +1034,15 @@ function ammo(x, y, direction, selectedAmmo, timer) {
 
 function enemies() {
 
-    SeaMon = new Sprite(-1500, 2000, 355, 150)
-    SeaMonShadowImage.resize(350, 230)
-    SeaMon.offset.x = -145;
+    //Leviathan//
+    SeaMon = new Sprite(-1500, 2000, 480, 200)
+    SeaMonShadowImage.resize(480, 330)
+    SeaMon.offset.x = -230;
+    SeaMon.offset.y = 0;
     SeaMon.img = SeaMonShadowImage
     SeaMon.maxHP = 10000;
     SeaMon.hp = 10000;
     SeaMon.idNum = 0;
-    SeaMon.debug = true;
     oceanCreatures.push(SeaMon)
 
     let leviathanHealthBarBackground = new Sprite(-1000, 100, 300, 15, 'none');
@@ -1040,14 +1059,15 @@ function enemies() {
     monsterHealthBarComponents.push(leviathanHealthBarLife)
 
 
-    lavaKraken = new Sprite(-4500, 500, 720, 550, 'k')
-    lavaKraken.offset.y = 70;
+
+    //LavaKraken//
+    lavaKraken = new Sprite(-6300, -100, 720, 550, 'k')
+    lavaKraken.offset.y = 100;
     lavaKraken.offset.x = -70;
     lavaKraken.img = lavaKrakenImage
     lavaKraken.maxHP = 10000;
     lavaKraken.hp = 10000;
     lavaKraken.idNum = 1;
-    lavaKraken.debug = false;
     oceanCreatures.push(lavaKraken)
 
     let lavaKrakenHealthBarBackground = new Sprite(-1000, 100, 300, 15, 'none');
@@ -1065,26 +1085,86 @@ function enemies() {
 
 
 
+    //DukeFishron//
+    dukeFishron = new Sprite(-8000, 5297, 550, 380, 'k')
+    dukeFishron.offset.y = 170;
+    dukeFishron.offset.x = 20;
+    dukeFishronImageLeft.resize(600, 450);
+    dukeFishronImageRight.resize(600, 450);
+    dukeFishron2ImageLeft.resize(600, 450);
+    dukeFishron2ImageRight.resize(600, 450);
+    dukeFishron.img = dukeFishronImageLeft;
+    dukeFishron.maxHP = 10000;
+    dukeFishron.hp = 10000;
+    dukeFishron.idNum = 2;
+    oceanCreatures.push(dukeFishron);
+
+    let dukeFishronHealthBarBackground = new Sprite(-1000, 100, 300, 15, 'none');
+    dukeFishronHealthBarBackground.componentId = 'background';
+    dukeFishronHealthBarBackground.color = 'black';
+    dukeFishronHealthBarBackground.idNum = dukeFishron.idNum;
+    monsterHealthBarComponents.push(dukeFishronHealthBarBackground)
+
+
+    let dukeFishronHealthBarLife = new Sprite(-1000, 100, 300, 14, 'none');
+    dukeFishronHealthBarLife.componentId = 'bar';
+    dukeFishronHealthBarLife.color = 'lightgreen';
+    dukeFishronHealthBarLife.idNum = dukeFishron.idNum;
+    monsterHealthBarComponents.push(dukeFishronHealthBarLife)
+
+
+    for (let monster of oceanCreatures) {
+        monster.debug = true;
+
+    }
+
 }
 
+let LavaKrakenRouteComplete = false;
+let dukeFishronRouteComplete = false;
 
+let leviathanFollowedShip = false;
+let leviathanReachedLocation = false;
+
+let lavaKrakenFollowedShip = false;
+let dukeFishronFollowedShip = false;
 function monsterAni() {
+
+
+    //Leviathan//
     SeaMon.direction = SeaMon.rotation;//sync direction to rotation
-    SeaMon.speed = 5;
+    if (SeaMon.x < -1400 && SeaMon.x > -1600 && SeaMon.y < 2100 && SeaMon.y > 1900) {
+        leviathanFollowedShip = false;
+        leviathanReachedLocation = true;
+    }
+
+    console.log(actualships)
     for (let i = 0; i < actualships.length; i++) {
 
         let MonsterShipDist = dist(actualships[i].x, actualships[i].y, SeaMon.x, SeaMon.y)
 
-        if (MonsterShipDist < 1000) {
-            SeaMon.rotation -= 0
-            SeaMon.rotateTowards(actualships[i])
-            // SeaMon.img = SeaMonImage
+
+        if (MonsterShipDist < 1500) {
+            SeaMon.rotation -= 0;
+            SeaMon.rotateTowards(actualships[i], 0.1);
+            SeaMon.moveTowards(actualships[i], 0.005);
+            console.log(actualships[i])
+            leviathanFollowedShip = true;
+            leviathanReachedLocation = false;
 
 
+        } else if (leviathanFollowedShip === true) {
+            SeaMon.rotateTowards(-1500, 2000, 0.1);
+            SeaMon.moveTowards(-1500, 2000, 0.02);
+            
+
+
+        } else if (leviathanReachedLocation = true) {
+            SeaMon.speed = 5;
+            SeaMon.rotation -= 0.2;
         }
-        else {
-            SeaMon.rotation -= 0.5;
-        }
+
+
 
 
 
@@ -1093,27 +1173,100 @@ function monsterAni() {
 
 
     lavaKraken.rotationLock = true;
+    dukeFishron.rotationLock = true;
 
-    //if ship overlapping lavazone and in distance follow
+    //Lava Kraken//
     for (let i = 0; i < actualships.length; i++) {
 
         let MonsterShipDist = dist(actualships[i].x, actualships[i].y, lavaKraken.x, lavaKraken.y)
 
-        if (MonsterShipDist < 1000 && actualships[i].overlapping(lavaZone)) {
-            lavaKraken.rotation -= 0
+
+        if (MonsterShipDist < 1500 && actualships[i].overlapping(lavaZone) || actualships[i].overlapping(lavaZone2) || actualships[i].overlapping(lavaZone3)) {
+            lavaKraken.speed = 0;
             lavaKraken.moveTowards(actualships[i], 0.01)
             // lavaKraken.img = lavaKrakenImage
 
+            lavaKrakenFollowedShip = true;
 
-        }else{
+
+        } else if (lavaKraken.x === -6300 && lavaKraken.y === -100) {
             lavaKraken.speed = 0;
+            lavaKraken.moveTowards(-6300, -4000, 0.004)
+            LavaKrakenRouteComplete = false;
+
+        } else if (lavaKraken.x === -6300 && lavaKraken.y === -4000 && LavaKrakenRouteComplete === false) {
+            lavaKraken.speed = 0;
+            lavaKraken.moveTowards(1000, -4000, 0.002)
+
+        } else if (lavaKraken.x === 1000 && lavaKraken.y === -4000) {
+            lavaKraken.speed = 0;
+            lavaKraken.moveTowards(-6300, -4000, 0.002)
+            LavaKrakenRouteComplete = true;
+
+        } else if (lavaKraken.x === -6300 && lavaKraken.y === -4000 && LavaKrakenRouteComplete === true) {
+            lavaKraken.speed = 0;
+            lavaKraken.moveTowards(-6300, -100, 0.004)
+
+        } else if (lavaKrakenFollowedShip === true) {
+            lavaKraken.speed = 0;
+            lavaKraken.moveTowards(-6300, -100, 0.004)
+            lavaKrakenFollowedShip = false;
+            LavaKrakenRouteComplete = false;
         }
+
+    }
+
+
+    //Duke Fishron//
+    for (let i = 0; i < actualships.length; i++) {
+
+        let MonsterShipDist = dist(actualships[i].x, actualships[i].y, dukeFishron.x, dukeFishron.y)
+
+
+        if (MonsterShipDist < 2000 && actualships[i].overlapping(radiationZone)) {
+            dukeFishron.rotation -= 0;
+            dukeFishronFollowedShip = true;
+            dukeFishron.moveTowards(actualships[i], 0.02);
+
+
+        } else if (dukeFishron.x === -8000 && dukeFishron.y === 5297) {
+            dukeFishron.speed = 0;
+            dukeFishron.moveTowards(-5500, 2000, 0.01);
+
+
+        } else if (dukeFishron.x === -5500 && dukeFishron.y === 2000) {
+            dukeFishron.speed = 0;
+            dukeFishron.moveTowards(-3400, 5297, 0.01);
+
+
+
+        } else if (dukeFishron.x === -3400 && dukeFishron.y === 5297) {
+            dukeFishron.speed = 0;
+            dukeFishron.moveTowards(-8000, 5297, 0.01);
+
+
+
+
+        } else if (dukeFishronFollowedShip === true) {
+            dukeFishron.speed = 0;
+            dukeFishron.moveTowards(-8000, 5297, 0.02);
+            dukeFishronFollowedShip = false;
+
+
+        }
+
 
 
 
 
     }
 
+    if (dukeFishron.direction < 90 && dukeFishron.direction > -90) {
+
+        dukeFishron.img = dukeFishronImageRight;
+    } else {
+        dukeFishron.img = dukeFishronImageLeft;
+    }
 
 
     monsterHpSystem();
@@ -1127,6 +1280,13 @@ function monsterHpSystem() {
 
         let removeMonster = false;
 
+        //Monster Regeneration//
+        monster.hp += 5;
+
+        if (monster.hp >= 10000){
+            monster.hp = 10000;
+        }
+
 
         for (let health of monsterHealthBarComponents) {
             //console.log(health.idNum)
@@ -1134,8 +1294,8 @@ function monsterHpSystem() {
 
             if (health.idNum === monster.idNum) {
                 health.collider = 'none';
-                health.x = monster.x
-                health.y = monster.y - 110
+                health.x = monster.x;
+                health.y = monster.y - 50;
             }
 
             if (health.componentId === 'bar' && health.idNum === monster.idNum) {
@@ -1147,8 +1307,28 @@ function monsterHpSystem() {
                 if (monster.maxHP / 4 > monster.hp && health.idNum === monster.idNum) {
                     health.color = 'red';
 
+                    if (monster.idNum === 2) {
+                        if (monster.direction < 90 && monster.direction > -90) {
+
+                            monster.img = dukeFishron2ImageRight;
+                        } else {
+                            monster.img = dukeFishron2ImageLeft;
+                        }
+                    }
+
                 } else if (monster.maxHP / 1.5 > monster.hp && health.idNum === monster.idNum) {
                     health.color = 'yellow';
+
+
+                    if (monster.idNum === 2) {
+                        if (monster.direction < 90 && monster.direction > -90) {
+
+                            monster.img = dukeFishron2ImageRight
+                        } else {
+                            monster.img = dukeFishron2ImageLeft
+                        }
+                    }
+
                 }
 
             }
@@ -1182,7 +1362,7 @@ function monsterHpSystem() {
         for (let i = 0; i < monsterHealthBarComponents.length; i++) {
 
             if (monsterHealthBarComponents[i].width < 10 && removeMonster === true) {
-            
+
                 monsterHealthBarComponents[i].remove();
                 monsterHealthBarComponents[i - 1].remove();
                 monsterHealthBarComponents.splice(i - 1, 2)
@@ -1193,7 +1373,7 @@ function monsterHpSystem() {
         for (let i = 0; i < shots.length; i++) {
             if (shots[i].collides(monster)) {
                 shots[i].remove();
-                monster.hp -= 500;
+                monster.hp -= 200;
             }
 
         }
@@ -1208,6 +1388,7 @@ function monsterHpSystem() {
 
 
     }
+
 }
 
 
@@ -1324,10 +1505,10 @@ function GUIE() {
 
         }
     }
-    if (buyConstructor.mouse.pressed()&&scrapMetalCounter.text >99 && oilCounter.text > 49 && crystalCounter.text >49) {
+    if (buyConstructor.mouse.pressed() && scrapMetalCounter.text > 99 && oilCounter.text > 49 && crystalCounter.text > 49) {
         makeship('constructor', 1500, 750)
-        scrapMetalCounter.text -=100
-        oilCounter.text -=50
+        scrapMetalCounter.text -= 100
+        oilCounter.text -= 50
         crystalCounter.text -= 50
     }
 
@@ -1347,20 +1528,20 @@ function GUIE() {
         }
 
     }
-    if(buyScout.mouse.presses()&&scrapMetalCounter.text > 49 && oilCounter.text > 24){
-     makeship('scout', 1500,750)
-     scrapMetalCounter.text -=50
-     oilCounter.text -=25
+    if (buyScout.mouse.presses() && scrapMetalCounter.text > 49 && oilCounter.text > 24) {
+        makeship('scout', 1500, 750)
+        scrapMetalCounter.text -= 50
+        oilCounter.text -= 25
     }
-    if(buyFigther.mouse.presses() && scrapMetalCounter.text >99 && oilCounter.text > 49){
-        makeship('fighter', 1500,750)
-        scrapMetalCounter.text -=100
-        oilCounter.text -=50
+    if (buyFigther.mouse.presses() && scrapMetalCounter.text > 99 && oilCounter.text > 49) {
+        makeship('fighter', 1500, 750)
+        scrapMetalCounter.text -= 100
+        oilCounter.text -= 50
     }
-    if(buyDestroyer.mouse.presses()&&scrapMetalCounter.text >199 && oilCounter.text > 99 && crystalCounter.text >24){
-        makeship('destroyer', 1500,750)
-        scrapMetalCounter.text -=200
-        oilCounter.text -=100
+    if (buyDestroyer.mouse.presses() && scrapMetalCounter.text > 199 && oilCounter.text > 99 && crystalCounter.text > 24) {
+        makeship('destroyer', 1500, 750)
+        scrapMetalCounter.text -= 200
+        oilCounter.text -= 100
         crystalCounter.text -= 25
 
     }
@@ -1411,7 +1592,6 @@ function gameInterface() {
 function zoom() {
     scrollNumber = 0
     camera.zoomTo(scrollZoomLevel)
-    background(0);
 
     camera.on();
     drawAllSpritesExcept();
@@ -1430,6 +1610,24 @@ function zoom() {
     camera.off();
     ui.draw();
     ui.layer = 9999
+
+    //console.log(camera.x, camera.y)
+
+    if (camera.x <= -4950) {
+        camera.x = -4950
+    }
+    if (camera.x >= 6870) {
+        camera.x = 6870
+    }
+
+
+    if (camera.y <= -2800) {
+        camera.y = -2800
+    }
+    if (camera.y >= 3900) {
+        camera.y = 3900
+    }
+
 }
 
 function drawAllSpritesExcept() {
@@ -1630,13 +1828,13 @@ async function resourceCollection() {
                 for (let i = 0; i < scrapMetalResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, scrapMetalResourceNodes[i].x, scrapMetalResourceNodes[i].y)
-                    if (d < 400 && buyRC.mouse.pressed()&&scrapMetalCounter.text > 199) {
+                    if (d < 400 && buyRC.mouse.pressed() && scrapMetalCounter.text > 199) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y, 50, 50)
                         resourceStation.collider = 'd'
                         resourceStation.img = oilRig
                         oilRig.resize(248, 338)
                         resourceStationSpawned = true;
-                        scrapMetalCounter.text -= 200 
+                        scrapMetalCounter.text -= 200
 
                         selectedship.hp = 0;
                         for (let health of healthBarComponents) {
@@ -1657,14 +1855,14 @@ async function resourceCollection() {
                 for (let i = 0; i < oilResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, oilResourceNodes[i].x, oilResourceNodes[i].y)
-                    if (d < 400 && buyRC.mouse.pressed()&&scrapMetalCounter.text > 199) {
+                    if (d < 400 && buyRC.mouse.pressed() && scrapMetalCounter.text > 199) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
                         resourceStation.img = oilRig
                         resourceStation.debug = true
                         oilRig.resize(248, 338)
                         resourceStationSpawned = true
-                        scrapMetalCounter.text -= 200 
+                        scrapMetalCounter.text -= 200
 
                         selectedship.hp = 0;
                         for (let health of healthBarComponents) {
@@ -1685,13 +1883,13 @@ async function resourceCollection() {
                 for (let i = 0; i < crystalResourceNodes.length; i++) {
 
                     let d = dist(selectedship.x, selectedship.y, crystalResourceNodes[i].x, crystalResourceNodes[i].y)
-                    if (d < 400 && buyRC.mouse.pressed()&&scrapMetalCounter.text > 199) {
+                    if (d < 400 && buyRC.mouse.pressed() && scrapMetalCounter.text > 199) {
                         resourceStation = new Sprite(selectedship.x, selectedship.y)
                         resourceStation.collider = 'static'
                         resourceStation.img = oilRig
                         oilRig.resize(248, 338)
                         resourceStationSpawned = true
-                        scrapMetalCounter.text -= 200 
+                        scrapMetalCounter.text -= 200
 
                         selectedship.hp = 0;
                         for (let health of healthBarComponents) {
@@ -1708,15 +1906,24 @@ async function resourceCollection() {
             }
 
             if (selectedship.clicked) {
-                if (buyBarracks.mouse.presses()&&scrapMetalCounter.text >249) {
+                if (buyBarracks.mouse.presses() && scrapMetalCounter.text > 249) {
                     console.log(selectedship)
-                    shipYard = new Sprite(selectedship.x, selectedship.y, 50, 50)
+                    shipYard = new Sprite(selectedship.x, selectedship.y, 200, 200)
                     shipYard.collider = 's'
-                    shipYard.img=barrackImg
+                    shipYard.img = barrackImg
+
+                    selectedship.hp = 0;
+                    for (let health of healthBarComponents) {
+                        if (health.componentId === 'bar' && health.idNum === selectedship.idNum) {
+                            health.width = 0;
+                        }
+                    }
+
                     selectedship.remove();
                     shipYards.push(shipYard)
-                    scrapMetalCounter.text -=250
+                    scrapMetalCounter.text -= 250
                     selectedship.clicked = false
+                    shipYard.debug = true
                 }
             }
 
@@ -1827,25 +2034,28 @@ function hpsystem() {
         }
 
 
+        for (let monster of oceanCreatures) {
+            if (selectedship.collides(monster)) {
 
-        if (selectedship.collides(SeaMon)) {
+                console.log('WERE HIT ', selectedship.hp)
 
-            console.log('WERE HIT ', selectedship.hp)
-
-            selectedship.hp -= 2;
+                selectedship.hp -= 2;
+            }
         }
+
+
 
         if (selectedship.hp <= 0) {
             selectedship.hp = 0;
         }
 
         if (selectedship.overlapping(radiationZone)) {
-            selectedship.hp -= 0.5;
-            console.log(selectedship.hp)
+            selectedship.hp -= 0.0001;
+            //console.log(selectedship.hp)
         }
-        if (selectedship.overlapping(lavaZone)) {
-            selectedship.hp -= 0.5;
-            console.log(selectedship.hp)
+        if (selectedship.overlapping(lavaZone) || selectedship.overlapping(lavaZone2) || selectedship.overlapping(lavaZone3)) {
+            selectedship.hp -= 0.25;
+            //console.log(selectedship.hp)
         }
 
 
@@ -1858,33 +2068,43 @@ function hpsystem() {
 
 function Zones() {
     if (zoneSpawned === false) {
-        lavaZone = new Sprite(-6050, -1450, 6000, 6000)
-        lavaZone.color = color(220, 0, 0, 50)
-        lavaZone.visible = false
-        radiationZone = new Sprite(-5680, 4250, 6000, 5000)
-        radiationZone.color = color(0, 0, 0, 50)
-        radiationZone.visible = false
-        zoneSpawned = true
+
+        //LAVA//
+        lavaZone = new Sprite(-5850, -1650, 5575, 6375, 'n');
+        lavaZone.color = color(220, 0, 0, 255);
+        lavaZone.visible = false;
+
+        lavaZone2 = new Sprite(-165, -3425, 5780, 2805, 'n');
+        lavaZone2.color = color(220, 0, 0, 255);
+        lavaZone2.visible = false;
+
+        lavaZone3 = new Sprite(8350, -2320, 4390, 4990, 'n');
+        lavaZone3.color = color(220, 0, 0, 255);
+        lavaZone3.visible = false;
+
+
+
+
+
+
+
+
+
+
+
+
+        //RADIATION//
+        radiationZone = new Sprite(-5650, 3825, 5970, 4160, 'n');
+        radiationZone.color = color(0, 0, 0, 50);
+        radiationZone.visible = false;
+
+
+        zoneSpawned = true;
+
+
+
+
     }
-
-    lavaZone.collider = 'n'
-    radiationZone.collider = 'n'
-
-
-
-}
-
-function Barracks() {
-
-
-
-}
-
-
-
-function enimys() {
-
-
 
 }
 
