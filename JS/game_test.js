@@ -314,7 +314,7 @@ function menuScreen() {
 
 
 
-    console.log(menuimg1.x)
+
     circle(250, 700, ((menuimg1.x - 450) * 1.54));
     circle(250, 810, ((menuimg2.x - 450) * 1.54));
     circle(250, 920, ((menuimg3.x - 450) * 1.54));
@@ -327,7 +327,6 @@ function menuScreen() {
     if (menuimg3.x < 450) {
         menuimg3.x = 450
     }
-    console.log(soundPlayed1)
     if (startgamebuttion.mouse.hovering()) {
         if (!soundPlayed1) {
             menuselectionsoundefect.play();
@@ -979,7 +978,6 @@ function moveselectedships() {
 
         if (selectedship.needstobemoved && (dist(selectedship.x, selectedship.y, selectedship.movepoint.x, selectedship.movepoint.y) < 100)) {
             selectedship.rotation = selectedship.direction
-            console.log("Finished Moving")
             selectedship.needstobemoved = false
             selectedship.vel.x = 0;
             selectedship.vel.y = 0;
@@ -1138,7 +1136,7 @@ function monsterAni() {
         leviathanReachedLocation = true;
     }
 
-    console.log(actualships)
+
     for (let i = 0; i < actualships.length; i++) {
 
         let MonsterShipDist = dist(actualships[i].x, actualships[i].y, SeaMon.x, SeaMon.y)
@@ -1148,7 +1146,6 @@ function monsterAni() {
             SeaMon.rotation -= 0;
             SeaMon.rotateTowards(actualships[i], 0.1);
             SeaMon.moveTowards(actualships[i], 0.005);
-            console.log(actualships[i])
             leviathanFollowedShip = true;
             leviathanReachedLocation = false;
 
