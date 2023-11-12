@@ -1166,7 +1166,7 @@ function monsterAni() {
     SeaMon.direction = SeaMon.rotation;//sync direction to rotation
 
 
-    console.log(actualships)
+   // console.log(actualships)
     for (let i = 0; i < actualships.length; i++) {
 
         let MonsterShipDist = dist(actualships[i].x, actualships[i].y, SeaMon.x, SeaMon.y)
@@ -1200,7 +1200,7 @@ function monsterAni() {
     SeaMon2.direction = SeaMon2.rotation;//sync direction to rotation
 
 
-    console.log(actualships)
+    //console.log(actualships)
     for (let i = 0; i < actualships.length; i++) {
 
         let MonsterShipDist = dist(actualships[i].x, actualships[i].y, SeaMon2.x, SeaMon2.y)
@@ -1407,7 +1407,7 @@ function monsterHpSystem() {
                         }
                     }
 
-                    console.log(monsterHealthBarComponents[i].width)
+                    //console.log(monsterHealthBarComponents[i].width)
                     oceanCreatures[i].remove();
                     oceanCreatures.splice(i, 1)
 
@@ -1462,7 +1462,7 @@ function mouseWheel(event) {
     if (scrollZoomLevel > 2.5) {
         scrollZoomLevel = 2.5
     }
-    console.log(scrollZoomLevel)
+    //console.log(scrollZoomLevel)
     scrollZoomLevel = scrollZoomLevel + scrollNumber / 4000
     if (scrollZoomLevel < 0.25) {
         scrollZoomLevel = 0.25
@@ -1622,13 +1622,15 @@ function GUIE() {
         buyRad.x = 1700
         buyLava.x = 1700
     }
-    if (buyRad.mouse.presses() && crystalCounter.text > 299) {
+    if (buyRad.mouse.pressed() && crystalCounter.text > 299) {
         radUp = true
+        console.log(radUp)
         crystalCounter.text -= 300
 
     }
-    if (buyLava.mouse.presses() && scrapMetalCounter.text > 299) {
+    if (buyLava.mouse.pressed() && scrapMetalCounter.text > 299) {
         lavaUp = true
+        console.log(lavaUp)
         scrapMetalCounter.text -= 300
     }
     if (launch.mouse.pressed() && scrapMetalCounter.text > 2) {
@@ -1764,7 +1766,7 @@ function selection_system() {
                     actualships[i].y < max(selectionStartY, selectionEndY)
                 ) {
 
-                    console.log("ship selected " + actualships[i]);
+                    //console.log("ship selected " + actualships[i]);
                     selectedShips.push(actualships[i])
                     actualships[i].selected = true;
 
@@ -1995,7 +1997,7 @@ async function resourceCollection() {
 
             if (selectedship.clicked) {
                 if (buyBarracks.mouse.presses() && scrapMetalCounter.text > 249) {
-                    console.log(selectedship)
+                    //console.log(selectedship)
                     shipYard = new Sprite(selectedship.x, selectedship.y, 200, 200)
                     shipYard.collider = 's'
                     shipYard.img = barrackImg
@@ -2125,7 +2127,7 @@ function hpsystem() {
         for (let monster of oceanCreatures) {
             if (selectedship.collides(monster)) {
 
-                console.log('WERE HIT ', selectedship.hp)
+                //console.log('WERE HIT ', selectedship.hp)
 
                 selectedship.hp -= 2;
             }
@@ -2137,7 +2139,7 @@ function hpsystem() {
             selectedship.hp = 0;
         }
 
-        if (selectedship.overlapping(radiationZone)) {
+        if (selectedship.overlapping(radiationZone)&& radUp === false) {
             selectedship.hp -= 0.25;
             //console.log(selectedship.hp)
         }
