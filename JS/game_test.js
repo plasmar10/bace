@@ -1566,7 +1566,7 @@ function GUIE() {
             buyFigther.x = 9000
             buyDestroyer.x = 9000
             buyRad.x = 9000
-            buyLava.x =9000
+            buyLava.x = 9000
             launch.x = 9000
 
         }
@@ -1625,6 +1625,11 @@ function GUIE() {
     if(buyLava.mouse.presses()&& scrapMetalCounter.text> 299){
         lavaUp = true 
         scrapMetalCounter.text -= 300
+    }
+    if(launch.mouse.pressed()){
+        rocket = new Sprite(mothership.x,mothership.y)
+        rocket.collider = 'n'
+        rocket.img = rocketImg
     }
     ui.draw();
 
