@@ -56,7 +56,7 @@ let resourceStationSpawned = false;
 
 let menuselectionsoundefect
 
-let currentScreen = 2
+let currentScreen = 0
 let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
@@ -106,6 +106,7 @@ let radUp = false
 let launch
 let rocket
 let rocketImg
+let credditscreen
 
 function preload() {
     //Background//
@@ -167,6 +168,7 @@ function preload() {
     //
     buyImg = loadImage("./assets/buyScreen.png")
     resourcesBackgroundImage = loadImage("./assets/resourceBackground.gif")
+    credditscreen = loadImage("./assets/creddits.png")
 
 
     //Videos//
@@ -176,7 +178,7 @@ function preload() {
     easterEggVideo.hide();
     introVideo.volume(0.1);
     easterEggVideo.volume(0.5);
-    surfaceNauticaVideo = createVideo("./assets/videos/surfusnatica_1.mp4");
+    surfaceNauticaVideo = createVideo("./assets/surnatica.mp4");
     surfaceNauticaVideo.hide();
     allSprites.autoCull = false;
     allSprites.debug = false;
@@ -191,9 +193,7 @@ function gameLoaded() {
     gameHasLoaded = true;
 }
 
-function videoLoaded() {
-    surfaceNauticaVideo.loop();
-}
+
 
 function draw() {
 
@@ -206,7 +206,7 @@ function draw() {
 
     }
     else if (currentScreen === 3) { //creddit screen
-        
+        image(credditscreen, 0, 0, 1920, 1076);
     }
     else if (currentScreen === 2) { //Game
         clear();
