@@ -56,7 +56,7 @@ let resourceStationSpawned = false;
 
 let menuselectionsoundefect
 
-let currentScreen = 2
+let currentScreen = 0
 let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
@@ -106,6 +106,7 @@ let radUp = false
 let launch
 let rocket
 let rocketImg
+let credditscreen
 
 function preload() {
     //Background//
