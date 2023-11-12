@@ -1603,9 +1603,7 @@ function GUIE() {
 
 function gameInterface() {
     ui = new Group();
-    for (let i = 0; i < 1; i++) {
-        new ui.Sprite(100 + i * 60, 1000, 50, 50, 'n');
-    }
+
     resourceBackground = new ui.Sprite(-100, -100, 100, 400, 'n');
     resourceBackground.img = buyImg;
 
