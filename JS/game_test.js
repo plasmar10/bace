@@ -1,6 +1,6 @@
 "use strict";
 let mothershipBase, defaultResource, resourceZone, resourceBackground, offScreenBackground;
-let oceanBackground, mothershipImage, mainMusic, oceanBorderSprite;
+let oceanBackground, mothershipImage, mainMusic, oceanBorderSprite, SeaMon2;
 let oceanSprite;
 let scrollNumber = 0
 let scrollZoomLevel = 0.25
@@ -99,6 +99,13 @@ let scrapMetalCounterImage
 let oilCounterImage
 let crystalCounterImage
 let barrackImg;
+let buyRad;
+let buyLava;
+let lavaUp = false
+let radUp = false
+let launch
+let rocket
+let rocketImg
 
 function preload() {
     //Background//
@@ -155,6 +162,7 @@ function preload() {
     //buildings
     oilRig = loadImage("./assets/backround_removed_oilrig.png")
     barrackImg = loadImage("./assets/barracks.webp")
+    rocketImg = loadImage("./assets/rocket.png")
 
     //
     buyImg = loadImage("./assets/buyScreen.png")
@@ -1112,6 +1120,29 @@ function enemies() {
     dukeFishronHealthBarLife.idNum = dukeFishron.idNum;
     monsterHealthBarComponents.push(dukeFishronHealthBarLife)
 
+    //Leviathan2//
+    SeaMon2 = new Sprite(6000, 2000, 480, 200)
+    SeaMonShadowImage.resize(480, 330)
+    SeaMon2.offset.x = -230;
+    SeaMon2.offset.y = 0;
+    SeaMon2.img = SeaMonShadowImage
+    SeaMon2.maxHP = 10000;
+    SeaMon2.hp = 10000;
+    SeaMon2.idNum = 3;
+    oceanCreatures.push(SeaMon2)
+
+    let leviathanHealthBarBackground2 = new Sprite(-1000, 100, 300, 15, 'none');
+    leviathanHealthBarBackground2.componentId = 'background';
+    leviathanHealthBarBackground2.color = 'black';
+    leviathanHealthBarBackground2.idNum = SeaMon2.idNum;
+    monsterHealthBarComponents.push(leviathanHealthBarBackground2)
+
+
+    let leviathanHealthBarLife2 = new Sprite(-1000, 100, 300, 14, 'none');
+    leviathanHealthBarLife2.componentId = 'bar';
+    leviathanHealthBarLife2.color = 'lightgreen';
+    leviathanHealthBarLife2.idNum = SeaMon2.idNum;
+    monsterHealthBarComponents.push(leviathanHealthBarLife2)
 
     for (let monster of oceanCreatures) {
         monster.debug = true;
@@ -1133,10 +1164,7 @@ function monsterAni() {
 
     //Leviathan//
     SeaMon.direction = SeaMon.rotation;//sync direction to rotation
-    if (SeaMon.x < -1400 && SeaMon.x > -1600 && SeaMon.y < 2100 && SeaMon.y > 1900) {
-        leviathanFollowedShip = false;
-        leviathanReachedLocation = true;
-    }
+
 
     console.log(actualships)
     for (let i = 0; i < actualships.length; i++) {
@@ -1144,7 +1172,7 @@ function monsterAni() {
         let MonsterShipDist = dist(actualships[i].x, actualships[i].y, SeaMon.x, SeaMon.y)
 
 
-        if (MonsterShipDist < 1500) {
+        if (MonsterShipDist < 1000) {
             SeaMon.rotation -= 0;
             SeaMon.rotateTowards(actualships[i], 0.1);
             SeaMon.moveTowards(actualships[i], 0.005);
@@ -1153,15 +1181,19 @@ function monsterAni() {
             leviathanReachedLocation = false;
 
 
-        } else if (leviathanFollowedShip === true) {
+        } else if (leviathanFollowedShip === true && MonsterShipDist > 1500) {
             SeaMon.rotateTowards(-1500, 2000, 0.1);
             SeaMon.moveTowards(-1500, 2000, 0.02);
-            
+
 
 
         } else if (leviathanReachedLocation = true) {
             SeaMon.speed = 5;
             SeaMon.rotation -= 0.2;
+
+        } else if (SeaMon.x < -1400 && SeaMon.x > -1600 && SeaMon.y < 2100 && SeaMon.y > 1900) {
+            leviathanFollowedShip = false;
+            leviathanReachedLocation = true;
         }
 
 
@@ -1183,7 +1215,7 @@ function monsterAni() {
 
         if (MonsterShipDist < 1500 && actualships[i].overlapping(lavaZone) || actualships[i].overlapping(lavaZone2) || actualships[i].overlapping(lavaZone3)) {
             lavaKraken.speed = 0;
-            lavaKraken.moveTowards(actualships[i], 0.01)
+            lavaKraken.moveTowards(actualships[i], 0.05)
             // lavaKraken.img = lavaKrakenImage
 
             lavaKrakenFollowedShip = true;
@@ -1207,7 +1239,7 @@ function monsterAni() {
             lavaKraken.speed = 0;
             lavaKraken.moveTowards(-6300, -100, 0.004)
 
-        } else if (lavaKrakenFollowedShip === true) {
+        } else if (lavaKrakenFollowedShip === true && MonsterShipDist > 1500) {
             lavaKraken.speed = 0;
             lavaKraken.moveTowards(-6300, -100, 0.004)
             lavaKrakenFollowedShip = false;
@@ -1225,9 +1257,9 @@ function monsterAni() {
 
         if (MonsterShipDist < 2000 && actualships[i].overlapping(radiationZone)) {
             dukeFishron.rotation -= 0;
-            dukeFishronFollowedShip = true;
-            dukeFishron.moveTowards(actualships[i], 0.02);
 
+            dukeFishron.moveTowards(actualships[i], 0.02);
+            dukeFishronFollowedShip = true;
 
         } else if (dukeFishron.x === -8000 && dukeFishron.y === 5297) {
             dukeFishron.speed = 0;
@@ -1247,7 +1279,7 @@ function monsterAni() {
 
 
 
-        } else if (dukeFishronFollowedShip === true) {
+        } else if (dukeFishronFollowedShip === true && !actualships[i].overlapping(radiationZone)) {
             dukeFishron.speed = 0;
             dukeFishron.moveTowards(-8000, 5297, 0.02);
             dukeFishronFollowedShip = false;
@@ -1283,7 +1315,7 @@ function monsterHpSystem() {
         //Monster Regeneration//
         monster.hp += 5;
 
-        if (monster.hp >= 10000){
+        if (monster.hp >= 10000) {
             monster.hp = 10000;
         }
 
@@ -1373,7 +1405,7 @@ function monsterHpSystem() {
         for (let i = 0; i < shots.length; i++) {
             if (shots[i].collides(monster)) {
                 shots[i].remove();
-                monster.hp -= 200;
+                monster.hp -= 100;
             }
 
         }
@@ -2050,7 +2082,7 @@ function hpsystem() {
         }
 
         if (selectedship.overlapping(radiationZone)) {
-            selectedship.hp -= 0.0001;
+            selectedship.hp -= 0.25;
             //console.log(selectedship.hp)
         }
         if (selectedship.overlapping(lavaZone) || selectedship.overlapping(lavaZone2) || selectedship.overlapping(lavaZone3)) {
@@ -2071,15 +2103,15 @@ function Zones() {
 
         //LAVA//
         lavaZone = new Sprite(-5850, -1650, 5575, 6375, 'n');
-        lavaZone.color = color(220, 0, 0, 255);
+        lavaZone.color = color(220, 0, 0, 0);
         lavaZone.visible = false;
 
         lavaZone2 = new Sprite(-165, -3425, 5780, 2805, 'n');
-        lavaZone2.color = color(220, 0, 0, 255);
+        lavaZone2.color = color(220, 0, 0, 0);
         lavaZone2.visible = false;
 
         lavaZone3 = new Sprite(8350, -2320, 4390, 4990, 'n');
-        lavaZone3.color = color(220, 0, 0, 255);
+        lavaZone3.color = color(220, 0, 0, 0);
         lavaZone3.visible = false;
 
 
