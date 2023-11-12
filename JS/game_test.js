@@ -282,17 +282,17 @@ if (loadingscreen){
 
 function menuScreen() {
     background(0);
-    surfaceNauticaVideo.loop();
-    image(surfaceNauticaVideo, 0, 0, 1920, 1076);
     // Display your video or any other content for the menu screen here
     if (mainMusic.isPlaying()) {
         noStroke();
     } else {
         mainMusic.loop();
-
+        
         mainMusic.setVolume(0.1);
     }
+    image(surfaceNauticaVideo, 0, 0, 1920, 1076);
     if (!makeMenuButtons) {
+        surfaceNauticaVideo.loop();
         menuebuttionsgroup = new menuestiffgroup.Group()
         menuebuttionsgroupimg.resize(354, 80);
         startgamebuttion = new menuestiffgroup.Sprite(420, 700, 414, 80, 's');
@@ -388,8 +388,6 @@ function menuScreen() {
         loadingscreen.img = menuBackground
         currentScreen = 2
         menuestiffgroup.remove()
-
-
     }
 
 
