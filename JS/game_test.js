@@ -1557,6 +1557,7 @@ function GUIE() {
     if (mothershipBase.mouse.pressed()) {
         buyScreen.x = 1750
         buyConstructor.x = 1750
+        launch.x = 1750
 
     }
     if (mouse.pressed()) {
@@ -1570,6 +1571,7 @@ function GUIE() {
             buyDestroyer.x = 9000
             buyRad.x = 9000
             buyLava.x =9000
+            launch.x = 9000
 
         }
     }
@@ -1636,9 +1638,7 @@ function GUIE() {
 
 function gameInterface() {
     ui = new Group();
-    for (let i = 0; i < 1; i++) {
-        new ui.Sprite(100 + i * 60, 1000, 50, 50, 'n');
-    }
+
     resourceBackground = new ui.Sprite(-100, -100, 100, 400, 'n');
     resourceBackground.img = buyImg;
 
