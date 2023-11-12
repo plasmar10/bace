@@ -321,7 +321,7 @@ function menuScreen() {
 
 
 
-    console.log(menuimg1.x)
+
     circle(250, 700, ((menuimg1.x - 450) * 1.54));
     circle(250, 810, ((menuimg2.x - 450) * 1.54));
     circle(250, 920, ((menuimg3.x - 450) * 1.54));
@@ -334,7 +334,6 @@ function menuScreen() {
     if (menuimg3.x < 450) {
         menuimg3.x = 450
     }
-    console.log(soundPlayed1)
     if (startgamebuttion.mouse.hovering()) {
         if (!soundPlayed1) {
             menuselectionsoundefect.play();
@@ -986,7 +985,6 @@ function moveselectedships() {
 
         if (selectedship.needstobemoved && (dist(selectedship.x, selectedship.y, selectedship.movepoint.x, selectedship.movepoint.y) < 100)) {
             selectedship.rotation = selectedship.direction
-            console.log("Finished Moving")
             selectedship.needstobemoved = false
             selectedship.vel.x = 0;
             selectedship.vel.y = 0;
@@ -1145,7 +1143,7 @@ function monsterAni() {
         leviathanReachedLocation = true;
     }
 
-    console.log(actualships)
+
     for (let i = 0; i < actualships.length; i++) {
 
         let MonsterShipDist = dist(actualships[i].x, actualships[i].y, SeaMon.x, SeaMon.y)
@@ -1155,7 +1153,6 @@ function monsterAni() {
             SeaMon.rotation -= 0;
             SeaMon.rotateTowards(actualships[i], 0.1);
             SeaMon.moveTowards(actualships[i], 0.005);
-            console.log(actualships[i])
             leviathanFollowedShip = true;
             leviathanReachedLocation = false;
 
@@ -1448,12 +1445,7 @@ function GUIE() {
     crystalCounter.textColor = 'white';
     crystalCounter.stroke = color(255, 255, 255, 0);
 
-    for (let i = 0; i < 9; i++) {
-        if (kb[i + 1]) {
-            ui[i].color = 'red';
-        }
-    }
-
+ 
     if (createMenu) {
         buyScreen = new ui.Sprite(9000, 225, 400, 600, 'n')
         buyScreen.img = buyImg
@@ -2103,15 +2095,15 @@ function Zones() {
 
         //LAVA//
         lavaZone = new Sprite(-5850, -1650, 5575, 6375, 'n');
-        lavaZone.color = color(220, 0, 0, 255);
+        lavaZone.color = color(220, 0, 0, 0);
         lavaZone.visible = false;
 
         lavaZone2 = new Sprite(-165, -3425, 5780, 2805, 'n');
-        lavaZone2.color = color(220, 0, 0, 255);
+        lavaZone2.color = color(220, 0, 0, 0);
         lavaZone2.visible = false;
 
         lavaZone3 = new Sprite(8350, -2320, 4390, 4990, 'n');
-        lavaZone3.color = color(220, 0, 0, 255);
+        lavaZone3.color = color(220, 0, 0, 0);
         lavaZone3.visible = false;
 
 
@@ -2127,7 +2119,7 @@ function Zones() {
 
         //RADIATION//
         radiationZone = new Sprite(-5650, 3825, 5970, 4160, 'n');
-        radiationZone.color = color(0, 0, 0, 50);
+        radiationZone.color = color(0, 0, 0, 0);
         radiationZone.visible = false;
 
 
