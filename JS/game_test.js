@@ -2144,7 +2144,7 @@ function hpsystem() {
             //console.log(selectedship.hp)
         }
         if (selectedship.overlapping(lavaZone) || selectedship.overlapping(lavaZone2) || selectedship.overlapping(lavaZone3) && lavaUp === false) {
-            selectedship.hp -= 0.25;
+            selectedship.hp -= 0.05;
             //console.log(selectedship.hp)
         }
 
