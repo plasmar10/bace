@@ -1660,7 +1660,7 @@ function gameInterface() {
 
     oilCounter = new ui.Sprite(85, 105, 30, 40, 'n');
     oilCounter.textSize = 25
-    oilCounter.text = 200
+    oilCounter.text = 20000
 
     //Crystal//
     crystalCounterImage = new ui.Sprite(35, 170, 30, 40, 'n');
@@ -1668,7 +1668,7 @@ function gameInterface() {
 
     crystalCounter = new ui.Sprite(85, 172, 30, 40, 'n');
     crystalCounter.textSize = 25
-    crystalCounter.text = 150
+    crystalCounter.text = 20000
 
 
 
