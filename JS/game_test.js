@@ -1289,12 +1289,12 @@ function monsterAni() {
             dukeFishron.moveTowards(actualships[i], 0.02);
             dukeFishronFollowedShip = true;
 
-        } else if (dukeFishron.x === -8000 && dukeFishron.y === 5297) {
+        } else if (dukeFishron.x > -8100 && dukeFishron.x < -7900 && dukeFishron.y > 5190 && dukeFishron.y < 5400) {
             dukeFishron.speed = 0;
             dukeFishron.moveTowards(-5500, 2000, 0.01);
 
 
-        } else if (dukeFishron.x === -5500 && dukeFishron.y === 2000) {
+        } else if (dukeFishron.x > -5600 && dukeFishron.x < -5400 && dukeFishron.y > 1900 && dukeFishron.y < 2100) {
             dukeFishron.speed = 0;
             dukeFishron.moveTowards(-3400, 5297, 0.01);
 
@@ -1307,7 +1307,7 @@ function monsterAni() {
 
 
 
-        } else if (dukeFishronFollowedShip === true && !actualships[i].overlapping(radiationZone)) {
+        } else if (dukeFishronFollowedShip === true) {
             dukeFishron.speed = 0;
             dukeFishron.moveTowards(-8000, 5297, 0.02);
             dukeFishronFollowedShip = false;
