@@ -1302,7 +1302,7 @@ function monsterAni() {
 
 
 
-        } else if (dukeFishron.x === -3400 && dukeFishron.y === 5297) {
+        } else if (dukeFishron.x > -3500 && dukeFishron.x < -3300 && dukeFishron.y > 5190 && dukeFishron.y < 5400 ) {
             dukeFishron.speed = 0;
             dukeFishron.moveTowards(-8000, 5297, 0.01);
 
