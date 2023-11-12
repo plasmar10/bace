@@ -636,11 +636,7 @@ function makeships() {
     constructorShipsClass = new ships.Group();
 
     makeship('scout', 500, 500)
-    makeship('fighter', -1000, 500)
-    makeship('fighter', -1000, 500)
-    makeship('fighter', -1000, 500)
-    makeship('fighter', -1000, 500)
-    makeship('fighter', -1000, 500)
+    
 }
 
 function makeship(shiptype, newshipX, newshipY) {
@@ -1122,7 +1118,7 @@ function enemies() {
     monsterHealthBarComponents.push(dukeFishronHealthBarLife)
 
 
-
+    
     //Leviathan2//
     SeaMon2 = new Sprite(6000, 2000, 480, 200)
     SeaMonShadowImage.resize(480, 330)
@@ -1148,7 +1144,7 @@ function enemies() {
     monsterHealthBarComponents.push(leviathanHealthBarLife2)
 
     for (let monster of oceanCreatures) {
-        monster.debug = true;
+        monster.debug = false;
 
     }
 
@@ -1178,15 +1174,9 @@ function monsterAni() {
         if (MonsterShipDist < 1000) {
             SeaMon.rotation -= 0;
             SeaMon.rotateTowards(actualships[i], 0.1);
-            SeaMon.moveTowards(actualships[i], 0.005);
+            SeaMon.moveTowards(actualships[i], 0.02);
             leviathanFollowedShip = true;
             leviathanReachedLocation = false;
-
-
-        } else if (leviathanFollowedShip === true && MonsterShipDist > 1500) {
-            SeaMon.rotateTowards(6000, 2000, 0.1);
-            SeaMon.moveTowards(6000, 2000, 0.02);
-
 
 
         } else if (leviathanReachedLocation = true) {
@@ -1224,8 +1214,8 @@ function monsterAni() {
 
 
         } else if (leviathanFollowedShip === true && MonsterShipDist > 1500) {
-            SeaMon2.rotateTowards(-1500, 2000, 0.1);
-            SeaMon2.moveTowards(-1500, 2000, 0.02);
+            SeaMon2.rotateTowards(6000, 2000, 0.1);
+            SeaMon2.moveTowards(6000, 2000, 0.02);
 
 
 
@@ -1233,7 +1223,7 @@ function monsterAni() {
             SeaMon2.speed = 5;
             SeaMon2.rotation -= 0.2;
 
-        } else if (SeaMon2.x < -1400 && SeaMon2.x > -1600 && SeaMon2.y < 2100 && SeaMon2.y > 1900) {
+        } else if (SeaMon2.x < 6100 && SeaMon2.x > 5900 && SeaMon2.y < 2100 && SeaMon2.y > 1900) {
             leviathanFollowedShip = false;
             leviathanReachedLocation = true;
         }
@@ -1352,7 +1342,7 @@ function monsterHpSystem() {
         let removeMonster = false;
 
         //Monster Regeneration//
-        monster.hp += 5;
+        monster.hp += 2.5;
 
         if (monster.hp >= 10000) {
             monster.hp = 10000;
@@ -1558,11 +1548,6 @@ function GUIE() {
         buyLava.text = 'Lava Up'
         buyLava.textSize = 30
         buyLava.collider = 's'
-        launch = new ui.Sprite(9000, 205, 200, 60)
-        launch.colour = 'white'
-        launch.text = 'Rocket'
-        launch.textSize = 30
-        launch.collider = 's'
 
         createMenu = false
 
@@ -1643,11 +1628,6 @@ function GUIE() {
     if(buyLava.mouse.presses()&& scrapMetalCounter.text> 299){
         lavaUp = true 
         scrapMetalCounter.text -= 300
-    }
-    if(launch.mouse.pressed( ) && scrapMetalCounter.text > 2){
-        rocket = new Sprite(mothership.x,mothership.y)
-        rocket.collider = 'n'
-        rocket.img = rocketImg
     }
     ui.draw();
 
