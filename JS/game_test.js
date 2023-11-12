@@ -1682,16 +1682,16 @@ function zoom() {
     camera.on();
     drawAllSpritesExcept();
     if (kb.pressing('arrowleft') && camera.x > -7100) {
-        camera.x = camera.x - 10
+        camera.x = camera.x - 30
     }
     if (kb.pressing('arrowright') && camera.x < 10200) {
-        camera.x = camera.x + 10
+        camera.x = camera.x + 30
     }
     if (kb.pressing('arrowup') && camera.y > -6961) {
-        camera.y = camera.y - 10
+        camera.y = camera.y - 30
     }
     if (kb.pressing('arrowdown') && camera.y < 6700) {
-        camera.y = camera.y + 10
+        camera.y = camera.y + 30
     }
     camera.off();
     ui.draw();
