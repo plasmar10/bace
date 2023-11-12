@@ -168,7 +168,7 @@ function preload() {
     //
     buyImg = loadImage("./assets/buyScreen.png")
     resourcesBackgroundImage = loadImage("./assets/resourceBackground.gif")
-    credditscreen = loadImage("./assets/resourceBackground.gif")
+    credditscreen = loadImage("./assets/creddits.png")
 
 
     //Videos//
@@ -208,7 +208,7 @@ function draw() {
 
     }
     else if (currentScreen === 3) { //creddit screen
-        image(surfaceNauticaVideo, 0, 0, 1920, 1076);
+        image(credditscreen, 0, 0, 1920, 1076);
     }
     else if (currentScreen === 2) { //Game
         clear();
