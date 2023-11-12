@@ -205,6 +205,9 @@ function draw() {
 
 
     }
+    else if (currentScreen === 3) { //creddit screen
+        
+    }
     else if (currentScreen === 2) { //Game
         clear();
 
@@ -632,11 +635,7 @@ function makeships() {
     constructorShipsClass = new ships.Group();
 
     makeship('scout', 500, 500)
-    makeship('fighter', -1000, 500)
-    makeship('fighter', -1000, 500)
-    makeship('fighter', -1000, 500)
-    makeship('fighter', -1000, 500)
-    makeship('fighter', -1000, 500)
+    
 }
 
 function makeship(shiptype, newshipX, newshipY) {
