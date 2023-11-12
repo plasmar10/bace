@@ -56,7 +56,7 @@ let resourceStationSpawned = false;
 
 let menuselectionsoundefect
 
-let currentScreen = 3
+let currentScreen = 2
 let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
@@ -106,7 +106,6 @@ let radUp = false
 let launch
 let rocket
 let rocketImg
-let credditscreen
 
 function preload() {
     //Background//
@@ -973,13 +972,13 @@ function moveselectedships() {
                 selectedship.speed = 2
             }
             if (selectedship.shipclass === "fighter") {
-                selectedship.speed = 1.5
+                selectedship.speed = 2
             }
             if (selectedship.shipclass === "destroyer") {
-                selectedship.speed = 1
+                selectedship.speed = 1.5
             }
             if (selectedship.shipclass === "constructor") {
-                selectedship.speed = 0.5
+                selectedship.speed = 1
             }
         }
         //console.log(movepoints[lastmovepoint - 1] + "  testing problem")
