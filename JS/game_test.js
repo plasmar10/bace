@@ -2071,15 +2071,15 @@ function Zones() {
 
         //LAVA//
         lavaZone = new Sprite(-5850, -1650, 5575, 6375, 'n');
-        lavaZone.color = color(220, 0, 0, 255);
+        lavaZone.color = color(220, 0, 0, 0);
         lavaZone.visible = false;
 
         lavaZone2 = new Sprite(-165, -3425, 5780, 2805, 'n');
-        lavaZone2.color = color(220, 0, 0, 255);
+        lavaZone2.color = color(220, 0, 0, 0);
         lavaZone2.visible = false;
 
         lavaZone3 = new Sprite(8350, -2320, 4390, 4990, 'n');
-        lavaZone3.color = color(220, 0, 0, 255);
+        lavaZone3.color = color(220, 0, 0, 0);
         lavaZone3.visible = false;
 
 
@@ -2095,7 +2095,7 @@ function Zones() {
 
         //RADIATION//
         radiationZone = new Sprite(-5650, 3825, 5970, 4160, 'n');
-        radiationZone.color = color(0, 0, 0, 50);
+        radiationZone.color = color(0, 0, 0, 0);
         radiationZone.visible = false;
 
 
