@@ -178,7 +178,7 @@ function preload() {
     easterEggVideo.hide();
     introVideo.volume(0.1);
     easterEggVideo.volume(0.5);
-    surfaceNauticaVideo = createVideo("./assets/videos/surfusnatica_1.mp4");
+    surfaceNauticaVideo = createVideo("./assets/surnatica.mp4");
     surfaceNauticaVideo.hide();
     allSprites.autoCull = false;
     allSprites.debug = false;
@@ -193,9 +193,7 @@ function gameLoaded() {
     gameHasLoaded = true;
 }
 
-function videoLoaded() {
-    surfaceNauticaVideo.loop();
-}
+
 
 function draw() {
 
