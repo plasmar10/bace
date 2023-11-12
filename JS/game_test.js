@@ -103,8 +103,8 @@ let buyRad;
 let buyLava;
 let lavaUp = false
 let radUp = false
-let launch 
-let rocket 
+let launch
+let rocket
 let rocketImg
 
 function preload() {
@@ -185,7 +185,6 @@ function preload() {
 function setup() {
     createCanvas(1920, 1076);
     menuestiffgroup = new Group()
-
 }
 
 function gameLoaded() {
@@ -205,6 +204,9 @@ function draw() {
         menuScreen()
 
 
+    }
+    else if (currentScreen === 3) { //creddit screen
+        
     }
     else if (currentScreen === 2) { //Game
         clear();
@@ -1115,7 +1117,7 @@ function enemies() {
     monsterHealthBarComponents.push(dukeFishronHealthBarLife)
 
 
-    
+
     //Leviathan2//
     SeaMon2 = new Sprite(6000, 2000, 480, 200)
     SeaMonShadowImage.resize(480, 330)
@@ -1160,7 +1162,7 @@ function monsterAni() {
 
     //Leviathan//
     SeaMon.direction = SeaMon.rotation;//sync direction to rotation
-    
+
 
     console.log(actualships)
     for (let i = 0; i < actualships.length; i++) {
@@ -1194,7 +1196,7 @@ function monsterAni() {
 
     //Seamon2//
     SeaMon2.direction = SeaMon2.rotation;//sync direction to rotation
-    
+
 
     console.log(actualships)
     for (let i = 0; i < actualships.length; i++) {
@@ -1499,7 +1501,7 @@ function GUIE() {
     crystalCounter.textColor = 'white';
     crystalCounter.stroke = color(255, 255, 255, 0);
 
- 
+
     if (createMenu) {
         buyScreen = new ui.Sprite(9000, 225, 400, 600, 'n')
         buyScreen.img = buyImg
@@ -1612,18 +1614,18 @@ function GUIE() {
 
     }
 
-    if(fighterShipsClass.mouse.pressed()|| scoutShipsClass.mouse.pressed()|| destroyerShipsClass.mouse.pressed()){
+    if (fighterShipsClass.mouse.pressed() || scoutShipsClass.mouse.pressed() || destroyerShipsClass.mouse.pressed()) {
         buyScreen.x = 1750
         buyRad.x = 1700
         buyLava.x = 1700
     }
-    if(buyRad.mouse.presses() && crystalCounter.text > 299){
+    if (buyRad.mouse.presses() && crystalCounter.text > 299) {
         radUp = true
         crystalCounter.text -= 300
 
     }
-    if(buyLava.mouse.presses()&& scrapMetalCounter.text> 299){
-        lavaUp = true 
+    if (buyLava.mouse.presses() && scrapMetalCounter.text > 299) {
+        lavaUp = true
         scrapMetalCounter.text -= 300
     }
     if(launch.mouse.pressed()){
@@ -2136,7 +2138,7 @@ function hpsystem() {
             selectedship.hp -= 0.25;
             //console.log(selectedship.hp)
         }
-        if (selectedship.overlapping(lavaZone) || selectedship.overlapping(lavaZone2) || selectedship.overlapping(lavaZone3)&& lavaUp === false) {
+        if (selectedship.overlapping(lavaZone) || selectedship.overlapping(lavaZone2) || selectedship.overlapping(lavaZone3) && lavaUp === false) {
             selectedship.hp -= 0.25;
             //console.log(selectedship.hp)
         }
