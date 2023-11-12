@@ -61,6 +61,8 @@ let mainMenuScreen = 0
 let introScreen = 1
 let gameScreen = 2
 
+
+
 let gameLoadOnce = false;
 let menuLoadOnce = false;
 let videoPlayOnce = false;
@@ -106,7 +108,7 @@ let radUp = false
 let launch
 let rocket
 let rocketImg
-let credditscreen
+let credditscreen = 3
 
 function preload() {
     //Background//
@@ -1632,7 +1634,7 @@ function GUIE() {
     if (launch.mouse.pressed() && scrapMetalCounter.text > 2) {
         rocket = new Sprite(mothership.x, mothership.y)
         rocket.collider = 'n'
-        rocket.img = rocketImg
+        rocket.img = rocketImg 
     }
     ui.draw();
 
