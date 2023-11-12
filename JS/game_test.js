@@ -1441,12 +1441,7 @@ function GUIE() {
     crystalCounter.textColor = 'white';
     crystalCounter.stroke = color(255, 255, 255, 0);
 
-    for (let i = 0; i < 9; i++) {
-        if (kb[i + 1]) {
-            ui[i].color = 'red';
-        }
-    }
-
+ 
     if (createMenu) {
         buyScreen = new ui.Sprite(9000, 225, 400, 600, 'n')
         buyScreen.img = buyImg
