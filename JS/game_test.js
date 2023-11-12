@@ -206,6 +206,9 @@ function draw() {
 
 
     }
+    else if (currentScreen === 3) { //creddit screen
+        
+    }
     else if (currentScreen === 2) { //Game
         clear();
 
