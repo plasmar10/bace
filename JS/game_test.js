@@ -1118,6 +1118,8 @@ function enemies() {
     dukeFishronHealthBarLife.idNum = dukeFishron.idNum;
     monsterHealthBarComponents.push(dukeFishronHealthBarLife)
 
+
+
     //Leviathan2//
     SeaMon2 = new Sprite(6000, 2000, 480, 200)
     SeaMonShadowImage.resize(480, 330)
@@ -1179,8 +1181,8 @@ function monsterAni() {
 
 
         } else if (leviathanFollowedShip === true && MonsterShipDist > 1500) {
-            SeaMon.rotateTowards(-1500, 2000, 0.1);
-            SeaMon.moveTowards(-1500, 2000, 0.02);
+            SeaMon.rotateTowards(6000, 2000, 0.1);
+            SeaMon.moveTowards(6000, 2000, 0.02);
 
 
 
@@ -1195,6 +1197,43 @@ function monsterAni() {
 
 
 
+
+
+
+    }
+
+    //Seamon2//
+    SeaMon2.direction = SeaMon2.rotation;//sync direction to rotation
+    
+
+    console.log(actualships)
+    for (let i = 0; i < actualships.length; i++) {
+
+        let MonsterShipDist = dist(actualships[i].x, actualships[i].y, SeaMon2.x, SeaMon2.y)
+
+
+        if (MonsterShipDist < 1000) {
+            SeaMon2.rotation -= 0;
+            SeaMon2.rotateTowards(actualships[i], 0.1);
+            SeaMon2.moveTowards(actualships[i], 0.02);
+            leviathanFollowedShip = true;
+            leviathanReachedLocation = false;
+
+
+        } else if (leviathanFollowedShip === true && MonsterShipDist > 1500) {
+            SeaMon2.rotateTowards(-1500, 2000, 0.1);
+            SeaMon2.moveTowards(-1500, 2000, 0.02);
+
+
+
+        } else if (leviathanReachedLocation = true) {
+            SeaMon2.speed = 5;
+            SeaMon2.rotation -= 0.2;
+
+        } else if (SeaMon2.x < -1400 && SeaMon2.x > -1600 && SeaMon2.y < 2100 && SeaMon2.y > 1900) {
+            leviathanFollowedShip = false;
+            leviathanReachedLocation = true;
+        }
 
 
 
