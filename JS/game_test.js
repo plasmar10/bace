@@ -1148,6 +1148,7 @@ function monsterAni() {
             SeaMon.rotation -= 0;
             SeaMon.rotateTowards(actualships[i], 0.1);
             SeaMon.moveTowards(actualships[i], 0.005);
+            console.log(actualships[i])
             leviathanFollowedShip = true;
             leviathanReachedLocation = false;
 
