@@ -287,7 +287,7 @@ function menuScreen() {
         noStroke();
     } else {
         mainMusic.loop();
-        
+
         mainMusic.setVolume(0.1);
     }
     image(surfaceNauticaVideo, 0, 0, 1920, 1076);
@@ -1253,7 +1253,7 @@ function monsterAni() {
             lavaKraken.speed = 0;
             LavaKrakenRouteComplete = false;
             lavaKraken.moveTowards(-6300, -4000, 0.004)
-            
+
 
         } else if (lavaKraken.x < -6200 && lavaKraken.x > -6400 && lavaKraken.y > -4100 && lavaKraken.y < -3900 && LavaKrakenRouteComplete === false) {
             lavaKraken.speed = 0;
@@ -1282,41 +1282,41 @@ function monsterAni() {
     for (let i = 0; i < actualships.length; i++) {
 
         MonsterShipDist = dist(actualships[i].x, actualships[i].y, dukeFishron.x, dukeFishron.y)
+        if (MonsterShipDist < 2000 && actualships[i].overlapping(radiationZone)) {
+            dukeFishron.rotation -= 0;
+
+            dukeFishron.moveTowards(actualships[i], 0.02);
+            dukeFishronFollowedShip = true;
+
+        } else if (dukeFishron.x > -8100 && dukeFishron.x < -7900 && dukeFishron.y > 5190 && dukeFishron.y < 5400) {
+            dukeFishron.speed = 0;
+            dukeFishron.moveTowards(-5500, 2000, 0.01);
 
 
-    }
-
-    if (MonsterShipDist < 2000 && actualships[i].overlapping(radiationZone)) {
-        dukeFishron.rotation -= 0;
-
-        dukeFishron.moveTowards(actualships[i], 0.02);
-        dukeFishronFollowedShip = true;
-
-    } else if (dukeFishron.x > -8100 && dukeFishron.x < -7900 && dukeFishron.y > 5190 && dukeFishron.y < 5400) {
-        dukeFishron.speed = 0;
-        dukeFishron.moveTowards(-5500, 2000, 0.01);
-
-
-    } else if (dukeFishron.x > -5600 && dukeFishron.x < -5400 && dukeFishron.y > 1900 && dukeFishron.y < 2100) {
-        dukeFishron.speed = 0;
-        dukeFishron.moveTowards(-3400, 5297, 0.01);
+        } else if (dukeFishron.x > -5600 && dukeFishron.x < -5400 && dukeFishron.y > 1900 && dukeFishron.y < 2100) {
+            dukeFishron.speed = 0;
+            dukeFishron.moveTowards(-3400, 5297, 0.01);
 
 
 
-    } else if (dukeFishron.x > -3500 && dukeFishron.x < -3300 && dukeFishron.y > 5190 && dukeFishron.y < 5400) {
-        dukeFishron.speed = 0;
-        dukeFishron.moveTowards(-8000, 5297, 0.01);
+        } else if (dukeFishron.x > -3500 && dukeFishron.x < -3300 && dukeFishron.y > 5190 && dukeFishron.y < 5400) {
+            dukeFishron.speed = 0;
+            dukeFishron.moveTowards(-8000, 5297, 0.01);
 
 
 
 
-    } else if (dukeFishronFollowedShip === true) {
-        dukeFishron.speed = 0;
-        dukeFishron.moveTowards(-8000, 5297, 0.02);
-        dukeFishronFollowedShip = false;
+        } else if (dukeFishronFollowedShip === true) {
+            dukeFishron.speed = 0;
+            dukeFishron.moveTowards(-8000, 5297, 0.02);
+            dukeFishronFollowedShip = false;
 
+
+        }
 
     }
+
+
     if (dukeFishron.direction < 90 && dukeFishron.direction > -90) {
 
         dukeFishron.img = dukeFishronImageRight;
