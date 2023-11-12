@@ -2138,11 +2138,11 @@ function hpsystem() {
         }
 
         if (selectedship.overlapping(radiationZone)) {
-            selectedship.hp -= 0.1;
+            selectedship.hp -= 0.05;
             //console.log(selectedship.hp)
         }
         if (selectedship.overlapping(lavaZone) || selectedship.overlapping(lavaZone2) || selectedship.overlapping(lavaZone3) && lavaUp === false) {
-            selectedship.hp -= 0.1;
+            selectedship.hp -= 0.05;
             //console.log(selectedship.hp)
         }
 
