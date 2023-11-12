@@ -103,8 +103,8 @@ let buyRad;
 let buyLava;
 let lavaUp = false
 let radUp = false
-let launch
-let rocket
+let launch 
+let rocket 
 let rocketImg
 
 function preload() {
@@ -322,7 +322,7 @@ function menuScreen() {
 
 
 
-    console.log(menuimg1.x)
+
     circle(250, 700, ((menuimg1.x - 450) * 1.54));
     circle(250, 810, ((menuimg2.x - 450) * 1.54));
     circle(250, 920, ((menuimg3.x - 450) * 1.54));
@@ -335,7 +335,6 @@ function menuScreen() {
     if (menuimg3.x < 450) {
         menuimg3.x = 450
     }
-    console.log(soundPlayed1)
     if (startgamebuttion.mouse.hovering()) {
         if (!soundPlayed1) {
             menuselectionsoundefect.play();
@@ -971,23 +970,22 @@ function moveselectedships() {
             //console.log(selectedship.hp)
 
             if (selectedship.shipclass === "scout") {
-                selectedship.speed = 15
+                selectedship.speed = 2
             }
             if (selectedship.shipclass === "fighter") {
-                selectedship.speed = 15
+                selectedship.speed = 1.5
             }
             if (selectedship.shipclass === "destroyer") {
-                selectedship.speed = 10
+                selectedship.speed = 1
             }
             if (selectedship.shipclass === "constructor") {
-                selectedship.speed = 15
+                selectedship.speed = 0.5
             }
         }
         //console.log(movepoints[lastmovepoint - 1] + "  testing problem")
 
         if (selectedship.needstobemoved && (dist(selectedship.x, selectedship.y, selectedship.movepoint.x, selectedship.movepoint.y) < 100)) {
             selectedship.rotation = selectedship.direction
-            console.log("Finished Moving")
             selectedship.needstobemoved = false
             selectedship.vel.x = 0;
             selectedship.vel.y = 0;
@@ -1164,7 +1162,7 @@ function monsterAni() {
 
     //Leviathan//
     SeaMon.direction = SeaMon.rotation;//sync direction to rotation
-
+    
 
     console.log(actualships)
     for (let i = 0; i < actualships.length; i++) {
@@ -1176,7 +1174,6 @@ function monsterAni() {
             SeaMon.rotation -= 0;
             SeaMon.rotateTowards(actualships[i], 0.1);
             SeaMon.moveTowards(actualships[i], 0.005);
-            console.log(actualships[i])
             leviathanFollowedShip = true;
             leviathanReachedLocation = false;
 
@@ -1473,12 +1470,7 @@ function GUIE() {
     crystalCounter.textColor = 'white';
     crystalCounter.stroke = color(255, 255, 255, 0);
 
-    for (let i = 0; i < 9; i++) {
-        if (kb[i + 1]) {
-            ui[i].color = 'red';
-        }
-    }
-
+ 
     if (createMenu) {
         buyScreen = new ui.Sprite(9000, 225, 400, 600, 'n')
         buyScreen.img = buyImg
@@ -1514,7 +1506,16 @@ function GUIE() {
         buyDestroyer.text = 'Destroyer'
         buyDestroyer.textSize = 30
         buyDestroyer.collider = 's'
-
+        buyRad = new ui.Sprite(9000, 65, 200, 60)
+        buyRad.colour = 'white'
+        buyRad.text = 'Rad Up'
+        buyRad.textSize = 30
+        buyRad.collider = 's'
+        buyLava = new ui.Sprite(9000, 205, 200, 60)
+        buyLava.colour = 'white'
+        buyLava.text = 'Lava Up'
+        buyLava.textSize = 30
+        buyLava.collider = 's'
 
         createMenu = false
 
@@ -1534,6 +1535,8 @@ function GUIE() {
             buyScout.x = 9000
             buyFigther.x = 9000
             buyDestroyer.x = 9000
+            buyRad.x = 9000
+            buyLava.x =9000
 
         }
     }
@@ -1578,8 +1581,22 @@ function GUIE() {
 
     }
 
+    if(fighterShipsClass.mouse.pressed()|| scoutShipsClass.mouse.pressed()|| destroyerShipsClass.mouse.pressed()){
+        buyScreen.x = 1750
+        buyRad.x = 1700
+        buyLava.x = 1700
+    }
+    if(buyRad.mouse.presses() && crystalCounter.text > 299){
+        radUp = true
+        crystalCounter.text -= 300
 
+    }
+    if(buyLava.mouse.presses()&& scrapMetalCounter.text> 299){
+        lavaUp = true 
+        scrapMetalCounter.text -= 300
+    }
     ui.draw();
+
 }
 
 
@@ -1589,7 +1606,7 @@ function gameInterface() {
     for (let i = 0; i < 1; i++) {
         new ui.Sprite(100 + i * 60, 1000, 50, 50, 'n');
     }
-    resourceBackground = new ui.Sprite(-100, 200, 100, 400, 'n');
+    resourceBackground = new ui.Sprite(-100, -100, 100, 400, 'n');
     resourceBackground.img = buyImg;
 
     //ScrapMetal//
@@ -1627,17 +1644,17 @@ function zoom() {
 
     camera.on();
     drawAllSpritesExcept();
-    if (kb.pressing('arrowleft')) {
-        camera.x = camera.x - 100
+    if (kb.pressing('arrowleft') && camera.x > -7100) {
+        camera.x = camera.x - 10
     }
-    if (kb.pressing('arrowright')) {
-        camera.x = camera.x + 100
+    if (kb.pressing('arrowright') && camera.x < 10200) {
+        camera.x = camera.x + 10
     }
-    if (kb.pressing('arrowup')) {
-        camera.y = camera.y - 100
+    if (kb.pressing('arrowup') && camera.y > -6961) {
+        camera.y = camera.y - 10
     }
-    if (kb.pressing('arrowdown')) {
-        camera.y = camera.y + 100
+    if (kb.pressing('arrowdown') && camera.y < 6700) {
+        camera.y = camera.y + 10
     }
     camera.off();
     ui.draw();
@@ -2085,7 +2102,7 @@ function hpsystem() {
             selectedship.hp -= 0.25;
             //console.log(selectedship.hp)
         }
-        if (selectedship.overlapping(lavaZone) || selectedship.overlapping(lavaZone2) || selectedship.overlapping(lavaZone3)) {
+        if (selectedship.overlapping(lavaZone) || selectedship.overlapping(lavaZone2) || selectedship.overlapping(lavaZone3)&& lavaUp === false) {
             selectedship.hp -= 0.25;
             //console.log(selectedship.hp)
         }
@@ -2127,7 +2144,7 @@ function Zones() {
 
         //RADIATION//
         radiationZone = new Sprite(-5650, 3825, 5970, 4160, 'n');
-        radiationZone.color = color(0, 0, 0, 50);
+        radiationZone.color = color(0, 0, 0, 0);
         radiationZone.visible = false;
 
 
